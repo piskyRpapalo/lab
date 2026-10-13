@@ -11,3 +11,5 @@ Machine: the ecosystem's node (rack). Date: 2026-10-11.
 
 Each measured figure carries its session's raw telemetry sample. NO_DATA
 rows carry the cause, never a guess.
+
+Raw JSON: `bench_20261011_resultados.json` (sha256 26e61fb7f56d9da3d6820ea71b39cf43c1b7454ee75d79f08e314004a74c707b).

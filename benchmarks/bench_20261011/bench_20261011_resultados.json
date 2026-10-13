@@ -1,0 +1,66 @@
+{
+ "fecha": "2026-10-11",
+ "cerebro": "frontera (sin delegar: build y bench deterministas)",
+ "maquina": "soberano · Ryzen 7 255 + Radeon 780M",
+ "backend_registrado": {
+  "ollama_ps": "vacio (nada cargado)",
+  "dispositivo": "Vulkan0 AMD Radeon 780M (RADV PHOENIX), 32193 MiB libres"
+ },
+ "llama_cpp": {
+  "fuente": "github ggml-org/llama.cpp, clon superficial",
+  "commit": "f2cc728 2026-10-11",
+  "ruta": "~/llama-fresco-20261011",
+  "cmake": "-DGGML_VULKAN=ON -DGGML_NATIVE=ON -DLLAMA_CURL=OFF Release",
+  "vulkan": "incluido (glslc + vulkan.h 1.4.341 del sistema, sin sudo)"
+ },
+ "modelos": [
+  {
+   "modelo": "embeddinggemma-2 Q8_0",
+   "repo": "unsloth/embeddinggemma-2-GGUF",
+   "arch": "gemma-embedding2",
+   "bytes": 309855520,
+   "sha256": "6f1bd4ac6c5df7444f9cca7ca36cafe6cfa34cd6f49fefb1e0b4be8143aed8bc",
+   "estado": "MEDIDO",
+   "pp512_tok_s": {
+    "ngl99": 6459.63,
+    "ngl0": 4078.88
+   },
+   "factor": 1.58,
+   "dim": 768,
+   "cordura": {
+    "cos_parafrasis": 0.908,
+    "cos_ajena": 0.586
+   },
+   "como": "llama-bench -p 512 -n 0 -r 2 --embeddings 1; llama-embedding --pooling mean --embd-normalize 2"
+  },
+  {
+   "modelo": "LLaDA2.2-mini Q4_K_M",
+   "repo": "DreamBlooms/LLaDA2.2-mini-GGUF",
+   "arch": "llada2",
+   "bytes": 9912068480,
+   "sha256": "2370f193bbe637425b3a0b299b8df13950e7a6d2dbebcc81a19913ad8218343e",
+   "estado": "NO_DATA",
+   "causa": "llama.cpp f2cc728: unknown model architecture 'llada2' (PR abierta upstream #17454)"
+  },
+  {
+   "modelo": "diffusiongemma-26B-A4B-it Q4_K_M",
+   "repo": "unsloth/diffusiongemma-26B-A4B-it-GGUF",
+   "arch": "diffusion-gemma",
+   "bytes": 16806810208,
+   "sha256": "24523b6c833c9ce9f5f34f9b333ab1517d73d6f1e76a103645353114c8028bc5",
+   "estado": "NO_DATA",
+   "causa": "llama.cpp f2cc728: unknown model architecture 'diffusion-gemma' (PRs abiertas upstream #24423, #24427)"
+  },
+  {
+   "modelo": "ALoDLM-8B Q4_K_M",
+   "repo": "mradermacher/ALoDLM-8B-GGUF",
+   "arch": "qwen3",
+   "licencia": "CC-BY-NC (solo bench, nada publicado)",
+   "bytes": 5027784192,
+   "sha256": "8d7dd5c5909a235ded470069ce84b93b2f9ae1c4ee730e6d5c4eacb1fd1eb68a",
+   "estado": "NO_DATA",
+   "causa": "el GGUF declara qwen3 (conversion autoregresiva): llama-diffusion-cli 'unsupported model for diffusion'; sin trabajo upstream"
+  }
+ ],
+ "nota": "Los 3 builds viejos de ~/llama-soberano (commit a55e952, solo CPU) NO se han tocado."
+}
