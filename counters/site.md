@@ -2,7 +2,7 @@
 
 | Counter | Value | Stamp |
 | :--- | :--- | :--- |
-| Site weight | 1,096,576 B | measured, rack session 2026-10 |
+| Site weight | 1,173,557 B | measured 2026-10-13 on the served site: 149 files (public/ minus downloads, counters.json, historial), each size equal to the local tree. Previous published figure 1,096,576 B, retired |
 | Languages served | 9 | measured |
 | External requests on load | 0 | measured |
 | Web tests | 75 | measured |
