@@ -12,6 +12,7 @@ REQUIRED = [
     "benchmarks/bench-fluency/M3/README.md",
     "benchmarks/bench-fluency/M4/README.md",
     "benchmarks/qwen36-35b-20261016/README.md",
+    "benchmarks/preceptor-g0-20261016/README.md",
 ]
 
 class ArchiveContract(unittest.TestCase):
@@ -38,6 +39,10 @@ class ArchiveContract(unittest.TestCase):
         self.assertEqual(bench["model"]["sha256"], "0b21525e972670ed59e1812e170b27c26355381f0656ecc4e25617ece7dac58b")
         self.assertEqual({run["backend"] for run in bench["runs"]}, {"cpu", "vulkan"})
         self.assertEqual([run["repetitions"] for run in bench["runs"]], [2, 2])
+        g0 = json.loads((ROOT / "benchmarks/preceptor-g0-20261016/results.json").read_text())
+        self.assertNotEqual(g0["red"]["exit_code"], 0)
+        self.assertEqual(len(g0["green_runs"]), 2)
+        self.assertEqual(g0["green_runs"][0]["response_sha256"], g0["green_runs"][1]["response_sha256"])
 
 if __name__ == "__main__":
     unittest.main()

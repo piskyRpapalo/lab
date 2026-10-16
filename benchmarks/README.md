@@ -8,6 +8,7 @@
 - [Duelo de herramientas](agent-tool-duel-20260718/README.md): códigos de salida y timeouts, sin juez de calidad común.
 - [G0](g0/README.md): `llama-bench`, smoke de harnesses y smoke del motor local, en métricas separadas.
 - [Qwen 35B-A3B, 2026-10-16](qwen36-35b-20261016/README.md): `llama-bench` directo sobre GGUF existente; CPU y Vulkan separados.
+- [Reanudación G0 del Preceptor, 2026-10-16](preceptor-g0-20261016/README.md): una prueba local del rol, rojo de motor ausente y dos respuestas medidas.
 - [Comparativa de modelos, 2026-09-14](soberano-model-compare-20260914/README.md): cuatro modelos, latencia/juicio por prompts.
 - [Smoke de modelos, 2026-09-13](lab-model-smoke-20260913/README.md): cuatro respuestas sintéticas y métricas de llamada.
 - [Candidatos de visión](artemis-candidates-20260927/README.md): medición de salida JSON; no mide visión.
