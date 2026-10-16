@@ -1,0 +1,59 @@
+{
+  "schema": "preceptoros.named-state.cases/1",
+  "state": "PASS",
+  "total": 13,
+  "cases": [
+    {
+      "name": "resource labels preserve the source order and finite fractions",
+      "ok": true
+    },
+    {
+      "name": "offset axes remain x then y in home space; absolute coordinates stay unavailable",
+      "ok": true
+    },
+    {
+      "name": "building identity, phase and life are preserved without visual claims",
+      "ok": true
+    },
+    {
+      "name": "unknown values carry explicit source causes and never become zero",
+      "ok": true
+    },
+    {
+      "name": "all remaining source fields are preserved with named labels",
+      "ok": true
+    },
+    {
+      "name": "source trim is retained as a cause rather than hidden behind a completeness claim",
+      "ok": true
+    },
+    {
+      "name": "projection is pure, canonical and independent of source object key order",
+      "ok": true
+    },
+    {
+      "name": "a valid named wire is strictly below the byte ceiling with separate dictionary cost",
+      "ok": true
+    },
+    {
+      "name": "current UTF-8 source is bounded; the named candidate rejects its own oversized projection whole",
+      "ok": true
+    },
+    {
+      "name": "exactly 1024 UTF-8 bytes is rejected and 1023 is accepted",
+      "ok": true
+    },
+    {
+      "name": "invalid, extra or non-finite data are rejected without guessing",
+      "ok": true
+    },
+    {
+      "name": "the model input shares the original task without an oracle or a separate legend",
+      "ok": true
+    },
+    {
+      "name": "the pure module contains no dispatcher, signing hook or network call",
+      "ok": true
+    }
+  ]
+}
