@@ -1,0 +1,56 @@
+{
+  "measured_at": "2026-10-16",
+  "model": {
+    "name": "qwen3-coder:30b",
+    "digest": "5e8c8157b1b50f092e9c488360bcb63ffa53726cf732d71fc9c9401c43bc78d7",
+    "bytes": 18556689759,
+    "context_requested": 16384,
+    "context_observed": 16384,
+    "processor_observed": "100% GPU",
+    "runner": "llamacpp"
+  },
+  "machine": {
+    "cpu": "AMD Ryzen 7 255",
+    "logical_cpus": 16,
+    "gpu": "AMD Radeon 780M"
+  },
+  "harness": {
+    "endpoint": "http://127.0.0.1:11434/api/generate",
+    "prompt_sha256": "61384359b85aa374354248faf16e21fbb8e09a850ae17d2984abce7620ad5211",
+    "options": {"temperature": 0, "seed": 20261016, "num_ctx": 16384, "num_predict": 96},
+    "format": "json",
+    "prompt_summary": "voice-driven UI navigation; human selects and signs; model proposes only",
+    "prompt_tokens": 75
+  },
+  "red": {
+    "url": "http://127.0.0.1:9/api/generate",
+    "exit_code": 7,
+    "result": "connection refused",
+    "response_bytes": 0
+  },
+  "green_runs": [
+    {
+      "response_keys": ["destino", "funcion", "firma"],
+      "response_sha256": "2e7dd70f0433b94406cd3557580672455aa9fdcdffc820f26df072c89ea3ccd5",
+      "prompt_eval_count": 75,
+      "eval_count": 33,
+      "total_duration_ns": 14698258223,
+      "load_duration_ns": 13208627622,
+      "prompt_eval_duration_ns": 486405000,
+      "eval_duration_ns": 1000199000,
+      "wall_s": 14.706
+    },
+    {
+      "response_keys": ["destino", "funcion", "firma"],
+      "response_sha256": "2e7dd70f0433b94406cd3557580672455aa9fdcdffc820f26df072c89ea3ccd5",
+      "prompt_eval_count": 75,
+      "eval_count": 33,
+      "total_duration_ns": 1037093188,
+      "load_duration_ns": 2223992,
+      "prompt_eval_duration_ns": 30387000,
+      "eval_duration_ns": 1001631000,
+      "wall_s": 1.038
+    }
+  ],
+  "quality_scope": "One narrow authority-boundary JSON task; not a general coding or speech-recognition evaluation"
+}
