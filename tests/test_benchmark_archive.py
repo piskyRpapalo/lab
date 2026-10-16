@@ -11,6 +11,7 @@ REQUIRED = [
     "benchmarks/bench-fluency/M2/README.md",
     "benchmarks/bench-fluency/M3/README.md",
     "benchmarks/bench-fluency/M4/README.md",
+    "benchmarks/qwen36-35b-20261016/README.md",
 ]
 
 class ArchiveContract(unittest.TestCase):
@@ -29,6 +30,14 @@ class ArchiveContract(unittest.TestCase):
                 digest, name = row.split("  ", 1)
                 self.assertEqual(hashlib.sha256((evidence / name).read_bytes()).hexdigest(), digest)
         self.assertEqual(len(list((ROOT / "benchmarks/bench-fluency/evidence").glob("*.jsonl"))), 19)
+
+    def test_new_measurements_keep_backends_and_red_green_separate(self):
+        import json
+
+        bench = json.loads((ROOT / "benchmarks/qwen36-35b-20261016/results.json").read_text())
+        self.assertEqual(bench["model"]["sha256"], "0b21525e972670ed59e1812e170b27c26355381f0656ecc4e25617ece7dac58b")
+        self.assertEqual({run["backend"] for run in bench["runs"]}, {"cpu", "vulkan"})
+        self.assertEqual([run["repetitions"] for run in bench["runs"]], [2, 2])
 
 if __name__ == "__main__":
     unittest.main()
