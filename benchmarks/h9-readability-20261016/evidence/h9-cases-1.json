@@ -1,0 +1,71 @@
+{
+  "schema": "preceptoros.state-readability.cases/1",
+  "state": "PASS",
+  "total": 16,
+  "cases": [
+    {
+      "name": "UTF-8 counts bytes rather than UTF-16 units",
+      "ok": true
+    },
+    {
+      "name": "canonical evidence is independent of object key order",
+      "ok": true
+    },
+    {
+      "name": "wire budget includes the exact serialized text and its boundary",
+      "ok": true
+    },
+    {
+      "name": "fresh VM reads existing leer with no input mutation",
+      "ok": true
+    },
+    {
+      "name": "read-only probe rejects action and signature attempts",
+      "ok": true
+    },
+    {
+      "name": "schema cost is separate and no-schema control uses identical wire",
+      "ok": true
+    },
+    {
+      "name": "historical baseline reproduces the Unicode byte-count defect; current source closes it",
+      "ok": true
+    },
+    {
+      "name": "historical post-trim overflow is preserved; current source fails closed after remeasurement",
+      "ok": true
+    },
+    {
+      "name": "missing state stays unknown rather than fabricated zero",
+      "ok": true
+    },
+    {
+      "name": "valid JSON is not proof of correct coordinate interpretation",
+      "ok": true
+    },
+    {
+      "name": "source truth catches a resource permutation before model scoring",
+      "ok": true
+    },
+    {
+      "name": "fractional resources stay valid while non-finite values are rejected",
+      "ok": true
+    },
+    {
+      "name": "proposals remain unreviewed data with zero execution",
+      "ok": true
+    },
+    {
+      "name": "existing Fourier, audio, camera and color projections repeat from the same inputs",
+      "ok": true
+    },
+    {
+      "name": "deterministic report measures findings without certifying an SLM",
+      "ok": true
+    },
+    {
+      "name": "offline paired evidence binds the exact input and separates format from meaning",
+      "ok": true
+    }
+  ]
+}

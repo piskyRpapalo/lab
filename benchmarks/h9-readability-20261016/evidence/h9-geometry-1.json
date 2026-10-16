@@ -1,0 +1,60 @@
+{
+  "schema": "preceptoros.state-geometry.cases/1",
+  "state": "FAIL",
+  "total": 13,
+  "cases": [
+    {
+      "name": "position tuple preserves source axis order and explicitly names home space",
+      "ok": true
+    },
+    {
+      "name": "all crab values survive the change of geometric notation",
+      "ok": true
+    },
+    {
+      "name": "typed buoy comes from the exact measured source manifest",
+      "ok": false,
+      "cause": "Geometry projection assertion rejected"
+    },
+    {
+      "name": "similar ids remain unknown rather than classified by a pattern",
+      "ok": true
+    },
+    {
+      "name": "all remaining candidate 1 source fields and causes are unchanged",
+      "ok": true
+    },
+    {
+      "name": "empty source stays unknown and retains its declared causes",
+      "ok": true
+    },
+    {
+      "name": "source and frozen candidate 1 remain unchanged by composition",
+      "ok": true
+    },
+    {
+      "name": "canonical output repeats and ignores source key insertion order",
+      "ok": true
+    },
+    {
+      "name": "current UTF-8 source is bounded; geometry rejects an oversized candidate whole",
+      "ok": true
+    },
+    {
+      "name": "strict byte boundary accepts 1023 and rejects 1024",
+      "ok": true
+    },
+    {
+      "name": "invalid source data is never repaired by semantic guessing",
+      "ok": true
+    },
+    {
+      "name": "dictionary enrichment and its source evidence are accounted separately",
+      "ok": true
+    },
+    {
+      "name": "reader gets the same task, not a task-shaped answer or a separate legend",
+      "ok": true
+    }
+  ]
+}

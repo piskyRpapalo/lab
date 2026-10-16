@@ -1,0 +1,217 @@
+{
+  "schema": "preceptoros.state-readability.audit/1",
+  "state": "MEDIDO",
+  "scope": "Offline fresh-VM observations of synthetic fixtures; no live visitor or SLM reading claimed",
+  "language_status": "BYTE_LIMIT_ONLY",
+  "meaning_status": "INCOMPLETE",
+  "reading_task": "Read the supplied game state without acting. Return only a JSON object with schema preceptoros.state-readability.response/1, reading, and proposal. Reading has exactly cycle, copper, crab_offset, coordinate_reference, absolute_position, buoy_phase. Use null for unavailable numbers, coordinates or phase. Coordinate arrays contain two integers. Coordinate reference is home_offset or NO_DATA. Proposal is null or an object containing action and reason strings. A proposal is never permission to execute. Use only supplied evidence; do not invent an absolute position.",
+  "reading_task_bytes": 567,
+  "declaration": {
+    "c": "game cycle (the clock is the equation)",
+    "e": "buildings [[id, phase, life/1000]]",
+    "g": "last panel transition (the worm) [from, to, text delta, times opened] or null",
+    "k": "crab [x, y offset from home, army, swim level, reach level] (level null = NO_DATA)",
+    "l": "places [[name, wins, losses]] (fought on this device only)",
+    "n": "rack nodes [[id, measured/total]]",
+    "nd": "{key: cause} for everything missing",
+    "p": "open panel [id, seal, age in cycles] or null",
+    "q": "radio, last 3 [[who, seal, cycle]]",
+    "r": "[copper, light, biomass, oxygen]",
+    "t": "tutorial [step id, demonstrated actions] (null = done or skipped)",
+    "v": "schema id",
+    "z": "tombstones count"
+  },
+  "cases": [
+    {
+      "fixture_id": "empty",
+      "provenance": "SYNTHETIC",
+      "cause": "Frozen structural fixture; not a live visitor capture",
+      "input_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "deterministic": true,
+      "reading_projection_faithful": true,
+      "reading_projection_basis": "SOURCE_VALUES",
+      "reading_projection_cause": null,
+      "read_only": true,
+      "wire_bytes": 503,
+      "utf16_units": 503,
+      "limit_bytes": 1024,
+      "limit_relation": "<",
+      "wire_within_limit": true,
+      "declaration_bytes": 650,
+      "wire_sha256": "d2f3534978d14ac367f89adadf086a3f43a7a31f953991977ad784c2f6901548",
+      "canonical_state_sha256": "15a14560792903b366e624723056555d0e7e24cabf384930ad262bbf8c2b78e6",
+      "declaration_sha256": "ccb11cad025ae329abdf8178c9bae7b3f4ced40c67e9a364d1c231120cb59d7e",
+      "findings": [],
+      "coverage": {
+        "cycle": false,
+        "resources": false,
+        "crab_home_offset": false,
+        "absolute_position": false,
+        "building_state": false,
+        "building_coordinates": false,
+        "camera": false,
+        "harmonics": false,
+        "sound_recipe": false,
+        "color_mapping": false
+      },
+      "inputs": {
+        "with_schema": {
+          "sha256": "87e168242ccaed97fcb8067d34e0123e807236b5ba97a7f8657c138166815af1",
+          "bytes": 1722
+        },
+        "without_schema": {
+          "sha256": "981ce26a0a974727410f0266a306de8f2632c455014122e297a776eed3237c6f",
+          "bytes": 1071
+        }
+      },
+      "wire_text": "{\"v\":\"preceptoros.vector/1\",\"c\":null,\"r\":null,\"k\":null,\"p\":null,\"t\":null,\"e\":[],\"l\":[],\"n\":[],\"z\":null,\"q\":[],\"g\":null,\"nd\":{\"c\":\"NO_DATA: engine cycle unavailable or invalid\",\"r\":\"NO_DATA: resources field absent\",\"k\":\"crab reader unavailable\",\"p\":\"panel reader unavailable\",\"t\":\"tutorial reader unavailable\",\"z\":\"tombstone reader unavailable\",\"e\":\"reef reader unavailable\",\"l\":\"place reader unavailable\",\"n\":\"node reader unavailable\",\"q\":\"radio reader unavailable\",\"g\":\"transition reader unavailable\"}}"
+    },
+    {
+      "fixture_id": "complete",
+      "provenance": "SYNTHETIC",
+      "cause": "Frozen structural fixture; not a live visitor capture",
+      "input_sha256": "1f8c7d98110242d5a777b5326eaf7dcc161be2b14591c3763048de0892f721f3",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "deterministic": true,
+      "reading_projection_faithful": true,
+      "reading_projection_basis": "SOURCE_VALUES",
+      "reading_projection_cause": null,
+      "read_only": true,
+      "wire_bytes": 334,
+      "utf16_units": 334,
+      "limit_bytes": 1024,
+      "limit_relation": "<",
+      "wire_within_limit": true,
+      "declaration_bytes": 650,
+      "wire_sha256": "5c9fd61de488ba340a9bc72a69924d79fa514689ae67e36cd4ec0570717082e9",
+      "canonical_state_sha256": "c0d2235ddaad5a29b2b09d3a45df71b75a7fa4c7912a7043cd6b7932e6e7c9d2",
+      "declaration_sha256": "ccb11cad025ae329abdf8178c9bae7b3f4ced40c67e9a364d1c231120cb59d7e",
+      "findings": [],
+      "coverage": {
+        "cycle": true,
+        "resources": true,
+        "crab_home_offset": true,
+        "absolute_position": false,
+        "building_state": true,
+        "building_coordinates": false,
+        "camera": false,
+        "harmonics": false,
+        "sound_recipe": false,
+        "color_mapping": false
+      },
+      "inputs": {
+        "with_schema": {
+          "sha256": "78b4996244c675f65342bed16ebfc7ea218f6f999b4fd8ecea326e667fb66ddc",
+          "bytes": 1553
+        },
+        "without_schema": {
+          "sha256": "620a058266147e3674c9a682fd4e3e19324c222ab2fedc4c8ba04d942105842d",
+          "bytes": 902
+        }
+      },
+      "wire_text": "{\"v\":\"preceptoros.vector/1\",\"c\":1234,\"r\":[22,0,1,244],\"k\":[-94,-355,2,1,null],\"p\":[\"pliego-estado\",\"LIVE\",3],\"t\":[\"summon\",3],\"e\":[[\"boya-estado\",\"vivo\",936]],\"l\":[[\"Reef Patrol\",1,0]],\"n\":[[\"nodo.0.hexelion\",\"2/2\"]],\"z\":1,\"q\":[[\"Radio\",\"LIVE\",1233]],\"g\":null,\"nd\":{\"k\":\"reach: level unavailable\",\"g\":\"transition reader unavailable\"}}"
+    },
+    {
+      "fixture_id": "unicode",
+      "provenance": "SYNTHETIC",
+      "cause": "Frozen structural fixture; not a live visitor capture",
+      "input_sha256": "ee0f9dd267cf90c1e8e233d7fd98cb3c8457d23f80a58ae9db8c2337ac89d91b",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "deterministic": true,
+      "reading_projection_faithful": true,
+      "reading_projection_basis": "SOURCE_VALUES",
+      "reading_projection_cause": null,
+      "read_only": true,
+      "wire_bytes": 377,
+      "utf16_units": 377,
+      "limit_bytes": 1024,
+      "limit_relation": "<",
+      "wire_within_limit": true,
+      "declaration_bytes": 650,
+      "wire_sha256": "f258be260ac45140d914a70ac3a6fd40e62e7b21310f4aafb70bdb16ebd69d17",
+      "canonical_state_sha256": "2dd7cf209eae0b5895f36e57ce0a6127762df1672816961d356c86f73bafb7b4",
+      "declaration_sha256": "ccb11cad025ae329abdf8178c9bae7b3f4ced40c67e9a364d1c231120cb59d7e",
+      "findings": [
+        "SOURCE_TRIM_DECLARED"
+      ],
+      "coverage": {
+        "cycle": true,
+        "resources": true,
+        "crab_home_offset": true,
+        "absolute_position": false,
+        "building_state": true,
+        "building_coordinates": false,
+        "camera": false,
+        "harmonics": false,
+        "sound_recipe": false,
+        "color_mapping": false
+      },
+      "inputs": {
+        "with_schema": {
+          "sha256": "5754e495c2facf2c542aeb3bca4f18e8cc6eaec5cf4beaa1210dd81fe7455349",
+          "bytes": 1596
+        },
+        "without_schema": {
+          "sha256": "469cbaf412baa3a6cd7c1c4893aaaa6902ba990ad26d167584ebebe2f4c7c54a",
+          "bytes": 945
+        }
+      },
+      "wire_text": "{\"v\":\"preceptoros.vector/1\",\"c\":1234,\"r\":[22,0,1,244],\"k\":[-94,-355,2,1,null],\"p\":[\"pliego-estado\",\"LIVE\",3],\"t\":[\"summon\",3],\"e\":[[\"boya-estado\",\"vivo\",936]],\"l\":[[\"Reef Patrol\",1,0]],\"n\":[[\"nodo.0.hexelion\",\"2/2\"]],\"z\":1,\"q\":[],\"g\":null,\"nd\":{\"k\":\"reach: level unavailable\",\"g\":\"transition reader unavailable\",\"recorte\":\"vector over 1024 UTF-8 bytes after radio/place trim\"}}"
+    },
+    {
+      "fixture_id": "overflow",
+      "provenance": "SYNTHETIC",
+      "cause": "Frozen structural fixture; not a live visitor capture",
+      "input_sha256": "779dade6c0da7a6dde9dcbcb7e793cea23ad6a2d176df0f044b5383a74eed62f",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "deterministic": true,
+      "reading_projection_faithful": true,
+      "reading_projection_basis": "FAIL_CLOSED_WITH_CAUSES",
+      "reading_projection_cause": "Null reading fields are covered by source causes c/r/k/e; absolute_position is absent from vector v1",
+      "read_only": true,
+      "wire_bytes": 960,
+      "utf16_units": 960,
+      "limit_bytes": 1024,
+      "limit_relation": "<",
+      "wire_within_limit": true,
+      "declaration_bytes": 650,
+      "wire_sha256": "2d6eeabd85dec086856e57b81233f3ec9cb37f37adbffd5353e2ea8a668185ea",
+      "canonical_state_sha256": "39cb1c75c48a3e2af7e607373cffae781df3dfa793ce0dcbdb20511107a4ef11",
+      "declaration_sha256": "ccb11cad025ae329abdf8178c9bae7b3f4ced40c67e9a364d1c231120cb59d7e",
+      "findings": [
+        "SOURCE_TRIM_DECLARED"
+      ],
+      "coverage": {
+        "cycle": false,
+        "resources": false,
+        "crab_home_offset": false,
+        "absolute_position": false,
+        "building_state": false,
+        "building_coordinates": false,
+        "camera": false,
+        "harmonics": false,
+        "sound_recipe": false,
+        "color_mapping": false
+      },
+      "inputs": {
+        "with_schema": {
+          "sha256": "1329f68575ac9f01be78170a47292ff8ad5d44b5cdda9a67f2fa3df546659b31",
+          "bytes": 2179
+        },
+        "without_schema": {
+          "sha256": "bfb59299e2add706b71254a9df53ea5a40ea3d1b2d866e397ae240ee5e1ca814",
+          "bytes": 1528
+        }
+      },
+      "wire_text": "{\"v\":\"preceptoros.vector/1\",\"c\":null,\"r\":null,\"k\":null,\"p\":null,\"t\":null,\"e\":[],\"l\":[],\"n\":[],\"z\":null,\"q\":[],\"g\":null,\"nd\":{\"c\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"r\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"k\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"p\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"t\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"e\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"l\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"n\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"z\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"q\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"g\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\",\"recorte\":\"vector over 1024 UTF-8 bytes after trim; no partial state sent\"}}"
+    }
+  ],
+  "reader_evidence": {
+    "state": "NO_DATA",
+    "cause": "No recorded model responses supplied; JavaScript readability is not model comprehension"
+  },
+  "executed_actions": 0,
+  "signatures_requested": 0,
+  "network_requests": 0
+}

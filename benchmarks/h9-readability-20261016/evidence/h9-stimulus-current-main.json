@@ -1,0 +1,739 @@
+{
+  "schema": "h9.readability.stimulus-bench/1",
+  "provenance": "Frozen synthetic fixtures; two stimuli read from the same web source snapshot; new offline model process per reading; no live visitor state",
+  "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+  "runtime": "llama-completion",
+  "runtime_sha256": "7119bef261611b26f326f7c4da4dc3fdeb7bb28e2faf1ec392bda7b21215ef52",
+  "runtime_version": "",
+  "model": "qwen2.5-coder-1.5b",
+  "model_sha256": "29d8c98fa6b098e200069bfb88b9508dc3e85586d20cba59f8dda9a808165104",
+  "settings": {
+    "passes": 2,
+    "temperature": 0,
+    "seed": 14,
+    "threads": 1,
+    "gpu_layers": 0,
+    "context": 4096,
+    "max_generated": 512,
+    "offline": true
+  },
+  "stimuli": {
+    "dense_llms": {
+      "file": "llms.txt",
+      "bytes": 5327,
+      "sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac"
+    },
+    "prose_readme": {
+      "file": "README.md",
+      "bytes": 7344,
+      "sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1"
+    }
+  },
+  "grammar_sha256": "e71ee7ad8df37cbe52ed25e1f54217a115724a635a577212bad1e65dd4d1ec8b",
+  "grammar_bytes": 926,
+  "summary": {
+    "dense_llms": {
+      "readings": 8,
+      "format_valid": 8,
+      "exact_readings": 0,
+      "correct_fields": 30,
+      "total_fields": 48,
+      "median_latency_ms": 48554.338429
+    },
+    "prose_readme": {
+      "readings": 8,
+      "format_valid": 6,
+      "exact_readings": 2,
+      "correct_fields": 26,
+      "total_fields": 48,
+      "median_latency_ms": 43088.867552
+    }
+  },
+  "records": [
+    {
+      "pass": 1,
+      "fixture_id": "empty",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "d2f3534978d14ac367f89adadf086a3f43a7a31f953991977ad784c2f6901548",
+      "wire_bytes": 503,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "c79a1db8f24431d2414695b9d62f5cae7e69f5343d46b68e46afdaeb94a8867b",
+      "model_input_sha256": "a60bb896ae2b916a88dacaf876deb8a836ecba3be6a38ea81b8107b6111dd1b4",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":\"NO_DATA\"},\"proposal\":null}",
+      "response_sha256": "29402abe5f0eaa0c5637a059e53ed10ca5bb7cb504f93f8a58fc03fa9d8a313c",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": "NO_DATA"
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 47764.434495,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "empty",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "d2f3534978d14ac367f89adadf086a3f43a7a31f953991977ad784c2f6901548",
+      "wire_bytes": 503,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "9cd7bf47bd2086c6ea22813c40fe0283af002cfa909cf3c48303e0e79dcb36db",
+      "model_input_sha256": "2bb28cc9d810825c1c2f8729c08dde04c047abf293b9bbd7066194bff702cc28",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"NO_DATA\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "83d74e396567ec2bff30a277781bb4422ce0e48b83ac830765527d6240d84313",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "NO_DATA",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": true,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 43193.027608,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "complete",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "5c9fd61de488ba340a9bc72a69924d79fa514689ae67e36cd4ec0570717082e9",
+      "wire_bytes": 334,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "3671f63e2b45f25c635159b4536f51857da1cddadd0c9a052ae8e05070e9e073",
+      "model_input_sha256": "0f3fb1b3ee57bddb7223dc808719e2838766438b9d1accdd797d211c356b616b",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "316397c762a5453b42954999c0275f7ea7f0aecdb257e20f940ecc74a3656742",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 48788.158366,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "complete",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "5c9fd61de488ba340a9bc72a69924d79fa514689ae67e36cd4ec0570717082e9",
+      "wire_bytes": 334,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "32d91b089c51ebd1ab44b21712b71b975479651f9b9b443c373ead61b7673dae",
+      "model_input_sha256": "6efbb1eefafa991a060384d0db15bceb6539a11471ce023ae667b0ba485b95b6",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":[22,0],\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "62acfb4f8cd913c9a178ffecd14b4002d0174d1ef0cb4d118cafedfa972b59f9",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": [
+            22,
+            0
+          ],
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 42796.521815,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "unicode",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "f258be260ac45140d914a70ac3a6fd40e62e7b21310f4aafb70bdb16ebd69d17",
+      "wire_bytes": 377,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "0dfff9a4b3fca4987b1dfbe854e9b1c25ffd5a564fd3d9c462697d639a698255",
+      "model_input_sha256": "6793f36f651be5b3e9241cf2fdcf0a166bc186799e5997d3465419d99768cb55",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "316397c762a5453b42954999c0275f7ea7f0aecdb257e20f940ecc74a3656742",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 48554.338429,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "unicode",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "f258be260ac45140d914a70ac3a6fd40e62e7b21310f4aafb70bdb16ebd69d17",
+      "wire_bytes": 377,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "d1096af4814517667dff72ea9e772537266474967ffc42c105c78b04d00deeea",
+      "model_input_sha256": "0bba76e1a75372c6ce21ed050e282aa353719b6eaa032c678871f0d6bf900da5",
+      "response_text": "",
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "response": null,
+      "format_valid": false,
+      "semantic_correct": false,
+      "proposal": "REJECTED",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 1128.986443,
+      "returncode": 0,
+      "no_data": [
+        "Output rejected by closed response contract"
+      ]
+    },
+    {
+      "pass": 1,
+      "fixture_id": "overflow",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "2d6eeabd85dec086856e57b81233f3ec9cb37f37adbffd5353e2ea8a668185ea",
+      "wire_bytes": 960,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "0b0280f9549e2b04a96b8c0a7c2b220839d9f4509df84b7f057ea91df23a01e4",
+      "model_input_sha256": "f6a9a682ca6ee4ebaad7b8b23e47710a38237c3d6f04a82bba1458e9e1221e60",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "d45a80d46c16f44d13f5d6383d740feacaed4d75a0a61cfea51ef12df4d7b991",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 51027.017606,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 1,
+      "fixture_id": "overflow",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "2d6eeabd85dec086856e57b81233f3ec9cb37f37adbffd5353e2ea8a668185ea",
+      "wire_bytes": 960,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "5aa83e24625c41ca6051ce669398ff670126934428f8df32b5f29fffeacb34dd",
+      "model_input_sha256": "55503c0958a75c7243e93ef427e6335551c1da2f51f297d8a84c952e08b96b8a",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "d45a80d46c16f44d13f5d6383d740feacaed4d75a0a61cfea51ef12df4d7b991",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 46519.322853,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "empty",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "d2f3534978d14ac367f89adadf086a3f43a7a31f953991977ad784c2f6901548",
+      "wire_bytes": 503,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "c79a1db8f24431d2414695b9d62f5cae7e69f5343d46b68e46afdaeb94a8867b",
+      "model_input_sha256": "a60bb896ae2b916a88dacaf876deb8a836ecba3be6a38ea81b8107b6111dd1b4",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":\"NO_DATA\"},\"proposal\":null}",
+      "response_sha256": "29402abe5f0eaa0c5637a059e53ed10ca5bb7cb504f93f8a58fc03fa9d8a313c",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": "NO_DATA"
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 47533.567865,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "empty",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "d2f3534978d14ac367f89adadf086a3f43a7a31f953991977ad784c2f6901548",
+      "wire_bytes": 503,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "9cd7bf47bd2086c6ea22813c40fe0283af002cfa909cf3c48303e0e79dcb36db",
+      "model_input_sha256": "2bb28cc9d810825c1c2f8729c08dde04c047abf293b9bbd7066194bff702cc28",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"NO_DATA\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "83d74e396567ec2bff30a277781bb4422ce0e48b83ac830765527d6240d84313",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "NO_DATA",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": true,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 42123.721552,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "complete",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "5c9fd61de488ba340a9bc72a69924d79fa514689ae67e36cd4ec0570717082e9",
+      "wire_bytes": 334,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "3671f63e2b45f25c635159b4536f51857da1cddadd0c9a052ae8e05070e9e073",
+      "model_input_sha256": "0f3fb1b3ee57bddb7223dc808719e2838766438b9d1accdd797d211c356b616b",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "316397c762a5453b42954999c0275f7ea7f0aecdb257e20f940ecc74a3656742",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 47474.824125,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "complete",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "5c9fd61de488ba340a9bc72a69924d79fa514689ae67e36cd4ec0570717082e9",
+      "wire_bytes": 334,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "32d91b089c51ebd1ab44b21712b71b975479651f9b9b443c373ead61b7673dae",
+      "model_input_sha256": "6efbb1eefafa991a060384d0db15bceb6539a11471ce023ae667b0ba485b95b6",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":[22,0],\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "62acfb4f8cd913c9a178ffecd14b4002d0174d1ef0cb4d118cafedfa972b59f9",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": [
+            22,
+            0
+          ],
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 43088.867552,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "unicode",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "f258be260ac45140d914a70ac3a6fd40e62e7b21310f4aafb70bdb16ebd69d17",
+      "wire_bytes": 377,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "0dfff9a4b3fca4987b1dfbe854e9b1c25ffd5a564fd3d9c462697d639a698255",
+      "model_input_sha256": "6793f36f651be5b3e9241cf2fdcf0a166bc186799e5997d3465419d99768cb55",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":1234,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "316397c762a5453b42954999c0275f7ea7f0aecdb257e20f940ecc74a3656742",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": 1234,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 47716.691128,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "unicode",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "f258be260ac45140d914a70ac3a6fd40e62e7b21310f4aafb70bdb16ebd69d17",
+      "wire_bytes": 377,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "d1096af4814517667dff72ea9e772537266474967ffc42c105c78b04d00deeea",
+      "model_input_sha256": "0bba76e1a75372c6ce21ed050e282aa353719b6eaa032c678871f0d6bf900da5",
+      "response_text": "",
+      "response_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "response": null,
+      "format_valid": false,
+      "semantic_correct": false,
+      "proposal": "REJECTED",
+      "executed": false,
+      "expected": {
+        "cycle": 1234,
+        "copper": 22,
+        "crab_offset": [
+          -94,
+          -355
+        ],
+        "coordinate_reference": "home_offset",
+        "absolute_position": null,
+        "buoy_phase": "vivo"
+      },
+      "elapsed_ms": 1136.959975,
+      "returncode": 0,
+      "no_data": [
+        "Output rejected by closed response contract"
+      ]
+    },
+    {
+      "pass": 2,
+      "fixture_id": "overflow",
+      "condition": "dense_llms",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "2d6eeabd85dec086856e57b81233f3ec9cb37f37adbffd5353e2ea8a668185ea",
+      "wire_bytes": 960,
+      "stimulus_sha256": "69138d63ecef10b2adea5802f0a45f31ae75b9138f4a7b16ce6a4b2841dd43ac",
+      "stimulus_bytes": 5327,
+      "input_sha256": "0b0280f9549e2b04a96b8c0a7c2b220839d9f4509df84b7f057ea91df23a01e4",
+      "model_input_sha256": "f6a9a682ca6ee4ebaad7b8b23e47710a38237c3d6f04a82bba1458e9e1221e60",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "d45a80d46c16f44d13f5d6383d740feacaed4d75a0a61cfea51ef12df4d7b991",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 50893.345928,
+      "returncode": 0,
+      "no_data": []
+    },
+    {
+      "pass": 2,
+      "fixture_id": "overflow",
+      "condition": "prose_readme",
+      "source_sha256": "ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e",
+      "wire_sha256": "2d6eeabd85dec086856e57b81233f3ec9cb37f37adbffd5353e2ea8a668185ea",
+      "wire_bytes": 960,
+      "stimulus_sha256": "4bc8a37692faff02bdf4155328b2febeddd75a4b27ed0ec3e0d26982193a13e1",
+      "stimulus_bytes": 7344,
+      "input_sha256": "5aa83e24625c41ca6051ce669398ff670126934428f8df32b5f29fffeacb34dd",
+      "model_input_sha256": "55503c0958a75c7243e93ef427e6335551c1da2f51f297d8a84c952e08b96b8a",
+      "response_text": "{\"schema\":\"preceptoros.state-readability.response/1\",\"reading\":{\"cycle\":null,\"copper\":null,\"crab_offset\":null,\"coordinate_reference\":\"home_offset\",\"absolute_position\":null,\"buoy_phase\":null},\"proposal\":null}",
+      "response_sha256": "d45a80d46c16f44d13f5d6383d740feacaed4d75a0a61cfea51ef12df4d7b991",
+      "response": {
+        "schema": "preceptoros.state-readability.response/1",
+        "reading": {
+          "cycle": null,
+          "copper": null,
+          "crab_offset": null,
+          "coordinate_reference": "home_offset",
+          "absolute_position": null,
+          "buoy_phase": null
+        },
+        "proposal": null
+      },
+      "format_valid": true,
+      "semantic_correct": false,
+      "proposal": "NONE",
+      "executed": false,
+      "expected": {
+        "cycle": null,
+        "copper": null,
+        "crab_offset": null,
+        "coordinate_reference": "NO_DATA",
+        "absolute_position": null,
+        "buoy_phase": null
+      },
+      "elapsed_ms": 46864.256621,
+      "returncode": 0,
+      "no_data": []
+    }
+  ],
+  "limitations": [
+    "Stimuli carry different facts and lengths; comparison is a treatment association, not isolated causal effect of density or prose style.",
+    "Four synthetic fixtures repeated twice; no live game or reader population claim.",
+    "The task requires using only the vector for requested values; stimulus is context only.",
+    "Exact sampled token counts and energy are NO_DATA; runner has no verified sampler/energy readout.",
+    "Prompt context is limited to 4096 tokens; any runtime failure is retained in denominator with cause."
+  ],
+  "no_data": [
+    {
+      "field": "sampled_token_count",
+      "cause": "The runner does not capture independently verified generated token totals."
+    },
+    {
+      "field": "energy",
+      "cause": "No energy meter was sampled."
+    }
+  ]
+}
