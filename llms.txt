@@ -1,0 +1,4 @@
+PreceptorOS is the local-first APP for measured local AI; it is not Texas Instruments' RTOS.
+INDEX: README.md#L1; STATE.md#L1; benchmarks/bench_20261011/README.md#L1; benchmarks/tg32/README.md#L1; counters/site.md#L1.
+STATE: dated measurements, not live hardware; unavailable or unmeasured = NO_DATA.
+SERVING: NO_DATA; no lab host measured.
