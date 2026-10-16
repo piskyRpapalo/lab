@@ -1,0 +1,51 @@
+{
+  "measured_at": "2026-10-16",
+  "model": {
+    "file": "soberano-bench/models/qwen36-35b-a3b-ud-q4km/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf",
+    "bytes": 22652396032,
+    "parameters": 35505251456,
+    "sha256": "0b21525e972670ed59e1812e170b27c26355381f0656ecc4e25617ece7dac58b",
+    "copied_to_ollama": false
+  },
+  "harness": {
+    "name": "llama-bench",
+    "build_commit": "01041db99dae68529db58c6fc692a9ca623b30a2",
+    "build_number": 10708,
+    "binary_sha256": "f10d18211b422432c79db4e406d7b8ac353da81b51457c3bc7bc136a23060961",
+    "args_common": ["-p", "512", "-n", "128", "-r", "2", "-t", "16", "-o", "json", "--no-warmup"],
+    "temperature": "NO_DATA: llama-bench has no temperature option; throughput-only",
+    "seed": "NO_DATA: llama-bench has no seed option; throughput-only"
+  },
+  "machine": {
+    "cpu": "AMD Ryzen 7 255",
+    "threads": 16,
+    "gpu": "AMD Radeon 780M Graphics (RADV PHOENIX)",
+    "memory_mode": "UMA"
+  },
+  "runs": [
+    {
+      "backend": "cpu",
+      "args_backend": ["-ngl", "0", "-dev", "auto"],
+      "repetitions": 2,
+      "prefill_512_tok_s": {"mean": 92.295417, "stddev": 2.248666, "samples": [90.7054, 93.8855]},
+      "generation_128_tok_s": {"mean": 2.113949, "stddev": 1.747471, "samples": [0.8783, 3.3496]},
+      "n_gpu_layers": 0,
+      "devices": "auto"
+    },
+    {
+      "backend": "vulkan",
+      "args_backend": ["-ngl", "99", "-dev", "Vulkan0"],
+      "repetitions": 2,
+      "prefill_512_tok_s": {"mean": 294.270916, "stddev": 14.631985, "samples": [283.925, 304.617]},
+      "generation_128_tok_s": {"mean": 20.759699, "stddev": 0.196574, "samples": [20.8987, 20.6207]},
+      "n_gpu_layers": 99,
+      "devices": "Vulkan0"
+    }
+  ],
+  "upstream_declared_only": {
+    "source": "https://unsloth.ai/docs/models/qwen3.6#mtp-benchmarks",
+    "claim": "up to 220 tokens/s generation for Qwen3.6-35B-A3B with MTP",
+    "measured_here": false,
+    "comparability": "NO_DATA: published hardware/configuration not matched to this GGUF run"
+  }
+}
