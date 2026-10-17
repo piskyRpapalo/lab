@@ -13,6 +13,9 @@ REQUIRED = [
     "benchmarks/bench-fluency/M4/README.md",
     "benchmarks/qwen36-35b-20261016/README.md",
     "benchmarks/preceptor-g0-20261016/README.md",
+    "benchmarks/throughput-vulkan-20260907/README.md",
+    "benchmarks/throughput-llama-bench-20261005/README.md",
+    "benchmarks/motor-registration-smoke-20261016/README.md",
 ]
 
 class ArchiveContract(unittest.TestCase):
@@ -43,6 +46,19 @@ class ArchiveContract(unittest.TestCase):
         self.assertNotEqual(g0["red"]["exit_code"], 0)
         self.assertEqual(len(g0["green_runs"]), 2)
         self.assertEqual(g0["green_runs"][0]["response_sha256"], g0["green_runs"][1]["response_sha256"])
+
+    def test_series_historicas_y_smoke_conservan_sus_ejes(self):
+        vulkan = (ROOT / "benchmarks/throughput-vulkan-20260907/README.md").read_text()
+        llama = (ROOT / "benchmarks/throughput-llama-bench-20261005/README.md").read_text()
+        smoke = (ROOT / "benchmarks/motor-registration-smoke-20261016/README.md").read_text()
+        self.assertIn("1.017,39", vulkan)
+        self.assertIn("55,15", vulkan)
+        self.assertIn("30,65 ± 0,37", llama)
+        self.assertIn("26,72 ± 0,12", llama)
+        self.assertIn("no reejecuta ni corrige la serie Ollama", llama)
+        self.assertIn("16,97 s", smoke)
+        self.assertIn("19,45 s", smoke)
+        self.assertIn("no reemplaza los 16,97 s", smoke)
 
 if __name__ == "__main__":
     unittest.main()
