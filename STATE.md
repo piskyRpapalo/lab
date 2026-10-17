@@ -13,8 +13,8 @@
 
 Machine for local test and file measurements: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs.
 
-- WEB Node suite: `node --test` at WEB `e1aafeeb` — **244 tests: 234 passed, 10 skipped, 0 failed**. This is the Node test runner only; it is not the Python `test_web.py` yardstick.
-- APP Python discovery: `python3 -m unittest discover` at APP `3c39596` — **867 tests: 856 passed, 11 skipped, 0 failed**. This is not `./bin/pruebas`.
+- WEB Node suite: `node --test` at WEB `e1aafeeb` — **179 tests: 174 passed, 5 skipped, 0 failed in each of two runs** (Node v22.22.1). This is the Node test runner only; it is not the Python `test_web.py` yardstick.
+- APP Python discovery: `python3 -m unittest discover` at APP `3c39596` — **867 tests: 856 passed, 11 skipped, 0 failed in each of two runs** (Python 3.14.4). This is not `./bin/pruebas`.
 - WEB public-site weight: **1,237,121 B across 186 counted files**, recomputed read-only from `public/` with the `contadores.py` exclusions (`downloads/`, `counters.json`, `historial/`; method at WEB `contadores.py:55-65`). The value agrees with WEB `public/counters.json` (`peso_sitio`); no counter was rewritten.
 
 ## Recorded benchmark evidence
