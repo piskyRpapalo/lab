@@ -97,6 +97,18 @@ class SelectorContract(unittest.TestCase):
             self.assertEqual("".join(row.text for row in rows), text)
             self.assertTrue(all(len(row.text.encode("utf-8")) <= 3 for row in rows))
 
+    def test_store_rejects_codepoint_larger_than_chunk_ceiling(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "source"
+            root.mkdir()
+            (root / "note.txt").write_text("😀", encoding="utf-8")
+            store = ChunkStore(Path(tmp) / "private-store")
+            result = ingest_files(root, store, max_chunk_bytes=1, captured_at="2026-10-17")
+            self.assertEqual(result.appended, ())
+            self.assertEqual(len(result.rejected), 1)
+            self.assertIn("code point exceeds max_chunk_bytes", result.rejected[0][1])
+            self.assertEqual(store.read_all(), ())
+
     def test_two_pass_package_is_stable_and_has_verbatim_hashes(self):
         chunks = [Chunk("abc", "exact text", "source", 0, 10)]
         policy = SelectionPolicy(max_chunks=1, max_chunk_bytes=64)

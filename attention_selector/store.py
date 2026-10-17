@@ -106,6 +106,8 @@ def _split_utf8(text: str, max_bytes: int) -> Iterable[tuple[int, int, str]]:
     used = 0
     for char in text:
         size = len(char.encode("utf-8"))
+        if size > max_bytes:
+            raise ValueError("code point exceeds max_chunk_bytes; source rejected without splitting UTF-8")
         if used and used + size > max_bytes:
             value = "".join(piece)
             yield start, offset, value
@@ -150,6 +152,9 @@ def ingest_files(root: Path, store: ChunkStore, *, max_chunk_bytes: int, capture
             rejected.append((hashlib.sha256(str(source).encode()).hexdigest(), type(exc).__name__))
             continue
         source_id = hashlib.sha256(relative.encode("utf-8")).hexdigest()
+        if any(len(char.encode("utf-8")) > max_chunk_bytes for char in text):
+            rejected.append((source_id, "code point exceeds max_chunk_bytes; source rejected without splitting UTF-8"))
+            continue
         for start, end, value in _split_utf8(text, max_chunk_bytes):
             digest = hashlib.sha256(value.encode("utf-8")).hexdigest()
             chunk_id = hashlib.sha256(f"{source_id}:{start}:{digest}".encode("ascii")).hexdigest()
