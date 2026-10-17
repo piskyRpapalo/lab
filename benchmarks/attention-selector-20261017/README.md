@@ -15,7 +15,11 @@ here.
 - Ingestion preserves UTF-8 text byte-for-byte, uses content SHA-256 plus an
   opaque hash of the relative origin, records a caller-supplied
   ISO date, and appends owner-only files:
-  `attention_selector/store.py:15-23`, `:33-84`, `:87-138`.
+  `attention_selector/store.py:15-23`, `:33-97`, `:100-166`.
+- A source containing a Unicode code point larger than its declared chunk
+  ceiling is rejected in full with a cause; code points are never split and
+  no oversized chunk is appended: `attention_selector/store.py:100-121`,
+  `:154-157`.
 - Two-pass output has a stable policy prefix, bounded index, and complete
   verbatim chunks. Both passes bind the same policy/query hashes and declare
   their byte/count ceilings. Each listed item is `VERBATIM` or `NO_DATA` with
@@ -32,13 +36,15 @@ here.
 ## Measurements
 
 - Test yardstick: `python3 -m unittest discover -s tests -p "test_*.py"`;
-  two independent runs on this branch each measured **23 tests, 0 failures**.
+  two independent runs after the boundary fix each measured **24 tests, 0 failures**.
   This is a local test result, not remote CI. The repository contract declares
   that remote CI is not configured.
-- Red-before-green: before implementation, the new directed suite failed to
-  import `attention_selector.core` because the package did not exist. During
-  integration, two directed assertions also exposed an incorrect test access
-  and insufficient test byte ceilings; the corrected checks then passed.
+- Red-before-green: initial package tests failed to import `attention_selector.core`.
+  A later boundary sabotage measured an oversized chunk appended for a 4-byte
+  code point under a 1-byte ceiling; the directed test failed before the fix.
+  The source now rejects with a cause and appends nothing. Earlier integration
+  assertions also exposed an incorrect test access and insufficient test byte
+  ceilings; corrected checks passed.
 - Synthetic package test: deterministic bytes on repeated input; index and
   chunk records match; exact ceilings respected; multibyte text round-trips;
   tampered chunk hash, invalid capture date, disallowed host, absent gold, and
@@ -56,6 +62,11 @@ here.
   hardware and model blob; the model label and machine hostname are omitted.
   A non-empty answer does not measure semantic correctness; that remains
   `NO_DATA` without approved labels.
+- Other separately issued local calls returned 1014 B and 494 B; a separate
+  direct-API request with different prompt wording returned 2490 B. Their
+  response text and a controlled replay were not retained, so the byte-count
+  differences have no measured cause and do not establish deterministic
+  output length.
 - Tokenizer-specific token counts: `NO_DATA`; the local adapter does not expose
   a tokenizer count. Byte ceilings are exact and measured separately.
 - Browser, relay caching, multi-device replay, and remote CI: `NO_DATA`; this
