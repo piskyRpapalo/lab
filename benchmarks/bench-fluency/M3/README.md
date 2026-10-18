@@ -1,11 +1,11 @@
-# M3 — recuperación de citas
+# M3 — quotation retrieval
 
-Contrato: `MECANICO.md:18,23,30-31`; juez `mecanico_m3.py` SHA-256 `d2ce68c6220a36d65df4cf04cf85d33edb1320eec6eaefa13830a38f226d2fda`. Se compara ruta, línea y texto exactos; retrieval-v3 mide completitud de citas dado un conjunto de candidatos y no búsqueda libre sobre el repo.
+Contract: `MECANICO.md:18,23,30-31`; judge `mecanico_m3.py` SHA-256 `d2ce68c6220a36d65df4cf04cf85d33edb1320eec6eaefa13830a38f226d2fda`. Path, line, and exact text are compared; retrieval-v3 measures quote completeness given a set of candidates, not free search over the repo.
 
-| Variante 3B | Estado | latencia | resultado
+| 3B variant | Status | latency | result |
 |---|---|---:|---|
-| base | FALLA | 50.207 s | JSON de entrega inválido (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b.jsonl:1`)
-| list-v2 | FALLA | 6.978 s | 0/2 citas; texto de líneas no coincide (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b-list-v2.jsonl:1`)
-| retrieval-v3 | PASA | 4.856 s | 2/2 citas exactas (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b-retrieval-v3.jsonl:1`)
+| base | FAIL | 50.207 s | invalid delivery JSON (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b.jsonl:1`) |
+| list-v2 | FAIL | 6.978 s | 0/2 quotes; line text does not match (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b-list-v2.jsonl:1`) |
+| retrieval-v3 | PASS | 4.856 s | 2/2 exact quotes (`evidence/medicion_mecanico_M3_20261015_qwen2.5-coder-3b-retrieval-v3.jsonl:1`) |
 
-No mide la selección inicial del documento completo. Tokens y huella del modelo: NO_DATA. Recibos en `../evidence/`.
+It does not measure the initial selection of the full document. Tokens and model fingerprint: NO_DATA. Receipts in `../evidence/`.

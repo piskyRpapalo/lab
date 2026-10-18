@@ -47,18 +47,18 @@ class ArchiveContract(unittest.TestCase):
         self.assertEqual(len(g0["green_runs"]), 2)
         self.assertEqual(g0["green_runs"][0]["response_sha256"], g0["green_runs"][1]["response_sha256"])
 
-    def test_series_historicas_y_smoke_conservan_sus_ejes(self):
+    def test_historical_series_and_smoke_keep_their_axes(self):
         vulkan = (ROOT / "benchmarks/throughput-vulkan-20260907/README.md").read_text()
         llama = (ROOT / "benchmarks/throughput-llama-bench-20261005/README.md").read_text()
         smoke = (ROOT / "benchmarks/motor-registration-smoke-20261016/README.md").read_text()
-        self.assertIn("1.017,39", vulkan)
-        self.assertIn("55,15", vulkan)
-        self.assertIn("30,65 ± 0,37", llama)
-        self.assertIn("26,72 ± 0,12", llama)
-        self.assertIn("no reejecuta ni corrige la serie Ollama", llama)
-        self.assertIn("16,97 s", smoke)
-        self.assertIn("19,45 s", smoke)
-        self.assertIn("no reemplaza los 16,97 s", smoke)
+        self.assertIn("1,017.39", vulkan)
+        self.assertIn("55.15", vulkan)
+        self.assertIn("30.65 ± 0.37", llama)
+        self.assertIn("26.72 ± 0.12", llama)
+        self.assertIn("does not re-run or correct the 2026-09-13 Ollama series", llama)
+        self.assertIn("16.97 s", smoke)
+        self.assertIn("19.45 s", smoke)
+        self.assertIn("does not replace the 16.97 s declared here", smoke)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,12 +1,12 @@
-# M2 — reemplazos literales con salida cerrada
+# M2 — literal replacements with closed output
 
-Contrato: `MECANICO.md:14-17,21` y recibos archivados en `../evidence/`. Juez `mecanico_m2.py` SHA-256 `15d5b74264cd416d29cbff9e547f43a70575907747ed66df85471d1695336edc`. Fuente describe tres reemplazos literales, validación de anclas, matriz 4×4, sintaxis y parche en memoria.
+Contract: `MECANICO.md:14-17,21` and receipts archived in `../evidence/`. Judge `mecanico_m2.py` SHA-256 `15d5b74264cd416d29cbff9e547f43a70575907747ed66df85471d1695336edc`. The source describes three literal replacements, anchor validation, a 4×4 matrix, syntax, and an in-memory patch.
 
-| Variante 3B | Estado | latencia | causa
+| 3B variant | Status | latency | cause |
 |---|---|---:|---|
-| base | FALLA | 17.494 s | JSON de entrega inválido
-| list-v2 | FALLA | 14.216 s | JSON de entrega inválido
-| blocks-v2 | FALLA | 10.030 s | JSON de entrega inválido
-| oneline-v3 | FALLA | 16.180 s | JSON de entrega inválido
+| base | FAIL | 17.494 s | invalid delivery JSON |
+| list-v2 | FAIL | 14.216 s | invalid delivery JSON |
+| blocks-v2 | FAIL | 10.030 s | invalid delivery JSON |
+| oneline-v3 | FAIL | 16.180 s | invalid delivery JSON |
 
-Todas las salidas incumplieron el formato cerrado antes de poder valorar el parche; no se aplicó ninguna respuesta. Tokens, hash del modelo y hardware: NO_DATA.
+All outputs violated the closed format before the patch could be assessed; no answer was applied. Tokens, model hash, and hardware: NO_DATA.
