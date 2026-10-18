@@ -14,6 +14,6 @@ rows carry the cause, never a guess.
 
 Raw JSON: `bench_20261011_resultados.json` (sha256 26e61fb7f56d9da3d6820ea71b39cf43c1b7454ee75d79f08e314004a74c707b).
 
-## Proveniencia del registro
+## Record provenance
 
-Las cifras y causas resumidas arriba corresponden al JSON local `bench_20261011_resultados.json` (SHA-256 declarado arriba). Allí se registran fecha/hardware, build de llama.cpp, modelo/sha, método y comando en `bench_20261011_resultados.json:1-66`; el comando está en `:34`, las cifras del embedding en `:21-29` y las causas NO_DATA en `:43-61`. La tabla arriba es el resumen publicado; no se reejecutó ninguna prueba.
+The figures and causes summarized above correspond to the local JSON `bench_20261011_resultados.json` (SHA-256 declared above). Date/hardware, llama.cpp build, model/sha, method, and command are recorded there in `bench_20261011_resultados.json:1-66`; the command is at `:34`, the embedding figures at `:21-29`, and the NO_DATA causes at `:43-61`. The table above is the published summary; no test was re-run.
