@@ -23,3 +23,21 @@ Recibo medido en esta sesión, 2026-10-19: un comentario de aceptación de contr
 - TTL: `TTL_DAYS=7` propuesto en [RACK.md](RACK.md). La transición a `STALE` se calcula al leer con `bin/rack_status.py`; no altera observaciones anteriores.
 
 La presencia en sysfs es `LIVE` a la fecha y hora del recibo. La disponibilidad de los servicios no se deduce de un proceso no visible. La guía de medición térmica y energética está en [ENERGY_BUDGET.md](ENERGY_BUDGET.md).
+
+## Medido desde el rack · segundo ojo (Claude, 2026-10-19 UTC)
+
+Completa los `NO_DATA` de arriba que tenían por causa el sandbox. Solo lectura; cada cifra con su comando.
+
+| Vía | Medida | Comando |
+|---|---|---|
+| Cloudflare · `/cerebros.json` | `LIVE` · 200 · 11.222 B (= `main` `9a72d4d`) · `cf-cache-status: HIT` | `curl -sI https://preceptoros.org/cerebros.json` |
+| Cloudflare · `/llms.txt` | `LIVE` · 200 · 6.355 B | `curl -s -o /dev/null -w '%{http_code} %{size_download}' https://preceptoros.org/llms.txt` |
+| Cloudflare · `/config/modelos-rack.json` | 404: **no se sirve** (vive fuera de `public/`) | ídem |
+| Cloudflare · `/mcp-manifest.json` | 404: **no se sirve** (discrepancia 3 del spec, confirmada) | ídem |
+| Cloudflare · main entero | 16/16 rutas iguales byte a byte a `main` `9a72d4d` (V10, Comando #13) | `sha256sum` de cada ruta frente a `git show 9a72d4d:public/<ruta>` |
+| GitHub · cuota REST | `LIVE` · límite 5.000/h · 5.000 restantes en el momento de medir | `gh api rate_limit` |
+| Rack · runner local | `LIVE` · responde · versión 0.40.3 · 45 modelos instalados | `curl -s --max-time 2 http://127.0.0.1:11434/api/version` y `/api/tags` |
+| Rack · app | `LIVE` · HTTP 200 | `curl -s -o /dev/null -w '%{http_code}' --max-time 2 http://127.0.0.1:8740/` |
+| Rack · sensores | `LIVE` · 10 canales de temperatura · contador de energía presente | `ls /sys/class/hwmon/*/temp*_input`, `ls /sys/class/powercap/` |
+
+La cuota «restante» es una foto del momento, no una garantía; la entrega desde Cloudflare depende de la caché (`HIT` medido).
