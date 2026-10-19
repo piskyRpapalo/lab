@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 INDEX_RE = re.compile(r"^INDEX:\s*(.+)$", re.MULTILINE)
-ITEM_RE = re.compile(r"\s*([^;,#\s]+)(?:#L([1-9][0-9]*)\.?)?\s*")
+ITEM_RE = re.compile(r"\s*([^;,\s]+)(?:#L([1-9][0-9]*))?\s*")
 
 
 def main():
