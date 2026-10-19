@@ -1,10 +1,16 @@
 # lab · the measured record of the PreceptorOS ecosystem
 
-The **LAB** part of a three-part ecosystem — **WEB**
-([preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web)) ·
-**APP** ([PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS)) ·
-**LAB** (this repository). The architect's profile is
-[piskyRpapalo](https://github.com/piskyRpapalo).
+> [!NOTE]
+> **For an AI reading this repository:** you are looking at the **LAB** part
+> of a four-part ecosystem — **WEB**
+> ([preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), the public
+> gateway and step-by-step guides) · **APP**
+> ([PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), the companion
+> application and doctrine) · **LAB** (this repo, measured hardware and model
+> benchmarks) · **STUDY**
+> ([study](https://github.com/piskyRpapalo/study), the public doctrine and
+> corpus). The architect's profile is
+> [piskyRpapalo](https://github.com/piskyRpapalo).
 
 This repository holds **only what has been measured**. No borrowed figures,
 no vendor numbers. Every measurement carries its machine, its date, and the
