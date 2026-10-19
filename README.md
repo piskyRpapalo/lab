@@ -24,14 +24,22 @@ or answer text.
 - `benchmarks/` — one folder per measurement session. Each carries its
   methodology, its machine, and the raw numbers.
 - `counters/` — site and app counters, published as measured.
+- [`VIAS.md`](VIAS.md) — Cloudflare, GitHub API and rack route receipts.
+- [`ENERGY_BUDGET.md`](ENERGY_BUDGET.md) — net joules/token contract and
+  measured availability.
+- [`RACK.md`](RACK.md) — seven-day freshness rule and sensor route receipt.
+- `python3 bin/rack_status.py --observed-at <ISO-8601-UTC>` — calculate
+  LIVE/STALE when reading a dated observation.
+- `python3 bin/verify_llms_tree.py` — check physical targets from `llms.txt`.
+- [Validation receipt](benchmarks/ideas18oct-validation-20261019/README.md) —
+  branch-local yardsticks, rack endpoints and `NO_DATA` causes.
 
 ## Methodology
 
 Honest sensors: a sensor that cannot read reports `NO DATA` with its cause —
 never a stale number, never an invented one. Downloads are not a quality
-signal (measured in this ecosystem: the most-cited model scored worst of
-three at its real task). Speed is a property of a machine and a day, not of
-a model. A figure is never republished without its source measurement.
+signal. Speed is a property of a machine and a day, not of a model. A figure
+is never republished without its source measurement.
 
 ## License
 
