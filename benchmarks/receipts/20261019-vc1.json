@@ -1,0 +1,37 @@
+{
+  "command": "python3 -m unittest discover -s tests -p 'test_*.py'",
+  "observed_at": "2026-10-19T12:46:37.509578Z",
+  "privacy": "counts only; test names, stdout, stderr, prompts and answers omitted",
+  "runs": [
+    {
+      "cause": null,
+      "elapsed_s": 0.17,
+      "errors": 0,
+      "failures": 0,
+      "passed": 34,
+      "skipped": 0,
+      "state": "GREEN",
+      "tests": 34
+    },
+    {
+      "cause": null,
+      "elapsed_s": 0.172,
+      "errors": 0,
+      "failures": 0,
+      "passed": 34,
+      "skipped": 0,
+      "state": "GREEN",
+      "tests": 34
+    }
+  ],
+  "runtime": {
+    "machine": "x86_64",
+    "python": "3.14.4",
+    "system": "Linux"
+  },
+  "schema": "preceptoros.lab.yardstick-receipt/1",
+  "source_commit": "0839bb37deaed9635ee996503f3a2bbf1abb86aa",
+  "source_tracked_tree_clean": true,
+  "state": "GREEN",
+  "timeout_s_per_run": 300
+}
