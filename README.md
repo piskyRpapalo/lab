@@ -33,8 +33,6 @@ or answer text.
 - `python3 bin/measure_yardstick.py` — run the canonical test yardstick twice
   and emit a privacy-safe receipt with counts, state, runtime and source commit.
 - `python3 bin/verify_llms_tree.py` — check physical targets from `llms.txt`.
-- [Validation receipt](benchmarks/ideas18oct-validation-20261019/README.md) —
-  branch-local yardsticks, rack endpoints and `NO_DATA` causes.
 
 ## Methodology
 

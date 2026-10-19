@@ -25,11 +25,3 @@ La presencia del contador RAPL solo certifica que la ruta de lectura existe; no 
 ## Vías que alimentan al modelo local
 
 La medición se conserva en LAB como registro para el modelo pequeño local. El runner consume recibos; no envía prompts, respuestas ni telemetría fuera del equipo. Sin un contador accesible, el estado permanece `NO_DATA`.
-
-## Re-medición · 2026-10-19T12:04:47Z
-
-- `/api/tags` respondió HTTP 200 con 45 entradas; `/api/version` HTTP 200; la PWA HTTP 200. Comando exacto y tiempo: [`benchmarks/ideas18oct-validation-20261019/README.md`](benchmarks/ideas18oct-validation-20261019/README.md).
-- `/sys/class/powercap/intel-rapl:0/energy_uj`: ruta presente, lectura `NO_DATA`, causa: `PermissionError`.
-- `/metrics`: HTTP 404; el runner no expone un contador de tokens en esa ruta.
-- Julios netos/token continúa `NO_DATA`, causa: el proceso no puede leer el contador energético y no hay contador de tokens para el mismo tráfico. No se hizo inferencia sintética ni entrenamiento LoRA.
-- Comando exacto para RAPL y `/metrics`, con cuerpo reproducible: [recibo medido](benchmarks/ideas18oct-validation-20261019/README.md).
