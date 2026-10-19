@@ -78,3 +78,12 @@ here.
 The only live-corpus ingestion test was run into the local owner-only store.
 Its receipt and corpus-derived package stayed on the rack and are intentionally
 not archived in this repository.
+
+## Full yardstick after main sync · 2026-10-19
+
+- Command: `python3 -m unittest discover -s tests -p 'test_*.py'`.
+- Machine/runtime: Linux 7.0.0-38-generic x86_64; Python 3.14.4.
+- Scope: this LAB branch after syncing `main`; 25 tests, 0 failures in each of
+  two consecutive runs. The earlier 24-test record above is the directed
+  selector suite and remains a separate measurement.
+- Remote CI: `NO_DATA`, cause: not configured in this repository.
