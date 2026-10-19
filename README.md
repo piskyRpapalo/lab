@@ -30,6 +30,8 @@ or answer text.
 - [`RACK.md`](RACK.md) — seven-day freshness rule and sensor route receipt.
 - `python3 bin/rack_status.py --observed-at <ISO-8601-UTC>` — calculate
   LIVE/STALE when reading a dated observation.
+- `python3 bin/measure_yardstick.py` — run the canonical test yardstick twice
+  and emit a privacy-safe receipt with counts, state, runtime and source commit.
 - `python3 bin/verify_llms_tree.py` — check physical targets from `llms.txt`.
 - [Validation receipt](benchmarks/ideas18oct-validation-20261019/README.md) —
   branch-local yardsticks, rack endpoints and `NO_DATA` causes.
