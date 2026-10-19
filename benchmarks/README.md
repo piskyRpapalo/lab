@@ -1,20 +1,29 @@
-# Benchmarks recuperados
+# Recovered benchmarks
 
-Índice del material medido disponible, sin inferencia nueva. Cada ficha conserva su yardstick; `NO_DATA` identifica un dato que la fuente no acredita. El inventario local de base se contrastó contra `origin/main` 37cd202 el 2026-10-16.
+Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. The local base inventory was checked against `origin/main` 37cd202 on 2026-10-16; this recovery starts from `origin/main` 2cb70d8 on 2026-10-17.
 
-- [Bench publicado 2026-10-11](bench_20261011/README.md): rendimiento de embeddings; raw JSON en la misma carpeta.
-- [tg32](tg32/README.md): throughput reportado; metadatos de arnés incompletos.
-- [Evaluación G1R](agent-eval-g1r-20260719/README.md) y [G2](agent-eval-g2-20260719/README.md): ejecución operativa, sin puntuación de calidad.
-- [Duelo de herramientas](agent-tool-duel-20260718/README.md): códigos de salida y timeouts, sin juez de calidad común.
-- [G0](g0/README.md): `llama-bench`, smoke de harnesses y smoke del motor local, en métricas separadas.
-- [Qwen 35B-A3B, 2026-10-16](qwen36-35b-20261016/README.md): `llama-bench` directo sobre GGUF existente; CPU y Vulkan separados.
-- [Reanudación G0 del Preceptor, 2026-10-16](preceptor-g0-20261016/README.md): una prueba local del rol, rojo de motor ausente y dos respuestas medidas.
-- [Comparativa de modelos, 2026-09-14](soberano-model-compare-20260914/README.md): cuatro modelos, latencia/juicio por prompts.
-- [Smoke de modelos, 2026-09-13](lab-model-smoke-20260913/README.md): cuatro respuestas sintéticas y métricas de llamada.
-- [Candidatos de visión](artemis-candidates-20260927/README.md): medición de salida JSON; no mide visión.
-- [Fluency mecánica](bench-fluency/README.md): M1–M4 y todos los recibos Qwen2.5-Coder.
-- [Legibilidad H9](h9-readability-20261016/README.md): control/mapa/diccionario y estímulos densos/prosa; artefactos originales adjuntos con hashes.
-- [Juez M4](preceptor-lora-m4-20260927/README.md): evaluación ROJA y calibración retirada.
-- [Entrenamiento Fase 0](preceptor-lora-training-20260820/README.md): throughput CPU y límites de interpretación.
+- [Published bench 2026-10-11](bench_20261011/README.md): embedding performance; raw JSON in the same folder.
+- [tg32](tg32/README.md): reported throughput; incomplete harness metadata.
+- [G1R evaluation](agent-eval-g1r-20260719/README.md) and [G2](agent-eval-g2-20260719/README.md): operational runs, no quality score.
+- [Tool duel](agent-tool-duel-20260718/README.md): exit codes and timeouts, with no common quality judge.
+- [G0](g0/README.md): `llama-bench`, harness smoke tests, and local engine smoke test, in separate metrics.
+- [Qwen 35B-A3B, 2026-10-16](qwen36-35b-20261016/README.md): `llama-bench` run directly on the existing GGUF; CPU and Vulkan kept separate.
+- [Preceptor G0 resumption, 2026-10-16](preceptor-g0-20261016/README.md): one local role test, an unavailable-engine red, and two measured responses.
+- [Engine registration and unit smoke test, 2026-10-16](motor-registration-smoke-20261016/README.md): inherited availability state, kept separate from G0 and not used as a yardstick.
+- [Model comparison, 2026-09-14](soberano-model-compare-20260914/README.md): four models, per-prompt latency and human judgment.
+- [Model smoke test, 2026-09-13](lab-model-smoke-20260913/README.md): four synthetic responses and call metrics.
+- [Vulkan series, 2026-09-07](throughput-vulkan-20260907/README.md): seven inherited rows; local identities omitted, measurements intact.
+- [llama-bench series, 2026-10-05](throughput-llama-bench-20261005/README.md): runner and axis kept separate from the Ollama series.
+- [Vision candidates](artemis-candidates-20260927/README.md): JSON output measurement; does not measure vision.
+- [Mechanical fluency](bench-fluency/README.md): M1–M4 and all Qwen2.5-Coder receipts.
+- [H9 readability](h9-readability-20261016/README.md): control/map/dictionary and dense/prose stimuli; original artifacts attached with hashes.
+- [M4 judge](preceptor-lora-m4-20260927/README.md): RED evaluation and a retired calibration.
+- [Phase 0 training](preceptor-lora-training-20260820/README.md): CPU throughput and interpretation limits.
 
-Hardware sin especificación fuente, hashes de harness ausentes y alcances no medidos quedan declarados `NO_DATA` en cada ficha. Los hashes citados son SHA-256 de la fuente indicada, no una atribución de autoría ni verificación independiente del equipo.
+## FIRMO and recovery limits
+
+The Sovereign's signed order of 2026-10-17 declares these recovered series covered: Vulkan 2026-09-07, llama-bench 2026-10-05, candidates 2026-09-27, Qwen 35B 2026-10-16 (round 97), G0 2026-10-16, M1–M4 fluency, and the two historical training/judge reports. FIRMO is kept as declared provenance; a per-run signature artifact is not included in the lab (`NO_DATA`), and a SHA-256 file digest is not presented as a human signature.
+
+Five local adapters remain registered only as a future evaluation cohort: names, weights, hashes, licenses, and per-adapter results are omitted for privacy; their public availability is `NO_DATA`. The existing training and judge cards are distinct historical experiments, not a substitute for an evaluation of that cohort.
+
+Hardware without a source specification, missing harness hashes, and unmeasured scopes are declared `NO_DATA` in each card. The hashes cited are SHA-256 digests of the indicated source, not an attribution of authorship or independent verification by the team.
