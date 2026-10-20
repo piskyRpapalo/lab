@@ -69,3 +69,36 @@ class LlmsTreeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class LlmsTreeBudgetTests(unittest.TestCase):
+    def verify(self, root):
+        return subprocess.run(
+            [sys.executable, str(ROOT / "bin" / "verify_llms_tree.py"),
+             "--root", str(root)], capture_output=True, text=True)
+    def test_rejects_file_over_piece_ceiling(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "llms.txt").write_text("INDEX: big.md#L1.\n", encoding="utf-8")
+            (root / "big.md").write_text("x" * 16385, encoding="utf-8")
+            result = self.verify(root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("over piece ceiling: big.md 16385 B > 16384 B", result.stdout)
+    def test_rejects_index_over_depth_budget(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "llms.txt").write_text(
+                "INDEX: a.md#L1; b.md#L1.\nBUDGET: 10.\n", encoding="utf-8")
+            (root / "a.md").write_text("hello\n", encoding="utf-8")
+            (root / "b.md").write_text("world\n", encoding="utf-8")
+            result = self.verify(root)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("over depth budget: INDEX totals 12 B > 10 B", result.stdout)
+    def test_budget_line_reports_measured_total(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / "llms.txt").write_text(
+                "INDEX: a.md#L1.\nBUDGET: 100.\nDEPTH: declare depth 0-4.\n", encoding="utf-8")
+            (root / "a.md").write_text("hello\n", encoding="utf-8")
+            result = self.verify(root)
+            self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+            self.assertIn("depth budget 6 B <= 100 B", result.stdout)
