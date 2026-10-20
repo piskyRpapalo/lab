@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 
 INDEX_RE = re.compile(r"^INDEX:\s*(.+)$", re.MULTILINE)
-ITEM_RE = re.compile(r"\s*([^;,\s]+)(?:#L([1-9][0-9]*))?\s*")
+ITEM_RE = re.compile(r"\s*([^;,\s#]+)(?:#L([1-9][0-9]*))?\s*")
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     rows = INDEX_RE.findall(text)
     if len(rows) != 1:
         raise SystemExit(f"ERROR: expected one INDEX line, found {len(rows)}")
-    entries = [part.strip() for part in rows[0].split(";") if part.strip()]
+    entries = [part.strip().rstrip(".") for part in rows[0].split(";") if part.strip()]
     if not entries:
         raise SystemExit("ERROR: INDEX is empty")
     failures = []
