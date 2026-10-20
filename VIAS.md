@@ -41,3 +41,18 @@ Completa los `NO_DATA` de arriba que tenían por causa el sandbox. Solo lectura;
 | Rack · sensores | `LIVE` · 10 canales de temperatura · contador de energía presente | `ls /sys/class/hwmon/*/temp*_input`, `ls /sys/class/powercap/` |
 
 La cuota «restante» es una foto del momento, no una garantía; la entrega desde Cloudflare depende de la caché (`HIT` medido).
+
+## External publishing routes · proposal only
+
+Status: `NO_DATA`, cause: no account authorization, outbound adapter, or live API call was measured for these four services on 2026-10-21. The links below describe API shapes only; they do not establish access, approval, or current account capability.
+
+| Service | Documented operation | Authorization boundary | Evidence |
+|---|---|---|---|
+| LinkedIn | Create an organic post through the versioned Posts API. | Member publishing requires `w_member_social`; API version and protocol headers are required. | [Posts API](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api) |
+| Hugging Face | Open a repository discussion with a title and description. | OAuth permission `write-discussions`; repository writes are a separate capability. | [Discussion API](https://huggingface.co/docs/huggingface_hub/en/package_reference/hf_api), [OAuth permissions](https://huggingface.co/docs/hub/oauth) |
+| Bluesky | Create an `app.bsky.feed.post` repository record. | Login and authorization method for a future adapter: `NO_DATA`, cause: the cited post tutorial does not establish this deployment's approved login flow. | [Create a post](https://docs.bsky.app/docs/tutorials/creating-a-post) |
+| Mastodon | `POST /api/v1/statuses` on the account's chosen instance. | User authorization requires `write:statuses`; the instance is selected explicitly, never assumed. | [Statuses API](https://docs.joinmastodon.org/methods/statuses/) |
+
+Proposed flow, not implemented: prepare a local draft from the output of `PreceptorOS/exportar_contexto.py` and display it for review before each send. That exporter applies a deterministic filter (`exportar_contexto.py:141-150,194-217`) but explicitly says the filter is not a privacy guarantee (`exportar_contexto.py:9-19`); a human must inspect the final text. `PreceptorOS/frontera.py:51-56,100-125` bounds local WebAssembly execution and rejects host imports, so it cannot itself perform network publication. A future adapter would require a separate, explicit human approval for each destination and send; credentials remain local and absent from receipts. No queued, scheduled, or cross-service sends are proposed.
+
+These routes are references for a later implementation review, not available connectors. API authorization, app registration, service limits, instance choice, and end-to-end redaction remain `NO_DATA` until measured with approved accounts and synthetic drafts. No external calls were made by this proposal.
