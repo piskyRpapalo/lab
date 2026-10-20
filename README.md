@@ -50,6 +50,8 @@ or answer text.
   LIVE/STALE when reading a dated observation.
 - `python3 bin/measure_yardstick.py` — run the canonical test yardstick twice
   and emit a privacy-safe receipt with counts, state, runtime and source commit.
+- `python3 bin/verify_a11y_install.py --app-root <path>` — verify the app voice
+  installer dry-run in an isolated home and emit a counts-only receipt.
 - `python3 bin/verify_llms_tree.py` — check physical targets from `llms.txt`.
 
 ## Methodology
