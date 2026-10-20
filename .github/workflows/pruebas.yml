@@ -1,0 +1,32 @@
+name: pruebas
+on:
+  pull_request:
+  push:
+    branches: [main]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12"]
+    name: python ${{ matrix.python }}
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Suite completa n=2
+        run: |
+          for pasada in 1 2; do
+            echo "tanda $pasada/2"
+            python3 -m unittest discover -s tests
+            python3 test_llms.py
+            python3 bin/verify_llms_tree.py
+          done
