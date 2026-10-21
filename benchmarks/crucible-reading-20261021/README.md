@@ -1,0 +1,13 @@
+# Reading-fence probe · 2026-10-21
+
+This run attacks only the LAB index guardian. It does not claim coverage of the other twelve probes.
+
+| Probe | Fixture | Result | Evidence |
+|---|---|---|---|
+| P5 · poisoned index path | Synthetic `llms.txt` points to absent `absent.md` | SIMULATED; 1/1 detected | `bin/run_crucible.py`; `tests/test_crucible_reading_probe.py` |
+
+The runner invokes the real `bin/verify_llms_tree.py` against a temporary fixture. A false-green sabotage is also tested: an accepted poisoned path must return RED. No prompts, external services, repository writes, or network are involved.
+
+Yardstick: `python3 -m unittest discover -s tests -p 'test_*.py'`, two independent runs. Machine, date, fixture digest, and compact receipt are emitted by `python3 bin/run_crucible.py --probe P5`. This card records only the fixture result; suite totals belong to the PR receipt.
+
+All other probes: `NO_DATA`, cause: their target guards live outside LAB or do not yet expose a measured adapter.
