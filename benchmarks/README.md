@@ -23,6 +23,7 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 - [Attention selector, 2026-10-17](attention-selector-20261017/README.md): local selector implementation measurement; 24 tests, 0 failures in two independent runs; real-task NDCG NO_DATA (no approved gold set).
 - [ideas18oct validation, 2026-10-19](ideas18oct-validation-20261019/README.md): receipt for LAB contracts and live routes on the local Python runtime.
 - [Red Team Benchmarks (the Crucible), 2026-10-20](redteam-20261020/README.md): adversarial probes against local open-weight models; scores, verdicts, and the F2 doctrine-smuggling route BLOCKED. Payloads live in the evidence files; read the summary first.
+- [Reading-fence probe, 2026-10-21](crucible-reading-20261021/README.md): simulated P5 against the real index guardian; 1/1 detected; remaining probes are NO_DATA by target scope.
 - [Harness receipts · 2026-10-20](harness-receipts/README.md): two JSON receipts for the eval harness and receipt formatter (schema `preceptoros.lab.harness-receipt/1`).
 - [Phase 0 training](preceptor-lora-training-20260820/README.md): CPU throughput and interpretation limits.
 - [Yardstick receipts · 2026-10-19](receipts/README.md): local suite receipt, separate from inference cards.
