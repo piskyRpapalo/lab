@@ -1,21 +1,21 @@
 # STATE · LAB ecosystem
 
-> Status: PROPOSAL, unsigned. Measurement snapshot: 2026-10-17. This card records
+> Status: PROPOSAL, unsigned. Measurement snapshot: 2026-10-21 (refreshed by the Mesa; prior snapshot 2026-10-17 kept in git history). This card records
 > measured values and links to their source; it is not a promise.
 
 ## Repositories
 
-- **WEB** · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), measured at `e1aafeeb`.
-- **APP** · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), measured at `3c39596`.
-- **LAB** · this repository, measured at `2cb70d8`.
+- **WEB** · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), measured at `eeb805df` (was `e1aafeeb`).
+- **APP** · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), measured at `16584978` (was `3c39596`).
+- **LAB** · this repository, measured at `1108efad` (was `2cb70d8`).
 
 ## Measurements taken 2026-10-17
 
 Machine for local test and file measurements: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs.
 
-- WEB Node suite: `node --test` at WEB `e1aafeeb` — **179 tests: 174 passed, 5 skipped, 0 failed in each of two runs** (Node v22.22.1). This is the Node test runner only; it is not the Python `test_web.py` yardstick.
-- APP Python discovery: `python3 -m unittest discover` at APP `3c39596` — **867 tests: 856 passed, 11 skipped, 0 failed in each of two runs** (Python 3.14.4). This is not `./bin/pruebas`.
-- WEB public-site weight: **1,237,121 B across 186 counted files**, recomputed read-only from `public/` with the `contadores.py` exclusions (`downloads/`, `counters.json`, `historial/`; method at WEB `contadores.py:55-65`). The value agrees with WEB `public/counters.json` (`peso_sitio`); no counter was rewritten.
+- WEB Node suite: `node --test` at WEB `eeb805df` — **NO_DATA refreshed 2026-10-21, cause: suite not re-run by the Mesa in this refresh; prior value 179 tests (174 passed, 5 skipped, 0 failed ×2) measured at `e1aafeeb` on 2026-10-17, kept as STALE reference.** This is the Node test runner only; it is not the Python `test_web.py` yardstick.
+- APP Python discovery: `python3 -m unittest discover` at APP `16584978` — **NO_DATA refreshed 2026-10-21, cause: suite not re-run by the Mesa in this refresh; prior value 867 tests (856 passed, 11 skipped, 0 failed ×2) measured at `3c39596` on 2026-10-17, kept as STALE reference.** This is not `./bin/pruebas`.
+- WEB public-site weight: **1,424,836 B** (MEDIDO 2026-10-21, read from WEB `public/counters.json` `peso_sitio` at `eeb805df`; prior value 1,237,121 B across 186 counted files at `e1aafeeb` on 2026-10-17 kept as STALE reference — file count not re-counted in this refresh, cause: refresh is pointer-level only). Method: WEB `contadores.py:55-65` exclusions (`downloads/`, `counters.json`, `historial/`).
 
 ## Recorded benchmark evidence
 
@@ -25,7 +25,7 @@ No inference was re-run for this card. These are dated records in this repositor
 - Local role check, 2026-10-16: one unavailable-engine sabotage was rejected; two local responses matched by hash, each with 75 prompt-evaluation tokens and 33 output tokens. Timings were **14.698 s** (13.209 s load) and **1.037 s** (0.002 s load). This is one narrow authority task, not a general capability score: [`benchmarks/preceptor-g0-20261016/README.md:3-15`](benchmarks/preceptor-g0-20261016/README.md).
 - H9 readability, 2026-10-16, synthetic fixtures: explicit map without dictionary **4/8** exact reads; dense stimulus **0/8** versus prose **2/8** exact reads. The documents differ in length and content, so this is an observed association, not an isolated causal estimate: [`benchmarks/h9-readability-20261016/README.md:7-17`](benchmarks/h9-readability-20261016/README.md).
 - Embedding record, 2026-10-11: embeddinggemma-2 **6,459 tok/s** at prompt-pair 512, sanity cosine similarity **0.908**; raw record and provenance are cited in [`benchmarks/bench_20261011/README.md:3-18`](benchmarks/bench_20261011/README.md).
-- The retained inventory and limits of each record are indexed in [`benchmarks/README.md:1-20`](benchmarks/README.md). Older throughput in [`benchmarks/tg32/README.md:1-15`](benchmarks/tg32/README.md) is preserved as reported; exact session date, command, machine detail and repetitions are `NO_DATA` because its source session log is absent.
+- The retained inventory and limits of each record are indexed in [`benchmarks/README.md`](benchmarks/README.md) (22 estudios indexados, actualizado 2026-10-21). Older throughput in [`benchmarks/tg32/README.md:1-15`](benchmarks/tg32/README.md) is preserved as reported; exact session date, command, machine detail and repetitions are `NO_DATA` because its source session log is absent.
 
 ## Honest limits
 
