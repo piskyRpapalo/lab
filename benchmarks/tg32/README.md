@@ -1,4 +1,4 @@
-# tg32 · model throughput on the node (measured)
+# tg32 · model throughput · measurement date NO_DATA
 
 Machine: the ecosystem's node (rack). Date and runner command: per the
 session log of the measuring session.

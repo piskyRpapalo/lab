@@ -1,4 +1,4 @@
-# Yardstick receipts · VC1
+# Yardstick receipts · VC1 · 2026-10-19
 
 The measured runner emits only test counts and outcomes; it does not retain
 names, stdout, stderr, prompts, answers, or hostnames.

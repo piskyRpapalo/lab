@@ -1,4 +1,4 @@
-# G0: CPU/Vulkan comparison, harnesses, and local engine
+# G0: CPU/Vulkan comparison, harnesses, and local engine · 2026-07-18
 
 ## Yardstick A — llama-bench (2026-07-18)
 
