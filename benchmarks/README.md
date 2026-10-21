@@ -16,9 +16,20 @@ Index of the available measured material, with no new inference. Each card keeps
 - [llama-bench series, 2026-10-05](throughput-llama-bench-20261005/README.md): runner and axis kept separate from the Ollama series.
 - [Vision candidates](artemis-candidates-20260927/README.md): JSON output measurement; does not measure vision.
 - [Mechanical fluency](bench-fluency/README.md): M1–M4 and all Qwen2.5-Coder receipts.
-- [H9 readability](h9-readability-20261016/README.md): control/map/dictionary and dense/prose stimuli; original artifacts attached with hashes.
+- [H9 readability](h9-readability-20261016/README.md): control/map/dictionary and dense/prose stimuli; publishes negative results against its own design; original artifacts attached with hashes.
 - [M4 judge](preceptor-lora-m4-20260927/README.md): RED evaluation and a retired calibration.
+- [Attention selector, 2026-10-17](attention-selector-20261017/README.md): local selector implementation measurement; 24 tests, 0 failures in two independent runs; real-task NDCG NO_DATA (no approved gold set).
+- [ideas18oct validation, 2026-10-19](ideas18oct-validation-20261019/README.md): receipt for LAB contracts and live routes on the local Python runtime.
+- [Red Team Benchmarks (the Crucible), 2026-10-20](redteam-20261020/README.md): adversarial probes against local open-weight models; scores, verdicts, and the F2 doctrine-smuggling route BLOCKED. Payloads live in the evidence files; read the summary first.
+- [Harness receipts, 2026-10-20](harness-receipts/): signed JSON receipts for the eval harness and receipt formatter (schema `preceptoros.lab.harness-receipt/1`).
 - [Phase 0 training](preceptor-lora-training-20260820/README.md): CPU throughput and interpretation limits.
+
+## Naming note (declared, not renamed)
+
+Most entries carry a date suffix (`YYYYMMDD`); three historical entries do not:
+`g0`, `tg32`, and `bench-fluency`. They are kept as-is (renaming a folder is a
+separate decision per entry); the index above is the single source of truth for
+what each folder is. `receipts/` holds cross-study receipts, not a study.
 
 ## FIRMO and recovery limits
 
