@@ -1,27 +1,27 @@
-# ENERGY_BUDGET · propuesta REQUIERE_FIRMA
+# ENERGY_BUDGET · proposal REQUIRES_FIRMA
 
-Fecha de recibo: 2026-10-19 UTC. Este archivo separa capacidad de sensor, tráfico y energía por token. Una ausencia se conserva como `NO_DATA` con causa. No se publican identificadores privados ni texto de inferencia.
+Receipt date: 2026-10-19 UTC. This file separates sensor capability, traffic, and energy per generated token. Missing evidence remains `NO_DATA` with a cause. Private identifiers and inference text are not published.
 
-## Contrato de medida
+## Measurement contract
 
 `J_net/token = (ΔE_paquete_J − P_idle_W × Δt_s) / tokens_generados`
 
-La lectura debe cubrir la misma generación; `ΔE_paquete_J` sale de `energy_uj` dividido entre 1.000.000. `P_idle_W` se mide en una ventana de control inmediatamente anterior, de igual duración, con el mismo sensor y configuración. Si el contador se reinicia, desborda, falta la ventana de control o no existe conteo de tokens del runner, el resultado entero es `NO_DATA`. La energía de paquete no representa el consumo de pared ni permite atribuir energía a otros dispositivos.
+The measurement must cover the same generation; `ΔE_paquete_J` is `energy_uj` divided by 1,000,000. Measure `P_idle_W` in an immediately preceding control window of equal duration using the same sensor and configuration. If the counter resets or overflows, the control window is missing, or the runner provides no generated-token count, the entire result is `NO_DATA`. Package energy does not represent wall consumption and cannot attribute energy to other devices.
 
-## Recibo de capacidad local
+## Local sensor-capability receipt
 
-- Fecha: 2026-10-19 10:28 UTC.
-- Comando exacto:
+- Date: 2026-10-19 10:28 UTC.
+- Exact command:
   `python3 -c 'import pathlib; h=pathlib.Path("/sys/class/hwmon"); print("hwmon_temp_channels="+str(sum(len(list(p.glob("temp*_input"))) for p in h.glob("hwmon*")))); print("rapl_package_counter="+str(pathlib.Path("/sys/class/powercap/intel-rapl:0/energy_uj").exists()))'`
-- Resultado: 10 canales térmicos visibles en sysfs; contador RAPL de energía de paquete presente.
-- Conteo/token y energía neta/token: `NO_DATA`, causa: el endpoint de inferencia local no se pudo consultar desde este sandbox; el intento de loopback fue denegado por la política de sockets. No se generó tráfico ni se leyó un valor de energía antes/después.
-- Comando de disponibilidad del endpoint:
-  `python3 -c 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:11434/api/tags",timeout=2)' `
-  Resultado: `NO_DATA` por acceso de socket local no permitido en este entorno.
-- Sensor de pared: `NO_DATA`, causa: no hay ruta medida a un medidor de pared en esta sesión.
+- Result: 10 thermal channels visible in sysfs; the RAPL package-energy counter is present.
+- Generated-token count and net joules/token: `NO_DATA`; cause: the local inference endpoint could not be queried from this sandbox because loopback socket access was denied by policy. No inference traffic was generated and no before/after energy value was read.
+- Endpoint availability command:
+  `python3 -c 'import urllib.request; urllib.request.urlopen("http://127.0.0.1:11434/api/tags",timeout=2)'`
+  Result: `NO_DATA` because local socket access is unavailable in this environment.
+- Wall-power meter: `NO_DATA`; cause: no measured path to a wall-power meter was available in this session.
 
-La presencia del contador RAPL solo certifica que la ruta de lectura existe; no constituye una medición de energía de inferencia. Antes de publicar cualquier número J/token, adjuntar el comando exacto de captura, la duración, el contador inicial/final, el control idle y el contador de tokens del mismo proceso.
+The presence of the RAPL counter confirms only that a read path exists; it is not an inference-energy measurement. Before publishing any J/token value, attach the exact capture command, duration, initial and final counter values, idle control, and generated-token count from the same process.
 
-## Vías que alimentan al modelo local
+## Local model input
 
-La medición se conserva en LAB como registro para el modelo pequeño local. El runner consume recibos; no envía prompts, respuestas ni telemetría fuera del equipo. Sin un contador accesible, el estado permanece `NO_DATA`.
+The measurement remains in the lab as a record for the local small model. The runner consumes receipts and does not send raw inputs, outputs, or sensor readings outside the machine. Without an accessible counter, the state remains `NO_DATA`.
