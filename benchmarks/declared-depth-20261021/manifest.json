@@ -1,0 +1,95 @@
+{
+  "schema": "declared-depth-targets/1",
+  "depths": [
+    {
+      "depth": 0,
+      "budget_bytes": 16384,
+      "targets": [
+        {
+          "repo": "profile",
+          "path": "README.md"
+        }
+      ],
+      "policy": "profile-readme"
+    },
+    {
+      "depth": 1,
+      "budget_bytes": null,
+      "budget_cause": "current repository texts do not declare an aggregate depth-1 budget",
+      "targets": [
+        {
+          "repo": "profile",
+          "path": "README.md"
+        },
+        {
+          "repo": "profile",
+          "path": "llms.txt"
+        },
+        {
+          "repo": "web",
+          "path": "README.md"
+        },
+        {
+          "repo": "app",
+          "path": "README.md"
+        },
+        {
+          "repo": "lab",
+          "path": "README.md"
+        },
+        {
+          "repo": "study",
+          "path": "README.md"
+        }
+      ],
+      "policy": "profile-readme"
+    },
+    {
+      "policy": "product-agents",
+      "depth": 0,
+      "budget_bytes": 16384,
+      "targets": [
+        {
+          "repo": "profile",
+          "path": "README.md"
+        },
+        {
+          "repo": "web",
+          "path": "README.md"
+        }
+      ]
+    },
+    {
+      "policy": "product-agents",
+      "depth": 1,
+      "budget_bytes": null,
+      "budget_cause": "current repository texts do not declare an aggregate depth-1 budget",
+      "targets": [
+        {
+          "repo": "profile",
+          "path": "README.md"
+        },
+        {
+          "repo": "web",
+          "path": "README.md"
+        },
+        {
+          "repo": "study",
+          "path": "01-governance.md"
+        },
+        {
+          "repo": "study",
+          "path": "02-legislation.md"
+        },
+        {
+          "repo": "study",
+          "path": "04-measurement.md"
+        },
+        {
+          "repo": "lab",
+          "path": "README.md"
+        }
+      ]
+    }
+  ]
+}
