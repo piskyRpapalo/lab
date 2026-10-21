@@ -4,5 +4,5 @@ STATE: dated measurements, not live hardware; unavailable or unmeasured = NO_DAT
 SERVING: NO_DATA; no lab host measured.
 DEPTH: declare your reading depth (0-4) in AGENTS.md before parsing; beyond it is NO_DATA with cause.
 DEPTH: declare 0-4 in AGENTS.md; deeper work is NO_DATA with cause.
-DEPTH 2 APP EXAMPLE: [entry](https://github.com/piskyRpapalo/PreceptorOS/blob/main/empieza_aqui.py) (line 213); [card](https://github.com/piskyRpapalo/PreceptorOS/blob/main/ficha_cartucho.py) (line 20); [export](https://github.com/piskyRpapalo/PreceptorOS/blob/main/exportar_contexto.py) (line 194). Reuse loaded context.
+DEPTH 2 APP EXAMPLE: PreceptorOS/empieza_aqui.py:213; ficha_cartucho.py:20; exportar_contexto.py:194. Reuse loaded context.
 DEPTH 2 CONTEXT EXAMPLE (APP): [empieza_aqui.py#L213](https://github.com/piskyRpapalo/PreceptorOS/blob/main/empieza_aqui.py#L213); [ficha_cartucho.py#L20](https://github.com/piskyRpapalo/PreceptorOS/blob/main/ficha_cartucho.py#L20); [exportar_contexto.py#L194](https://github.com/piskyRpapalo/PreceptorOS/blob/main/exportar_contexto.py#L194). Reuse loaded context; do not fetch it again.
