@@ -1,4 +1,5 @@
 # Vulkan throughput series · 2026-09-07
+Broadcast receipt: figure=NO_DATA (seven ordered rows) | model=Multiple local models | machine=Radeon 780M · Vulkan | date=2026-09-07 | sha256=NO_DATA (runner/source digest absent)
 
 This card preserves the seven ordered rows of the local throughput record; it does not re-run or recalculate the measurement.
 

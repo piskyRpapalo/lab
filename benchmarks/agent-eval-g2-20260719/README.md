@@ -1,4 +1,5 @@
 # G2 operational evaluation — 2026-07-19
+Broadcast receipt: figure=10/10 commands rc=0 | model=NO_DATA (models/builds unresolved) | machine=NO_DATA (not recorded) | date=2026-07-19 | sha256=2ae5a713df2786d9a054d9e3df879a19eba1021e9446e7d0e9727863b091f09d
 
 Sources: `~/p0x/soberano-bench/eval_g2/prompts.json` SHA-256 `2ae5a713df2786d9a054d9e3df879a19eba1021e9446e7d0e9727863b091f09d`; `run_eval.sh` SHA-256 `e4cdcbb4e0e8aa1257326d6579c3a453a32718dd5ebaea61bfd3140ea3b33070`; ten logs and `.meta` files under `eval_g2/resultados/`. Date in metadata: 2026-07-19 (`resultados/t01_servicios.meta:1`). The ten processes reported rc=0; total wall time 475.3 s (sum of `resultados/t01_servicios.meta:1` … `t10_sindato.meta:1`, where each file records `wall_s`).
 

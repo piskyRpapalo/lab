@@ -1,4 +1,5 @@
 # tg32 · model throughput · measurement date NO_DATA
+Broadcast receipt: figure=30.65 tok/s | model=Qwen3-Coder-30B | machine=ecosystem node (rack) | date=NO_DATA (measurement date absent) | sha256=NO_DATA (runner/source digest absent)
 
 Machine: the ecosystem's node (rack). Date and runner command: per the
 session log of the measuring session.

@@ -1,4 +1,5 @@
 # Mechanical fluency M1–M4 · 2026-10-15
+Broadcast receipt: figure=NO_DATA (M1–M4 distinct measures) | model=Qwen2.5-Coder 1.5B/3B | machine=NO_DATA (variant metadata absent) | date=2026-10-15 | sha256=514886157f2328c480f555ff06b8f1f048fc2f42774d803f728ee8ad8c7053b2
 
 Scope and results source: `~/p0x/estudios/bench-fluency/MECANICO.md:1-40`, SHA-256 `514886157f2328c480f555ff06b8f1f048fc2f42774d803f728ee8ad8c7053b2`. Runner `mecanico_runner.py`, SHA-256 `b9648863911c74655d7cea206d05db17c4728e99c6803ca010a2daf460f6c7de`. Judges M1–M4: `mecanico_m1.py` `afc0b46c20586a911ef5da6cce128714def44c2604893c79e0fb1a94f1d5091a`; M2 `15d5b74264cd416d29cbff9e547f43a70575907747ed66df85471d1695336edc`; M3 `d2ce68c6220a36d65df4cf04cf85d33edb1320eec6eaefa13830a38f226d2fda`; M4 `fab34e1420c3d5b45c106a7191bd3286ccb1b9d643b4f5349e09071b0dc8348a`. Models Qwen2.5-Coder 1.5B/3B, llama.cpp b10068; model blob SHA, host hardware, and date of each variant: **NO_DATA** (the receipts fix date 2026-10-15, not hardware/model digest). Output tokens: NO_DATA, the CLI exposed no verifiable count.
 

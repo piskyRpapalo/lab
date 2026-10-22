@@ -1,4 +1,5 @@
 # Local models llama-bench series · 2026-10-05
+Broadcast receipt: figure=NO_DATA (two distinct reports) | model=Multiple local models | machine=x86-Beelink · Radeon 780M | date=2026-10-05 | sha256=008c0a1f50eed119739894be425da42285e422e392abe022f6cedbab350a58b4
 
 This card preserves two `llama-bench` reports as a separate historical series; it does not re-run or correct the 2026-09-13 Ollama series.
 

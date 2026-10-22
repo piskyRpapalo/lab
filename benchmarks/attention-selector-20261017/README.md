@@ -1,4 +1,5 @@
 # Local attention selector · 2026-10-17
+Broadcast receipt: figure=24 tests · 0 failures · 2 runs | model=NO_DATA (no model inference) | machine=NO_DATA (machine not recorded) | date=2026-10-17 | sha256=NO_DATA (no single source digest)
 
 Status: implementation measurement, not a relevance-quality claim. The code
 and synthetic tests are publishable; the verbatim chunk store and all
