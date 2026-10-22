@@ -16,3 +16,33 @@ Measured 2026-10-21, local Linux session, Python 3.14; source heads: profile `eb
 The run is not a green all-depth receipt: D0 passes both mappings; D1 cannot be judged without the missing signed budget and unified target declaration. No targets were edited to fit. The measured total is not an energy result.
 
 Validation on this branch: sabotage (`depth 0 budget=1 B`) returned RED, exit 1; focused tests 6/6 ×2; lab suite 81 passed, 1 skipped ×2; `git diff --check` clean. The compact measurement receipt is 722 B and exits 2 because both depth-1 aggregate budgets are undeclared. This is the expected fail-closed result, not a full-depth pass.
+
+---
+
+## Re-measurement · 2026-10-22 (the 2026-10-21 baseline above is STALE)
+
+Status of this section: MEASURED. The baseline table above was measured
+2026-10-21 against source heads that have since moved: the README map pieces
+merged, the corrective line-break PRs landed (web #239, lab #51, profile #7 and
+#9), the profile depth-link PR #8 landed, and the Study files were amended
+(2026-10-22). The baseline is kept verbatim and marked STALE, not overwritten;
+`manifest.json` is untouched. Every read below was verified byte-faithful: the
+computed git blob SHA of the fetched content equals the SHA GitHub reports for
+that file.
+
+Source heads: profile `5c6973e` · web `bcf01d0` · app `9784847` · lab `40b913c` · study `1ce31d1`.
+
+| Guide | Depth | Targets | Bytes | Budget | Result |
+|---|---:|---:|---:|---:|---|
+| profile README | 0 | profile/README.md | 8,327 | 16,384 | LIVE |
+| profile README | 1 | depth 0 + profile/llms.txt + four repository READMEs | 34,207 | NO_DATA | NO_DATA |
+| product AGENTS | 0 | profile/README.md + web/README.md | 14,097 | 16,384 | LIVE |
+| product AGENTS | 1 | depth 0 + study/01-governance.md, 02-legislation.md, 04-measurement.md + lab/README.md | 27,416 | NO_DATA | NO_DATA |
+
+Per-file sizes (B): profile/README.md 8,327 · profile/llms.txt 835 · web/README.md 5,770 · app/README.md 10,291 · lab/README.md 4,921 · study/README.md 4,063 · study/01-governance.md 2,678 · study/02-legislation.md 3,587 · study/04-measurement.md 2,133.
+
+Depth-1 aggregate budgets remain undeclared, so both D1 rows stay NO_DATA —
+the expected fail-closed result, not a pass. Headroom at depth 0: profile 8,057 B; product 2,287 B.
+Depths 2–4 remain NO_DATA for the same causes as the baseline. Measured
+2026-10-22 by the Desk; no targets were edited to fit. The measured totals are
+not energy results.
