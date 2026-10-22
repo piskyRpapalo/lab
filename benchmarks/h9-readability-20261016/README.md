@@ -1,5 +1,6 @@
 # H9 — state readability and stimulus comparison · 2026-10-16
 Broadcast receipt: figure=0/8 exact reads · 2 passes | model=Qwen2.5-Coder 1.5B | machine=Ryzen 7 255 · 1 thread | date=2026-10-16 | sha256=1f4d50b79f71cc997c725ab919ce1c504228796784c3c20d659730b76820236b
+Benchcard: machine=Ryzen 7 255 · 1 thread | date=NO_DATA (date absent from card and folder) | runner=llama-completion b10068 | quant=NO_DATA (quant absent from card) | sha256=1f4d50b79f71cc997c725ab919ce1c504228796784c3c20d659730b76820236b
 
 Original artifacts preserved in `evidence/`, copied from the durable backup of 2026-10-16; SHA-256 of each JSON in `evidence/SHA256SUMS`. This card reconstitutes measures already taken; it does not invoke the model again. The rescue source is identified as `rescate/m1-vector-audio-20261015` in the origin receipt; commit `ade5244`; web main read `258d490017cfadb5fce61453eca21aad5b3811d9`. Source vector SHA-256 `ca8371a3a62b2a4cf41b9ddf1633351fb86dfdd983bf9e4e8c2d27714151954e`.
 
