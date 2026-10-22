@@ -119,8 +119,12 @@ def sha256_of(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def collect_files(root: Path, skipped_over_ceiling: list) -> list:
+def collect_files(root: Path, skipped_over_ceiling: list, output_path: Path) -> list:
     files = []
+    try:
+        output_rel = output_path.resolve().relative_to(root.resolve()).as_posix()
+    except ValueError:
+        output_rel = None
     for p in sorted(root.rglob("*")):
         if not p.is_file():
             continue
@@ -130,6 +134,8 @@ def collect_files(root: Path, skipped_over_ceiling: list) -> list:
         if Path(rel).name in EXCLUDE_FILES:
             continue
         if rel not in INDEXED_FILES:
+            continue
+        if rel == output_rel:
             continue
         if p.stat().st_size > PIECE_CEILING:
             skipped_over_ceiling.append(rel)
@@ -153,9 +159,10 @@ def main():
     if args.indexed:
         INDEXED_FILES = [f.strip() for f in args.indexed.split(",") if f.strip()]
 
+    out = args.output or (root / "ai-index.json")
     skipped_over_ceiling = []
     entries = []
-    for rel in collect_files(root, skipped_over_ceiling):
+    for rel in collect_files(root, skipped_over_ceiling, out):
         p = root / rel
         data = p.read_bytes()
         try:
@@ -202,7 +209,6 @@ def main():
         "canaries": canaries,
     }
 
-    out = args.output or (root / "ai-index.json")
     out.write_text(json.dumps(index, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
     total_words = sum(e["words"] for e in entries)
     print(f"ai-index: {len(entries)} entries, {total_words} words total, "

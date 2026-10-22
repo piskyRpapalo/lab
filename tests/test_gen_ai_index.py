@@ -8,6 +8,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 GEN = REPO / "bin" / "gen_ai_index.py"
+VERIFY = REPO / "bin" / "verify_ai_index.py"
 
 
 def run_gen(root, output, indexed=None, decoys=2, canaries=1):
@@ -68,6 +69,22 @@ class TestGenAiIndex(unittest.TestCase):
             r = run_gen(REPO, out, indexed="README.md,llms.txt,AGENTS.md,STATE.md")
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertLessEqual(out.stat().st_size, 16384)
+
+    def test_default_output_is_not_self_indexed(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "README.md").write_text("# Test\nhello world\n")
+            out = root / "ai-index.json"
+            out.write_text("stale index")
+            r = run_gen(root, out)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            d = json.loads(out.read_text())
+            self.assertNotIn("ai-index.json", [e["path"] for e in d["entries"]])
+            checked = subprocess.run(
+                [sys.executable, str(VERIFY), "--root", str(root)],
+                capture_output=True, text=True,
+            )
+            self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
 
     def test_over_ceiling_file_is_skipped(self):
         with tempfile.TemporaryDirectory() as td:
