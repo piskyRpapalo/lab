@@ -1,6 +1,6 @@
 # STATE · LAB ecosystem
 
-> Snapshot 2026-10-22T21:10Z · proposal, unsigned. Values link to dated evidence.
+> Snapshot date 2026-10-22 · measurement hour: NO_DATA (not captured). Proposal, unsigned; values link to dated evidence.
 
 ## Live repositories
 
