@@ -32,8 +32,7 @@ Anything deeper is NO_DATA, cause: beyond declared depth.
 
 This repository holds **only what has been measured**. No borrowed figures,
 no vendor numbers. Every measurement carries its machine, its date, and the
-command that produced it. What is not measured is `NO DATA` with its c
-ause.
+command that produced it. What is not measured is `NO DATA` with its cause.
 Benchmarks are tied to the node's star (its public identifier) with real
 telemetry samples — traces, verdicts, harness output — and never raw prompt
 or answer text.
