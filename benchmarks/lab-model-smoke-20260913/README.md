@@ -1,4 +1,5 @@
 # Four-model smoke test — 2026-09-13
+Broadcast receipt: figure=NO_DATA (no quality metric) | model=Four local models (labels in card) | machine=NO_DATA (source does not fix hardware) | date=2026-09-13 | sha256=5577c1274eb1814f595c8226572a62745c59a2b99d997ca6d8ea4feb3e349949
 Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-09-13 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=5577c1274eb1814f595c8226572a62745c59a2b99d997ca6d8ea4feb3e349949
 
 Source `~/p0x/soberano-bench/resultados_bench_lab.json:1-60`, SHA-256 `5577c1274eb1814f595c8226572a62745c59a2b99d997ca6d8ea4feb3e349949`; harness described by `bench_modelos_lab.py`, SHA-256 `7d7a3ea21c827fb7c773152a927c633234f5d6eb8b4e50acf8e249a1c434487a`. Hardware, build, and model hash **NO_DATA**: the JSON does not fix them. The corpus uses the same synthetic factual prompt across roles; the returned text is a fixed stimulus of the trial, not a verified news item.

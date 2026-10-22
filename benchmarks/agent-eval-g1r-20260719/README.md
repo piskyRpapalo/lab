@@ -1,4 +1,5 @@
 # G1R operational evaluation — 2026-07-19
+Broadcast receipt: figure=10/10 commands rc=0 | model=NO_DATA (models/builds unresolved) | machine=NO_DATA (not recorded) | date=2026-07-19 | sha256=e3e9a7f915d9002e96ecbe2eda021a5e35b324c414b3010cdb4a428a76df0df2
 Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-07-19 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=e3e9a7f915d9002e96ecbe2eda021a5e35b324c414b3010cdb4a428a76df0df2
 
 Sources: prompts `~/p0x/soberano-bench/eval_g1r/prompts.json` SHA-256 `e3e9a7f915d9002e96ecbe2eda021a5e35b324c414b3010cdb4a428a76df0df2`; runner `run_eval.sh` SHA-256 `a7f3c84d0c51c9c465c5595f90d7a6c2d3b5b6eb01e0e5707c702b2c67294cff`; 10 runs in `resultados/*.meta`. Date in metadata: 2026-07-19 (`resultados/t01_servicios.meta:1`). Every command ended with rc=0; per-task times 10.5–109.3 s, total 453.4 s, summing `t01_servicios.meta:1` … `t10_sindato.meta:1`.

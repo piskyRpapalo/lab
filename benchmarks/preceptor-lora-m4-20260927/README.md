@@ -1,4 +1,5 @@
 # M4 judge and retired calibration — 2026-09-27
+Broadcast receipt: figure=5/12 pass · RED | model=NO_DATA (comparison labels not single model) | machine=NO_DATA (not recorded) | date=2026-09-27 | sha256=ca32e089ba0355443ab277150f93a08edb216ba7a030a73700ab28160460c167
 Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-09-27 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=ca32e089ba0355443ab277150f93a08edb216ba7a030a73700ab28160460c167
 
 Summary source `~/p0x/esquemas/artemis-local-1.json:165-167`, SHA-256 `ca32e089ba0355443ab277150f93a08edb216ba7a030a73700ab28160460c167`; report `~/p0x/preceptor-lora/salida/guardian-edge-caza-nido-2026-09-27/informe.json:1-34`, SHA-256 `b53540f81431a7cb5e22014b8838207a06943a519dcb73610ecefd95952387b6`.
