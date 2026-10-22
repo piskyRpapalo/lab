@@ -1,42 +1,34 @@
 # STATE · LAB ecosystem
 
-> Status: PROPOSAL, unsigned. Measurement snapshot: 2026-10-22T20:41Z. This card records
-> measured values and links to their source; it is not a promise.
+> Snapshot 2026-10-22T21:10Z · proposal, unsigned. Values link to dated evidence.
 
-## Repositories
+## Live repositories
 
-- **WEB** · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), live `main` sampled at `01f8b077`.
-- **APP** · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), live `main` sampled at `d1c8084e`.
-- **LAB** · this repository, live `main` sampled at `ee537371`.
+- WEB `01f8b077` · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web)
+- APP `d1c8084e` · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS)
+- LAB `ee537371` · this repository
 
-## Live snapshot — 2026-10-22T20:41Z
+## Measurements
 
-Machine: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs; Python 3.14.4. LAB yardstick ran on the clean worktree at `ee537371e735a927dc5217e847f25ee056177bd8`.
+Machine: Linux x86_64, AMD Ryzen 7 255, 16 logical CPUs; Python 3.14.4.
 
-- LAB: `python3 -m unittest discover -s tests -p 'test_*.py'` — **138 tests: 137 passed, 1 skipped, 0 failed in each of two separate runs**.
-- WEB public-site weight: **1,429,750 B**, read from `public/counters.json` at WEB `01f8b077`; method and exclusions are declared by WEB `contadores.py:55-65`.
-- WEB and APP branch tips were sampled with `git ls-remote`; their test suites were not run for this snapshot: `NO_DATA` / not measured in this LAB worktree.
+- LAB `unittest discover -s tests -p 'test_*.py'`: 138 tests, 137 pass, 1 skip, 0 fail ×2 separate runs at `ee537371`.
+- LAB live PR workflow, Python 3.10/3.11/3.12: all three jobs RED before tests complete. Each ran 138 tests (137 pass, 1 skip), then `test_llms.py` 2/2; tree verifier rejected INDEX total **13,684 B > 12,109 B**. The same verifier is already RED on clean main: **13,071 B > 12,109 B**. This card compaction is intended to restore the index budget; do not alter the declared budget.
+- `.github/workflows/pruebas.yml` exists despite `AGENTS.md` saying remote CI is not configured. Conflict recorded; neither policy changed.
+- WEB site counter: **1,429,750 B** at `01f8b077`, from `public/counters.json`; method at WEB `contadores.py:55-65`. WEB and APP suites: `NO_DATA`, cause: not run in this LAB refresh.
 
-## Prior measurements and references
+## Rack snapshot
 
-Machine for local test and file measurements: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs.
+Read-only aggregate on this machine, 2026-10-22: Ollama lists **45 models**, summed size **253,307,000,000 B**, with **0 active**; `~/.preceptoros` has **263 files / 49 directories / 5,060,141,941 B**; port 8740 has a listener, PID unavailable; process-name scan found **0** `preceptoros` processes; Tailscale is Running, self online, **5/8 peers online**. No model or peer names copied into this public card.
 
-- WEB Node suite: `node --test` at WEB `eeb805df` — **NO_DATA refreshed 2026-10-21, cause: suite not re-run by the Mesa in this refresh; prior value 179 tests (174 passed, 5 skipped, 0 failed ×2) measured at `e1aafeeb` on 2026-10-17, kept as STALE reference.** This is the Node test runner only; it is not the Python `test_web.py` yardstick.
-- APP Python discovery: `python3 -m unittest discover` at APP `16584978` — **NO_DATA refreshed 2026-10-21, cause: suite not re-run by the Mesa in this refresh; prior value 867 tests (856 passed, 11 skipped, 0 failed ×2) measured at `3c39596` on 2026-10-17, kept as STALE reference.** This is not `./bin/pruebas`.
-- WEB public-site weight: **1,424,836 B** (MEDIDO 2026-10-21, read from WEB `public/counters.json` `peso_sitio` at `eeb805df`; prior value 1,237,121 B across 186 counted files at `e1aafeeb` on 2026-10-17 kept as STALE reference — file count not re-counted in this refresh, cause: refresh is pointer-level only). Method: WEB `contadores.py:55-65` exclusions (`downloads/`, `counters.json`, `historial/`).
+## Archived benchmark evidence
 
-## Recorded benchmark evidence
+Measurements remain dated and scoped; they were not rerun for this snapshot. Source cards retain raw provenance:
 
-No inference was re-run for this card. These are dated records in this repository; their yardsticks remain separate.
+- Qwen 35B-A3B, 2026-10-16: Vulkan generation 20.760 tok/s (2 samples); CPU 2.114 tok/s (2). [`qwen36-35b`](benchmarks/qwen36-35b-20261016/README.md).
+- Local role check, 2026-10-16: unavailable-engine sabotage rejected; two responses matched by hash. One narrow task, not a general capability score. [`preceptor-g0`](benchmarks/preceptor-g0-20261016/README.md).
+- H9 synthetic readability, 2026-10-16: map 4/8 exact reads; dense stimulus 0/8 vs prose 2/8. Association only; documents differ. [`h9`](benchmarks/h9-readability-20261016/README.md).
+- Embedding, 2026-10-11: embeddinggemma-2 6,459 tok/s, prompt-pair 512. [`bench_20261011`](benchmarks/bench_20261011/README.md).
+- Older `tg32` values remain reported; date, machine, command and repetitions are `NO_DATA` because the session log is absent. See [`tg32`](benchmarks/tg32/README.md).
 
-- Qwen 35B-A3B GGUF, 2026-10-16, `llama-bench`: Vulkan generation **20.760 tok/s** (two samples, SD 0.197); CPU generation **2.114 tok/s** (two samples, SD 1.747). Prefill: Vulkan **294.271 tok/s**, CPU **92.295 tok/s**. Hardware, model and runner hashes, parameters and scope: [`benchmarks/qwen36-35b-20261016/README.md:3-19`](benchmarks/qwen36-35b-20261016/README.md).
-- Local role check, 2026-10-16: one unavailable-engine sabotage was rejected; two local responses matched by hash, each with 75 prompt-evaluation tokens and 33 output tokens. Timings were **14.698 s** (13.209 s load) and **1.037 s** (0.002 s load). This is one narrow authority task, not a general capability score: [`benchmarks/preceptor-g0-20261016/README.md:3-15`](benchmarks/preceptor-g0-20261016/README.md).
-- H9 readability, 2026-10-16, synthetic fixtures: explicit map without dictionary **4/8** exact reads; dense stimulus **0/8** versus prose **2/8** exact reads. The documents differ in length and content, so this is an observed association, not an isolated causal estimate: [`benchmarks/h9-readability-20261016/README.md:7-17`](benchmarks/h9-readability-20261016/README.md).
-- Embedding record, 2026-10-11: embeddinggemma-2 **6,459 tok/s** at prompt-pair 512, sanity cosine similarity **0.908**; raw record and provenance are cited in [`benchmarks/bench_20261011/README.md:3-18`](benchmarks/bench_20261011/README.md).
-- The retained inventory and limits of each record are indexed in [`benchmarks/README.md`](benchmarks/README.md) (22 estudios indexados, actualizado 2026-10-21). Older throughput in [`benchmarks/tg32/README.md:1-15`](benchmarks/tg32/README.md) is preserved as reported; exact session date, command, machine detail and repetitions are `NO_DATA` because its source session log is absent.
-
-## Honest limits
-
-- Remote CI for LAB: `NO_DATA` / not configured, as declared in `AGENTS.md`; the LAB yardstick is `python3 -m unittest discover -s tests -p "test_*.py"` and is not represented by the WEB or APP suites.
-- Current physical temperature, energy, sustained-load behavior, general model quality and live browser/device performance: `NO_DATA` with cause — the cited benchmark records do not measure those fields.
-- The benchmark figures above are archived measurements, not re-measured for 2026-10-22. Each source retains its own date, machine, method and scope.
+Current temperature, energy, sustained-load behavior, general model quality and live browser performance: `NO_DATA`; these sources do not measure them. Benchmark index: [`benchmarks/README.md`](benchmarks/README.md).
