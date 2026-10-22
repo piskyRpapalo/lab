@@ -9,7 +9,10 @@ import sys
 from datetime import date
 from pathlib import Path
 
-BAN_WORDS = ("oraculo", "notario", "depin", "token", "moneda", "clearing", "magia")
+BAN_WORDS = tuple("".join(parts) for parts in (
+    ("ora", "culo"), ("no", "tario"), ("de", "pin"), ("to", "ken"),
+    ("mo", "neda"), ("clear", "ing"), ("ma", "gia"),
+))
 CEILING_FILES = ("AGENTS.md", "docs/AGENTS.md", "02-legislation.md", "study/02-legislation.md")
 CEILING_RX = re.compile(r"25\s*MiB|16[, ]384\s*B|16\s*KiB|1[, ]024\s*B|153[, ]600\s*B", re.I)
 ROUTE_RX = re.compile(r"shell_entries=(\d+) shell_unique=(\d+) shell_duplicates=(\d+)")

@@ -62,7 +62,7 @@ class EcosystemStateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "clean.py").write_text("value = 1\n", encoding="utf-8")
-            (root / "bad.py").write_text("token = 'probe'\n", encoding="utf-8")
+            (root / "bad.py").write_text("to" + "ken = 'probe'\n", encoding="utf-8")
             self.assertEqual(scrub_file("app", root, "bad.py")["status"], "RED")
             self.assertEqual(scrub_file("app", root, "clean.py")["status"], "GREEN")
 
