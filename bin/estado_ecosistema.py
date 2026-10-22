@@ -42,7 +42,7 @@ def repo_state(label, root):
         dirty = bool(run_git(root, "status", "--porcelain"))
     except (subprocess.CalledProcessError, ValueError):
         return {"repo": label, "status": "NO_DATA", "cause": "git state unavailable"}
-    return {"repo": label, "base_branch": branch, "base": main[:8],
+    return {"repo": label, "status": "MEASURED", "base_branch": branch, "base": main[:8],
             "behind": behind, "ahead": ahead, "dirty": dirty}
 
 
@@ -59,7 +59,7 @@ def route_state(root, document=None):
     if not match:
         return {"status": "NO_DATA", "cause": "route counter output unrecognized"}
     names = ("shell_entries", "shell_unique", "shell_duplicates")
-    result = {"source": "public/sw-listas.js",
+    result = {"status": "MEASURED", "source": "public/sw-listas.js",
               **dict(zip(names, map(int, match.groups())))}
     if document:
         try:
@@ -99,22 +99,37 @@ def scrub_file(label, root, rel):
     return {"repo": label, "file": rel, "status": "RED" if hits else "GREEN", "hits": hits}
 
 
+def overall_status(repos, routes, scrub):
+    statuses = [row.get("status") for row in repos + [routes] + scrub]
+    if "RED" in statuses:
+        return "RED"
+    if "NO_DATA" in statuses or not scrub:
+        return "NO_DATA"
+    return "MEASURED"
+
+
 def receipt(args):
     repos = [parse_pair(item) for item in args.repo]
     labels = [label for label, _ in repos]
     if len(labels) != len(set(labels)):
         raise ValueError("repo labels must be unique")
+    repo_rows = [repo_state(label, root) for label, root in repos]
+    route_row = (route_state(args.web_root, args.route_doc) if args.web_root else
+                 {"status": "NO_DATA", "cause": "web checkout not supplied"})
+    scrub_rows = [scrub_file(label, root, rel) for label, rel in args.scrub_file
+                  for repo_label, root in repos if label == repo_label]
+    if not scrub_rows:
+        scrub_rows = [{"status": "NO_DATA", "cause": "no scrub paths supplied"}]
     report = {
         "date": args.date,
         "machine": args.machine,
-        "repos": [repo_state(label, root) for label, root in repos],
-        "routes": route_state(args.web_root, args.route_doc) if args.web_root else
-                  {"status": "NO_DATA", "cause": "web checkout not supplied"},
+        "status": overall_status(repo_rows, route_row, scrub_rows),
+        "repos": repo_rows,
+        "routes": route_row,
         "ceiling_refs": [[row["repo"], row["file"], row["values"]]
                          for label, root in repos for row in ceiling_refs(label, root)],
         "scrub": [[row.get("repo"), row.get("file"), row.get("status"), row.get("hits", 0)]
-                  for label, rel in args.scrub_file for repo_label, root in repos
-                  if label == repo_label for row in [scrub_file(label, root, rel)]],
+                  for row in scrub_rows],
     }
     encoded = json.dumps(report, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
     report["sha256"] = hashlib.sha256(encoded.encode("utf-8")).hexdigest()

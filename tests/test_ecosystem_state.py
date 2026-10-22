@@ -4,7 +4,7 @@ import unittest
 from argparse import Namespace
 from pathlib import Path
 
-from bin.estado_ecosistema import ceiling_refs, parse_pair, receipt, repo_state, route_state, scrub_file
+from bin.estado_ecosistema import ceiling_refs, overall_status, parse_pair, receipt, repo_state, route_state, scrub_file
 
 
 class EcosystemStateTests(unittest.TestCase):
@@ -74,6 +74,16 @@ class EcosystemStateTests(unittest.TestCase):
         encoded = json.dumps(result, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
         self.assertLess(len(encoded.encode("utf-8")), 1024)
         self.assertEqual(len(result["sha256"]), 64)
+
+    def test_scrub_hit_makes_overall_verdict_red(self):
+        self.assertEqual(overall_status([{"status": "MEASURED"}],
+                                        {"status": "MEASURED"},
+                                        [{"status": "RED", "hits": 1}]), "RED")
+
+    def test_missing_scrub_evidence_is_no_data(self):
+        self.assertEqual(overall_status([{"status": "MEASURED"}],
+                                        {"status": "MEASURED"},
+                                        [{"status": "NO_DATA"}]), "NO_DATA")
 
 
 if __name__ == "__main__":
