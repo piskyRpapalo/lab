@@ -1,15 +1,23 @@
 # STATE · LAB ecosystem
 
-> Status: PROPOSAL, unsigned. Measurement snapshot: 2026-10-21 (refreshed by the Mesa; prior snapshot 2026-10-17 kept in git history). This card records
+> Status: PROPOSAL, unsigned. Measurement snapshot: 2026-10-22T20:41Z. This card records
 > measured values and links to their source; it is not a promise.
 
 ## Repositories
 
-- **WEB** · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), measured at `eeb805df` (was `e1aafeeb`).
-- **APP** · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), measured at `16584978` (was `3c39596`).
-- **LAB** · this repository, measured at `1108efad` (was `2cb70d8`).
+- **WEB** · [preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), live `main` sampled at `01f8b077`.
+- **APP** · [PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), live `main` sampled at `d1c8084e`.
+- **LAB** · this repository, live `main` sampled at `ee537371`.
 
-## Measurements taken 2026-10-17
+## Live snapshot — 2026-10-22T20:41Z
+
+Machine: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs; Python 3.14.4. LAB yardstick ran on the clean worktree at `ee537371e735a927dc5217e847f25ee056177bd8`.
+
+- LAB: `python3 -m unittest discover -s tests -p 'test_*.py'` — **138 tests: 137 passed, 1 skipped, 0 failed in each of two separate runs**.
+- WEB public-site weight: **1,429,750 B**, read from `public/counters.json` at WEB `01f8b077`; method and exclusions are declared by WEB `contadores.py:55-65`.
+- WEB and APP branch tips were sampled with `git ls-remote`; their test suites were not run for this snapshot: `NO_DATA` / not measured in this LAB worktree.
+
+## Prior measurements and references
 
 Machine for local test and file measurements: Linux x86_64, AMD Ryzen 7 255 with Radeon 780M Graphics, 16 logical CPUs.
 
@@ -31,4 +39,4 @@ No inference was re-run for this card. These are dated records in this repositor
 
 - Remote CI for LAB: `NO_DATA` / not configured, as declared in `AGENTS.md`; the LAB yardstick is `python3 -m unittest discover -s tests -p "test_*.py"` and is not represented by the WEB or APP suites.
 - Current physical temperature, energy, sustained-load behavior, general model quality and live browser/device performance: `NO_DATA` with cause — the cited benchmark records do not measure those fields.
-- The benchmark figures above are archived measurements, not re-measured on 2026-10-17. Each source retains its own date, machine, method and scope.
+- The benchmark figures above are archived measurements, not re-measured for 2026-10-22. Each source retains its own date, machine, method and scope.
