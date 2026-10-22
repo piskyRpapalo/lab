@@ -1,4 +1,5 @@
 # Engine registration check · 2026-10-16
+Broadcast receipt: figure=16.97 s · one cold call | model=NO_DATA (card does not fix model build) | machine=NO_DATA (hardware inherited, exact card absent) | date=2026-10-16 | sha256=NO_DATA (no single source digest)
 
 This card separates the registration and the single-call smoke test from the G0 benchmark; it is not used as a yardstick or as an estimate of sustained performance.
 

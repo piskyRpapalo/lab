@@ -1,4 +1,5 @@
 # Declared-depth budget baseline · 2026-10-21
+Broadcast receipt: figure=NO_DATA (guides disagree) | model=NO_DATA (no model inference) | machine=NO_DATA (not recorded) | date=2026-10-21 | sha256=NO_DATA (two source mappings)
 
 Status: PROPUESTA. The two current guides disagree, so the manifest records both mappings instead of selecting a canon. The checker accepts explicit target roots and budgets; an absent aggregate budget returns `NO_DATA` (exit 2).
 

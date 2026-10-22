@@ -1,4 +1,5 @@
 # Yardstick receipts · VC1 · 2026-10-19
+Broadcast receipt: figure=NO_DATA (multiple suite receipts) | model=NO_DATA (test suites) | machine=NO_DATA (hostnames scrubbed) | date=2026-10-19 | sha256=NO_DATA (multiple receipt digests)
 
 The measured runner emits only test counts and outcomes; it does not retain
 names, stdout, stderr, prompts, answers, or hostnames.

@@ -1,4 +1,5 @@
 # Model comparison and judgment — 2026-09-14
+Broadcast receipt: figure=NO_DATA (multiple models and axes) | model=MiniCPM5 and comparison cohort | machine=Ryzen 7 255 · Radeon 780M | date=2026-09-14 | sha256=1fcf95e4933071bffa8a9ba4d7975fbdce8071f7eba63e474838cc23084a3089
 
 Sources: `~/p0x/soberano-bench/minicpm5_veredicto.md:1-35` (SHA-256 `1fcf95e4933071bffa8a9ba4d7975fbdce8071f7eba63e474838cc23084a3089`) and `minicpm5_resultados.json` (SHA-256 `955721a3e11e599be024b92168788222a6e87033b1262ba20bad45b1d9bd305f`); harness `minicpm5_bench.py` SHA-256 `8a261efb0d2bdc6b92d141aa28e4e521cf8e3a1bf8f9560e3c4598a2f34e615e`, prompts SHA-256 `eaafecf001f2004cee838c3951be1613e1e3debdbc9dc590bab8ceed099b614a`.
 
