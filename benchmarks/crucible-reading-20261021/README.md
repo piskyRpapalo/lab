@@ -1,4 +1,5 @@
 # Reading-fence probe · 2026-10-21
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-21 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 Broadcast receipt: figure=2/2 simulated probes detected | model=NO_DATA (synthetic guardian probe) | machine=NO_DATA (machine not recorded) | date=2026-10-21 | sha256=NO_DATA (no source digest declared)
 
 This run attacks only the LAB index guardian. It does not claim coverage of the other eleven probes.

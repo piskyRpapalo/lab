@@ -1,4 +1,5 @@
 # G0 · local reading of the Preceptor's authority · 2026-10-16
+Benchcard: machine=Ryzen 7 255 · Radeon 780M | date=2026-10-16 | runner=Ollama endpoint · llamacpp | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 Broadcast receipt: figure=NO_DATA (no aggregate outcome) | model=qwen3-coder:30b | machine=Ryzen 7 255 · Radeon 780M | date=2026-10-16 | sha256=NO_DATA (card has model digest, not a result-source digest)
 
 Preceptor role test with `qwen3-coder:30b`, executed by the local Ollama endpoint. Model digest `5e8c8157b1b50f092e9c488360bcb63ffa53726cf732d71fc9c9401c43bc78d7`; size 18,556,689,759 bytes; requested and observed context 16,384. Machine AMD Ryzen 7 255, 16 logical CPUs, Radeon 780M. During the call `ollama ps` reported `100% GPU`, context 16,384, runner `llamacpp`.

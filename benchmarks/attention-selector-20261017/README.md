@@ -1,4 +1,5 @@
 # Local attention selector · 2026-10-17
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-17 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 Broadcast receipt: figure=24 tests · 0 failures · 2 runs | model=NO_DATA (no model inference) | machine=NO_DATA (machine not recorded) | date=2026-10-17 | sha256=NO_DATA (no single source digest)
 
 Status: implementation measurement, not a relevance-quality claim. The code

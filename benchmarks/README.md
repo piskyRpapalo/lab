@@ -43,3 +43,4 @@ The Sovereign's signed order of 2026-10-17 declares these recovered series cover
 Five local adapters remain registered only as a future evaluation cohort: names, weights, hashes, licenses, and per-adapter results are omitted for privacy; their public availability is `NO_DATA`. The existing training and judge cards are distinct historical experiments, not a substitute for an evaluation of that cohort.
 
 Hardware without a source specification, missing harness hashes, and unmeasured scopes are declared `NO_DATA` in each card. The hashes cited are SHA-256 digests of the indicated source, not an attribution of authorship or independent verification by the team.
+Each top-level card has a `Benchcard` line in machine, date, runner, quant, and source SHA-256 order; unavailable fields retain a caused `NO_DATA`.
