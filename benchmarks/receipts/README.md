@@ -1,4 +1,5 @@
 # Yardstick receipts · VC1 · 2026-10-19
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-19 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 The measured runner emits only test counts and outcomes; it does not retain
 names, stdout, stderr, prompts, answers, or hostnames.

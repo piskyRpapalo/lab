@@ -1,4 +1,5 @@
 # Harness receipts · 2026-10-20
+Benchcard: machine=x86_64 | date=2026-10-20 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 Two local suite receipts use schema `preceptoros.lab.harness-receipt/1`.
 The digest field, runner, machine class, and date are recorded in each JSON

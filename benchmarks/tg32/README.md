@@ -1,4 +1,5 @@
 # tg32 · model throughput · measurement date NO_DATA
+Benchcard: machine=ecosystem node (rack) | date=NO_DATA (measurement date absent) | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 Machine: the ecosystem's node (rack). Date and runner command: per the
 session log of the measuring session.

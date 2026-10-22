@@ -1,4 +1,5 @@
 # M9 · plot-morphism study · 2026-10-21
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-21 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=4ef57960a2f3e195f66e8afa963733b65f7f819369b15c25f58c90b0997194bc
 
 Verdict: `NO_DATA` — the current evidence cannot decide whether every visible web element fits one page represented by bubble language.
 

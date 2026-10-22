@@ -1,4 +1,5 @@
 # Engine registration check · 2026-10-16
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-16 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 This card separates the registration and the single-call smoke test from the G0 benchmark; it is not used as a yardstick or as an estimate of sustained performance.
 

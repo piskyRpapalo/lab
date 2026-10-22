@@ -1,4 +1,5 @@
 # Local attention selector · 2026-10-17
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-17 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 Status: implementation measurement, not a relevance-quality claim. The code
 and synthetic tests are publishable; the verbatim chunk store and all

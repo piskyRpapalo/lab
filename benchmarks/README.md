@@ -4,6 +4,8 @@ Index of the available measured material, with no new inference. Each card keeps
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
+Each top-level card also carries the same `Benchcard` fields: machine, date, runner, quant, and complete source SHA-256; missing evidence is marked `NO_DATA` with its cause.
+
 - [Published bench 2026-10-11](bench_20261011/README.md): embedding performance; raw JSON in the same folder.
 - [tg32 · measurement date NO_DATA](tg32/README.md): reported throughput; the source session date is absent.
 - [G1R evaluation](agent-eval-g1r-20260719/README.md) and [G2](agent-eval-g2-20260719/README.md): operational runs, no quality score.

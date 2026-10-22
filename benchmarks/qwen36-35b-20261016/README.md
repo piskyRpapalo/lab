@@ -1,4 +1,5 @@
 # Qwen 35B-A3B GGUF · local throughput · 2026-10-16
+Benchcard: machine=Ryzen 7 255 · Radeon 780M | date=2026-10-16 | runner=llama-bench 10708 | quant=NO_DATA (quant absent from card) | sha256=0b21525e972670ed59e1812e170b27c26355381f0656ecc4e25617ece7dac58b
 
 Direct measurement over the GGUF already present in `soberano-bench/models/`; it was not copied into the Ollama store. Model of 22,652,396,032 bytes, 35,505,251,456 parameters, SHA-256 `0b21525e972670ed59e1812e170b27c26355381f0656ecc4e25617ece7dac58b`. Raw record and full configuration in [results.json](results.json).
 

@@ -1,2 +1,3 @@
 Red-team benchmark set · 2026-10-20
+Benchcard: machine=NO_DATA (machine class absent from card) | date=2026-10-20 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 Verdict: NO_DATA — independent review is unavailable because the external reader blocked the evidence directory; dated records remain unchanged.
