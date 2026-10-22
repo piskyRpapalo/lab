@@ -1,4 +1,6 @@
 # G0: CPU/Vulkan comparison, harnesses, and local engine · 2026-07-18
+Broadcast receipt: figure=NO_DATA (CPU/Vulkan multiple rows) | model=Qwen3-Coder 30B A3B Q4_K_M | machine=Radeon 780M · 16 CPU threads | date=2026-07-18 | sha256=f53ad0aef08cb17a6f30b696124531737744ee7c0eb6fd2a6f124a0d781c6836
+Benchcard: machine=Radeon 780M · 16 CPU threads | date=2026-07-18 | runner=llama-bench · local harnesses | quant=Q4_K_M | sha256=f53ad0aef08cb17a6f30b696124531737744ee7c0eb6fd2a6f124a0d781c6836
 
 ## Yardstick A — llama-bench (2026-07-18)
 

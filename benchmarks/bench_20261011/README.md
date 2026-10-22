@@ -1,4 +1,6 @@
 # bench 2026-10-11 · embedding and reading benchmarks (measured)
+Broadcast receipt: figure=6,459 tok/s · cosine 0.908 | model=embeddinggemma-2 | machine=ecosystem node (rack) | date=2026-10-11 | sha256=26e61fb7f56d9da3d6820ea71b39cf43c1b7454ee75d79f08e314004a74c707b
+Benchcard: machine=ecosystem node (rack) | date=2026-10-11 | runner=prompt-pair 512 | quant=NO_DATA (quant absent from card) | sha256=26e61fb7f56d9da3d6820ea71b39cf43c1b7454ee75d79f08e314004a74c707b
 
 Machine: the ecosystem's node (rack). Date: 2026-10-11.
 

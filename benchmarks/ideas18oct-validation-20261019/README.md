@@ -1,4 +1,6 @@
 # Receipt · ideas18oct validation and live routes · 2026-10-19
+Broadcast receipt: figure=NO_DATA (multiple independent yardsticks) | model=NO_DATA (no model inference) | machine=Linux x86_64 | date=2026-10-19 | sha256=NO_DATA (multiple source digests)
+Benchcard: machine=Linux x86_64 | date=2026-10-19 | runner=NO_DATA (runner absent or not singular) | quant=NO_DATA (quant absent from card) | sha256=NO_DATA (single complete source SHA-256 absent)
 
 Machine/runtime for local Python checks: Linux 7.0.0-38-generic x86_64;
 Python 3.14.4. No hostname, model label, credential or prompt is retained.
