@@ -20,6 +20,17 @@ def run_gen(root, output, indexed=None, decoys=2, canaries=1):
 
 
 class TestGenAiIndex(unittest.TestCase):
+    def test_rosetta_is_indexed_by_default_at_its_declared_depth(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            (root / "13-rosetta.md").write_text("# the Rosetta\nThis file is depth 2.\n")
+            out = root / "ai-index.json"
+            result = run_gen(root, out)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            entries = json.loads(out.read_text())["entries"]
+            self.assertEqual([entry["path"] for entry in entries], ["13-rosetta.md"])
+            self.assertEqual(entries[0]["depth"], 2)
+
     def test_generates_valid_schema(self):
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "ai-index.json"
