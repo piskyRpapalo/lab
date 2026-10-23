@@ -54,6 +54,7 @@ DEPTH_BY_DIR = [
     ("10-collisions", 2),
     ("11-repos", 2),
     ("12-schema", 2),
+    ("13-rosetta", 2),
     ("benchmarks", 2),
     ("bin/", 2),
     ("atlas/", 2),
@@ -77,7 +78,7 @@ INDEXED_FILES = [
     "01-governance.md", "02-legislation.md", "03-github-flow.md",
     "04-measurement.md", "05-contracts.md", "06-software.md",
     "07-hardware.md", "08-ai-fluency.md", "09-lore.md",
-    "10-collisions.md", "11-repos.md", "12-schema.md",
+    "10-collisions.md", "11-repos.md", "12-schema.md", "13-rosetta.md",
     "DISAGREEMENTS.md", "ai-index.json",
 ]
 
