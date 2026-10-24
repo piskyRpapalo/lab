@@ -28,6 +28,23 @@ class BenchcardIndexTests(unittest.TestCase):
                 title = next((row for row in path.read_text(encoding="utf-8").splitlines() if row.startswith("#")), "")
                 self.assertIn(marker, title)
 
+    def test_every_card_has_uniform_benchcard_and_broadcast_receipt(self):
+        cards = sorted((ROOT / "benchmarks").glob("*/README.md"))
+        self.assertEqual(len(cards), 26)
+        for card in cards:
+            with self.subTest(card=card.parent.name):
+                text = card.read_text(encoding="utf-8")
+                lines = text.splitlines()
+                title = next((line for line in lines if line.startswith("#")), "")
+                self.assertRegex(title, r"20\d{2}-\d{2}-\d{2}|date\s+NO_DATA")
+                for field in ("Benchcard:", "Broadcast receipt:"):
+                    self.assertEqual(sum(line.startswith(field) for line in lines), 1)
+
+    def test_root_index_links_every_benchmark_card(self):
+        index = (ROOT / "benchmarks" / "README.md").read_text(encoding="utf-8")
+        for card in sorted((ROOT / "benchmarks").glob("*/README.md")):
+            self.assertIn(f"({card.parent.name}/README.md)", index)
+
 
 if __name__ == "__main__":
     unittest.main()
