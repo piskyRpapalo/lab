@@ -9,7 +9,7 @@ This is the single canonical instruction set for agents working in the lab. Tool
 - This repository is the measured record. Each number carries source, machine, date, harness/command, and scope. Vendor figures are labeled as declared, never as local measurements. `NO_DATA` always has its cause; do not invent or silently omit fields.
 - Do not commit raw prompts, raw answers, credentials, private identifiers, or personal data. Receipts and artifacts may contain counts and paths, never private values.
 - Preserve human review and zero telemetry. Do not send model inputs, outputs, or node state to an external service as part of a benchmark.
-- Yardstick: `python3 -m unittest discover -s tests -p "test_*.py"`. The local contract requires two runs for a piece. Remote CI is not configured in this repository; report that explicitly and never describe local checks as remote CI.
+- Yardstick: `python3 -m unittest discover -s tests -p "test_*.py"`. The local contract requires two runs for a piece. `.github/workflows/pruebas.yml` configures pull-request and `main`-push checks on Python 3.10, 3.11, and 3.12. Each job repeats `python3 -m unittest discover -s tests`, `python3 test_llms.py`, and `python3 bin/verify_llms_tree.py` twice. Measure and report workflow results for the exact ref; local checks are not remote CI.
 - Read `STATE.md` for the measured record and `README.md` for repository scope. If either is stale or does not contain a value, report `NO_DATA` with cause rather than copying an old number as live.
 
 ## Claude Code and Codex
