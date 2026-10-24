@@ -1,0 +1,84 @@
+{
+  "adb_bridges": {
+    "listeners": {
+      "5037": {
+        "listening": true,
+        "status": "MEASURED"
+      },
+      "5038": {
+        "listening": false,
+        "status": "MEASURED"
+      }
+    },
+    "processes": {
+      "count": 2,
+      "status": "MEASURED"
+    }
+  },
+  "fences": {
+    "connections_attempted": false,
+    "network_used": false,
+    "read_only": true,
+    "worktree_writes": false
+  },
+  "log": {
+    "byte_length": 24801,
+    "line_count": 244,
+    "sha256": "54c2b5593c0f4b3752cbf0653ee2b75c2ee7b426ce1e4518fc61d2e851219cd0"
+  },
+  "log_append": {
+    "new_bytes": 1495,
+    "new_lines": 14,
+    "sha256": "8382c9d884d1b0dec419b412bb253757ece9b05bd967eecf36d9177483619c03",
+    "status": "MEASURED",
+    "text": "\n---\n\n## Mesa verdict fixes · 2026-10-24 (same window)\n\n- **Narration fix:** the narration line is first in the panel and capped at 4 lines below 560 px of height. Measured visible inside its panel with zero page scroll in 24/24 cases (3 proposals × 8 viewports, 256–800 px tall) in a local browser. On the rack Android: portrait 692/360 and landscape 256/772, `say` visible in the three web proposals and the app face.\n- **Zoom evidence:** `docs/fusion-or-oneshot/zoom-evidence/` (index.html plus web, app and journey-end pairs at max 3.00 and min 0.60, same camera). The crab, town domes, snail, bust and names keep their size; terrain and paths scale. Opened on the rack Android.\n- **Unified seafloor:** canon `AtlasMarFondo.pintor().tierra` (sea-floor.js + escena.js) paints the continuous seabed. Each of the 9 islands stands on a shelf 1.38× its size (sea frame ≤ 865 B).\n- **Crab growth and colour:** canon `AtlasCangrejo.forma`/`cuerpo` + `AtlasToon.cangrejo`.\n  - Size grows from 1 to 1.72 along the journey; colour turns mar → coral when the tutorial ends.\n  - Rule is EMULADO, written in the state packet: army 2 per place + 4 for a battle won; core 3 per place; coral stands for a paired node.\n  - Legs and eyes are NO_DATA, drawn dashed.\n- **Validator:** new checks `seafloor` and `crab`; sabotages `shelf` and `crab` red, plus the six earlier ones red; normal green. App: 4 more canon pieces sha-pinned, sw v112, 1147/1147, parity PASS.\n- **Sovereign's review: PENDING.**\n"
+  },
+  "observed_at_utc": "2026-10-24T19:19:16+00:00",
+  "observer": {
+    "inputs": "Git metadata, log bytes, ps and ss tables",
+    "machine_role": "rack host; hostname withheld"
+  },
+  "preview_listeners": {
+    "18765": {
+      "listening": true,
+      "status": "MEASURED"
+    },
+    "18766": {
+      "listening": true,
+      "status": "MEASURED"
+    }
+  },
+  "schema": "lab.agent-observation/1",
+  "worktrees": {
+    "app": {
+      "branch": "mistral/oneshot-claude-20261026",
+      "commits_since_previous": {
+        "commit_ids": [
+          "96769a9bdb977ccee45d04db4c3f5835bef38b48"
+        ],
+        "count": 1,
+        "from_head": "e6e012493eee25842f3c92c6f588534dbe153664",
+        "status": "MEASURED"
+      },
+      "head": "96769a9bdb977ccee45d04db4c3f5835bef38b48",
+      "staged_count": 0,
+      "unstaged_count": 0,
+      "untracked_count": 0
+    },
+    "web": {
+      "branch": "mistral/oneshot-claude-20261026",
+      "commits_since_previous": {
+        "commit_ids": [
+          "1811f77b738838df0cd0e091dac324f25aabda16"
+        ],
+        "count": 1,
+        "from_head": "3b166c80dc0b45758fad23a250620a8176dbc872",
+        "status": "MEASURED"
+      },
+      "head": "1811f77b738838df0cd0e091dac324f25aabda16",
+      "staged_count": 0,
+      "unstaged_count": 0,
+      "untracked_count": 0
+    }
+  }
+}
