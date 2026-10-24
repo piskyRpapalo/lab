@@ -27,6 +27,7 @@ jobs:
           for pasada in 1 2; do
             echo "tanda $pasada/2"
             python3 -m unittest discover -s tests
+            node --test tests/chunk_responder.test.mjs
             python3 test_llms.py
             python3 bin/verify_llms_tree.py
           done
