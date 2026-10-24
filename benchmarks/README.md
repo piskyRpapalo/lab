@@ -1,6 +1,6 @@
 # Recovered benchmarks
 
-Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. The local base inventory was checked against `origin/main` 37cd202 on 2026-10-16; this recovery starts from `origin/main` 2cb70d8 on 2026-10-17.
+Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. This index was checked against lab `origin/main` 8fb2b6b on 2026-10-24. Existing measurements are inherited by date, source, and axis; this index does not remeasure them.
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
@@ -29,12 +29,14 @@ Broadcast receipts now lead all 26 top-level benchmark cards; unsupported fields
 - [Harness receipts · 2026-10-20](harness-receipts/README.md): two JSON receipts for the eval harness and receipt formatter (schema `preceptoros.lab.harness-receipt/1`).
 - [Phase 0 training](preceptor-lora-training-20260820/README.md): CPU throughput and interpretation limits.
 - [Yardstick receipts · 2026-10-19](receipts/README.md): local suite receipt, separate from inference cards.
+- [Declared depth · 2026-10-21](declared-depth-20261021/README.md): consistency between the declared scope and measured depth.
+- [Plot morphism · 2026-10-21](plot-morphism-20261021/README.md): recorded plot-morphism check and its declared limits.
 
 ## Naming note (declared, not renamed)
 
 Folder names remain unchanged; this index carries dates and any missing date is stated as `NO_DATA` in the card title. `harness-receipts/` contains two receipts dated 2026-10-20; `receipts/` holds the separate yardstick receipt dated 2026-10-19.
 
-Inventory census on this base (2026-10-21): 21 index links and 22 card README files before the new harness-receipts index page. The earlier 11/17 coverage denominator is not reproducible from a declared 17-path set; cause: no such scope list is present in this tree.
+Inventory census (2026-10-24): 26 top-level benchmark README cards, counted with `benchmarks/*/README.md` on the stated base. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 26 cards; no historical result was remeasured.
 
 ## FIRMO and recovery limits
 
