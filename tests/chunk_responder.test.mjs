@@ -104,6 +104,10 @@ test('no wall clock, randomness, external fetch, or authority fields in Worker',
   const source = await readFile(new URL('../chunk_responder/worker.mjs', import.meta.url), 'utf8');
   assert.doesNotMatch(source, /Date\.|Math\.random|(?:globalThis|env)\.fetch\s*\(/);
   assert.equal((source.match(/\bfetch\s*\(/gu) || []).length, 1, 'only the Worker entrypoint may be named fetch');
+  const demo = await readFile(new URL('../proposals/chunked-web-decisor-20261024/demo.html', import.meta.url), 'utf8');
+  assert.match(demo, /routeOffline\(/);
+  assert.doesNotMatch(demo, /(?:src|href)=["']https?:\/\//iu);
+  assert.doesNotMatch(demo, /\bfetch\s*\(/u);
   const response = routeOffline('hello', screen);
   for (const forbidden of ['signature', 'adopt', 'transfer', 'mutate', 'canonical_decision', 'action']) {
     assert.equal(forbidden in response, false);

@@ -20,7 +20,7 @@ For this prototype, the local exact-phrase allowlist is a **Tier 1 demonstration
 
 1. The browser-local moderator receives the visitor text and returns `ALLOW + category`, `ABORT`, or cause-bearing `NO_DATA`. The included implementation is a finite exact-phrase demo allowlist plus a small injection tripwire. It is not a general moderator model and does not claim to detect every attack, satisfy EU AI Act/GDPR, or replace risk review. Unknown input fails closed. The actual model/runtime/policy hash remains `NO_DATA · model not selected`.
 2. Only after local `ALLOW`, the client may send the public signal below to a stateless Worker. Visitor text, user IDs, personal context, screen prose, audio, and private state are forbidden fields. An attack aborts locally and makes zero Worker calls. The Worker is a blind switch over a bundled public canon map; it has no AI binding, storage, signing key, tools, action route, or outbound fetch.
-3. The same resolver and embedded canon power `routeOffline`; loss of Worker/network does not disable the sample categories. Production wiring must pin this fallback in the page's offline asset set and prove the no-network behavior before release.
+3. The same resolver and embedded canon power `routeOffline`; loss of Worker/network does not disable the sample categories. `demo.html` is a local-only harness for this fallback. Production wiring must pin this fallback in the page's offline asset set and prove the no-network behavior before release; the current live page is not wired by this lab-only proposal.
 
 ## Request/response
 
