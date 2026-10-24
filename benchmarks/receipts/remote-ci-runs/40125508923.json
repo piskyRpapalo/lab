@@ -1,0 +1,203 @@
+{
+  "cause": null,
+  "conclusion": "success",
+  "failure_details_state": "NOT_APPLICABLE",
+  "failures": [],
+  "gates": [
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": null
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.11",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": null
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": null
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.12",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": null
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 1,
+      "skipped": 0,
+      "tests_run": null
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "unittest",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 1,
+      "tests_run": 221
+    },
+    {
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "test_llms",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": 2
+    },
+    {
+      "checks_observed": 5,
+      "errors": 0,
+      "failures": 0,
+      "job": "python 3.10",
+      "name": "verify_llms_tree",
+      "outcome": "GREEN",
+      "pass": 2,
+      "skipped": 0,
+      "tests_run": null
+    }
+  ],
+  "head_sha": "4851f69dd0d41b51ca4068dd718bd8bb469f052d",
+  "input_sha256": "e9ee6ae5f7e9c4b7b89207c3014f8cb38dc78219cae592f71206cdfac75f796a",
+  "missing_gates_by_job": {},
+  "missing_passes_by_job": {},
+  "network_used": false,
+  "run_id": 40125508923,
+  "schema": "preceptoros.lab.remote-ci-run/1",
+  "state": "GREEN",
+  "status": "completed"
+}

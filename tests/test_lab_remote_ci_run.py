@@ -92,6 +92,23 @@ LIVE · 5 indexed paths resolve inside the physical tree
         self.assertEqual(result["state"], "RED")
         self.assertIn(failure, result["failures"][0]["verbatim"])
 
+    def test_gh_run_view_three_column_log_format(self):
+        head = "0123456789abcdef0123456789abcdef01234567"
+        lines = [f"RUN id=42 head_sha={head} status=completed conclusion=success"]
+        for pass_no in (1, 2):
+            lines.extend([
+                f"python 3.11\tSuite completa n=2\t2026-10-24T19:29:24Z tanda {pass_no}/2",
+                "python 3.11\tSuite completa n=2\t2026-10-24T19:29:24Z Ran 221 tests in 3.7s",
+                "python 3.11\tSuite completa n=2\t2026-10-24T19:29:24Z OK (skipped=1)",
+                "python 3.11\tSuite completa n=2\t2026-10-24T19:29:25Z Ran 2 tests in 0.0s",
+                "python 3.11\tSuite completa n=2\t2026-10-24T19:29:25Z OK",
+                "python 3.11\tSuite completa n=2\t2026-10-24T19:29:26Z LIVE · 5 indexed paths",
+            ])
+        result = consume("\n".join(lines), expected_run_id=42)
+        self.assertEqual(result["state"], "GREEN")
+        self.assertEqual(len(result["gates"]), 6)
+        self.assertEqual({g["job"] for g in result["gates"]}, {"python 3.11"})
+
 
 if __name__ == "__main__":
     unittest.main()
