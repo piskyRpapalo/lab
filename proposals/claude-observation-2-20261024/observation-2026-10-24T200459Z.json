@@ -1,0 +1,80 @@
+{
+  "adb_bridges": {
+    "listeners": {
+      "5037": {
+        "listening": true,
+        "status": "MEASURED"
+      },
+      "5038": {
+        "listening": false,
+        "status": "MEASURED"
+      }
+    },
+    "processes": {
+      "count": 2,
+      "status": "MEASURED"
+    }
+  },
+  "fences": {
+    "connections_attempted": false,
+    "network_used": false,
+    "read_only": true,
+    "worktree_writes": false
+  },
+  "log": {
+    "byte_length": 24801,
+    "line_count": 244,
+    "sha256": "54c2b5593c0f4b3752cbf0653ee2b75c2ee7b426ce1e4518fc61d2e851219cd0"
+  },
+  "log_append": {
+    "new_bytes": 0,
+    "new_lines": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "status": "MEASURED",
+    "text": ""
+  },
+  "observed_at_utc": "2026-10-24T20:04:59+00:00",
+  "observer": {
+    "inputs": "Git metadata, log bytes, ps and ss tables",
+    "machine_role": "rack host; hostname withheld"
+  },
+  "preview_listeners": {
+    "18765": {
+      "listening": true,
+      "status": "MEASURED"
+    },
+    "18766": {
+      "listening": true,
+      "status": "MEASURED"
+    }
+  },
+  "schema": "lab.agent-observation/1",
+  "worktrees": {
+    "app": {
+      "branch": "mistral/oneshot-claude-20261026",
+      "commits_since_previous": {
+        "commit_ids": [],
+        "count": 0,
+        "from_head": "96769a9bdb977ccee45d04db4c3f5835bef38b48",
+        "status": "MEASURED"
+      },
+      "head": "96769a9bdb977ccee45d04db4c3f5835bef38b48",
+      "staged_count": 0,
+      "unstaged_count": 0,
+      "untracked_count": 0
+    },
+    "web": {
+      "branch": "mistral/oneshot-claude-20261026",
+      "commits_since_previous": {
+        "commit_ids": [],
+        "count": 0,
+        "from_head": "1811f77b738838df0cd0e091dac324f25aabda16",
+        "status": "MEASURED"
+      },
+      "head": "1811f77b738838df0cd0e091dac324f25aabda16",
+      "staged_count": 0,
+      "unstaged_count": 0,
+      "untracked_count": 0
+    }
+  }
+}
