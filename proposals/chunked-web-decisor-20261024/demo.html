@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chunk responder offline demo</title>
+<style>
+body{font:1rem system-ui;max-width:42rem;margin:2rem auto;padding:0 1rem;color:#16212b}
+label,select,input,button{display:block;margin:.5rem 0}input,select,button{font:inherit;padding:.6rem}
+#answer{min-height:3rem;padding:1rem;border:2px solid #246b75;border-radius:.6rem}
+</style>
+<h1>Chunk responder · offline twin</h1>
+<p>This local harness keeps the visitor text in this page. No remote service is called.</p>
+<form id="chat">
+  <label for="utterance">Message</label>
+  <input id="utterance" maxlength="280" autocomplete="off">
+  <label for="view">Active guide view</label>
+  <select id="view"><option>map</option><option>battle</option><option>profile</option><option>info</option></select>
+  <button type="submit">Ask</button>
+</form>
+<p id="answer" role="status" aria-live="polite">NO_DATA · awaiting a message</p>
+<script type="module">
+import { routeOffline } from '../../chunk_responder/offline.mjs';
+const form = document.querySelector('#chat');
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const result = routeOffline(document.querySelector('#utterance').value, {
+    id: 'guide-v1',
+    active_view: document.querySelector('#view').value,
+    reading_plan: 'plan-del-guion',
+    title_order: ['view-title', 'chat-title'],
+  });
+  const answer = document.querySelector('#answer');
+  answer.textContent = result.status === 'CHUNK' ? result.chunk : `NO_DATA · ${result.cause}`;
+});
+</script>
+</html>
