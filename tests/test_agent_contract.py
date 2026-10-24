@@ -12,10 +12,24 @@ class AgentContract(unittest.TestCase):
         self.assertIn("NO_DATA", agents)
         self.assertIn("origin/main", agents)
 
-    def test_lab_record_and_ci_scope_are_explicit(self):
+    def test_lab_record_and_ci_contract_match_the_checked_in_workflow(self):
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github" / "workflows" / "pruebas.yml").read_text(
+            encoding="utf-8"
+        )
         self.assertIn("measured record", agents.lower())
-        self.assertIn("remote ci is not configured", agents.lower())
+        self.assertIn("pull_request:", workflow)
+        self.assertIn("push:", workflow)
+        self.assertIn('python: ["3.10", "3.11", "3.12"]', workflow)
+        self.assertIn("for pasada in 1 2", workflow)
+        self.assertIn("python3 -m unittest discover -s tests", workflow)
+        self.assertIn("python3 test_llms.py", workflow)
+        self.assertIn("python3 bin/verify_llms_tree.py", workflow)
+        self.assertIn("workflow results for the exact ref", agents.lower())
+        self.assertIn("python3 -m unittest discover -s tests", agents)
+        self.assertIn("python3 test_llms.py", agents)
+        self.assertIn("python3 bin/verify_llms_tree.py", agents)
+        self.assertNotIn("remote ci is not configured", agents.lower())
 
 
 if __name__ == "__main__":
