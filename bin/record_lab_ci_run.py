@@ -12,6 +12,8 @@ from pathlib import Path
 LIMIT = 4 * 1024 * 1024
 NO_DATA = "NO_DATA"
 SHA_RE = re.compile(r"^[0-9a-f]{40,64}$")
+ANSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+TIME_RE = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z\s*")
 RAN_RE = re.compile(r"^Ran (\d+) tests?\b", re.I)
 FAILED_RE = re.compile(r"^FAILED(?:\s*\((.*)\))?\s*$")
 
@@ -104,10 +106,15 @@ def consume(raw: str | bytes, *, expected_run_id: int | None = None,
     gates: list[dict[str, object]] = []
     failures: list[dict[str, str]] = []
     contexts: dict[str, dict[str, object]] = {}
-    for original in text.splitlines():
+    for raw_line in text.splitlines():
+        original = ANSI_RE.sub("", raw_line).lstrip("\ufeff")
         fields = original.split("\t", 3)
-        job = fields[0] if len(fields) == 4 else "pasted"
-        line = fields[3] if len(fields) == 4 else original
+        if len(fields) >= 3:
+            job = fields[0]
+            line = fields[3] if len(fields) == 4 else fields[2]
+        else:
+            job, line = "pasted", original
+        line = TIME_RE.sub("", line.strip())
         stripped = line.strip()
         ctx = contexts.setdefault(job, {"gate": "unclassified", "latest": None,
                                         "failure": None, "sequenced": False,
