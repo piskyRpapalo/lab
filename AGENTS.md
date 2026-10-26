@@ -32,3 +32,9 @@ bin/lab-attention-selector ndcg --ranked-ids /local/ranked-ids.json
 ```
 
 The model adapter accepts numeric loopback only, checks that the configured model is already installed, uses temperature zero and a fixed seed, and does not download models. Priority is the integer lexical-overlap score `Σ min(tf,8) × (N+1) × idf_scale // (df+1)`; ties sort by chunk id. Exclusions are explicit source policy or no query overlap, and `--exclude-source-id` can add source hashes to the exclusion set. Exact byte ceilings are enforced; tokenizer-specific token counts are `NO_DATA` because the model tokenizer is not exposed by this adapter. A missing model, unavailable local service, absent NDCG gold labels, or empty eligible selection is `NO_DATA` with a cause. NDCG gold labels must be supplied explicitly; no relevance labels are inferred from prompts or model answers. Explanation output is checked for presence only; semantic correctness remains `NO_DATA` until an approved labeled set exists.
+
+## Single signing book (FIRMO 2026-10-26)
+
+- The single source of truth for decrees, pre-signatures, and fulfilled signatures is the private `firmas` repository → `LIBRO_DE_FIRMAS.md`. Consult it before proposing; never contradict a live decree.
+- Every FIRMA transcription cites the decree that authorizes it. Every merge updates the book with its receipt (agents publish the receipt in the PR; the Mesa appends it to the book).
+- House ceiling applies (piece < 16,384 B): when the book reaches the ceiling, new material goes to NEW files in the `firmas` repository, linked from the book. Nothing is deleted; entries are only re-classified.
