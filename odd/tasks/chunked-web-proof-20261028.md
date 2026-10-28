@@ -30,7 +30,7 @@ NORTE 7 commissions measured evidence for a chunked web model. The source corpus
 - [x] T2: Implement consent-gated browser fetch/cache verification, corrupt/missing-cache NO_DATA, deterministic fixed-point classifier, and chat adapter.
 - [x] T3: Add local demo/server guide and update inventory/contract with source anchors, boundaries, Workers `ORIGEN_MISMATCH`, and NO_DATA gaps.
 - [x] T4: Run checks twice, measure HTTP served bytes and same-input output hashes with UTC/machine/commands, retain concise receipts.
-- [ ] T5: Commit coherent work units, push feature branch, open draft PR `REQUIERE_FIRMA`; no merge/deploy.
+- [x] T5: Commit coherent work units, push feature branch, open draft PR `REQUIERE_FIRMA`; no merge/deploy.
 
 ## Verification evidence
 - T1: generator ran twice on 2026-10-28 UTC; all four payload hashes and manifest hash reproduced byte-exactly. Generator: `python3 proposals/chunked-web-proof-20261028/generate_model.py`.
@@ -41,3 +41,4 @@ NORTE 7 commissions measured evidence for a chunked web model. The source corpus
 ## Log
 - 2026-10-28: Read ODD reference, Lab AGENTS, README, STATE, prior chunk prototype, ideas 18/20, and PR #363 contract. Chose unattended `feature-branch-chain`.
 - Engram task mirror pending because no Engram tool is available to this session.
+- T5: pushed feature branch and opened draft PR #104 (`REQUIERE_FIRMA`); no merge or deployment. The branch is the review candidate; the Mesa/Sovereign review remains pending.
