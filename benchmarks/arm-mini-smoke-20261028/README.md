@@ -1,0 +1,11 @@
+# ARM local mini smoke · 2026-10-28
+Broadcast receipt: figure=10.976 and 10.875 generated units/s · 2 runs | model=qwen3:1.7b | machine=Linux aarch64 · 8 logical CPUs · 16335268 KiB RAM | date=2026-10-28 | sha256=90fea35286ab5f62108bf54e1271acbed0891ac3ae35bb9acf3c8a6bfbf2267b
+Benchcard: machine=Linux aarch64 · 8 logical CPUs · 16335268 KiB RAM | date=2026-10-28 | runner=local Ollama 0.24.0 API · Python stdlib | quant=NO_DATA (not independently inspected) | sha256=c373915acaa20b53be37e3f1a32292293cee79449f6c0b475f3ceaa4677c8927
+
+At 2026-10-28 23:59:00 UTC, the [same local mini runner](../local-mini-smoke-20261028/run.py) and synthetic input digest as the x86 smoke ran twice on an accessible ARM device, using the device's own loopback service. Settings: temperature 0, seed 20261028, context 2048, output limit 64, `think=false`, unload requested after each call. The service reported 30 generated units in 2.733215 and 2.758522 s: 10.976 and 10.875 units/s. Wall times were 5.743 and 5.682 s. Each response had 173 UTF-8 bytes and the same SHA-256 as the two x86 smoke responses. The reported model manifest and input digests also matched. No input or response text is stored in [the receipt](receipt.json).
+
+The x86 service was version 0.40.3 and the ARM service 0.24.0; service-reported manifest digests were not verified against model blob bytes. Backend placement, energy, semantic correctness and sustained performance remain NO_DATA. Two devices and one input do not identify the weakest of the fleet or establish general reproducibility. A service-response match is not proof of equal weights or model quality.
+
+Method: transfer the exact runner text over an existing authenticated remote session and run it against numeric loopback; the synthetic input is sent to stdin. The runner itself performs no external network call. The input bytes are not published, so exact reproduction requires input matching the receipt digest. Memory immediately before/after was approximately 14.7 million KiB available, with zero swap configured; no model was resident before the run. No remote files were written by the runner.
+
+Agent: Codex · Model: GPT-6.1 Terra · Run: MEASURED (two local smoke calls on one ARM device)

@@ -4,7 +4,7 @@ Index of the available measured material, with no new inference. Each card keeps
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
-Broadcast receipts now lead all 33 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
+Broadcast receipts now lead all 34 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
 - [Self-preference · 2026-10-25](self-preference-20261025/README.md): same-family and cross-family detection, with response hashes only and three-ring coverage `NO_DATA`.
 - [Published bench 2026-10-11](bench_20261011/README.md): embedding performance; raw JSON in the same folder.
@@ -32,6 +32,7 @@ Broadcast receipts now lead all 33 top-level benchmark cards; unsupported fields
 - [Yardstick receipts · 2026-10-19](receipts/README.md): local suite receipt, separate from inference cards.
 - [Declared depth · 2026-10-21](declared-depth-20261021/README.md): consistency between the declared scope and measured depth.
 - [Plot morphism · 2026-10-21](plot-morphism-20261021/README.md): recorded plot-morphism check and its declared limits.
+- [ARM mini smoke · 2026-10-28](arm-mini-smoke-20261028/README.md): same local runner on an ARM endpoint, without a fleet ranking.
 - [LoRA header shape audit · 2026-10-28](lora-shapes-20261028/README.md): scoped base and adapter tensor dimensions, without functional loading.
 - [App-configured mini smoke · 2026-10-28](app-mini-smoke-20261028/README.md): two short service calls with the app model label.
 - [Local mini smoke · 2026-10-28](local-mini-smoke-20261028/README.md): two short local calls, with the empty-answer baseline retained.
@@ -43,7 +44,7 @@ Broadcast receipts now lead all 33 top-level benchmark cards; unsupported fields
 
 Folder names remain unchanged; this index carries dates and any missing date is stated as `NO_DATA` in the card title. `harness-receipts/` contains two receipts dated 2026-10-20; `receipts/` holds the separate yardstick receipt dated 2026-10-19.
 
-Inventory census (2026-10-28): 33 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 33 cards; no historical result was remeasured.
+Inventory census (2026-10-28): 34 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 34 cards; no historical result was remeasured.
 
 ## FIRMO and recovery limits
 
