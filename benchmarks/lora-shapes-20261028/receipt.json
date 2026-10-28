@@ -1,0 +1,94 @@
+{
+  "adapters": [
+    {
+      "adapter_sha256": "1310d0a4429eb7ca1d6554f3a29a30ca4a31f3bc23b1200ae36188c88ecb31e7",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "3ae7c93581485096a140ff634855316a3f23a0905d48364a3969e9d152426ab9",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "5c02f3479c0e9afe8d4f12d1bdfead8e3c85052e57a87fca055728edb8c7f163",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "5efc25cef3f4903646ea2ee01864e517a7a37f2cee654a8ab0a9566ede4a76ba",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "6c2e4449ce0dfa3cad1cbdcabd339109c676b7ff6098642ff627702037da608d",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "7fc850c9b7980fd4c445b134c2c2f2dd1fb83e14cb0a196262c8afcb8d5f6e21",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "87991ba1214f46b51b34d4fe1294f02c56060d83e8548e5ca5d71ca69d9f99e1",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    },
+    {
+      "adapter_sha256": "96193a6382b35e059a0c22306363a34e08ac676af3798c6e3ca7c3acdd78167e",
+      "header_sha256": "adda936d85326e994de11e52c3f38b210b69cdf5a0dd5c26fc3dfce6ed07a1c1",
+      "invalid_pairs": 0,
+      "matching_shapes": 128,
+      "missing_base": 0,
+      "other_tensors": 0,
+      "pairs": 128,
+      "shape_mismatches": 0
+    }
+  ],
+  "base_header_sha256": [
+    "632f84e707b572738fa69ee7c84f01642f074c02dc0360e640c36cfd8505b820",
+    "aa878ea418145ee2070c70d716c2dae274c099c2ff53e47429626a47b2226ff7",
+    "d4f7457e2efd1872695e4c4251fb9961405afd4f69bbb9ec6cca04e295ff9b77"
+  ],
+  "base_shards": 3,
+  "base_tensor_count": 291,
+  "date_utc": "2026-10-28T23:55:49+00:00",
+  "scope": "header tensor shapes only; no weights loaded or inference performed",
+  "state": "MEASURED"
+}
