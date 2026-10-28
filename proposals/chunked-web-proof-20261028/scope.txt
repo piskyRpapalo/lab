@@ -1,0 +1,1 @@
+NORTE 7: local browser delivery, verification, cache failure behavior, deterministic repeated choice, and the PR #363 chat message shape. No live Worker, deployed site, trained model, integration merge, or user study.

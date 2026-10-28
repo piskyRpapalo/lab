@@ -1,0 +1,40 @@
+{
+  "schema": "preceptoros.synthetic-choice-model/1",
+  "status": "SYNTHETIC_DEMONSTRATION",
+  "total_bytes": 25000000,
+  "origin": "same-origin ./model/ (served by the local static demo)",
+  "algorithm": "sparse fixed-point word weights; signed int8; FNV-1a feature index",
+  "class_order": [
+    "greeting",
+    "screen_help",
+    "controls",
+    "privacy"
+  ],
+  "chunk_size_bytes": 6250000,
+  "chunks": [
+    {
+      "file": "weights-00.bin",
+      "byte_offset": 0,
+      "byte_length": 6250000,
+      "sha256": "d6f1898cb4da991d862eafc2529bc18a9cb275e1f2fe8635f4d40a22062d4649"
+    },
+    {
+      "file": "weights-01.bin",
+      "byte_offset": 6250000,
+      "byte_length": 6250000,
+      "sha256": "37788d3f340e93bb5b1751ee8ceddb815d54175b3267f27bdf780ac3b885eaac"
+    },
+    {
+      "file": "weights-02.bin",
+      "byte_offset": 12500000,
+      "byte_length": 6250000,
+      "sha256": "3bcf96c957d870b388f16bee9c90274c570ee8de488539ce8cc9f14855481cdb"
+    },
+    {
+      "file": "weights-03.bin",
+      "byte_offset": 18750000,
+      "byte_length": 6250000,
+      "sha256": "bfcfe7d9e99b4fd650987d67f8ce6ca303bfe5f920c37558ee3b076121710ef8"
+    }
+  ]
+}
