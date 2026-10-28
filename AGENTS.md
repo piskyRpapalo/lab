@@ -14,7 +14,8 @@ This is the single canonical instruction set for agents working in the lab. Tool
 
 ## Claude Code and Codex
 
-`CLAUDE.md` points back to this file. Keep one source of policy; update this file first when the lab contract changes.
+`CLAUDE.md` points back to this file. Keep one source of policy; update th
+is file first when the lab contract changes.
 
 ## Local attention selector
 
@@ -31,10 +32,19 @@ bin/lab-attention-selector explain --equation 'priority = integer lexical score'
 bin/lab-attention-selector ndcg --ranked-ids /local/ranked-ids.json
 ```
 
-The model adapter accepts numeric loopback only, checks that the configured model is already installed, uses temperature zero and a fixed seed, and does not download models. Priority is the integer lexical-overlap score `Σ min(tf,8) × (N+1) × idf_scale // (df+1)`; ties sort by chunk id. Exclusions are explicit source policy or no query overlap, and `--exclude-source-id` can add source hashes to the exclusion set. Exact byte ceilings are enforced; tokenizer-specific token counts are `NO_DATA` because the model tokenizer is not exposed by this adapter. A missing model, unavailable local service, absent NDCG gold labels, or empty eligible selection is `NO_DATA` with a cause. NDCG gold labels must be supplied explicitly; no relevance labels are inferred from prompts or model answers. Explanation output is checked for presence only; semantic correctness remains `NO_DATA` until an approved labeled set exists.
+The model adapter accepts numeric loopback only, checks that the configured model is already installed, uses temperature zero and a fixed seed, and does not download models. Priority is the integer lexical-overlap score `Σ min(tf,8) × (N+1) × idf_scale // (df+1)`; ties sort by chunk id. Exclusions are explicit source policy 
+or no query overlap, and `--exclude-source-id` can add source hashes to the exclusion set. Exact byte ceilings are enforced; tokenizer-specific token counts are `NO_DATA` because the model tokenizer is not exposed by this adapter. A missing model, unavailable local service, absent NDCG gold labels, or empty eligible selection is `NO_DATA` with a cause. NDCG gold labels must be supplied explicitly; no relevance labels are inferred from prompts or model answers. Explanation output is checked for presence only; semantic correctness remains `NO_DATA` until an approved labeled set exists.
 
 ## Single signing book (FIRMO 2026-10-26)
 
 - The single source of truth for decrees, pre-signatures, and fulfilled signatures is the private `firmas` repository → `LIBRO_DE_FIRMAS.md`. Consult it before proposing; never contradict a live decree.
 - Every FIRMA transcription cites the decree that authorizes it. Every merge updates the book with its receipt (agents publish the receipt in the PR; the Mesa appends it to the book).
 - House ceiling applies (piece < 16,384 B): when the book reaches the ceiling, new material goes to NEW files in the `firmas` repository, linked from the book. Nothing is deleted; entries are only re-classified.
+
+
+## ODD — the workflow law (amendment · 2026-10-28 · amends the workflow sections of this file)
+
+- ODD is law: explore, implement, check — every piece of work. One feature per feature document (odd/tasks/<feature>.md), one work unit per commit, one slice per PR.
+- The signature gates the MERGE, never the BUILDING. Work never halts for a signature: register the question in the feature document's log, take the lawful default (NO_DATA with cause, honest measurement), and continue.
+- Docs-only PRs merge under the standing ODD FIRMO, cited in the receipt. Pieces of value are signed by the Sovereign per piece and per exact head; batches expire.
+- The Desk's status board (the two readers' harness) lives in odd/STATUS.md of the web repository; read it at the start of a watch cycle.
