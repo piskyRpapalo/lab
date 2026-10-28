@@ -1,0 +1,9 @@
+# Local model and adapter inventory · 2026-10-28
+Broadcast receipt: figure=45 service manifest entries; 8 adapter files · 436482944 B | model=NO_DATA (labels withheld; manifest digests in receipt) | machine=Linux x86_64 · 16 logical CPUs | date=2026-10-28 | sha256=aa72a37bdff3720d6269df4f98bacd0db423c02e50df047e5b5a3e55b743ca93
+Benchcard: machine=Linux x86_64 · 16 logical CPUs | date=2026-10-28 | runner=Python 3 stdlib local inventory | quant=NO_DATA (quantization not measured) | sha256=745a51d328848e68f5ff250716bc7ffbd98919f29674c288738064826824afee
+
+At 2026-10-28 23:45:08 UTC, the local service's model listing returned 45 entries and 45 distinct reported manifest digests. The supplied adapter directory contained eight `adapter_model.safetensors` files totaling 436,482,944 B, each with an adjacent configuration. Each weight and adjacent configuration was read and SHA-256 hashed; [receipt.json](receipt.json) carries hashes and sizes without names or paths. Duplicate content would still count as separate files.
+
+Method: `python3 benchmarks/model-inventory-20261028/inventory.py --adapters-root <local adapter directory>`. The root used for this measurement was the rack's voice forge adapter tree; no broader filesystem census was made. The service inventory was requested only from numeric loopback. This is a snapshot, not a capacity, quality, compatibility or active-use benchmark. Service-reported digests identify manifests; underlying model blob bytes were not rehashed. The adapter hashes identify observed bytes, but authenticity is NO_DATA: no signed expected digest was supplied. Base/adapter compatibility, training data, promotion, model execution and current performance are NO_DATA because this inventory did not test them. A missing directory or inaccessible local service produces NO_DATA with cause.
+
+Agent: Codex · Model: GPT-6.1 Terra · Run: MEASURED (read-only inventory)
