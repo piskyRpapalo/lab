@@ -1,0 +1,19 @@
+{
+  "scope": "NORTE 7 chunked local web proof; read-only inventory and contract; no Worker deployment",
+  "search_expressions": [
+    "chunked-web-decisor|context-lock L4|25 MiB|questions|deterministic",
+    "AtlasRadioChat|C.dice|radio_message_log.js",
+    "NO_DATA|sha256|socket|table of rules",
+    "reactive determinism|visitor entry|fragmented decision|moderator model"
+  ],
+  "sources": [
+    {"name":"ideas-2026-10-20","revision":"5c4e52350e96cd81574c5ef59a89919b0d447a69","file":"2026-10-20_ideas20oct_FULL.md","blob":"c3a15b18eab3e2fe9ed1cec8caefaab2e1d9f182","search":"chunked-web-decisor|0 B of prose generation"},
+    {"name":"ideas-2026-10-18","revision":"5c4e52350e96cd81574c5ef59a89919b0d447a69","file":"2026-10-18_ideas18oct_especificacion.md","blob":"a123bb84a25c8f5d36b83dce671cdd764074c9af","search":"Modelo mini troceado|25 MiB|questions"},
+    {"name":"study-legislation","revision":"e7fad6333217910290698de20a6f6b6755ad98a8","file":"02-legislation.md","search":"deployed chunk ceiling|source-piece efficiency|channel-event ceiling"},
+    {"name":"app-decision-bones","revision":"5b6c24f129c2f651b16190c45ac3c57d99c51aea","files":["decisor.py","clasificador_cuaternario.py","conversacion.py"],"search":"NO_DATA|sha256|socket|table of rules"},
+    {"name":"lab-prior-prototype","revision":"1ddd18bbde93538d848860ad99efbe2685a032f7","file":"proposals/chunked-web-decisor-20261024/CONTRACT.md","search":"No weights or download mechanism"},
+    {"name":"web-chat-contract-pr-363","revision":"eda15133c8e2407e46f2669e37ae15ef58c04239","file":"public/face/face_terminal.js","search":"C.dice|radio_message_log.js"},
+    {"name":"reactive-manifesto-2026-10-07","revision":null,"search":"reactive determinism|visitor entry|fragmented decision|moderator model","result":"NO_DATA: exact document/revision not found in inspected trees"},
+    {"name":"active-judge-bones","revision":null,"search":"juez.py|calibra_juez.py","result":"NO_DATA: active pinned revision absent; archived copies not authority"}
+  ]
+}

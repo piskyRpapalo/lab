@@ -39,7 +39,7 @@ No Cloudflare Worker was made, deployed, invoked or changed. A future Worker bin
 
 ## Run locally
 
-Requirements observed in the proof environment: Python 3.14.4, Node.js 22.22.0, Google Chrome 155.0.8059.39, and Python `websockets` 15.0.1. The demo server binds only `127.0.0.1` and makes no external requests.
+Requirements observed in the proof environment: Python 3.14.4, Node.js 22.22.1, Google Chrome 155.0.8059.39, and Python `websockets` 15.0.1. The demo server binds only `127.0.0.1` and makes no external requests.
 
 ```sh
 python3 proposals/chunked-web-proof-20261028/generate_model.py

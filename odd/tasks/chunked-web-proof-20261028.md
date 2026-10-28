@@ -29,12 +29,14 @@ NORTE 7 commissions measured evidence for a chunked web model. The source corpus
 - [x] T1: Add deterministic synthetic weight generator and pinned manifest with declared chunk boundaries and hashes; generator reproduces bytes exactly.
 - [x] T2: Implement consent-gated browser fetch/cache verification, corrupt/missing-cache NO_DATA, deterministic fixed-point classifier, and chat adapter.
 - [x] T3: Add local demo/server guide and update inventory/contract with source anchors, boundaries, Workers `ORIGEN_MISMATCH`, and NO_DATA gaps.
-- [ ] T4: Run checks twice, measure HTTP served bytes and same-input output hashes with UTC/machine/commands, retain concise receipts.
+- [x] T4: Run checks twice, measure HTTP served bytes and same-input output hashes with UTC/machine/commands, retain concise receipts.
 - [ ] T5: Commit coherent work units, push feature branch, open draft PR `REQUIERE_FIRMA`; no merge/deploy.
 
 ## Verification evidence
 - T1: generator ran twice on 2026-10-28 UTC; all four payload hashes and manifest hash reproduced byte-exactly. Generator: `python3 proposals/chunked-web-proof-20261028/generate_model.py`.
-- T2/T3: browser loader, IndexedDB adapter, bounded classifier, PR #363 contract fixture, inventory and contract implemented. Review tasks T4/T5 remain.
+- T2/T3: browser loader, IndexedDB adapter, bounded classifier, PR #363 contract fixture, inventory and contract implemented; commit `fee3ad0` (531 authored lines, one coherent UI/transport/test unit).
+- T4: Chrome proof ran twice (2026-10-28 00:13:25Z and 00:13:26Z), each 25,000,000 received body bytes and repeat output SHA `605e71b9dc8e0cbdcee1150f61d00bc2659c9ba9f9a217e6ce030788c04b2dde`; Node test ran twice, 4/4 each; Lab yardstick ran twice, 236 tests and 1 skip each, both passed. Compact receipt is 927 B at `proposals/chunked-web-proof-20261028/RECEIPT.json`. Full limits and causes are in `REPORT.md`.
+- Authored-line overage: T2/T3 formed one end-to-end browser path whose UI, loader, adapter and sabotage tests are reviewable together; kept it coherent rather than splitting a partially working path.
 
 ## Log
 - 2026-10-28: Read ODD reference, Lab AGENTS, README, STATE, prior chunk prototype, ideas 18/20, and PR #363 contract. Chose unattended `feature-branch-chain`.
