@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chunked choice model proof</title>
+  <style>
+    body{font:1rem/1.5 system-ui,sans-serif;max-width:48rem;margin:2rem auto;padding:0 1rem}
+    button,input{font:inherit;padding:.55rem;margin:.25rem 0}button{cursor:pointer}
+    #chat{border:1px solid;padding:.75rem;min-height:8rem}li{margin:.5rem 0}
+    code{overflow-wrap:anywhere} .status{font-weight:700}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Deterministic chunk model proof</h1>
+    <p>This is a synthetic fixed-point choice model. It demonstrates transport and integrity, not language quality.</p>
+    <section aria-labelledby="source-title">
+      <h2 id="source-title">Model source</h2>
+      <p id="model-size"></p><p id="model-origin"></p>
+      <ol id="chunk-list"></ol>
+      <button id="download" type="button">Download and verify weights</button>
+      <button id="load" type="button">Load verified cache</button>
+      <p id="status" class="status" role="status">NO_DATA · cache_not_checked</p>
+    </section>
+    <section aria-labelledby="ask-title">
+      <h2 id="ask-title">Local choice demo</h2>
+      <label for="input">Intent keyword</label>
+      <input id="input" maxlength="256" autocomplete="off">
+      <button id="ask" type="button">Ask</button>
+    </section>
+    <section aria-labelledby="chat-title">
+      <h2 id="chat-title">Radio chat contract fixture</h2>
+      <p>This fixture implements the public <code>AtlasRadioChat.dice</code> contract used by PR #363.</p>
+      <ol id="chat" aria-live="polite"></ol>
+    </section>
+  </main>
+  <script>
+    // Contract fixture matching PR #363; it is not the deployed radio widget.
+    window.AtlasRadioChat = { dice(message) {
+      const row = document.createElement('li');
+      row.dataset.text = message.texto;
+      row.textContent = `${message.quien} · ${message.sello} · ${message.fuente} · ${message.texto}`;
+      document.querySelector('#chat').append(row);
+      return message;
+    } };
+  </script>
+  <script type="module" src="./demo.mjs"></script>
+</body>
+</html>

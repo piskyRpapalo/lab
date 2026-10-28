@@ -27,13 +27,14 @@ NORTE 7 commissions measured evidence for a chunked web model. The source corpus
 
 ## Tasks and acceptance
 - [x] T1: Add deterministic synthetic weight generator and pinned manifest with declared chunk boundaries and hashes; generator reproduces bytes exactly.
-- [ ] T2: Implement consent-gated browser fetch/cache verification, corrupt/missing-cache NO_DATA, deterministic fixed-point classifier, and chat adapter.
-- [ ] T3: Add local demo/server guide and update inventory/contract with source anchors, boundaries, Workers `ORIGEN_MISMATCH`, and NO_DATA gaps.
+- [x] T2: Implement consent-gated browser fetch/cache verification, corrupt/missing-cache NO_DATA, deterministic fixed-point classifier, and chat adapter.
+- [x] T3: Add local demo/server guide and update inventory/contract with source anchors, boundaries, Workers `ORIGEN_MISMATCH`, and NO_DATA gaps.
 - [ ] T4: Run checks twice, measure HTTP served bytes and same-input output hashes with UTC/machine/commands, retain concise receipts.
 - [ ] T5: Commit coherent work units, push feature branch, open draft PR `REQUIERE_FIRMA`; no merge/deploy.
 
 ## Verification evidence
 - T1: generator ran twice on 2026-10-28 UTC; all four payload hashes and manifest hash reproduced byte-exactly. Generator: `python3 proposals/chunked-web-proof-20261028/generate_model.py`.
+- T2/T3: browser loader, IndexedDB adapter, bounded classifier, PR #363 contract fixture, inventory and contract implemented. Review tasks T4/T5 remain.
 
 ## Log
 - 2026-10-28: Read ODD reference, Lab AGENTS, README, STATE, prior chunk prototype, ideas 18/20, and PR #363 contract. Chose unattended `feature-branch-chain`.
