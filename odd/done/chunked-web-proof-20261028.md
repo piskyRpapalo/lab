@@ -1,5 +1,7 @@
 # Chunked web decision proof
 
+Status: landed 2026-10-28 · lab#104 merged (codex) → lab main `361ffc50` · moved to `odd/done/` by housekeeping decree 2026-10-28.
+
 ## Objective
 Deliver a runnable, locally served proof that a user-triggered, deterministic browser choice model can fetch, verify, cache, and use a 25,000,000-byte synthetic weight payload in chunks, then answer through the PR #363 `AtlasRadioChat.dice` message contract. No live Worker, deployment, external telemetry, or model-quality claim.
 
