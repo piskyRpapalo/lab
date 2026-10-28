@@ -16,7 +16,7 @@ Repeated bounded input produced the same category and fixed chat text in both br
 - Node checks: `node --test proposals/chunked-web-proof-20261028/tests/chunk-model.test.mjs`, run twice on the same source tree on 2026-10-28; 4/4 passed each run. Runtime: Node.js 22.22.1.
 - Lab yardstick: `python3 -m unittest discover -s tests -p 'test_*.py'`, two runs on Linux x86_64, 2026-10-28; 236 tests each, 1 skipped, both passed. The earlier `STATE.md` snapshot is stale; this is a fresh run at this feature ref.
 - Generator ran twice and reproduced the four binary digests and manifest byte-for-byte. Commands and model details: `generate_model.py` and `model/manifest.json`.
-- `RECEIPT.json`: 927 bytes, including both run dates, scope/source digests, chunk-set digest, manifest/output hashes and explicit gaps.
+- `RECEIPT.json`: 979 bytes, including both run dates, scope/source digests, chunk-set digest, manifest/output hashes and explicit gaps.
 
 All source pieces in this feature are below 16,384 B. The four model files are each below 25 MiB; 25 MiB applies per deployed chunk/file, not to the total site. The proof used only loopback HTTP; it did not contact external services.
 
