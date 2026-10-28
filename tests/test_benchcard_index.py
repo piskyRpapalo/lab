@@ -30,7 +30,7 @@ class BenchcardIndexTests(unittest.TestCase):
 
     def test_every_card_has_uniform_benchcard_and_broadcast_receipt(self):
         cards = sorted((ROOT / "benchmarks").glob("*/README.md"))
-        self.assertEqual(len(cards), 27)
+        self.assertEqual(len(cards), 28)
         for card in cards:
             with self.subTest(card=card.parent.name):
                 text = card.read_text(encoding="utf-8")

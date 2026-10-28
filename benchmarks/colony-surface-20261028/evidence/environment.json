@@ -1,0 +1,62 @@
+{
+  "android": {
+    "adb_online_device_count": 1,
+    "additional_usb_mobile_device_count_without_adb": 3,
+    "alias": "android-handset",
+    "browser_version": "Chrome/155.0.8059.84",
+    "cpu_abi": "arm64-v8a",
+    "device_product_name": "OMITTED (SCRUB)",
+    "device_serial": "OMITTED (SCRUB)",
+    "memory_total_bytes": 12365721600,
+    "online_cpu_cores": 8,
+    "os_version": "13",
+    "physical_screen_px": "1080x2408",
+    "reachability": "ADB online",
+    "reported_refresh_rates_hz": [
+      60.0,
+      90.0,
+      120.00001
+    ],
+    "screen_density_dpi": 480,
+    "source_commands": [
+      "adb shell getprop ro.build.version.release",
+      "adb shell getprop ro.product.cpu.abi",
+      "adb shell cat /proc/meminfo",
+      "adb shell getconf _NPROCESSORS_ONLN",
+      "adb shell wm size",
+      "adb shell wm density",
+      "adb shell dumpsys display",
+      "adb devices",
+      "lsusb (mobile-device class only; names and IDs discarded)",
+      "Android Chrome DevTools version endpoint"
+    ]
+  },
+  "network_census": {
+    "online_network_peer_count": 7,
+    "peer_measurement_state": "NO_DATA (online presence does not expose a browser/CDP frame sampler)",
+    "peer_names_and_addresses": "OMITTED (SCRUB)"
+  },
+  "observed_at": "2026-10-28T22:01:12+00:00",
+  "rack": {
+    "alias": "rack-workstation",
+    "architecture": "x86_64",
+    "browser_version": "Chrome/155.0.8059.39",
+    "connected_display_modes_px": [
+      "1920x1080",
+      "1920x1080"
+    ],
+    "cpu_model": "AMD Ryzen 7 255 w/ Radeon 780M Graphics",
+    "gpu_class": "AMD Radeon 780M Graphics (CPU model string)",
+    "logical_cpu_count": 16,
+    "memory_total_bytes": 61845803008,
+    "os": "Linux",
+    "reachability": "local browser process",
+    "source_commands": [
+      "lscpu",
+      "cat /proc/meminfo",
+      "xrandr --current",
+      "lspci -mm",
+      "google-chrome --version"
+    ]
+  }
+}

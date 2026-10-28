@@ -1,10 +1,10 @@
 # Recovered benchmarks
 
-Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. This index was checked against lab `origin/main` 2c793ec on 2026-10-25. This change adds one new measured card; prior measurements are not remeasured.
+Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. This index was checked against lab `origin/main` 3f49cf8 on 2026-10-28. This change adds one new measured card; prior measurements are not remeasured.
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
-Broadcast receipts now lead all 27 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
+Broadcast receipts now lead all 28 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
 - [Self-preference · 2026-10-25](self-preference-20261025/README.md): same-family and cross-family detection, with response hashes only and three-ring coverage `NO_DATA`.
 - [Published bench 2026-10-11](bench_20261011/README.md): embedding performance; raw JSON in the same folder.
@@ -32,12 +32,13 @@ Broadcast receipts now lead all 27 top-level benchmark cards; unsupported fields
 - [Yardstick receipts · 2026-10-19](receipts/README.md): local suite receipt, separate from inference cards.
 - [Declared depth · 2026-10-21](declared-depth-20261021/README.md): consistency between the declared scope and measured depth.
 - [Plot morphism · 2026-10-21](plot-morphism-20261021/README.md): recorded plot-morphism check and its declared limits.
+- [Colony surface · 2026-10-28](colony-surface-20261028/README.md): live OpenWorld and app walker callback cadence, reduced-motion matrix, PSS scope, and fleet coverage gaps.
 
 ## Naming note (declared, not renamed)
 
 Folder names remain unchanged; this index carries dates and any missing date is stated as `NO_DATA` in the card title. `harness-receipts/` contains two receipts dated 2026-10-20; `receipts/` holds the separate yardstick receipt dated 2026-10-19.
 
-Inventory census (2026-10-25): 27 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 27 cards; no historical result was remeasured.
+Inventory census (2026-10-28): 28 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 28 cards; no historical result was remeasured.
 
 ## FIRMO and recovery limits
 

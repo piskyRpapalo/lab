@@ -1,0 +1,18 @@
+{
+  "repository_scope": "PreceptorOS app repository only",
+  "commit": "6dc204ea1982598a45eb78813aeb0f2483a7df3e",
+  "commit_time_utc": "2026-10-28T20:59:55Z",
+  "tree_archive_sha256": "c65b8561fbf23766631a0b15c60ba4d06df739afedd5c410b750430363500174",
+  "archive_command": "git archive --format=tar <commit> colony | sha256sum",
+  "fixture_entry": "colony/walking_render.html",
+  "relevant_file_sha256": {
+    "colony/walking_render.html": "ae2e68b92d9284385334449f10c430409f5793d81204192e36783508393c634d",
+    "colony/walking_render.js": "2bba75b205fb9a2cf90c9c2bafd094fc8291573d6febe75da27fe2d5ca9b7bde",
+    "colony/walking_render.css": "6cffa0a8f2ec5c4ecb724a621b9b8cf75275926e0d6809dbc30418257dfd2b2d",
+    "colony/walking_frames.js": "e25d94779d17baa864084193bf5da1e74aa1eff3e2a421b58096a3daf0fc5393",
+    "colony/ground_layers.js": "ca0059547446a69c3b9c341e325465b74824bedd98674d1acb32e4f57841252b",
+    "colony/projection.js": "22d7f2b2fbb3ca973134cdc37c2f362991c59e3cb9bba1dc3667d30e04c557d5",
+    "colony/shared_projection.js": "1cfa12b01c5b6eec8da6fddf05b242bf0afcba50d2d8fc72eae3652123a72407"
+  },
+  "extraction_note": "The page was served from an archive of the named immutable commit; no app checkout was edited."
+}
