@@ -1,0 +1,10 @@
+{
+  "alias": "rack-workstation",
+  "state": "NO_DATA",
+  "recorded_at_utc": "2026-10-28T22:02:08Z",
+  "command": "node benchmarks/colony-surface-20261028/measure.mjs --device=rack --duration-ms=60000 --repeat=2 --output=benchmarks/colony-surface-20261028/evidence",
+  "cause": "the in-page guard rejected the sustained sample after visibility or focus was lost; a separate CDP read observed document.visibilityState=hidden; no 60-second FPS or memory result was accepted",
+  "short_smoke": "excluded; it did not meet the 60-second repeated protocol",
+  "device_serial": "OMITTED (SCRUB)",
+  "host_name": "OMITTED (SCRUB)"
+}

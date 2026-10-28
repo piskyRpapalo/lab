@@ -1,0 +1,333 @@
+{
+  "environment": {
+    "android": {
+      "adb_online_device_count": 1,
+      "additional_usb_mobile_device_count_without_adb": 3,
+      "alias": "android-handset",
+      "browser_version": "Chrome/155.0.8059.84",
+      "cpu_abi": "arm64-v8a",
+      "device_product_name": "OMITTED (SCRUB)",
+      "device_serial": "OMITTED (SCRUB)",
+      "memory_total_bytes": 12365721600,
+      "online_cpu_cores": 8,
+      "os_version": "13",
+      "physical_screen_px": "1080x2408",
+      "reachability": "ADB online",
+      "reported_refresh_rates_hz": [
+        60.0,
+        90.0,
+        120.00001
+      ],
+      "screen_density_dpi": 480,
+      "source_commands": [
+        "adb shell getprop ro.build.version.release",
+        "adb shell getprop ro.product.cpu.abi",
+        "adb shell cat /proc/meminfo",
+        "adb shell getconf _NPROCESSORS_ONLN",
+        "adb shell wm size",
+        "adb shell wm density",
+        "adb shell dumpsys display",
+        "adb devices",
+        "lsusb (mobile-device class only; names and IDs discarded)",
+        "Android Chrome DevTools version endpoint"
+      ]
+    },
+    "network_census": {
+      "online_network_peer_count": 7,
+      "peer_measurement_state": "NO_DATA (online presence does not expose a browser/CDP frame sampler)",
+      "peer_names_and_addresses": "OMITTED (SCRUB)"
+    },
+    "observed_at": "2026-10-28T22:01:12+00:00",
+    "rack": {
+      "alias": "rack-workstation",
+      "architecture": "x86_64",
+      "browser_version": "Chrome/155.0.8059.39",
+      "connected_display_modes_px": [
+        "1920x1080",
+        "1920x1080"
+      ],
+      "cpu_model": "AMD Ryzen 7 255 w/ Radeon 780M Graphics",
+      "gpu_class": "AMD Radeon 780M Graphics (CPU model string)",
+      "logical_cpu_count": 16,
+      "memory_total_bytes": 61845803008,
+      "os": "Linux",
+      "reachability": "local browser process",
+      "source_commands": [
+        "lscpu",
+        "cat /proc/meminfo",
+        "xrandr --current",
+        "lspci -mm",
+        "google-chrome --version"
+      ]
+    }
+  },
+  "generated_at": "2026-10-28T22:07:04+00:00",
+  "live_document": {
+    "body_bytes": 11823,
+    "body_sha256": "5aa53bbd5aca5f513660fdd6364c4e6030162eb1b474e419f8c2ea0f468d0f7c",
+    "body_storage": "not retained; only the digest is recorded",
+    "content_type": "text/html",
+    "final_url": "https://preceptoros.org/openworld/",
+    "http_status": 200,
+    "observed_at_utc": "2026-10-28T22:01:12+00:00",
+    "requested_url": "https://preceptoros.org/openworld/",
+    "response_date": "Wed, 28 Oct 2026 22:01:12 GMT",
+    "served_source_commit": "NO_DATA (the public page response does not expose a source revision)"
+  },
+  "other_endpoint_attempts": {
+    "alias": "rack-workstation",
+    "cause": "the in-page guard rejected the sustained sample after visibility or focus was lost; a separate CDP read observed document.visibilityState=hidden; no 60-second FPS or memory result was accepted",
+    "command": "node benchmarks/colony-surface-20261028/measure.mjs --device=rack --duration-ms=60000 --repeat=2 --output=benchmarks/colony-surface-20261028/evidence",
+    "device_serial": "OMITTED (SCRUB)",
+    "host_name": "OMITTED (SCRUB)",
+    "recorded_at_utc": "2026-10-28T22:02:08Z",
+    "short_smoke": "excluded; it did not meet the 60-second repeated protocol",
+    "state": "NO_DATA"
+  },
+  "protocol": {
+    "app_driver": "deterministic Next cycle click every 250 ms; live web passive",
+    "frame_measure": "requestAnimationFrame callback intervals, reciprocal per interval; nearest-rank p50 and lower-tail p05 pooled over repeated samples",
+    "interpretation_limit": "callback cadence does not prove compositor presentation or physical display scanout",
+    "reduced_motion": "Chrome DevTools emulation, confirmed with matchMedia on every run",
+    "repetitions_per_condition": 2,
+    "sample_duration_ms": 60000,
+    "warmup_ms": 8000
+  },
+  "raw_files": [
+    {
+      "bytes": 520300,
+      "file": "android-samples.json",
+      "sha256": "1aa469f8fea13999067dcd0d18e0b3ef0ce9746bdbaae236535e0ddcdbb8d06c"
+    }
+  ],
+  "runner_provenance": {
+    "android_command": "node benchmarks/colony-surface-20261028/measure.mjs --device=android --duration-ms=60000 --repeat=2 --output=benchmarks/colony-surface-20261028/evidence",
+    "android_direct_invocation_hash": "NO_DATA (the source file digest was not captured at process start)",
+    "android_reconstructed_source_sha256": "6edef4c5ef6bad263c47176cae9c522030d774fb640a2462dee47a29253f5d12",
+    "android_run_file": "measure-android-runner.mjs",
+    "android_source_note": "reconstructed from the pre-run version by reversing the later recorded harness patches; direct invocation hashing was omitted",
+    "future_phase_runner_file": "measure.mjs",
+    "future_phase_runner_sha256": "3494fa617d434d22d78fcaf79049de3c0688990444665eb5d1f938f5afedcdc9",
+    "summary_file": "summarize.py",
+    "summary_sha256": "99d6c577988f0063530b27ec1a1771903d8d1f9fc336dfb40eb83c4a10faaead"
+  },
+  "schema": "preceptoros.lab.colony-surface-benchmark-summary/1",
+  "scope": {
+    "app_fixture_commit": "6dc204ea1982598a45eb78813aeb0f2483a7df3e",
+    "app_fixture_tree_sha256": "c65b8561fbf23766631a0b15c60ba4d06df739afedd5c410b750430363500174",
+    "live_source_head": "NO_DATA (the served page does not expose its source commit)",
+    "live_surface": "https://preceptoros.org/openworld/"
+  },
+  "screenshots": [
+    {
+      "bytes": 248590,
+      "file": "android-app-reduce-off.png",
+      "sha256": "d94e6683494a779175ddd1474e0abfcc7ca9ff64ece4a9ac20349d371fb17cca"
+    },
+    {
+      "bytes": 248590,
+      "file": "android-app-reduce-on.png",
+      "sha256": "d94e6683494a779175ddd1474e0abfcc7ca9ff64ece4a9ac20349d371fb17cca"
+    },
+    {
+      "bytes": 167450,
+      "file": "android-openworld-reduce-off.png",
+      "sha256": "71c356616c0662ebc9d30dede15a886319593d4db4f9a1e09c88dac1304502ee"
+    },
+    {
+      "bytes": 167205,
+      "file": "android-openworld-reduce-on.png",
+      "sha256": "230413ebc0bd1c4895c051114508f91067d3ef08552bfb90f3548c278e9666bc"
+    }
+  ],
+  "summaries": [
+    {
+      "device": "android",
+      "fps_median": 57.80346820810707,
+      "fps_p05": 57.4712643678233,
+      "frame_interval_count": 6883,
+      "js_heap_max_bytes": null,
+      "js_heap_median_bytes": null,
+      "js_heap_no_data_cause": "Chrome returned the same rounded performance.memory value in every sample; page heap is not resolved",
+      "js_heap_sample_count": 28,
+      "per_run_fps_median": [
+        57.80346820810707,
+        57.80346820810707
+      ],
+      "per_run_fps_p05": [
+        57.47126436781729,
+        57.4712643678233
+      ],
+      "process_memory_max_kb": 314280,
+      "process_memory_median_kb": 309971,
+      "process_memory_min_kb": 309731,
+      "process_memory_sample_count": 16,
+      "process_memory_scope": "Chrome package aggregate PSS; tabs/processes are not attributable separately",
+      "reduced_motion": "off",
+      "response_status_per_repetition": [
+        200,
+        200
+      ],
+      "run_count": 2,
+      "surface": "app",
+      "synthetic_input_cycles_per_repetition": [
+        240,
+        240
+      ],
+      "transition_runs_per_repetition": [
+        2151,
+        2151
+      ],
+      "viewport_css_px": [
+        360,
+        692,
+        3
+      ]
+    },
+    {
+      "device": "android",
+      "fps_median": 58.13953488371847,
+      "fps_p05": 57.47126436781129,
+      "frame_interval_count": 7313,
+      "js_heap_max_bytes": null,
+      "js_heap_median_bytes": null,
+      "js_heap_no_data_cause": "Chrome returned the same rounded performance.memory value in every sample; page heap is not resolved",
+      "js_heap_sample_count": 30,
+      "per_run_fps_median": [
+        58.13953488371847,
+        58.13953488371847
+      ],
+      "per_run_fps_p05": [
+        57.47126436781129,
+        57.47126436781129
+      ],
+      "process_memory_max_kb": 312815,
+      "process_memory_median_kb": 309543,
+      "process_memory_min_kb": 309459,
+      "process_memory_sample_count": 16,
+      "process_memory_scope": "Chrome package aggregate PSS; tabs/processes are not attributable separately",
+      "reduced_motion": "on",
+      "response_status_per_repetition": [
+        200,
+        200
+      ],
+      "run_count": 2,
+      "surface": "app",
+      "synthetic_input_cycles_per_repetition": [
+        240,
+        240
+      ],
+      "transition_runs_per_repetition": [
+        0,
+        0
+      ],
+      "viewport_css_px": [
+        360,
+        692,
+        3
+      ]
+    },
+    {
+      "device": "android",
+      "fps_median": 57.80346820810707,
+      "fps_p05": 57.47126436781129,
+      "frame_interval_count": 7141,
+      "js_heap_max_bytes": null,
+      "js_heap_median_bytes": null,
+      "js_heap_no_data_cause": "Chrome returned the same rounded performance.memory value in every sample; page heap is not resolved",
+      "js_heap_sample_count": 28,
+      "per_run_fps_median": [
+        57.80346820810707,
+        57.80346820810707
+      ],
+      "per_run_fps_p05": [
+        57.47126436781129,
+        57.4712643678233
+      ],
+      "process_memory_max_kb": 318545,
+      "process_memory_median_kb": 312344,
+      "process_memory_min_kb": 311726,
+      "process_memory_sample_count": 16,
+      "process_memory_scope": "Chrome package aggregate PSS; tabs/processes are not attributable separately",
+      "reduced_motion": "off",
+      "response_status_per_repetition": [
+        200,
+        200
+      ],
+      "run_count": 2,
+      "surface": "openworld",
+      "synthetic_input_cycles_per_repetition": [
+        0,
+        0
+      ],
+      "transition_runs_per_repetition": [
+        0,
+        0
+      ],
+      "viewport_css_px": [
+        360,
+        716,
+        3
+      ]
+    },
+    {
+      "device": "android",
+      "fps_median": 58.47953216374766,
+      "fps_p05": 57.80346820808276,
+      "frame_interval_count": 7092,
+      "js_heap_max_bytes": null,
+      "js_heap_median_bytes": null,
+      "js_heap_no_data_cause": "Chrome returned the same rounded performance.memory value in every sample; page heap is not resolved",
+      "js_heap_sample_count": 29,
+      "per_run_fps_median": [
+        60.24096385542697,
+        57.80346820810707
+      ],
+      "per_run_fps_p05": [
+        59.88023952094243,
+        57.4712643678233
+      ],
+      "process_memory_max_kb": 316293,
+      "process_memory_median_kb": 309814,
+      "process_memory_min_kb": 309029,
+      "process_memory_sample_count": 16,
+      "process_memory_scope": "Chrome package aggregate PSS; tabs/processes are not attributable separately",
+      "reduced_motion": "on",
+      "response_status_per_repetition": [
+        200,
+        200
+      ],
+      "run_count": 2,
+      "surface": "openworld",
+      "synthetic_input_cycles_per_repetition": [
+        0,
+        0
+      ],
+      "transition_runs_per_repetition": [
+        0,
+        0
+      ],
+      "viewport_css_px": [
+        360,
+        716,
+        3
+      ]
+    }
+  ],
+  "weakest_endpoint": {
+    "weakest_measured_endpoint": {
+      "aliases": [
+        "android"
+      ],
+      "scope": "measured endpoints only; minimum p05 across surface and motion-preference conditions",
+      "state": "MEDIDO",
+      "worst_condition_p05_fps": 57.47126436781129
+    },
+    "whole_fleet_weakest": {
+      "additional_usb_mobile_without_adb": 3,
+      "cause": "seven network peers expose no browser/CDP sampler; three additional USB mobile devices expose no ADB browser target; the workstation sustained sample lost visibility or focus",
+      "online_network_peer_count": 7,
+      "state": "NO_DATA"
+    }
+  }
+}

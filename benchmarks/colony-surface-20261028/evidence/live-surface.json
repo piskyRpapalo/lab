@@ -1,0 +1,12 @@
+{
+  "body_bytes": 11823,
+  "body_sha256": "5aa53bbd5aca5f513660fdd6364c4e6030162eb1b474e419f8c2ea0f468d0f7c",
+  "body_storage": "not retained; only the digest is recorded",
+  "content_type": "text/html",
+  "final_url": "https://preceptoros.org/openworld/",
+  "http_status": 200,
+  "observed_at_utc": "2026-10-28T22:01:12+00:00",
+  "requested_url": "https://preceptoros.org/openworld/",
+  "response_date": "Wed, 28 Oct 2026 22:01:12 GMT",
+  "served_source_commit": "NO_DATA (the public page response does not expose a source revision)"
+}

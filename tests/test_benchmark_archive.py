@@ -16,6 +16,7 @@ REQUIRED = [
     "benchmarks/throughput-vulkan-20260907/README.md",
     "benchmarks/throughput-llama-bench-20261005/README.md",
     "benchmarks/motor-registration-smoke-20261016/README.md",
+    "benchmarks/colony-surface-20261028/README.md",
 ]
 
 class ArchiveContract(unittest.TestCase):
