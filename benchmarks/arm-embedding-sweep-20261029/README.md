@@ -1,0 +1,11 @@
+# ARM embedding sweep · 2026-10-29
+Broadcast receipt: figure=2 models · 4 vectors · 2/2 matching float32 pairs | model=2 service-reported manifest digests in receipt | machine=Linux aarch64 · 8 logical CPUs · 16335268 KiB RAM | date=2026-10-29 | sha256=cd104331b5436a60babbfd77da81f4f78db28c8c4296aa9330817526fb9c5060
+Benchcard: machine=Linux aarch64 · 8 logical CPUs · 16335268 KiB RAM | date=2026-10-29 | runner=local Ollama API · Python stdlib | quant=NO_DATA (not independently inspected) | sha256=2d3c869dbbaf919598bae9007c68139470f060bd5bfd389dacf1a854e5a49e9b
+
+The local service sweep completed 2026-10-29 00:04:49 UTC. Of 17 listed entries, two were at most 2,200,000,000 B and declared embedding capability, nine within the limit did not declare that capability, and six exceeded the limit. Each selected model processed the same synthetic input twice with unload requested after each call. The resulting dimensions were 768 and 1,024; the float32 little-endian byte digest matched within each pair. The first model's wall times were 0.522 and 0.485 s; the second's were 0.955 and 0.691 s. [Receipt](receipt.json) retains dimensions, hashes and counters, not model names, input or vectors.
+
+The digest comparison is after float32 conversion and does not establish equality at higher precision. One input and two calls do not establish general determinism, retrieval quality, accuracy or a fair speed ranking. Service-reported manifest digests are not rehashed model blobs. Backend placement, energy, sustained operation, six larger entries and other devices are NO_DATA. Service version measured before this sweep: 0.24.0; no continuous device telemetry was captured.
+
+Method: send the exact [runner](sweep.py) over an existing authenticated session and execute against numeric loopback, with synthetic input on stdin; input bytes are not published and reproduction requires the recorded input digest. No source file is written remotely by the runner. Synthetic cases check vector shape and numeric validity, redaction and size/capability filtering. This is separate from the gated security run in lab #108 B3.
+
+Agent: Codex · Model: GPT-6.1 Terra · Run: MEASURED (two local embedding entries; quality NO_DATA)

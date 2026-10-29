@@ -1,0 +1,58 @@
+{
+  "date_utc": "2026-10-29T00:04:49+00:00",
+  "input_sha256": "bc6a82460d1d4558130c96c92649f301749b004b846e1e62dd3ac757a2f6bfd0",
+  "limits": "service manifest digests; vectors hashed as IEEE-754 float32 little-endian; no quality or blob verification",
+  "listed_entries": 17,
+  "models": [
+    {
+      "declared_bytes": 274302450,
+      "manifest_sha256": "0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f",
+      "samples": [
+        {
+          "dimensions": 768,
+          "float32_le_sha256": "849bf61c380be329c67cef502f6a0c8560f5199c3e1fac35a99b1b156b4df765",
+          "load_ns": 427632620,
+          "prompt_eval_count": 16,
+          "state": "MEASURED",
+          "wall_ns": 522383261
+        },
+        {
+          "dimensions": 768,
+          "float32_le_sha256": "849bf61c380be329c67cef502f6a0c8560f5199c3e1fac35a99b1b156b4df765",
+          "load_ns": 405072526,
+          "prompt_eval_count": 16,
+          "state": "MEASURED",
+          "wall_ns": 485254627
+        }
+      ]
+    },
+    {
+      "declared_bytes": 669615493,
+      "manifest_sha256": "468836162de7f81e041c43663fedbbba921dcea9b9fefea135685a39b2d83dd8",
+      "samples": [
+        {
+          "dimensions": 1024,
+          "float32_le_sha256": "01156ca002397bc5cfcbeaa007e126e8f72b5a2b3b1f42b894096a9ff6c40fac",
+          "load_ns": 708090599,
+          "prompt_eval_count": 16,
+          "state": "MEASURED",
+          "wall_ns": 954968602
+        },
+        {
+          "dimensions": 1024,
+          "float32_le_sha256": "01156ca002397bc5cfcbeaa007e126e8f72b5a2b3b1f42b894096a9ff6c40fac",
+          "load_ns": 510440558,
+          "prompt_eval_count": 16,
+          "state": "MEASURED",
+          "wall_ns": 690777805
+        }
+      ]
+    }
+  ],
+  "size_limit_bytes": 2200000000,
+  "skipped": {
+    "not_embedding": 9,
+    "over_size_limit": 6,
+    "unavailable": 0
+  }
+}
