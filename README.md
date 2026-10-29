@@ -42,7 +42,7 @@ or answer text.
 
 ## Contents
 
-- `benchmarks/` — 34 measured sessions (2026-07-18 → 2026-10-28), one folder
+- `benchmarks/` — 35 measured sessions (2026-07-18 → 2026-10-28), one folder
   per session. Each carries its methodology, its machine, and the raw numbers;
   what is not measured is `NO DATA` with its cause.
   - Throughput & hardware: `g0` (CPU vs Vulkan, 3.58× prefill) ·
