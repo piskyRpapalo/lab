@@ -1,0 +1,21 @@
+{
+  "date_utc": "2026-10-29",
+  "machine_class": "unified-memory station, 96 GiB (commission label; usable capacity measured separately)",
+  "pre_headless_memory_total_bytes": 65957322752,
+  "pre_headless_memory_available_bytes": 60122681344,
+  "post_headless_before_reboot_memory_total_bytes": 65957322752,
+  "post_headless_before_reboot_memory_available_bytes": 63144783872,
+  "post_reboot_memory_total_bytes": 65963548672,
+  "post_reboot_memory_available_bytes": 63203127296,
+  "post_reboot_root_available_bytes": 927820496896,
+  "post_reboot_thermal_sensor_count": 1,
+  "post_reboot_thermal_max_millicelsius": 37000,
+  "kernel": "7.0.0-42-generic",
+  "runtime": "Ollama 0.40.3",
+  "runtime_reported_gpu_vram_bytes": 68719476736,
+  "runtime_gpu_backend": "ROCm",
+  "package_updates": 95,
+  "remaining_upgrades": 0,
+  "gh_version": "2.46.0",
+  "limitations": ["memory and GPU reports are separate; total usable combined capacity not established", "thermal count covers thermal_zone temp files only", "fleet exclusivity not independently measured"]
+}

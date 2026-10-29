@@ -1,0 +1,43 @@
+{
+  "byte_identical": true,
+  "date_utc": "2026-10-29T23:28:16+00:00",
+  "input_sha256": "900b54fc89b2ff539e73664ce28a3c686c5bcec67a21f757f86ecf386886a2ce",
+  "limits": [
+    "manifest digest is service-reported, not rehashed weights",
+    "no energy, quality, or physical device ranking measured"
+  ],
+  "manifest_sha256": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+  "model_label": "qwen3:1.7b",
+  "samples": [
+    {
+      "done_reason": "stop",
+      "eval_count": 18,
+      "eval_ns": 132324999,
+      "load_ns": 1142013778,
+      "prompt_eval_count": 24,
+      "prompt_eval_ns": 38232000,
+      "response_bytes": 76,
+      "response_sha256": "16fa3b7c822da05d2d8674e391ec0a008983739202ea211a4046cf1c53147157",
+      "wall_ns": 1315323858
+    },
+    {
+      "done_reason": "stop",
+      "eval_count": 18,
+      "eval_ns": 130356000,
+      "load_ns": 980344365,
+      "prompt_eval_count": 24,
+      "prompt_eval_ns": 49651000,
+      "response_bytes": 76,
+      "response_sha256": "16fa3b7c822da05d2d8674e391ec0a008983739202ea211a4046cf1c53147157",
+      "wall_ns": 1164713603
+    }
+  ],
+  "settings": {
+    "keep_alive": 0,
+    "num_ctx": 2048,
+    "num_predict": 64,
+    "seed": 20261028,
+    "temperature": 0,
+    "think": false
+  }
+}
