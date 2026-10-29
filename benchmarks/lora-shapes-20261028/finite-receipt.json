@@ -1,0 +1,75 @@
+{
+  "cause": null,
+  "date_utc": "2026-10-29T00:07:33+00:00",
+  "files_inspected": 8,
+  "files_seen": 8,
+  "files_unavailable": 0,
+  "rows": [
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "1310d0a4429eb7ca1d6554f3a29a30ca4a31f3bc23b1200ae36188c88ecb31e7",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "3ae7c93581485096a140ff634855316a3f23a0905d48364a3969e9d152426ab9",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "5c02f3479c0e9afe8d4f12d1bdfead8e3c85052e57a87fca055728edb8c7f163",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "5efc25cef3f4903646ea2ee01864e517a7a37f2cee654a8ab0a9566ede4a76ba",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "6c2e4449ce0dfa3cad1cbdcabd339109c676b7ff6098642ff627702037da608d",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "7fc850c9b7980fd4c445b134c2c2f2dd1fb83e14cb0a196262c8afcb8d5f6e21",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "87991ba1214f46b51b34d4fe1294f02c56060d83e8548e5ca5d71ca69d9f99e1",
+      "tensors": 256
+    },
+    {
+      "bytes": 54560368,
+      "finite_values": 13631488,
+      "infinite_values": 0,
+      "nan_values": 0,
+      "sha256": "96193a6382b35e059a0c22306363a34e08ac676af3798c6e3ca7c3acdd78167e",
+      "tensors": 256
+    }
+  ],
+  "scope": "F32 payload finiteness; not authenticity or model quality",
+  "state": "MEASURED"
+}
