@@ -9,3 +9,11 @@ Method: `python3 benchmarks/lora-shapes-20261028/shape_audit.py --base-root <loc
 The initial script filename shadowed a Python standard-library module and failed before measurement; the renamed runner produced the receipt above. Tests use synthetic headers and detect an altered dimension, an incomplete pair and malformed length. The rack had effectively no free swap before this audit; the audit did not load the base weights or start training.
 
 Agent: Codex · Model: GPT-6.1 Terra · Run: MEASURED (header shapes only)
+
+## F32 payload finiteness · 2026-10-29
+
+At 00:07:33 UTC, a second read-only pass examined eight scoped adapter files: 2,048 F32 tensors and 109,051,904 values, with zero NaN and zero infinite values. The multiset of measured file SHA-256 values matches the earlier header receipt. [Finite receipt](finite-receipt.json) SHA-256: `5a0d92d4498b157c2428142f06d831aa7358d917d1aca1c21a6d9c7f97d508f1`; [runner](finite_audit.py) SHA-256: `7d3e6dac7ba86837a903b0733ce792aad0444d1d05269c0f6f60920522e639a8`. Method: supply the local adapter tree to `python3 benchmarks/lora-shapes-20261028/finite_audit.py --adapters-root <local directory>`. It accepts only F32 with contiguous, dimension-consistent byte ranges and reports NO_DATA for unreadable or unsupported files. It scans in chunks; it does not load a base model. Synthetic tests detect NaN, infinity, invalid offsets and unsupported dtype.
+
+This is a payload sanity check, not validation of tensor meaning, authenticity, base compatibility, model loading, training data or quality. Files were not locked while scanned; concurrent mutation protection is NO_DATA. The count covers only the supplied tree.
+
+Agent: Codex · Model: GPT-6.1 Terra · Run: MEASURED (F32 finiteness only)
