@@ -42,7 +42,7 @@ or answer text.
 
 ## Contents
 
-- `benchmarks/` — 30 measured sessions (2026-07-18 → 2026-10-28), one folder
+- `benchmarks/` — 31 measured sessions (2026-07-18 → 2026-10-28), one folder
   per session. Each carries its methodology, its machine, and the raw numbers;
   what is not measured is `NO DATA` with its cause.
   - Throughput & hardware: `g0` (CPU vs Vulkan, 3.58× prefill) ·
@@ -55,7 +55,8 @@ or answer text.
   - Mechanical fluency: `bench-fluency` (M1–M4; M3 and M4 pass, M1 and M2
     fail — registered, not hidden)
   - Model inventory and local smoke: `model-inventory-20261028` ·
-    `local-mini-smoke-20261028` · `app-mini-smoke-20261028`
+    `local-mini-smoke-20261028` · `app-mini-smoke-20261028` ·
+    `lora-shapes-20261028`
   - Product surfaces: `colony-surface-20261028` — live OpenWorld and the pinned
     app walker fixture, with frame samples and explicit fleet coverage gaps
   - Red team: `redteam-20261020` (Crucible + LoRAtelier + RedTeam Bench over
