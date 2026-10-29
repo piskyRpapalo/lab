@@ -1,0 +1,192 @@
+{
+  "date_utc": "2026-10-29T00:09:43+00:00",
+  "input_sha256": "bc6a82460d1d4558130c96c92649f301749b004b846e1e62dd3ac757a2f6bfd0",
+  "limits": "service-reported manifest digests; no quality, blob verification, or fleet ranking",
+  "listed_entries": 17,
+  "minimum_exclusive_bytes": 2200000000,
+  "models": [
+    {
+      "declared_bytes": 2497293803,
+      "manifest_sha256": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 29,
+          "eval_ns": 5595885745,
+          "load_ns": 2800105987,
+          "response_bytes": 173,
+          "response_sha256": "155e911691a9ad80523632376542eb9d5591188fb234bf04421a503a1488b722",
+          "state": "MEASURED",
+          "wall_ns": 11154679314
+        },
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 29,
+          "eval_ns": 5251491561,
+          "load_ns": 2493494633,
+          "response_bytes": 173,
+          "response_sha256": "155e911691a9ad80523632376542eb9d5591188fb234bf04421a503a1488b722",
+          "state": "MEASURED",
+          "wall_ns": 10638152637
+        }
+      ]
+    },
+    {
+      "declared_bytes": 3389983735,
+      "manifest_sha256": "2a654d98e6fba55d452b7043684e9b57a947e393bbffa62485a7aac05ee4eefd",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 41,
+          "eval_ns": 15685085849,
+          "load_ns": 6639849909,
+          "response_bytes": 247,
+          "response_sha256": "7640a87ad36345d8f3d8751779491d6260a521bc0c755a68f94485a879723bff",
+          "state": "MEASURED",
+          "wall_ns": 26203889029
+        },
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 41,
+          "eval_ns": 15276384169,
+          "load_ns": 6240158850,
+          "response_bytes": 247,
+          "response_sha256": "7640a87ad36345d8f3d8751779491d6260a521bc0c755a68f94485a879723bff",
+          "state": "MEASURED",
+          "wall_ns": 25266419604
+        }
+      ]
+    },
+    {
+      "declared_bytes": 2741192820,
+      "manifest_sha256": "324d162be6ca5629ae4517c8710434d0bd2d665bc94dbad46e9af8fbf8a2f0df",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 27,
+          "eval_ns": 5463196534,
+          "load_ns": 5369599996,
+          "response_bytes": 173,
+          "response_sha256": "07c2dd4677be9b9dfa916cd84eda272b1b2350532a3641ec897676662d081c93",
+          "state": "MEASURED",
+          "wall_ns": 12287362555
+        },
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 27,
+          "eval_ns": 5260861515,
+          "load_ns": 4965113712,
+          "response_bytes": 173,
+          "response_sha256": "07c2dd4677be9b9dfa916cd84eda272b1b2350532a3641ec897676662d081c93",
+          "state": "MEASURED",
+          "wall_ns": 11665170350
+        }
+      ]
+    },
+    {
+      "declared_bytes": 2497293931,
+      "manifest_sha256": "359d7dd4bcdab3d86b87d73ac27966f4dbb9f5efdfcc75d34a8764a09474fae7",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "length",
+          "eval_count": 64,
+          "eval_ns": 12676521400,
+          "load_ns": 2420181188,
+          "response_bytes": 339,
+          "response_sha256": "b4fc238af7bf0cf9cda5fdc12e3e71415c905d980ae9dd68169ee10cf04dcf1b",
+          "state": "MEASURED",
+          "wall_ns": 18023129063
+        },
+        {
+          "cause": null,
+          "done_reason": "length",
+          "eval_count": 64,
+          "eval_ns": 12789042746,
+          "load_ns": 2079820984,
+          "response_bytes": 339,
+          "response_sha256": "b4fc238af7bf0cf9cda5fdc12e3e71415c905d980ae9dd68169ee10cf04dcf1b",
+          "state": "MEASURED",
+          "wall_ns": 17838830751
+        }
+      ]
+    },
+    {
+      "declared_bytes": 4683087332,
+      "manifest_sha256": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 31,
+          "eval_ns": 8532642339,
+          "load_ns": 6764277806,
+          "response_bytes": 193,
+          "response_sha256": "c3b5aa12599adf170a439a62c7c8e1b0b7b011b4a036369a391253b51adca111",
+          "state": "MEASURED",
+          "wall_ns": 23961821796
+        },
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 31,
+          "eval_ns": 8489893079,
+          "load_ns": 7381688210,
+          "response_bytes": 193,
+          "response_sha256": "c3b5aa12599adf170a439a62c7c8e1b0b7b011b4a036369a391253b51adca111",
+          "state": "MEASURED",
+          "wall_ns": 24902623489
+        }
+      ]
+    },
+    {
+      "declared_bytes": 4683087332,
+      "manifest_sha256": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "samples": [
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 31,
+          "eval_ns": 8515311757,
+          "load_ns": 5555609508,
+          "response_bytes": 193,
+          "response_sha256": "c3b5aa12599adf170a439a62c7c8e1b0b7b011b4a036369a391253b51adca111",
+          "state": "MEASURED",
+          "wall_ns": 22831156018
+        },
+        {
+          "cause": null,
+          "done_reason": "stop",
+          "eval_count": 31,
+          "eval_ns": 8779633518,
+          "load_ns": 5232771802,
+          "response_bytes": 193,
+          "response_sha256": "c3b5aa12599adf170a439a62c7c8e1b0b7b011b4a036369a391253b51adca111",
+          "state": "MEASURED",
+          "wall_ns": 23010514455
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "keep_alive": 0,
+    "num_ctx": 2048,
+    "num_predict": 64,
+    "seed": 20261028,
+    "temperature": 0,
+    "think": false
+  },
+  "size_limit_bytes": 4800000000,
+  "skipped": {
+    "below_size_limit": 11,
+    "capabilities_unavailable": 0,
+    "not_completion": 0,
+    "over_size_limit": 0
+  }
+}
