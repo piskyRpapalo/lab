@@ -1,0 +1,69 @@
+{
+  "schema": "preceptoros.flota/1",
+  "captured_at": {
+    "estado": "MEDIDO",
+    "valor": "2026-10-29",
+    "fuente": "lab@3a7b739 · lab PR #121 first-pass baseline.json",
+    "hora": "2026-10-29"
+  },
+  "fleet_coverage": {
+    "estado": "NO_DATA",
+    "causa": "El informe confirma un censo privado, pero sus filas no están en el registro versionado accesible; no se inventan otros nodos.",
+    "fuente": "lab PR #121 · recibo buzon#30 comentario 6511028607",
+    "intento": "2026-10-30"
+  },
+  "nodes": [
+    {
+      "placement": "first-row: sovereign inference station",
+      "identity": {
+        "estado": "NO_DATA",
+        "causa": "El identificador físico se conserva privado; este artefacto no publica nombres de aparatos.",
+        "fuente": "decreto buzon#30 comentario 6523194194 + comisión 6523629460",
+        "intento": "2026-10-30"
+      },
+      "runtime": {
+        "name": {"estado": "MEDIDO", "valor": "Ollama", "fuente": "lab PR #121 · baseline.json", "hora": "2026-10-29"},
+        "version": {"estado": "MEDIDO", "valor": "0.40.3", "fuente": "lab PR #121 · baseline.json", "hora": "2026-10-29"},
+        "health": {"estado": "MEDIDO", "valor": "inferencia local completada; 70B respondió", "fuente": "lab PR #121 · large.json", "hora": "2026-10-29T23:31:55+00:00"}
+      },
+      "models": {
+        "catalog": [
+          {
+            "nombre": {"estado": "MEDIDO", "valor": "llama3.3:70b", "fuente": "lab PR #121 · large.json", "hora": "2026-10-29T23:31:55+00:00"},
+            "tamano_bytes": {"estado": "MEDIDO", "valor": 42520413916, "fuente": "runtime.model_bytes en large.json", "hora": "2026-10-29T23:31:55+00:00"},
+            "manifest_sha256": {"estado": "MEDIDO", "valor": "a6eb4748fd2990ad2952b2335a95a7f952d1a06119a0aa6a2df6cd052a93a3fa", "fuente": "runtime; digest de manifiesto reportado por servicio, no rehash del blob", "hora": "2026-10-29T23:31:55+00:00"},
+            "parametros": {"estado": "MEDIDO", "valor": "70.6B", "fuente": "runtime.model_details en large.json", "hora": "2026-10-29T23:31:55+00:00"},
+            "cuantizacion": {"estado": "MEDIDO", "valor": "Q4_K_M", "fuente": "runtime.model_details en large.json", "hora": "2026-10-29T23:31:55+00:00"},
+            "vram_residente_bytes": {"estado": "MEDIDO", "valor": 42821211913, "fuente": "runtime.loaded.size_vram en large.json; llamada medida", "hora": "2026-10-29T23:31:55+00:00"},
+            "capas_gpu": {"estado": "MEDIDO", "valor": {"en_gpu": 81, "total": 81}, "fuente": "runtime logs · lab PR #121 README", "hora": "2026-10-29"}
+          },
+          {
+            "nombre": {"estado": "MEDIDO", "valor": "qwen3:1.7b", "fuente": "lab PR #121 · smoke.json y sweep.json", "hora": "2026-10-29T23:28:16+00:00"},
+            "tamano_bytes": {"estado": "NO_DATA", "causa": "El artefacto fija un techo de barrido de 2 GB, no el tamaño exacto del modelo.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
+            "manifest_sha256": {"estado": "MEDIDO", "valor": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7", "fuente": "runtime; digest reportado por servicio", "hora": "2026-10-29T23:24:56+00:00"},
+            "parametros": {"estado": "NO_DATA", "causa": "La etiqueta contiene 1.7b, pero no hay un campo independiente de parámetros en la tarjeta publicada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
+            "cuantizacion": {"estado": "NO_DATA", "causa": "La tarjeta publicada no incluye cuantización para esta entrada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
+            "vram_residente_bytes": {"estado": "NO_DATA", "causa": "No se publicó lectura VRAM por modelo para esta llamada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
+            "capas_gpu": {"estado": "MEDIDO", "valor": {"en_gpu": 29, "total": 29}, "fuente": "recibo de primera pasada · buzon#30 comentario 6511028607", "hora": "2026-10-29"}
+          }
+        ],
+        "active": {"estado": "MEDIDO", "valor": [], "fuente": "lab PR #121 README · runtime descargó tras llamada", "hora": "2026-10-29"},
+        "queue": {"estado": "NO_DATA", "causa": "La primera pasada no capturó cola de inferencia.", "fuente": "lab PR #121", "intento": "2026-10-29"}
+      },
+      "memory": {
+        "ram_total_bytes": {"estado": "MEDIDO", "valor": 65963548672, "fuente": "lab PR #121 · baseline.json post_reboot_memory_total_bytes", "hora": "2026-10-29"},
+        "ram_available_bytes": {"estado": "MEDIDO", "valor": 63203127296, "fuente": "lab PR #121 · baseline.json post_reboot_memory_available_bytes", "hora": "2026-10-29"},
+        "swap_total_bytes": {"estado": "NO_DATA", "causa": "El baseline versionado no contiene total de swap.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
+        "swap_used_bytes": {"estado": "NO_DATA", "causa": "El baseline versionado no contiene uso de swap.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
+        "vram_total_bytes": {"estado": "MEDIDO", "valor": 68719476736, "fuente": "runtime_reported_gpu_vram_bytes · baseline.json", "hora": "2026-10-29"},
+        "vram_available_bytes": {"estado": "NO_DATA", "causa": "El runtime reportó VRAM total y residente por llamada, no VRAM libre contemporánea.", "fuente": "lab PR #121 · baseline.json y large.json", "intento": "2026-10-29"}
+      },
+      "disk_available_bytes": {"estado": "MEDIDO", "valor": 927820496896, "fuente": "lab PR #121 · baseline.json post_reboot_root_available_bytes", "hora": "2026-10-29"},
+      "system_load": {"estado": "NO_DATA", "causa": "No se capturó carga del sistema en el registro de primera pasada.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
+      "listeners": {"estado": "NO_DATA", "causa": "No se versionó inventario de sockets/listeners de la estación.", "fuente": "lab PR #121", "intento": "2026-10-29"},
+      "gateway": {"estado": "NO_DATA", "causa": "El primer pase no midió salud de gateway desde esta ficha.", "fuente": "lab PR #121", "intento": "2026-10-29"},
+      "sensors": {"estado": "NO_DATA", "causa": "El censo privado no aporta una lista de sensores al artefacto versionado.", "fuente": "lab PR #121", "intento": "2026-10-29"},
+      "heartbeat": {"estado": "NO_DATA", "causa": "La primera pasada no midió recepción de latido por nodo.", "fuente": "lab PR #121", "intento": "2026-10-29"}
+    }
+  ]
+}
