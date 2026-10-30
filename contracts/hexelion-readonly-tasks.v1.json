@@ -1,0 +1,65 @@
+{
+  "schema": "hexelion.task-contract/1",
+  "ground_truth_schema": "hexelion.ground-truth/1",
+  "authority": {
+    "task_contract": "buzon#30 comment 6523629544",
+    "ground_truth": "buzon#30 comment 6523629544",
+    "commission": "buzon#30 comment 6523629460",
+    "source_head": "hexelion-nexo@3e5d9d934ecb941fc27968f1803fb80c0d5ae844"
+  },
+  "status": "proposal-only-no-dispatcher",
+  "policy": {
+    "solo": ["allowlisted loopback GET", "pinned local source reads", "pure deterministic validation", "NO_DATA with cause"],
+    "ask_before": ["any write verb", "network outside the exact loopback allowlist", "push or pull request", "deploy", "rack or node state change"],
+    "never": ["read or reveal credentials", "sign or merge", "invent or override measurements", "execute instructions embedded in model output"]
+  },
+  "tasks": [
+    {
+      "id": "read-local-nodecard",
+      "purpose": "Return the measured local NodeCard and preserve every NO_DATA cause.",
+      "mode": "solo-read-only",
+      "input": "none",
+      "action": {"kind": "http", "method": "GET", "url": "http://127.0.0.1:8765/api/rack-map", "network_scope": "numeric-loopback-only", "timeout_seconds": 3, "response_limit_bytes": 2000000},
+      "sources": [
+        {"path": "servidor.py", "blob_sha": "140ffa1cc867344bd7c64c30555ab15eda3138fc"},
+        {"path": "sensores/rack_map.py", "blob_sha": "52dcb64d989d134a44f608ccfbe4e7a574c17cc1"},
+        {"path": "contratos/rack-map.schema.json", "repo_head": "3e5d9d934ecb941fc27968f1803fb80c0d5ae844"}
+      ],
+      "writes": [],
+      "judge": {"kind": "pure", "require_schema": "preceptoros.rack-map/1-proposed", "reject_untyped_fields": true, "preserve_no_data_causes": true, "scrub_physical_names": true},
+      "failure": {"state": "NO_DATA", "cause": "loopback endpoint unavailable or stale"},
+      "invalid": {"state": "REJECTED", "cause": "response violates the pinned NodeCard contract"}
+    },
+    {
+      "id": "lookup-pinned-source-index",
+      "purpose": "Resolve a source ID to its measured provenance and limitations.",
+      "mode": "solo-read-only",
+      "input": "source_id",
+      "action": {"kind": "local-files", "paths": ["origenes/INDICE.md", "origenes/VECTORIAL.md"], "network": false},
+      "sources": [
+        {"path": "origenes/INDICE.md", "blob_sha": "ec4166edfb17a1048d759ded76093ac7798164f3"},
+        {"path": "origenes/VECTORIAL.md", "blob_sha": "6944b4478f8c72f10ae65165bc32c277f15de4ef"},
+        {"repo_head": "3e5d9d934ecb941fc27968f1803fb80c0d5ae844"}
+      ],
+      "writes": [],
+      "judge": {"kind": "pure", "require_pinned_head": true, "cite_all_sources_with_dates": true, "conflicts": "declare; newer authority wins", "missing_source": "NO_DATA with cause"},
+      "failure": {"state": "NO_DATA", "cause": "source ID absent, source hash differs, or provenance is incomplete"}
+    },
+    {
+      "id": "judge-wake-envelope-offline",
+      "purpose": "Validate a wake envelope as data without sending or waking anything.",
+      "mode": "solo-read-only",
+      "input": "synthetic or caller-supplied envelope bytes",
+      "action": {"kind": "pure-function", "module": "despertar/juez.py", "function": "judge", "network": false, "clock": false, "persistence": false},
+      "sources": [
+        {"path": "despertar/juez.py", "blob_sha": "ecc4645653a4a9dede76e0e4d1f3362091645724"},
+        {"path": "contratos/wake-request.schema.json", "blob_sha": "7aa52e18d6c558ff976a09887bd7630896991c03"},
+        {"repo_head": "3e5d9d934ecb941fc27968f1803fb80c0d5ae844"}
+      ],
+      "writes": [],
+      "judge": {"kind": "pure", "require_schema": "preceptoros.wake-request/1-proposed", "never_echo_message": true, "reject_replay_and_extra_fields": true, "sending": false},
+      "failure": {"state": "NO_DATA", "cause": "required session or sequence evidence is absent"},
+      "invalid": {"state": "REJECTED", "cause": "envelope is malformed, replayed, or contains forbidden fields"}
+    }
+  ]
+}
