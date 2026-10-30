@@ -1,0 +1,108 @@
+{
+  "schema": "hexelion.lore-building-index/1",
+  "authority": "ideas13oct v2.0.1",
+  "as_of": "2026-10-30",
+  "sources": [
+    {
+      "id": "ideas13oct-v2.0.1",
+      "date": "2026-10-13",
+      "role": "canon-authority",
+      "sha256": "dd3ed9ec818912cfa33be6ef7a30298a37298341b092f943219788c4c7333970",
+      "source_ref": "p0x@78e97857130b28b82850d5c9123a5cc03ea9511d:propuestas/2026-10-20_recursos_adjuntos/2026-10-20_ideas13oct-manifiesto-v2.0.1.md"
+    },
+    {
+      "id": "ideas6oct-section-2.5-el-edificio",
+      "date": "2026-10-06",
+      "role": "historical-rationale",
+      "sha256": "80f61917ee447b2eca8ee393a4aa69b6a232d715993d5b7448d03b88dc9bb6f7",
+      "locator": "heading ‘2.5 El edificio’",
+      "source_ref": "Corpus checksum measured locally; corpus manifest receipt buzon#30 comment 6522739184"
+    },
+    {
+      "id": "sovereign-decree-6523629544",
+      "date": "2026-10-30",
+      "role": "source-order-and-no-data-rule"
+    }
+  ],
+  "source_conflicts": [
+    {
+      "source": "ideas6oct",
+      "conflict": "The file repeats section number 2.5; the earlier heading is ‘Atlas / schemas públicos’.",
+      "resolution": "Use the later heading ‘2.5 El edificio’, which contains the signed-anchor rationale and is named by decree 6523629544."
+    }
+  ],
+  "objects": [
+    {
+      "index_key": "Boya del Estado",
+      "id_state": "MEDIDO",
+      "id": "Boya del Estado",
+      "status": "HECHO",
+      "claim": "El ciclo de vida se mide en tics; Proof of Tick existe como objeto de juego.",
+      "sources": ["ideas13oct-v2.0.1", "ideas6oct-section-2.5-el-edificio", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "Observatorio",
+      "id_state": "MEDIDO",
+      "id": "Observatorio",
+      "status": "HECHO",
+      "claim": "Mirar cuesta tics y lo visto envejece hacia NO_DATA.",
+      "sources": ["ideas13oct-v2.0.1", "ideas6oct-section-2.5-el-edificio", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "Arrecife de las Lápidas",
+      "id_state": "MEDIDO",
+      "id": "Arrecife de las Lápidas",
+      "status": "HECHO",
+      "claim": "La desintegración deja un recibo legible; retención cero con recibo.",
+      "sources": ["ideas13oct-v2.0.1", "ideas6oct-section-2.5-el-edificio", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "Cristal de Latencia",
+      "id_state": "MEDIDO",
+      "id": "Cristal de Latencia",
+      "status": "HECHO",
+      "claim": "Mide hardware visitante y lo clasifica; semilla del benchmark convertida en objeto.",
+      "sources": ["ideas13oct-v2.0.1", "ideas6oct-section-2.5-el-edificio", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "unknown-1",
+      "id_state": "NO_DATA",
+      "id": null,
+      "status": "NO_DATA",
+      "cause": "El canon declara cinco objetos restantes, pero no publica este nombre ni ID; unknown-1 es solo clave de índice.",
+      "sources": ["ideas13oct-v2.0.1", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "unknown-2",
+      "id_state": "NO_DATA",
+      "id": null,
+      "status": "NO_DATA",
+      "cause": "El canon declara cinco objetos restantes, pero no publica este nombre ni ID; unknown-2 es solo clave de índice.",
+      "sources": ["ideas13oct-v2.0.1", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "unknown-3",
+      "id_state": "NO_DATA",
+      "id": null,
+      "status": "NO_DATA",
+      "cause": "El canon declara cinco objetos restantes, pero no publica este nombre ni ID; unknown-3 es solo clave de índice.",
+      "sources": ["ideas13oct-v2.0.1", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "unknown-4",
+      "id_state": "NO_DATA",
+      "id": null,
+      "status": "NO_DATA",
+      "cause": "El canon declara cinco objetos restantes, pero no publica este nombre ni ID; unknown-4 es solo clave de índice.",
+      "sources": ["ideas13oct-v2.0.1", "sovereign-decree-6523629544"]
+    },
+    {
+      "index_key": "unknown-5",
+      "id_state": "NO_DATA",
+      "id": null,
+      "status": "NO_DATA",
+      "cause": "El canon declara cinco objetos restantes, pero no publica este nombre ni ID; unknown-5 es solo clave de índice.",
+      "sources": ["ideas13oct-v2.0.1", "sovereign-decree-6523629544"]
+    }
+  ]
+}
