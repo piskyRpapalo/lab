@@ -25,11 +25,11 @@ Before connecting an AI, define and sign the observation and action schemas, all
 
 ### N2 · Add the local app adapter
 
-The installed app requests the approved web-map/game state, calls only the already-installed local inference runtime, validates model actions against N1, and submits only allowed game actions. The deterministic web resolver remains authoritative for combat outcome. Preserve local prompts and answers. Per node, measure app build, local model-manifest hash, runtime, request/response timing, invalid-action count, replay result and resource readings; RAM and VRAM remain separate. Unmeasured nodes are `NO_DATA` with cause.
+The installed app requests the approved web-map/game state, calls only the already-installed local inference runtime, validates model actions against N1, and submits only allowed game actions. The deterministic web resolver remains authoritative for combat outcome. Preserve local prompts and answers. Per-node evidence candidates are app build, local model-manifest hash, runtime, request/response timing, invalid-action count, replay result and resource readings; RAM and VRAM remain separate. These fields do not join the cross-device record until the signed benchmark plan permits them. Unmeasured nodes are `NO_DATA` with cause.
 
 ### N3 · Capture a scrubbed benchmark receipt
 
-Use canonical web/app/game revisions, synthetic case ID, seed hash, model-manifest digest, sample count, action-latency distribution, resolver result, replay check, and scoped resource metrics. Keep raw prompts, model answers, private identities, credentials and machine paths out of public Git and broadcasts. The current Lab has no measured game-result intake route or accepted result schema; both are `NO_DATA` until built and signed.
+The web plan proposes one frame per round plus a summary with seed, rules version, pseudonymous device, date, result and seal; it excludes user identity and walker position. Lab receipts should inherit those signed B3 fields. Extra model/runtime metrics above remain `NO_DATA` until included in that contract. Keep raw prompts, model answers, private identities, credentials and machine paths out of public Git and broadcasts. The current Lab has no measured game-result intake route or accepted result schema; both are `NO_DATA` until built and signed.
 
 ### N4 · Bring approved evidence to Lab
 
@@ -37,7 +37,7 @@ Choose an explicit, human-reviewed transfer path before any app sends data off-d
 
 ### N5 · Prepare LoRA data separately from evaluation
 
-A benchmark metric/receipt is not by itself a training example. Candidate supervision is the approved sequence of game observation, model action, deterministic resolver feedback, and outcome; its exact fields, consent, redaction, retention, access, and train/validation separation need review in the plan before implementation. Public Lab artifacts must not contain raw prompts, answers, private identities, or credentials. Private local training material needs its own access and retention controls. The existing public Lab cards provide historical training measurements, not a current game-derived dataset or an importer. Training eligibility and LoRA outcome stay `NO_DATA` until an approved dataset and its provenance are measured.
+A benchmark metric/receipt is not by itself a training example. Candidate LoRA material may derive only from the signed frame and summary records; whether those fields capture enough observation/action/feedback to train is `NO_DATA`. Do not add user identity or walker position. The exact fields, consent, redaction, retention, access, and train/validation separation need review in the plan before implementation. Public Lab artifacts must not contain raw prompts, answers, private identities, or credentials. Private local training material needs its own access and retention controls. The existing public Lab cards provide historical training measurements, not a current game-derived dataset or an importer. Training eligibility and LoRA outcome stay `NO_DATA` until an approved dataset and its provenance are measured.
 
 ## Ownership and gates
 
