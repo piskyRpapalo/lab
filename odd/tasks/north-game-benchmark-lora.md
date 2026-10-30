@@ -1,10 +1,10 @@
 # NORTE · game benchmark to Lab and LoRA
 
-Status: proposal only. Commission: Sovereign north, buzon#30 ·6525335471. This document proposes dependencies and gates; it adds no model call, game rule, data transfer, or training run.
+Status: proposal only. Commission: Sovereign north, buzon#30 ·6525335471; active decree ·6525528435 lifts the LoRA freeze and requires this plan before implementation. Each implementation slice still needs exact-head FIRMA and FIRMO. This document proposes dependencies and gates; it adds no model call, game rule, data transfer, or training run.
 
 ## Objective
 
-Measure AI-controlled movement and wave combat in the single web map, launched from the installed app on each commissioned rack node, then bring approved evidence to the Lab for evaluation and, if separately authorized, LoRA training. The web owns the map; the app is a local client and inference surface; Lab owns the benchmark record. A heartbeat proves liveness only; it is not a benchmark result.
+Measure AI-controlled movement and wave combat in the single web map, launched from the installed app on each commissioned rack node, then bring approved benchmark evidence to the Lab and use suitable, provenance-preserving examples for LoRA. The web owns the map; the app is a local client and inference surface; Lab owns the benchmark record. A heartbeat proves liveness only; it is not a benchmark result. The north makes this flow active, subject to the plan, consent, SCRUB, and exact-head gates below.
 
 ## Measured baseline
 
@@ -35,15 +35,15 @@ Use canonical web/app/game revisions, synthetic case ID, seed hash, model-manife
 
 Choose an explicit, human-reviewed transfer path before any app sends data off-device. First candidate: export only scrubbed receipts for public Git; no automatic telemetry. The app contract preserves zero telemetry and the Lab contract prohibits sending prompts, outputs or node state off-device unless a separately signed contract explicitly permits it. Validate every receipt against its source hashes and schema; reject missing or mutated provenance. No live web service or external model is a test target.
 
-### N5 · Separate evaluation from LoRA data
+### N5 · Prepare LoRA data separately from evaluation
 
-A benchmark metric/receipt is not a training example. Decide locally what supervision is retained, its consent, redaction, retention, access, and train/validation separation. Raw prompts and answers remain local/private unless that dataset contract is explicitly signed. The existing public Lab cards provide historical training measurements, not a current game-derived dataset or an approved importer. Training eligibility and LoRA outcome stay `NO_DATA` until a local dataset and its provenance are measured.
+A benchmark metric/receipt is not by itself a training example. Candidate supervision is the approved sequence of game observation, model action, deterministic resolver feedback, and outcome; its exact fields, consent, redaction, retention, access, and train/validation separation need review in the plan before implementation. Public Lab artifacts must not contain raw prompts, answers, private identities, or credentials. Private local training material needs its own access and retention controls. The existing public Lab cards provide historical training measurements, not a current game-derived dataset or an importer. Training eligibility and LoRA outcome stay `NO_DATA` until an approved dataset and its provenance are measured.
 
 ## Ownership and gates
 
 - WEB lane: sole map state, web combat entry and live-publication measurements.
 - APP/LAB lane: local model-to-action adapter after N1, benchmark recorder, scrubbed receipt contract and Lab checks.
-- Sovereign: sign action semantics and data-transfer/training contracts; commission device activation, live runtime calls and each consequential release. No PR signature is implied by this plan.
+- Sovereign: approve this plan; sign action semantics and any data-transfer/training details not covered by the north; commission device activation, live runtime calls and each consequential release. No PR signature is implied by this plan.
 
 Before code: measure each source on fresh heads and update this task. Before a live run: verify N0–N2, exact app/web/model hashes, node identity, local runtime and consent. Before Lab ingestion: pass N3–N4 and scrub review. Before LoRA: satisfy N5. A missing gate is `NO_DATA` with its cause, never a substituted fixture or inferred result.
 
@@ -62,6 +62,6 @@ Before code: measure each source on fresh heads and update this task. Before a l
 
 ## Next step
 
-Submit this plan for review. The next buildable piece is N0 or N1 according to the web/Sovereign queue; do not start N2 before both the measured web route and signed action schema exist.
+Submit this plan for review. After plan FIRMA/FIRMO, build one signed slice at a time. N0 follows the web queue; N1 must settle action semantics before N2. Do not transfer data or start a live game run before its slice is signed and its input/output boundaries are measured.
 
 Agent: Codex · Model: NO_DATA · Run: NO_DATA (design only)
