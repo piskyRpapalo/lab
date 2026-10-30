@@ -8,16 +8,16 @@ Measure AI-controlled movement and wave combat in the single web map, launched f
 
 ## Measured baseline
 
-- WEB `main` at `256f1a48f2cde6a41e2fd89d6b20ad33da5708cc`: `public/game/combate_ticks.js` is a pure deterministic round resolver; `public/game/wave_duel_scene.js` renders moving wave combat; `public/face/basic.html` loads both through the `/face` battle surface. `public/openworld/estado.json` is still `preceptoros.openworld-estado/1` with `nodes: []` (blob `ebeb22c0aceb2ae4cf46cc7239959efceb86aa8b`). Source presence does not measure deployed map interaction or AI control.
+- WEB `main` at `e7807a1580578d2dae332d92ce390bc514c27c10` (merge #422, Mesa receipt buzon#30 ·6525574573): `public/openworld/estado.json` is now `preceptoros.openworld-estado/2`, 595 B, with an empty `nodes` list and four colony cells (three sealed `NO_DATA`, one tutorial cell `LIVE`). The seeded resolver and moving-wave scene remain in `public/game/combate_ticks.js` (blob `d3bf4d9a`) and `public/game/wave_duel_scene.js` (blob `38020b21`), loaded by `public/face/basic.html`. Main-source presence does not measure production deployment or AI control. Names from the state artifact are intentionally not repeated in this public plan.
 - APP `main` at `3a96d50c4472761e8783086ecaab4f1f207ce3aa`: `colony/` contains a local isometric map/liveness projection; `interface/face/bubble/combate_ticks.js` contains local deterministic combat ticks; `interface/face/face_fight.js` exposes user-selected patrols and automatic seeded play. No model-to-combat action bridge was found in the inspected source. `odd/tasks/dynamic-combat.md` leaves the strategy vocabulary and outcome-affecting starting-position contract unresolved.
 - LAB `main` at `03128d14dfd07eff8163ffffda9ee9c38e4c4fd8`: AI-security corpus B1 (#110) and deterministic judge B2 (#111) are merged. `benchmarks/colony-surface-20261028/` measures browser animation callback cadence and memory scope; it does not run an AI or a combat. AI-security B3 remains blocked by its separate migration and disk gates in lab#108.
-- Aduana D7 sender PR #10 is now merged as `41c19c52`; the sender publishes liveness, not game actions or bench results. The Worker, D1 binding, F1 identity/cell, and first live heartbeat remain unverified in the receipts. The live map JSON above remains the measured web main state.
+- Aduana D7 sender PR #10 is merged as `41c19c52`; the sender publishes liveness, not game actions or bench results. The Worker deployment, D1 binding, F1 identity/cell, and first live heartbeat remain unverified in the receipts. WEB reports a second deploy and faro measurement still pending after #422; production map state is therefore `NO_DATA` with cause `deploy_pending`.
 
 ## Proposed sequence
 
 ### N0 · Make the map available
 
-The map-owning web lane lands and measures the single-map state reader, v2 producer, route and combat entry together. Record the exact web head and production seal. Do not make the app a second map or infer LIVE from source presence. Until measured: map state for rack nodes is `NO_DATA` with cause.
+The source gate is partly met: v2 state is merged at `e7807a15` and under 1 KiB. The web lane still must deploy and measure production state/route, and the D7 feed must publish authenticated rack liveness. Record the exact web head and production seal. Do not make the app a second map or infer LIVE from source presence. Until measured: production map state for rack nodes is `NO_DATA` with cause `deploy_pending` / `heartbeat_not_received`.
 
 ### N1 · Sign the game-action contract
 
