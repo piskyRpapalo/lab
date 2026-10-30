@@ -4,8 +4,9 @@ Index of the available measured material, with no new inference. Each card keeps
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
-Broadcast receipts now lead all 30 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
+Broadcast receipts now lead all 31 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
+- [Tanda 1 · 2026-10-30](station-tanda1-20261030/README.md): three local models on the unified-memory station, three hot runs each, medians and honest sensor peaks; the 131,072-context trial is recorded NO_PROMOVER.
 - [Unified-memory station · 2026-10-29](station-96-first-pass-20261029/README.md): short 70B local measurement and deterministic small-model smoke.
 - [Self-preference · 2026-10-25](self-preference-20261025/README.md): same-family and cross-family detection, with response hashes only and three-ring coverage `NO_DATA`.
 - [Published bench 2026-10-11](bench_20261011/README.md): embedding performance; raw JSON in the same folder.
@@ -40,7 +41,7 @@ Broadcast receipts now lead all 30 top-level benchmark cards; unsupported fields
 
 Folder names remain unchanged; this index carries dates and any missing date is stated as `NO_DATA` in the card title. `harness-receipts/` contains two receipts dated 2026-10-20; `receipts/` holds the separate yardstick receipt dated 2026-10-19.
 
-Inventory census (2026-10-29): 30 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 30 cards; no historical result was remeasured.
+Inventory census (2026-10-29): 30 top-level benchmark README cards, counted with `benchmarks/*/README.md` on this proposal branch. Each card has one dated title (or caused date `NO_DATA`), one `Benchcard:` line, and one quotable `Broadcast receipt:` line. The table links all 30 cards; no historical result was remeasured. Census of 2026-10-30: 31 top-level benchmark README cards after adding `station-tanda1-20261030`; the earlier count stands as dated.
 
 ## FIRMO and recovery limits
 
