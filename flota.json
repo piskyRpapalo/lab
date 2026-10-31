@@ -1,5 +1,5 @@
 {
-  "schema": "preceptoros.flota/1",
+  "schema": "preceptoros.flota/2",
   "captured_at": {
     "estado": "MEDIDO",
     "valor": "2026-10-29",
@@ -11,6 +11,21 @@
     "causa": "El informe confirma un censo privado, pero sus filas no están en el registro versionado accesible; no se inventan otros nodos.",
     "fuente": "lab PR #121 · recibo buzon#30 comentario 6511028607",
     "intento": "2026-10-30"
+  },
+  "map_heartbeat_snapshot": {
+    "schema": "preceptoros.openworld-estado/2",
+    "source": "https://api.preceptoros.org/api/v1/latidos",
+    "measured_at": "2026-10-31T18:41:32Z",
+    "coverage": {
+      "estado": "MEDIDO",
+      "valor": 2,
+      "fuente": "public D7 response · node_heartbeats",
+      "hora": "2026-10-31T18:41:32Z"
+    },
+    "nodes": [
+      {"id": "primer-ancla", "q": 0, "r": 0, "alive": true, "seal": "LIVE", "since": "2026-10-31"},
+      {"id": "onexstation", "q": 1, "r": 0, "alive": true, "seal": "LIVE", "since": "2026-10-31"}
+    ]
   },
   "nodes": [
     {
