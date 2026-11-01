@@ -2,9 +2,9 @@
   "schema": "preceptoros.flota/2",
   "captured_at": {
     "estado": "MEDIDO",
-    "valor": "2026-10-29",
-    "fuente": "lab@3a7b739 · lab PR #121 first-pass baseline.json",
-    "hora": "2026-10-29"
+    "valor": "2026-10-31",
+    "fuente": "re-sello de la fila estacion a era carve-96 · censo del Hierro (propuesta 2026-11-01 00:17Z, ficha agentes/censo-de-infraestructura.md) · cobertura «Firmo todo.» (Soberano, canal de la Mesa, 2026-11-01 ~03:5xZ; DECISIONES_MAIN ACTUALIZACIÓN ~03:5xZ)",
+    "hora": "2026-10-31"
   },
   "fleet_coverage": {
     "estado": "NO_DATA",
@@ -44,41 +44,54 @@
       "models": {
         "catalog": [
           {
-            "nombre": {"estado": "MEDIDO", "valor": "llama3.3:70b", "fuente": "lab PR #121 · large.json", "hora": "2026-10-29T23:31:55+00:00"},
+            "nombre": {"estado": "MEDIDO", "valor": "llama3.3:70b", "fuente": "lab PR #121 · large.json (lectura de la era carve-64, 2026-10-29; las eras jamás se suman)", "hora": "2026-10-29T23:31:55+00:00"},
             "tamano_bytes": {"estado": "MEDIDO", "valor": 42520413916, "fuente": "runtime.model_bytes en large.json", "hora": "2026-10-29T23:31:55+00:00"},
             "manifest_sha256": {"estado": "MEDIDO", "valor": "a6eb4748fd2990ad2952b2335a95a7f952d1a06119a0aa6a2df6cd052a93a3fa", "fuente": "runtime; digest de manifiesto reportado por servicio, no rehash del blob", "hora": "2026-10-29T23:31:55+00:00"},
             "parametros": {"estado": "MEDIDO", "valor": "70.6B", "fuente": "runtime.model_details en large.json", "hora": "2026-10-29T23:31:55+00:00"},
             "cuantizacion": {"estado": "MEDIDO", "valor": "Q4_K_M", "fuente": "runtime.model_details en large.json", "hora": "2026-10-29T23:31:55+00:00"},
-            "vram_residente_bytes": {"estado": "MEDIDO", "valor": 42821211913, "fuente": "runtime.loaded.size_vram en large.json; llamada medida", "hora": "2026-10-29T23:31:55+00:00"},
+            "vram_residente_bytes": {"estado": "MEDIDO", "valor": 42821211913, "fuente": "runtime.loaded.size_vram en large.json; llamada medida (era carve-64)", "hora": "2026-10-29T23:31:55+00:00"},
             "capas_gpu": {"estado": "MEDIDO", "valor": {"en_gpu": 81, "total": 81}, "fuente": "runtime logs · lab PR #121 README", "hora": "2026-10-29"}
           },
           {
-            "nombre": {"estado": "MEDIDO", "valor": "qwen3:1.7b", "fuente": "lab PR #121 · smoke.json y sweep.json", "hora": "2026-10-29T23:28:16+00:00"},
+            "nombre": {"estado": "MEDIDO", "valor": "qwen3:1.7b", "fuente": "lab PR #121 · smoke.json y sweep.json (lectura de la era carve-64, 2026-10-29)", "hora": "2026-10-29T23:28:16+00:00"},
             "tamano_bytes": {"estado": "NO_DATA", "causa": "El artefacto fija un techo de barrido de 2 GB, no el tamaño exacto del modelo.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
             "manifest_sha256": {"estado": "MEDIDO", "valor": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7", "fuente": "runtime; digest reportado por servicio", "hora": "2026-10-29T23:24:56+00:00"},
             "parametros": {"estado": "NO_DATA", "causa": "La etiqueta contiene 1.7b, pero no hay un campo independiente de parámetros en la tarjeta publicada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
             "cuantizacion": {"estado": "NO_DATA", "causa": "La tarjeta publicada no incluye cuantización para esta entrada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
             "vram_residente_bytes": {"estado": "NO_DATA", "causa": "No se publicó lectura VRAM por modelo para esta llamada.", "fuente": "lab PR #121 · sweep.json", "intento": "2026-10-29"},
             "capas_gpu": {"estado": "MEDIDO", "valor": {"en_gpu": 29, "total": 29}, "fuente": "recibo de primera pasada · buzon#30 comentario 6511028607", "hora": "2026-10-29"}
+          },
+          {
+            "nombre": {"estado": "MEDIDO", "valor": "hexelion:latest", "fuente": "ollama list/ps estación · censo del Hierro (era carve-96)", "hora": "2026-10-31"},
+            "tamano_bytes": {"estado": "MEDIDO", "valor": "65 GB (redondeo del runtime ollama list; bytes exactos NO_DATA)", "fuente": "ollama list estación · censo del Hierro 2026-10-31", "hora": "2026-10-31"},
+            "manifest_sha256": {"estado": "NO_DATA", "causa": "Digest medido solo como prefijo corto c78bcad5 (ollama); el sha256 completo del manifiesto no fue capturado en registro versionado.", "fuente": "censo del Hierro 2026-10-31", "intento": "2026-11-01"},
+            "parametros": {"estado": "NO_DATA", "causa": "El registro versionado de la era carve-96 no incluye parámetros para este modelo.", "fuente": "censo del Hierro", "intento": "2026-10-31"},
+            "cuantizacion": {"estado": "NO_DATA", "causa": "El registro versionado de la era carve-96 no incluye cuantización para este modelo.", "fuente": "censo del Hierro", "intento": "2026-10-31"},
+            "contexto": {"estado": "MEDIDO", "valor": 65536, "fuente": "ollama ps estación · censo del Hierro", "hora": "2026-10-31"},
+            "vram_residente_bytes": {"estado": "MEDIDO", "valor": "64 GB (redondeo del runtime ollama ps; 100% GPU)", "fuente": "ollama ps estación · censo del Hierro (era carve-96)", "hora": "2026-10-31"},
+            "keep_alive": {"estado": "MEDIDO", "valor": "Forever (residente permanente, no se descarga)", "fuente": "ollama ps estación · censo del Hierro", "hora": "2026-10-31"},
+            "runner": {"estado": "MEDIDO", "valor": "llamacpp", "fuente": "ollama ps estación · censo del Hierro", "hora": "2026-10-31"},
+            "capas_gpu": {"estado": "NO_DATA", "causa": "El registro versionado no incluye recuento de capas por modelo para la era carve-96.", "fuente": "censo del Hierro", "intento": "2026-10-31"}
           }
         ],
-        "active": {"estado": "MEDIDO", "valor": [], "fuente": "lab PR #121 README · runtime descargó tras llamada", "hora": "2026-10-29"},
-        "queue": {"estado": "NO_DATA", "causa": "La primera pasada no capturó cola de inferencia.", "fuente": "lab PR #121", "intento": "2026-10-29"}
+        "active": {"estado": "MEDIDO", "valor": [{"nombre": "hexelion:latest", "digest_prefijo": "c78bcad5", "contexto": 65536, "gpu": "100%", "keep_alive": "Forever"}], "fuente": "ollama ps estación 2026-10-31 · censo del Hierro (era carve-96)", "hora": "2026-10-31"},
+        "queue": {"estado": "NO_DATA", "causa": "La era carve-96 no capturó cola de inferencia en el registro versionado.", "fuente": "censo del Hierro", "intento": "2026-10-31"}
       },
       "memory": {
-        "ram_total_bytes": {"estado": "MEDIDO", "valor": 65963548672, "fuente": "lab PR #121 · baseline.json post_reboot_memory_total_bytes", "hora": "2026-10-29"},
-        "ram_available_bytes": {"estado": "MEDIDO", "valor": 63203127296, "fuente": "lab PR #121 · baseline.json post_reboot_memory_available_bytes", "hora": "2026-10-29"},
-        "swap_total_bytes": {"estado": "NO_DATA", "causa": "El baseline versionado no contiene total de swap.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
-        "swap_used_bytes": {"estado": "NO_DATA", "causa": "El baseline versionado no contiene uso de swap.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
-        "vram_total_bytes": {"estado": "MEDIDO", "valor": 68719476736, "fuente": "runtime_reported_gpu_vram_bytes · baseline.json", "hora": "2026-10-29"},
-        "vram_available_bytes": {"estado": "NO_DATA", "causa": "El runtime reportó VRAM total y residente por llamada, no VRAM libre contemporánea.", "fuente": "lab PR #121 · baseline.json y large.json", "intento": "2026-10-29"}
+        "era": {"estado": "MEDIDO", "valor": "carve-96: UMA reservada 64→96 GiB por BIOS el 2026-10-30; las lecturas de la era carve-64 (2026-10-29, lab PR #121) viven en la historia git de este fichero (@49c2369c) — las eras JAMÁS se mezclan ni se suman; RAM y VRAM JAMÁS sumadas", "fuente": "sysfs del censo 2026-10-31 + firma del kernel + CineK README @0d000097 («96 GiB VRAM activados, antes 64 GiB de fábrica, carve UMA BIOS 2026-10-30»)", "hora": "2026-10-31"},
+        "ram_total_bytes": {"estado": "NO_DATA", "causa": "Era carve-96: ~30 GiB visibles al SO (medición cualitativa del censo del Hierro, 2026-10-31); la lectura exacta queda pendiente de shell en la estación. La cifra 65963548672 B de la era carve-64 es histórica (@49c2369c), jamás reutilizable en esta era.", "fuente": "censo del Hierro 2026-10-31 · registro vivo", "intento": "2026-10-31"},
+        "ram_available_bytes": {"estado": "MEDIDO", "valor": 29105696768, "fuente": "recibo RT-3C 22:01:00Z · censo del Hierro (era carve-96)", "hora": "2026-10-31T22:01:00+00:00"},
+        "swap_total_bytes": {"estado": "NO_DATA", "causa": "La era carve-96 no capturó total de swap en el registro versionado.", "fuente": "censo del Hierro 2026-10-31", "intento": "2026-10-31"},
+        "swap_used_bytes": {"estado": "NO_DATA", "causa": "La era carve-96 no capturó uso de swap en el registro versionado.", "fuente": "censo del Hierro 2026-10-31", "intento": "2026-10-31"},
+        "vram_total_bytes": {"estado": "MEDIDO", "valor": 103079215104, "fuente": "sysfs de la estación (96 GiB exactos) · censo del Hierro 2026-10-31 · tres recibos independientes: sysfs + firma del kernel + CineK README · JAMÁS sumada con RAM", "hora": "2026-10-31"},
+        "vram_available_bytes": {"estado": "NO_DATA", "causa": "La era carve-96 no capturó VRAM libre contemporánea en el registro versionado.", "fuente": "censo del Hierro 2026-10-31", "intento": "2026-10-31"}
       },
-      "disk_available_bytes": {"estado": "MEDIDO", "valor": 927820496896, "fuente": "lab PR #121 · baseline.json post_reboot_root_available_bytes", "hora": "2026-10-29"},
-      "system_load": {"estado": "NO_DATA", "causa": "No se capturó carga del sistema en el registro de primera pasada.", "fuente": "lab PR #121 · baseline.json", "intento": "2026-10-29"},
-      "listeners": {"estado": "NO_DATA", "causa": "No se versionó inventario de sockets/listeners de la estación.", "fuente": "lab PR #121", "intento": "2026-10-29"},
-      "gateway": {"estado": "NO_DATA", "causa": "El primer pase no midió salud de gateway desde esta ficha.", "fuente": "lab PR #121", "intento": "2026-10-29"},
+      "disk_available_bytes": {"estado": "MEDIDO", "valor": 927820496896, "fuente": "lab PR #121 · baseline.json post_reboot_root_available_bytes (lectura 2026-10-29; sin nueva lectura versionada desde)", "hora": "2026-10-29"},
+      "system_load": {"estado": "NO_DATA", "causa": "La era carve-96 no midió carga del sistema en registro versionado.", "fuente": "censo del Hierro", "intento": "2026-10-31"},
+      "listeners": {"estado": "NO_DATA", "causa": "La era carve-96 no versionó inventario de sockets/listeners de la estación.", "fuente": "censo del Hierro", "intento": "2026-10-31"},
+      "gateway": {"estado": "NO_DATA", "causa": "La era carve-96 no midió salud de gateway desde esta ficha.", "fuente": "censo del Hierro", "intento": "2026-10-31"},
       "sensors": {"estado": "NO_DATA", "causa": "El censo privado no aporta una lista de sensores al artefacto versionado.", "fuente": "lab PR #121", "intento": "2026-10-29"},
-      "heartbeat": {"estado": "NO_DATA", "causa": "La primera pasada no midió recepción de latido por nodo.", "fuente": "lab PR #121", "intento": "2026-10-29"}
+      "heartbeat": {"estado": "NO_DATA", "causa": "La era carve-96 no midió recepción de latido por nodo desde esta ficha; el snapshot público del mapa vive arriba (map_heartbeat_snapshot).", "fuente": "censo del Hierro", "intento": "2026-10-31"}
     }
   ]
 }
