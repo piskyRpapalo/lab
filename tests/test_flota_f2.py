@@ -102,15 +102,28 @@ class FleetF2Tests(unittest.TestCase):
 
     def test_ram_and_vram_are_independent(self):
         memory = self.data["nodes"][0]["memory"]
-        self.assertNotEqual(memory["ram_total_bytes"]["valor"], memory["vram_total_bytes"]["valor"])
+        self.assertEqual(memory["era"]["estado"], "MEDIDO")
+        self.assertIn("carve-96", memory["era"]["valor"])
+        self.assertIn("JAMÁS", memory["era"]["valor"])
+        self.assertEqual(memory["ram_total_bytes"]["estado"], "NO_DATA")
+        self.assertIn("carve-64", memory["ram_total_bytes"]["causa"])
+        self.assertEqual(memory["vram_total_bytes"]["estado"], "MEDIDO")
+        self.assertEqual(memory["vram_total_bytes"]["valor"], 103079215104)
         self.assertNotIn("combined_memory_bytes", memory)
         self.assertNotIn("usable_total_bytes", memory)
 
     def test_model_size_gap_and_active_state_are_explicit(self):
         models = self.data["nodes"][0]["models"]
-        self.assertEqual(len(models["catalog"]), 2)
+        self.assertEqual(len(models["catalog"]), 3)
+        self.assertEqual(models["catalog"][0]["nombre"]["valor"], "llama3.3:70b")
+        self.assertEqual(models["catalog"][1]["nombre"]["valor"], "qwen3:1.7b")
         self.assertEqual(models["catalog"][1]["tamano_bytes"]["estado"], "NO_DATA")
-        self.assertEqual(models["active"]["valor"], [])
+        self.assertEqual(models["catalog"][2]["nombre"]["valor"], "hexelion:latest")
+        self.assertEqual(models["catalog"][2]["contexto"]["valor"], 65536)
+        self.assertEqual(models["catalog"][2]["keep_alive"]["valor"], "Forever (residente permanente, no se descarga)")
+        self.assertEqual(models["active"]["estado"], "MEDIDO")
+        self.assertEqual(models["active"]["valor"][0]["nombre"], "hexelion:latest")
+        self.assertEqual(models["active"]["valor"][0]["digest_prefijo"], "c78bcad5")
         self.assertEqual(models["queue"]["estado"], "NO_DATA")
         digest = models["catalog"][0]["manifest_sha256"]["valor"]
         self.assertRegex(digest, r"^[0-9a-f]{64}$")
@@ -129,8 +142,9 @@ class FleetF2Tests(unittest.TestCase):
 
     def test_ram_vram_are_not_added_in_any_output_field(self):
         memory = self.data["nodes"][0]["memory"]
-        self.assertEqual(memory["ram_total_bytes"]["valor"], 65963548672)
-        self.assertEqual(memory["vram_total_bytes"]["valor"], 68719476736)
+        self.assertEqual(memory["ram_total_bytes"]["estado"], "NO_DATA")
+        self.assertEqual(memory["vram_total_bytes"]["valor"], 103079215104)
+        self.assertIn("JAMÁS sumada", memory["vram_total_bytes"]["fuente"])
         self.assertFalse(any("sum" in key.lower() or "combined" in key.lower() for key in memory))
 
 
