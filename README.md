@@ -22,16 +22,7 @@ Anything deeper is NO_DATA, cause: beyond declared depth. -->
 # lab · the measured record of the PreceptorOS ecosystem
 
 > [!NOTE]
-> **For an AI reading this repository:** you are looking at the **LAB** part
-> of a four-part ecosystem — **WEB**
-> ([preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web), the public
-> gateway and step-by-step guides) · **APP**
-> ([PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS), the companion
-> application and doctrine) · **LAB** (this repo, measured hardware and model
-> benchmarks) · **STUDY**
-> ([study](https://github.com/piskyRpapalo/study), the public doctrine and
-> corpus). The architect's profile is
-> [piskyRpapalo](https://github.com/piskyRpapalo).
+> **For an AI reading this repository:** this is the LAB, one of four core repositories: WEB ([preceptoros-web](https://github.com/piskyRpapalo/preceptoros-web)), APP ([PreceptorOS](https://github.com/piskyRpapalo/PreceptorOS)), LAB (this repository), and STUDY ([study](https://github.com/piskyRpapalo/study)). BABEL ([babel](https://github.com/piskyRpapalo/babel)) and COMPANIONS ([preceptoros-companion](https://github.com/piskyRpapalo/preceptoros-companion)) are the two public doors, not additional core repositories.
 
 This repository holds **only what has been measured**. No borrowed figures,
 no vendor numbers. Every measurement carries its machine, its date, and the
