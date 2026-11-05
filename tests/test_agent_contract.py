@@ -6,9 +6,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class AgentContract(unittest.TestCase):
     def test_claude_uses_agents_as_the_single_canonical_contract(self):
-        claude = (ROOT / "CLAUDE.md").read_text(encoding="utf-8")
+        # CLAUDE.md retired by lab#137 (retiro-md-agentes): AGENTS.md is the single
+        # canonical contract. A reintroduced parallel policy file must stay RED.
+        self.assertFalse((ROOT / "CLAUDE.md").exists())
         agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-        self.assertIn("AGENTS.md", claude)
         self.assertIn("NO_DATA", agents)
         self.assertIn("origin/main", agents)
 
