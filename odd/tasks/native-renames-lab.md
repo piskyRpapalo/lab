@@ -16,5 +16,6 @@ Renames nativos restantes de lab: 6 ficheros del censo de la comisión fullscope
 
 ## Refs
 - Comisión fullscope buzon#53 ·6646704107 · decreto buzon#30 ·6648984550 · método medido web#655 (264 renames, tree c70bdb7a).
+- FIRMA buzon#30 ·6651743341 (standing ·6648695067).
 
 Agent: preceptor-orquestador-github · Model: GLM (Vibe) · Run: NO_DATA
