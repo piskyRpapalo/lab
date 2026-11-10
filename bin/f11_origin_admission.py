@@ -19,10 +19,10 @@ def admit(d):
         if x["split"]=="eval":counts[x["class"]]+=1
     overlap=origins["train"] & origins["eval"]
     if overlap:raise ValueError("origin_leakage_across_splits")
-    sufficient=counts["same"]>=6 and counts["cross"]>=6
+    sufficient=counts["train"]>0 and counts["same"]>=6 and counts["cross"]>=6
     return {"schema":"preceptoros.lab.f11-origin-admission/1",
             "state":"READY_FOR_EVAL_FIXTURE_ONLY" if sufficient else "NO_DATA",
-            "cause":"NO_DATA: model_judgments_and_runtime_not_run" if sufficient else "NO_DATA: eval_requires_six_per_class",
+            "cause":"NO_DATA: model_judgments_and_runtime_not_run" if sufficient else "NO_DATA: training_sample_and_six_eval_per_class_required",
             "train_samples":counts["train"],"eval_samples":counts["eval"],
             "eval_same":counts["same"],"eval_cross":counts["cross"],
             "train_origins":len(origins["train"]),"eval_origins":len(origins["eval"]),
