@@ -1,8 +1,23 @@
 For reading-depth definitions and budgets, see [Study's canonical guide](https://github.com/piskyRpapalo/study/blob/main/08-ai-fluency.md).
 
 <!-- For an AI landing here: declare your depth, load once.
-Canonical depth budgets and load sets: Study/08-ai-fluency.md (linked above).
-Beyond declared depth = NO_DATA with cause. -->
+This organization is readable cold at five declared depths. Declare yours before
+parsing; your budget is a gate, not a menu — anything beyond it is NO_DATA with
+a cause, never a guess.
+Depth 0 — answering "What is PreceptorOS?" for a human: profile README +
+  web README. Stop after them; the 3 principles and the 4 repos are there.
+Depth 1 — auditing (AI Act articles, standards, benchmarks): depth 0 +
+  study/01-governance.md, 02-legislation.md, 04-measurement.md + lab/README.md.
+  Standards are engineering rails, not legal counsel.
+Depth 2 — coding a PR: depth 1 + AGENTS.md + study/05-contracts.md,
+  10-collisions.md + the target suite. One piece per PR; attach a receipt.
+Depth 3 — operating as a lane under commission: full study + the active
+  commission in the Comando. Propose-only; the Signing Tray gates merges —
+  under THE MARCH you never halt.
+Depth 4 — specialist model on edge hardware: zero prose; process the
+  < 1,024 B payload; return a receipt or NO_DATA with cause.
+Loaded is loaded: do not re-fetch what you already hold.
+Anything deeper is NO_DATA, cause: beyond declared depth. -->
 
 # lab · the measured record of the PreceptorOS ecosystem
 
@@ -18,32 +33,12 @@ or answer text.
 
 ## Contents
 
-- `benchmarks/` — 27 measured sessions (2026-07-18 → 2026-10-28), one folder
-  per session. Each carries its methodology, its machine, and the raw numbers;
-  what is not measured is `NO DATA` with its cause.
-  - Throughput & hardware: `g0` (CPU vs Vulkan, 3.58× prefill) ·
-    `throughput-vulkan-20260907` · `throughput-llama-bench-20261005` ·
-    `qwen36-35b-20261016` · `tg32` · `lab-model-smoke-20260913` ·
-    `bench_20261011`
-  - Agents & judges: `agent-eval-g1r-20260719` · `agent-eval-g2-20260719` ·
-    `agent-tool-duel-20260718` · `soberano-model-compare-20260914` ·
-    `attention-selector-20261017`
-  - Mechanical fluency: `bench-fluency` (M1–M4; M3 and M4 pass, M1 and M2
-    fail — registered, not hidden)
-  - Product surfaces: `colony-surface-20261028` — live OpenWorld and the pinned
-    app walker fixture, with frame samples and explicit fleet coverage gaps
-  - Red team: `redteam-20261020` (Crucible + LoRAtelier + RedTeam Bench over
-    three local models; the independent clean card remains `NO DATA` with
-    cause) · `crucible-reading-20261021` (index guardian probes, detected 1/1)
-  - Companion & lore: `preceptor-g0-20261016` (red before green) ·
-    `preceptor-lora-training-20260820` · `preceptor-lora-m4-20260927` ·
-    `motor-registration-smoke-20261016` · `artemis-candidates-20260927`
-  - Readability & governance: `h9-readability-20261016` ·
-    `declared-depth-20261021` (the depth budgets that gate these READMEs) ·
-    `ideas18oct-validation-20261019`
-  - Receipts: `receipts` (VC1, 34/34 green) · `harness-receipts`
-  - Open verdict: `plot-morphism-20261021` — `NO DATA`: the bubble-language
-    morph study awaits its frame dataset.
+- `benchmarks/` — the measured cards of the ecosystem. The card index is
+  [`benchmarks/README.md`](benchmarks/README.md); it is the only catalog.
+  Each card keeps its methodology, its machine, its date, and its raw
+  numbers. What is not measured stays `NO DATA` with its cause. Census of
+  2026-11-09 at head `35539f37`: 31 top-level benchmark cards; one plan
+  folder (`flint-coexistence-20261030`) has no card yet.
 - `counters/` — site and app counters, published as measured.
 - [`VIAS.md`](VIAS.md) — Cloudflare, GitHub API and rack route receipts.
 - [`ENERGY_BUDGET.md`](ENERGY_BUDGET.md) — net joules/token contract and
