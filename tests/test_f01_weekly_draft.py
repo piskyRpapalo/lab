@@ -14,10 +14,10 @@ class TestF01(unittest.TestCase):
  def test_repeat_deterministic(self):self.assertEqual(m.compose(example()),m.compose(example()))
  def test_below_ceiling(self):self.assertLess(len(json.dumps(m.compose(example())).encode()),1024)
  def test_only_aggregates(self):
-  self.assertNotIn("verification_limit","NO_DATA: unverified_ref" if "not" in str(m.compose(example())) else "NO_DATA: unverified_ref")
   self.assertNotIn("unverified_CI",str(m.compose(example())))
+  self.assertNotIn("unverified_ref",str(m.compose(example())))
  def test_no_data(self):
-  v=example();v["f08"]={"cause":"no records"};self.assertEqual(m.compose(v)["f08"]["state"],"NO_DATA")
+  v=example();v["f08"]={"cause":"missing_receipt"};self.assertEqual(m.compose(v)["f08"]["state"],"NO_DATA")
  def test_no_data_requires_reason(self):
   v=example();v["f08"]={"cause":""}
   with self.assertRaises(ValueError):m.compose(v)
@@ -35,6 +35,9 @@ class TestF01(unittest.TestCase):
   with self.assertRaises(ValueError):m.compose(v)
  def test_week_format(self):
   v=example();v["week"]="2026-46"
+  with self.assertRaises(ValueError):m.compose(v)
+ def test_freeform_cause_is_rejected(self):
+  v=example();v["f08"]={"cause":"private secret text"}
   with self.assertRaises(ValueError):m.compose(v)
  def test_reject_float(self):
   v=example();v["f08"]["signed"]=1.1
