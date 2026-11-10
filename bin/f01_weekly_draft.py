@@ -8,6 +8,8 @@ import hashlib
 import json
 import re
 
+CAUSES = {"not_measured", "missing_receipt", "stale_measurement", "source_unavailable"}
+
 def compose(d):
     if not isinstance(d,dict) or set(d)!={"week","f08","f09"}:raise ValueError("closed_week_input")
     if not isinstance(d["week"],str) or not re.fullmatch(r"[0-9]{4}-W(?:0[1-9]|[1-4][0-9]|5[0-3])",d["week"]):raise ValueError("week_format")
@@ -15,7 +17,7 @@ def compose(d):
     for key,required in [("f08",{"signed","pending","verification"}),("f09",{"green","red","unknown","verification"})]:
         row=d[key]
         if not isinstance(row,dict):raise ValueError("observation_required")
-        if set(row)=={"cause"} and isinstance(row["cause"],str) and row["cause"].strip():
+        if set(row)=={"cause"} and isinstance(row["cause"],str) and row["cause"] in CAUSES:
             results[key]={"state":"NO_DATA","cause":row["cause"]};continue
         if set(row)!=required:raise ValueError("closed_observation_fields")
         if any(type(row[k]) is not int or row[k]<0 for k in required-{"verification"}):raise ValueError("nonnegative_counts_required")
