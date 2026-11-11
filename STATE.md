@@ -1,16 +1,14 @@
 # STATE · LAB ecosystem
 
-## Latest benchmark verification · 2026-11-11 UTC
+## Benchmark pulse · checked 2026-11-11 UTC
 
-**Scope:** GitHub PR heads and completed workflows; **no new model run in this refresh**. [Dated, source-linked benchmark ledger](odd/tasks/benchmark-status-20261111.md) and [Comando receipt](https://github.com/piskyRpapalo/buzon/issues/61#issuecomment-6790565281).
+[Verified per-PR states, exact SHA, workflow receipts and limits](odd/tasks/benchmark-status-20261111.md) · [Comando receipt](https://github.com/piskyRpapalo/buzon/issues/61#issuecomment-6790565281).
 
-- **Created and merged 2026-11-10:** LAB #144–#149 (F-08, F-09, F-01, index guard, F6 economic, F-11); each exact-head `pruebas` = SUCCESS. APP #235 exact-head `pruebas` = SUCCESS, merged. WEB #799 exact-head `phase`/`gate`/`hitl` = SUCCESS, merged.
-- **Created late 2026-11-10; merged morning 2026-11-11:** LAB #150–#154; five exact-head `pruebas` = SUCCESS. Their offline fixtures are **not** live E2E.
-- **Created 2026-11-11:** LAB #155–#160 merged with six exact-head `pruebas` = SUCCESS. #158's Gemma2 DFA-B5 experimental result is **RED (4/8 correct ×2)** despite green CI. #159 measured Gemma2 GPU 40.11/40.26 tok/s vs CPU 27.47/27.68 tok/s; #160 matched Qwen3 1.7B endpoints rack 56.08/55.25 vs tunnel 124.99/129.77 tok/s.
-- **Still OPEN DRAFT:** LAB #161 (SWARM-01) and #162 (24-case synthetic model matrix); exact-head `pruebas` = SUCCESS for both. No merge declared.
-- **NO_DATA:** human gold/calibration, model quality generalized beyond the specific fixtures, energy/J/token, solar autonomy, unattended dispatch, physical screen-reader parity and live deployment. **Reason:** not measured in the referenced receipts. Two successful synthetic test passes do not verify these outcomes.
+- **Nov 10:** LAB #144–#149, APP #235, WEB #799 merged; exact-head CI SUCCESS. LAB #150–#154 were created late Nov 10 and merged Nov 11; CI SUCCESS.
+- **Nov 11:** LAB #155–#160 merged; CI SUCCESS. #158's *experimental* verdict is RED, not GREEN. LAB #161/#162 remain OPEN DRAFT; CI SUCCESS.
+- **NO_DATA:** solar energy/J per token, human-gold calibration, unattended dispatch and physical accessibility; not measured in these reports.
 
-### Historical snapshot · October 22 (retained, not current)
+### Archived snapshot · Oct 22 (not current)
 
 > Snapshot date 2026-10-22 · measurement hour: NO_DATA (not captured). Proposal, unsigned; values link to dated evidence.
 
