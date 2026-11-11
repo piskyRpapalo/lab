@@ -31,6 +31,8 @@ Benchmarks are tied to the node's star (its public identifier) with real
 telemetry samples — traces, verdicts, harness output — and never raw prompt
 or answer text.
 
+## [Benchmarks](benchmarks/README.md)
+
 ## Contents
 
 - `benchmarks/` — the measured cards of the ecosystem. The card index is
