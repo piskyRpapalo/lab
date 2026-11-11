@@ -1,0 +1,48 @@
+{
+  "schema": "preceptoros.lab.swarm-device-preflight/1",
+  "observed_at_utc": "2026-11-11T01:00:54Z",
+  "scope": "SNAPSHOT_NOT_CONTINUOUS",
+  "sources": [
+    "adb devices -l",
+    "lsusb",
+    "free -m",
+    "ollama ps",
+    "Ollama /api/tags",
+    "Ollama /api/ps"
+  ],
+  "devices": {
+    "rack": {
+      "host_role": "enrolled_rack",
+      "host_inspected_directly": true,
+      "ollama_models_installed": 29,
+      "ollama_models_loaded": 0,
+      "available_memory_mib": 45168,
+      "other_ai_process_ownership": "NO_DATA: session_ownership_not_verified_in_snapshot"
+    },
+    "station_tunnel": {
+      "host_role": "inference_tunnel_only",
+      "host_inspected_directly": false,
+      "ollama_models_installed": 17,
+      "ollama_models_loaded": 0,
+      "os_and_gpu": "NO_DATA: no_direct_host_attestation",
+      "other_process_state": "NO_DATA: tunnel_only"
+    },
+    "android": {
+      "authorized_adb_devices": 0,
+      "media_tek_usb_seen": true,
+      "device_identity": "NO_DATA: usb_interface_not_phone_proof",
+      "physical_app_test": "NO_DATA: adb_devices_empty"
+    }
+  },
+  "mini_candidates_installed_on_rack": [
+    "qwen3:1.7b",
+    "gemma2:2b-instruct-q4_K_M",
+    "phi4-mini:latest"
+  ],
+  "model_quality": "NO_DATA: no_inference_in_preflight",
+  "energy": "NO_DATA: unvalidated_meter",
+  "assistive_e2e": "NO_DATA: no_physical_screen_reader_or_mic_test",
+  "remote_process_inventory": "NO_DATA: tunnel_no_process_inspection",
+  "status": "OBSERVED_PARTIAL",
+  "signature": "NO_DATA: unsigned_observation"
+}
