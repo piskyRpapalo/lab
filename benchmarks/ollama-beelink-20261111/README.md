@@ -1,5 +1,10 @@
 # LAB · Ollama throughput · 2026-11-11 · Beelink
 
+Broadcast receipt: figure=12/12 measured completions; model speeds 9.021–55.795 generated tokens/s | model=Gemma2 2B, Qwen3 1.7B, Mistral 7B Q4_K_M, Qwen3.5 9B, Mistral Nemo 12B Q4_K_M, Qwen2.5 14B | machine=Beelink class Ryzen 7 255 / Radeon 780M, 57 GiB RAM | date=2026-11-11 | sha256=317a6a163c1b88f6fff64e514e63a6cff12ef3b70dd93d33663256448e9c8950 (original local receipt, not published text)
+
+Benchcard: machine=Beelink class Ryzen 7 255, Radeon 780M, 57 GiB RAM | date=2026-11-11 | runner=Ollama 0.40.3 loopback /api/generate; 64-token capped fixed synthetic stimulus, two sequential runs per model | quant=as installed by Ollama, not independently enumerated for all models | sha256=317a6a163c1b88f6fff64e514e63a6cff12ef3b70dd93d33663256448e9c8950 (original private local receipt)
+
+
 **Status: MEASURED (local generation speed only)**. This is a public, scrubbed readout of 12 completed samples from six installed models. No raw prompts, responses, credentials, private file paths or hardware identifiers are published.
 
 ## Summary (tokens generated per second)
