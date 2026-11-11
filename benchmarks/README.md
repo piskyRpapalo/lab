@@ -6,6 +6,7 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 
 Broadcast receipts now lead all 31 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
+- [3D STL geometry audit · 2026-11-11](receipts/20261111-stl-geometry-audit.md): four local binary STL mesh checks (topology, extents, signed volume); 3D AI-generation/physical print NO_DATA. Separate from the text-model matrix and throughput rankings.
 - [Tanda 1 · 2026-10-30](station-tanda1-20261030/README.md): three local models on the unified-memory station, three hot runs each, medians and honest sensor peaks; the 131,072-context trial is recorded NO_PROMOVER.
 - [Unified-memory station · 2026-10-29](station-96-first-pass-20261029/README.md): short 70B local measurement and deterministic small-model smoke.
 - [Self-preference · 2026-10-25](self-preference-20261025/README.md): same-family and cross-family detection, with response hashes only and three-ring coverage `NO_DATA`.
