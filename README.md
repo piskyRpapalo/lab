@@ -31,7 +31,7 @@ Benchmarks are tied to the node's star (its public identifier) with real
 telemetry samples — traces, verdicts, harness output — and never raw prompt
 or answer text.
 
-## [Benchmarks](benchmarks/README.md)
+## [Benchmarks](benchmarks/README.md) · Pruebas de rendimiento · Tests de performance · Testes de desempenho · Benchmark delle prestazioni · Leistungsbenchmarks · Тесты производительности · Δοκιμές επιδόσεων · اختبارات قياس الأداء · 性能基准测试 · 성능 벤치마크
 
 ## Contents
 
