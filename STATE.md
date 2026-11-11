@@ -1,5 +1,17 @@
 # STATE · LAB ecosystem
 
+## Current integration check · 2026-11-11 ~20:53 UTC
+
+**Canonical fastpath for Claude:** [LAB build-ready evidence and anti-dup map](odd/tasks/claude-lab-build-fastpath-20261111.md). This dated section **supersedes** the status assertions in the earlier November 11 pulse below; those historical rows remain for provenance and must not be quoted as live status.
+
+- **Beelink via SentinelX:** LAB `main` = local `origin/main` = `9b20473a6c35f7889175436078e8d2b5dd0b5af0`; working tree clean, no local files outstanding. Ollama rack and station tunnel both showed **0 resident models** at the observation point; Claude CLI active. No compute lease claimed.
+- **Actual LAB gates (freshly run ×2):** `unittest discover -s tests -p 'test_*.py'` **516 tests / 0 failures / 1 skipped each**; `test_llms.py` **2/2** each; `verify_llms_tree.py` **12018 B <= 12109 B** each. These results apply to this exact main snapshot, not future PR heads.
+- **Corrected GitHub integration:** [#161](https://github.com/piskyRpapalo/lab/pull/161), [#162](https://github.com/piskyRpapalo/lab/pull/162), [#167](https://github.com/piskyRpapalo/lab/pull/167) and [#169](https://github.com/piskyRpapalo/lab/pull/169) are **MERGED**, with exact-head `pruebas` SUCCESS for #167 and #169. The earlier phrase **“#161/#162 remain OPEN DRAFT” is superseded**. [#165](https://github.com/piskyRpapalo/lab/pull/165) and [#166](https://github.com/piskyRpapalo/lab/pull/166) remain **OPEN**; GitHub CI was queued when read. No automatic FIRMO or deployment follows from this correction.
+- **Phone readiness:** `adb devices -l` now shows an authorized **S110** over USB. Physical five-minute, speech/reader, LoAF and printer evidence remain **NO_DATA: not run in this LAB check**. Native rack MCP S-1 files are present, but Claude harness integration is **NO_DATA: registration not verified**.
+- **Scoping law:** Seven Study benchmark families, DFA-B1…B7, the 24-case synthetic model matrix, a 48-call literal security pilot and the dual-judge uncalibrated pilot are **separate** denominators and claims. Do not promote a RED experimental verdict because CI passed.
+
+---
+
 ## Benchmark pulse · checked 2026-11-11 UTC
 
 [Verified per-PR states, exact SHA, workflow receipts and limits](odd/tasks/benchmark-status-20261111.md) · [Comando receipt](https://github.com/piskyRpapalo/buzon/issues/61#issuecomment-6790565281).
