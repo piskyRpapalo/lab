@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-11",
+  "host_class": "AMD Ryzen 7 255 / Radeon 780M / x86_64",
+  "model": "gemma2:2b-instruct-q4_K_M",
+  "not_a_quality_benchmark": true,
+  "options_without_num_gpu": {
+    "num_ctx": 512,
+    "num_predict": 48,
+    "num_thread": 4,
+    "seed": 23,
+    "temperature": 0
+  },
+  "power": "NO_DATA: meter_not_validated",
+  "prompt_sha256": "8e53b32f90e3e069f19186e6bd6108842e33ee9cc02b9f540c008d27673c4cce",
+  "runs": [
+    {
+      "backend_observed": "GPU",
+      "backend_requested": "gpu",
+      "eval_count": 48,
+      "generation_tokens_s": 40.11,
+      "load_s": 1.137,
+      "model": "gemma2:2b-instruct-q4_K_M",
+      "run": 1,
+      "size_vram_bytes": 1805322812,
+      "wall_s": 2.504
+    },
+    {
+      "backend_observed": "CPU",
+      "backend_requested": "cpu",
+      "eval_count": 48,
+      "generation_tokens_s": 27.47,
+      "load_s": 1.784,
+      "model": "gemma2:2b-instruct-q4_K_M",
+      "run": 2,
+      "size_vram_bytes": 0,
+      "wall_s": 3.78
+    },
+    {
+      "backend_observed": "CPU",
+      "backend_requested": "cpu",
+      "eval_count": 48,
+      "generation_tokens_s": 27.68,
+      "load_s": 2.032,
+      "model": "gemma2:2b-instruct-q4_K_M",
+      "run": 3,
+      "size_vram_bytes": 0,
+      "wall_s": 4.014
+    },
+    {
+      "backend_observed": "GPU",
+      "backend_requested": "gpu",
+      "eval_count": 48,
+      "generation_tokens_s": 40.26,
+      "load_s": 1.131,
+      "model": "gemma2:2b-instruct-q4_K_M",
+      "run": 4,
+      "size_vram_bytes": 1805322812,
+      "wall_s": 2.495
+    }
+  ],
+  "schema": "preceptoros.lab.device-model-throughput/1",
+  "scope": "SMALL_SYNTHETIC_COLD_START",
+  "thermal_control": "NO_DATA: no_stabilized_sensor_measurement"
+}
