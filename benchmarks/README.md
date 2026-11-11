@@ -1,4 +1,4 @@
-# Recovered benchmarks
+# Benchmarks · Pruebas de rendimiento · Tests de performance · Testes de desempenho · Benchmark delle prestazioni · Leistungsbenchmarks · Тесты производительности · Δοκιμές επιδόσεων · اختبارات قياس الأداء · 性能基准测试 · 성능 벤치마크
 
 Index of the available measured material, with no new inference. Each card keeps its own yardstick; `NO_DATA` marks a value the source does not substantiate. This index was checked against lab `origin/main` 3f49cf8 on 2026-10-28. The colony benchmark and the AI security corpus were added after that base; prior measurements are not remeasured. The corpus records no evaluated run.
 
