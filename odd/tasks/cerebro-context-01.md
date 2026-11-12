@@ -133,7 +133,12 @@ fails, keep the NO_DATA result and locate its stage instead of forcing a PASS.
 - Original APP lookup and quote/relevance pipeline smoke: MEASURED, one public
   source, six pinned source files; no model or private corpus used.
 - Portable targeted tests at initial checkpoint: context/brain 17 + memory 26
-  PASS. Final canonical tests, mutations, H5, model runs and CI: pending.
+  PASS. Final canonical tests: 679 tests twice, one existing skip, zero failures/errors.
+  Norte/Node/llms/tree companions passed twice. Final mutations: 14/14 twice.
+  Two actual public cycles completed; see the evidence summary. Independent H5
+  PASS at runtime `6bc70e493a2c53509ee7ddf53879d886854880e9`; 49 directed
+  tests twice, plus both artifacts/38 LAB and 12 APP source hashes verified.
+  Exact-head remote CI remains pending until publication.
 - Real code mutations: initial 10/11 detected in both runs. The dedup mutation
   survived because a test assertion inside the proposer was caught as a lost
   acknowledgement. Added a caller-side attempt counter; now 11/11 detected
@@ -144,6 +149,10 @@ fails, keep the NO_DATA result and locate its stage instead of forcing a PASS.
   negative tests: reconstruct witnessed baseline roles and context-bound planner
   input, compare fresh prompt digest, and require reconciliation/chain/views/DB
   counts for the overall outcome. Targeted consumer/memory tests now 49 PASS.
+
+Evidence: [measured summary](../../benchmarks/receipts/20261112-cerebro-summary.md),
+[trial 1](../../benchmarks/receipts/20261112-cerebro-public-1.json),
+[trial 2](../../benchmarks/receipts/20261112-cerebro-public-2.json).
 
 ## Integration, limits and rollback
 
