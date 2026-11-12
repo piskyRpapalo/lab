@@ -6,6 +6,10 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 
 Broadcast receipts now lead all 32 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
+Public reproduction method: [BENCH-REPRO-01](../odd/tasks/bench-repro-01.md) extends the existing two-pass local runner with a public synthetic fixture. [Four new Qwen3 samples](receipts/20261112-public-throughput-qwen3.json) retain source and fixture hashes; this is a new experiment, not byte-identical reproduction of the unpublished #164 input. Throughput and task accuracy remain separate.
+
+Contributor instructions: [Submit a reproducible local benchmark](../docs/contributing-local-benchmarks.md) · method, privacy, negative controls and provenance; documentation, **not** a 33rd benchmark card.
+
 - [3D STL geometry audit · 2026-11-11](receipts/20261111-stl-geometry-audit.md): four local binary STL mesh checks (topology, extents, signed volume); 3D AI-generation/physical print NO_DATA. Separate from the text-model matrix and throughput rankings.
 - [Local Ollama · Beelink · 2026-11-11](ollama-beelink-20261111/README.md): six installed models, 12 measured generation-throughput samples, wall/load metrics and original private receipt digest; quality and CPU/GPU split NO_DATA.
 - [Seven habitat families · local AI-security literal pilot · 2026-11-11](receipts/20261111-seven-family-security-pilot.md): 48 local model calls against the existing 12-case corpus; keyword-only diagnostics and a source-qualified seven-family evidence/NO_DATA map (not safety certification).
