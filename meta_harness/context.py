@@ -133,7 +133,8 @@ class ContextConsumer:
             fresh = self.read(query, now)
             if (sha(snapshot._sources) != record['sources_sha256']
                     or digest_text(snapshot._prompt) != record['prompt_sha256']
-                    or fresh.record()['sources_sha256'] != record['sources_sha256']):
+                    or fresh.record()['sources_sha256'] != record['sources_sha256']
+                    or fresh.record()['prompt_sha256'] != record['prompt_sha256']):
                 raise ContextError('context_hash_changed')
             return True
         except ContextError:

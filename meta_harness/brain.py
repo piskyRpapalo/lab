@@ -3,9 +3,9 @@
 This is a consumer prototype for APP/H3 integration, not a scheduler, state bus
 or permission service. All authority and persistence adapters belong to the host.
 """
-from .context import CAUSES as CONTEXT_CAUSES, ContextError, instant
+from .context import CAUSES as CONTEXT_CAUSES, ContextError, digest_text, instant
 from .delegation import HEX, encode, sha, verify
-from .hexelion import capability_evidence
+from .hexelion import capability_evidence, public_prompt
 
 CAUSES = CONTEXT_CAUSES | {'baseline_not_witnessed', 'selection_not_witnessed', 'planner_abstained',
     'execution_not_witnessed', 'memory_adapter_absent', 'memory_not_confirmed', 'host_adapter_failed', 'cancelled'}
@@ -191,6 +191,22 @@ def verify_cycle(result, tasks, *, witness):
                 or record['memory_ref'] != (sha(result['memory']) if result['memory'] is not None else None)):
             return False
         if record['state'] == 'MEASURED':
+            bound = [by_hash[r['task_sha256']] for r in receipts]
+            first, planned_task, delegated = bound[0], bound[2], bound[3]
+            capability = capability_evidence(receipts[:2], bound[:2], first['model_version'],
+                receipts[2]['observed_at'], witness=witness)
+            if (capability is None or planned_task['source'] != 'private-model'
+                    or planned_task['specialist'] != 'hexelion' or planned_task['max_tokens'] != 512
+                    or planned_task['task_id'] != 'public-sort'
+                    or planned_task['transport'] != 'ollama_loopback'
+                    or planned_task['input_sha256'] != digest_text(public_prompt(capability,
+                                                       context_ref=record['context_ref']))
+                    or delegated['source'] != {'baseline-tool': 'local-tool',
+                        'baseline-model': 'local-model'}.get(first['source'])
+                    or len({t['run_id'] for t in bound}) != 4
+                    or any(delegated[k] != first[k] for k in ('task_id', 'specialist', 'input_sha256',
+                        'model_version', 'transport', 'max_tokens', 'privacy', 'depth'))):
+                return False
             expected_events = [
                 {'stage': 'context', 'state': 'MEASURED', 'ref': record['context_ref']},
                 {'stage': 'baseline', 'state': 'MEASURED', 'ref': sha(record['receipt_refs'][:2])},

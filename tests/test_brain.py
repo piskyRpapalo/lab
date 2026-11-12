@@ -11,6 +11,44 @@ from tests.test_meta_context import fixture, QUERY, STAMP
 
 
 class BrainTests(unittest.TestCase):
+    def test_chain_role_and_context_forgery_fail_even_with_resealed_views(self):
+        args, kw, _ = self.prepare()
+        original = cycle(*args, **kw)
+        tasks = kw['baseline_tasks'] + [kw['delegated_task'], kw['planner_factory'].request]
+        def reseal(result):
+            r = result['record']
+            r['receipt_refs'] = [x['receipt_ref'] for x in result['receipts']]
+            r['memory_ref'] = sha(result['memory'])
+            for event in result['events']:
+                if event['stage'] == 'context': event['ref'] = r['context_ref']
+                if event['stage'] == 'baseline': event['ref'] = sha(r['receipt_refs'][:2])
+                if event['stage'] == 'execution': event['ref'] = r['receipt_refs'][3]
+                if event['stage'] == 'memory': event['ref'] = r['memory_ref']
+            r['cycle_ref'] = sha({k: v for k, v in r.items() if k != 'cycle_ref'})
+            result['views'] = projections(r)
+        changed = copy.deepcopy(original)
+        changed['receipts'][0], changed['receipts'][3] = changed['receipts'][3], changed['receipts'][0]
+        changed['memory']['receipt_ref'] = changed['receipts'][-1]['receipt_ref']
+        reseal(changed)
+        self.assertFalse(verify_cycle(changed, tasks, witness=kw['session'].attests))
+        changed = copy.deepcopy(original)
+        changed['record']['context_ref'] = 'f' * 64
+        reseal(changed)
+        self.assertFalse(verify_cycle(changed, tasks, witness=kw['session'].attests))
+
+    def test_overall_success_requires_durable_reconciliation_and_database_counts(self):
+        from meta_harness.brain_demo import outcome
+        args, kw, _ = self.prepare()
+        result = cycle(*args, **kw)
+        report = {'cycle': result, 'chain_verified': True, 'projection_verified': True,
+            'reconciliation': result['memory'],
+            'database': {'drafts': 1, 'engrams': 0, 'user_database_touched': False}}
+        self.assertEqual(outcome(report), {'state': 'MEASURED', 'cause': None})
+        for changed, cause in [({'reconciliation': {'state': 'NO_DATA'}}, 'reconciliation_not_confirmed'),
+                               ({'chain_verified': False}, 'chain_or_projection_not_verified'),
+                               ({'database': {'drafts': 2}}, 'database_counts_not_confirmed')]:
+            self.assertEqual(outcome(dict(report, **changed)), {'state': 'NO_DATA', 'cause': cause})
+
     def test_reconciliation_never_invokes_a_writer_after_durable_ack(self):
         from tests.test_memory_draft import DraftTests
         state = DraftTests()
@@ -68,8 +106,10 @@ class BrainTests(unittest.TestCase):
                             'ollama_loopback', 512)
         calls = []
         class Planner:
-            input_sha256 = 'c' * 64
             context_ref = snapshot.record()['context_ref']
+            def __init__(self, capability):
+                from meta_harness.context import digest_text
+                self.input_sha256 = digest_text(public_prompt(capability, context_ref=self.context_ref))
             def __call__(self, t, cancelled):
                 calls.append('planner')
                 self.decision = decision
@@ -77,14 +117,19 @@ class BrainTests(unittest.TestCase):
                     mutate(rows, self)
                 return {'model_version': t['model_version'], 'tokens': 1,
                     'output_sha256': sha({'action': decision}), 'grade': 'PASS', 'basis': 'synthetic'}
-        session = Session(demo_gate(tasks + [planned_task] if grant else [], 'd' * 64), TokenBudget(512))
+        session = Session(lambda t: demo_gate(tasks + [planned_task] if grant else [], 'd' * 64)(t), TokenBudget(512))
+        def planner_factory(capability):
+            adapter = Planner(capability)
+            planned_task['input_sha256'] = adapter.input_sha256
+            return adapter, planned_task
+        planner_factory.request = planned_task
         def draft(receipt, task, *, cancelled):
             calls.append('memory')
             self.assertTrue(session.attests(receipt, task))
             return {'schema': 'preceptoros.meta-memory-draft/1', 'state': 'PENDING',
                     'cause': 'exact_draft_present', 'receipt_ref': receipt['receipt_ref']}
         kwargs = dict(context=context, session=session, worker=worker, baseline_tasks=tasks[:2],
-            delegated_task=tasks[2], planner_factory=lambda capability: (Planner(), planned_task),
+            delegated_task=tasks[2], planner_factory=planner_factory,
             now=lambda: STAMP, write_draft=draft if writer else None, cancelled=cancelled)
         return (QUERY, snapshot), kwargs, calls
 
@@ -102,8 +147,7 @@ class BrainTests(unittest.TestCase):
         tasks = kw['baseline_tasks'] + [kw['delegated_task']]
         # The planner task was bound by its Session witness, but is not in this list.
         self.assertFalse(verify_cycle(result, tasks, witness=kw['session'].attests))
-        tasks.append(task('brain-plan', 'hexelion', 'b' * 64, 'private-model', 'c' * 64,
-                          'ollama_loopback', 512))
+        tasks.append(kw['planner_factory'].request)
         self.assertTrue(verify_cycle(result, tasks, witness=kw['session'].attests))
         result['events'][0]['ref'] = 'e' * 64
         self.assertFalse(verify_cycle(result, tasks, witness=kw['session'].attests))

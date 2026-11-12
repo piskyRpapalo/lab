@@ -138,6 +138,12 @@ fails, keep the NO_DATA result and locate its stage instead of forcing a PASS.
   survived because a test assertion inside the proposer was caught as a lost
   acknowledgement. Added a caller-side attempt counter; now 11/11 detected
   twice, zero test errors. The adapter itself already avoided the second call.
+- Independent H5 blocked the first runtime: chain verification accepted jointly
+  re-sealed role/context changes, fresh prompt changes were not compared, and
+  CLI success ignored failed reconciliation. Fixed all three with directed
+  negative tests: reconstruct witnessed baseline roles and context-bound planner
+  input, compare fresh prompt digest, and require reconciliation/chain/views/DB
+  counts for the overall outcome. Targeted consumer/memory tests now 49 PASS.
 
 ## Integration, limits and rollback
 

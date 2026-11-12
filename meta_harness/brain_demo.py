@@ -126,7 +126,7 @@ def run(app_root, state_dir, approval_ref, *, base='http://127.0.0.1:21434',
     with sqlite3.connect(db.as_uri() + '?mode=ro', uri=True) as c:
         draft_count = c.execute('SELECT count(*) FROM borradores').fetchone()[0]
         engram_count = c.execute('SELECT count(*) FROM engrams').fetchone()[0]
-    return {'schema': 'preceptoros.brain-public-demo/1', 'observed_at': utc_now(),
+    report = {'schema': 'preceptoros.brain-public-demo/1', 'observed_at': utc_now(),
         'scope': 'public_fixture_private_demo_database_not_app_integration',
         'source': provenance(), 'app_source_sha256': files,
         'public_source_sha256': hashlib.sha256(PUBLIC_SOURCE.encode()).hexdigest(),
@@ -143,6 +143,21 @@ def run(app_root, state_dir, approval_ref, *, base='http://127.0.0.1:21434',
                    'acho_audio': 'NO_DATA(not_measured)', 'training': 'NOT_AUTHORIZED',
                    'server_network_isolation': 'NO_DATA(not_attested)',
                    'selection_scope': 'one_operator_prepared_public_capability'}}
+    report['outcome'] = outcome(report)
+    return report
+
+
+def outcome(report):
+    if report['cycle']['record']['state'] != 'MEASURED':
+        return {'state': 'NO_DATA', 'cause': 'cycle_incomplete'}
+    if report['chain_verified'] is not True or report['projection_verified'] is not True:
+        return {'state': 'NO_DATA', 'cause': 'chain_or_projection_not_verified'}
+    if (report['reconciliation'] != report['cycle']['memory']
+            or report['reconciliation'] is None or report['reconciliation'].get('state') != 'PENDING'):
+        return {'state': 'NO_DATA', 'cause': 'reconciliation_not_confirmed'}
+    if report['database'] != {'drafts': 1, 'engrams': 0, 'user_database_touched': False}:
+        return {'state': 'NO_DATA', 'cause': 'database_counts_not_confirmed'}
+    return {'state': 'MEASURED', 'cause': None}
 
 
 def main(argv=None):
@@ -165,7 +180,7 @@ def main(argv=None):
         print(json.dumps({'state': 'NO_DATA', 'cause': 'demo_setup_or_adapter_failed'}))
         return 1
     print(encode(result).decode())
-    return 0 if result['cycle']['record']['state'] == 'MEASURED' else 1
+    return 0 if result['outcome']['state'] == 'MEASURED' else 1
 
 
 if __name__ == '__main__':

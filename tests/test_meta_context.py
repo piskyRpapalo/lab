@@ -53,6 +53,14 @@ class ContextTests(unittest.TestCase):
         with self.assertRaisesRegex(ContextError, 'context_hash_changed'):
             reader.validate(snap, QUERY, STAMP)
 
+    def test_changed_producer_prompt_with_same_sources_and_version_is_rejected(self):
+        reader, _, book, _ = fixture()
+        snap = reader.read(QUERY, STAMP)
+        original = book.construir_prompt
+        book.construir_prompt = lambda q, e: (original(q, e)[0], 'changed producer prompt')
+        with self.assertRaisesRegex(ContextError, 'context_hash_changed'):
+            reader.validate(snap, QUERY, STAMP)
+
     def test_clock_ttl_unknown_dates_and_documents_are_not_live_measurements(self):
         reader, rows, _, _ = fixture('observation')
         snap = reader.read(QUERY, STAMP)
