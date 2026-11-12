@@ -11,6 +11,21 @@ from tests.test_meta_context import fixture, QUERY, STAMP
 
 
 class BrainTests(unittest.TestCase):
+    def test_reconciliation_never_invokes_a_writer_after_durable_ack(self):
+        from tests.test_memory_draft import DraftTests
+        state = DraftTests()
+        state.setUp()
+        self.addCleanup(state.doCleanups)
+        first = state.call()
+        calls = []
+        def attempted_write(*a, **k):
+            calls.append(True)
+            raise RuntimeError('simulated lost acknowledgement')
+        repeated = state.call(memory_api=attempted_write)
+        self.assertEqual(repeated.export(), first.export())
+        self.assertEqual(calls, [])
+        self.assertEqual(len(state.rows()), 1)
+
     def test_snapshot_digest_rechecked_before_existing_adapter_dispatch(self):
         import tempfile
         from pathlib import Path

@@ -43,6 +43,7 @@ a profile; it does not cryptographically authenticate a caller.
 | `meta_harness/brain.py` | One bounded cycle + same-state text/speech/JSON | LAB176 Session, witness, capability evidence |
 | `meta_harness/memory_draft.py` | Reconcile one exact receipt origin with durable private DB | APP `memory.proponer_borrador`, never promotion |
 | `meta_harness/brain_demo.py` | Explicit public experiment with original APP libraries | existing proxy/native worker; new private demo DB/index |
+| `meta_harness/hexelion.py` | Optional closed context digest in the existing planner input | default profile remains byte-identical |
 | `tests/test_meta_context.py`, `test_brain.py`, `test_memory_draft.py` | Portable deterministic/negative contract tests | doubles are labeled synthetic, not real model evidence |
 
 Input is host-owned: query, source policy, pinned source implementation digest,
@@ -69,6 +70,8 @@ witness and exact tasks. Serialized receipts alone cannot grant permission.
 Planner choice is recovered from its witnessed closed-output digest, including
 Session replay. A refreshed adapter object need not have executed. Every actual
 dispatch still passes the existing exact-task host authority and shared budget.
+The optional `context_ref` enters that planner's prompt and exact input hash;
+it conveys the verified snapshot reference, never raw source text or the query.
 Only one operator-prepared public sorting capability is demonstrated: no claim
 of arbitrary task understanding, general intelligent selection or calibrated
 semantic accuracy. Failed or uncertain attempts do not silently fall back.
@@ -131,6 +134,10 @@ fails, keep the NO_DATA result and locate its stage instead of forcing a PASS.
   source, six pinned source files; no model or private corpus used.
 - Portable targeted tests at initial checkpoint: context/brain 17 + memory 26
   PASS. Final canonical tests, mutations, H5, model runs and CI: pending.
+- Real code mutations: initial 10/11 detected in both runs. The dedup mutation
+  survived because a test assertion inside the proposer was caught as a lost
+  acknowledgement. Added a caller-side attempt counter; now 11/11 detected
+  twice, zero test errors. The adapter itself already avoided the second call.
 
 ## Integration, limits and rollback
 
