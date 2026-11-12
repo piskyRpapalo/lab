@@ -1,0 +1,39 @@
+{
+  "schema": "preceptoros.lab.harness-receipt/1",
+  "suite": "tests",
+  "observed_at": "2026-11-12T22:15:42Z",
+  "runtime": {
+    "machine": "x86_64",
+    "python": "3.14.4",
+    "system": "Linux"
+  },
+  "runs": [
+    {
+      "state": "GREEN",
+      "cause": null,
+      "tests": 81,
+      "passed": 81,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_s": 2.961
+    },
+    {
+      "state": "GREEN",
+      "cause": null,
+      "tests": 81,
+      "passed": 81,
+      "skipped": 0,
+      "failures": 0,
+      "errors": 0,
+      "elapsed_s": 2.957
+    }
+  ],
+  "coverage": 81,
+  "total": 81,
+  "determinism": true,
+  "weight_b": 60420,
+  "speed_s": 2.961,
+  "verdict": "GREEN",
+  "sha256": "f55b2efe18a3978a"
+}
