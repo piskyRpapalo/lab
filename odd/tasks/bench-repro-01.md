@@ -122,9 +122,31 @@ leaked, cloud preflight bypassed, HTTP protocol errors uncaught) were detected t
 in disposable copies. Clean source was never mutated. H5 initially found two real
 blockers: cloud-backed loopback models and missing HTTPException handling. Both are
 fixed with regression tests, including malformed chunked HTTP through the actual CLI;
-independent recheck is pending before draft publication. No inference occurred in tests.
+independent recheck passed: 20 directed tests twice and nine further independent
+checks found no residual blocker in this scope. No inference occurred in tests.
 
 Fixture SHA-256: `5bf9fa9a054054d541696c016b04f340bed289700cbd2b8ebeb9826e88020f8c`.
+
+## New local experiment · 2026-11-12
+
+[Sanitized receipt](../../benchmarks/receipts/20261112-public-throughput-qwen3.json):
+two separate CLI executions, two samples each, Qwen3 1.7B, Ollama 0.40.3.
+Generation tok/s: **54.811790, 54.925203; 54.610164, 55.310547**. Four valid
+samples, zero failures. Wall/load counters remain separate in JSON. Source commit
+`bbf96e3e97f905deae30e56de4d8ab91106844b6`; runner SHA-256
+`5353703ce37fc9563c0e0a30b6f2478cf42ecc93617c9db0a37c1276bf178819`.
+Both executions share controls key
+`178f2bf71cfb033cfa7296ac11a215c510fb4f8ebaf756b19a456b882f6700ca`.
+Actual counters/timing vary; deterministic fake-clock tests, not live timings, are
+byte-identical. The envelope contains independently recomputable canonical receipt
+hashes (sorted compact JSON, ASCII escaping); no signature is implied.
+
+Machine class Beelink is DECLARED from the operator context. No resident model was
+reported immediately before the experiment; no existing service or configuration
+was altered. No downloads, fallback or external model calls were requested. Server
+egress, backend, CPU/GPU placement, watts, RAM and semantic correctness stay NO_DATA.
+This procedure is executable by external contributors; independent reproduction on
+another machine remains NO_DATA until a contributor supplies its own receipt.
 
 Risks: benchmark calls consume local compute and may contend with another worker;
 fixed settings do not attest server execution; public labels are operator-selected;
