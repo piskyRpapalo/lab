@@ -184,6 +184,15 @@ class Session:
         self.authority, self.budget, self.clock = authority, budget, clock
         self.runs, self.lock = {}, threading.RLock()
 
+    def attests(self, receipt, task):
+        """Witness only this host session's completed cached execution, not a self-hash."""
+        try:
+            with self.lock:
+                stored = self.runs.get(task['run_id'])
+                return stored is not None and stored[0] == sha(task) and stored[1] == receipt
+        except (KeyError, TypeError, ValueError):
+            return False
+
     def execute(self, task, dispatch, *, observed_at, cancelled=lambda: False):
         # Bad metadata is not echoed into a public receipt.
         validate_task(task)

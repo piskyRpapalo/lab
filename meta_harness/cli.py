@@ -11,7 +11,7 @@ from .delegation import Failure, Session, TokenBudget, encode, sha, verify
 from .improvement import aggregate, evaluate
 from .reuse import ROOT, PATHS, instrument
 from .transports import LocalModel, NativeHealth, StdioMCP
-from .hexelion import ExistingHexelion, public_prompt
+from .hexelion import ExistingHexelion, public_prompt, capability_evidence
 
 throughput = instrument('throughput')
 
@@ -139,18 +139,21 @@ def main(argv=None):
     parser.add_argument('--stop-file', type=Path)
     parser.add_argument('--app-root', type=Path, help='reuse existing APP Hexelion proxy for planner measurement')
     parser.add_argument('--run-prefix', help='public session label; no device identity')
+    parser.add_argument('--bootstrap-baseline', action='store_true', help='measure two public baselines before planner')
     args = parser.parse_args(argv)
     if args.execute_public and not args.approval_ref:
         parser.error('--execute-public requires host approval reference')
     if args.app_root is not None and args.private_model != 'hexelion:latest':
         parser.error('existing APP proxy uses hexelion:latest; no alias substitution')
+    if args.bootstrap_baseline and (not args.execute_public or args.app_root is None):
+        parser.error('--bootstrap-baseline requires explicit execution and existing APP planner')
     cancelled = lambda: args.stop_file is not None and args.stop_file.exists()
     resources = [model_catalog(args.base_url, args.model, 'local-model'),
                  model_catalog(args.private_base_url, args.private_model, 'private-model')]
     for script, source in [(args.native_mcp, 'native-mcp'), (args.private_mcp, 'private-mcp')]:
         resources.append(mcp_catalog(script, source) if script is not None else {
             'source': source, 'kind': 'MCP', 'state': 'NO_DATA', 'cause': 'no_operator_target'})
-    tasks, adapters, planner_task, planner = [], [], None, None
+    tasks, adapters, planner_task, planner, baseline_receipts, capability = [], [], None, None, [], None
     prefix = args.run_prefix or 'r' + sha([utc_now(), time.monotonic_ns()])[:12]
     if args.execute_public:
         try:
@@ -166,18 +169,32 @@ def main(argv=None):
                     tasks.append(task(prefix + '-' + suffix, 'serion-sort', model['model_version'],
                                       'local-model', local.input_sha256, 'ollama_loopback', 64))
                     adapters.append(local)
+            baseline_tasks = []
+            ceiling = 768 if args.bootstrap_baseline else 640 if args.app_root is not None else 128
+            budget = TokenBudget(ceiling)
+            if args.bootstrap_baseline and model['state'] == 'DECLARED':
+                baseline_tasks = [task(prefix + '-base-' + suffix, 'serion-sort', model['model_version'],
+                    'baseline-model', local.input_sha256, 'ollama_loopback', 64) for suffix in ('one', 'two')]
+                baseline_session = Session(demo_gate(baseline_tasks, args.approval_ref), budget)
+                baseline_receipts = [baseline_session.execute(t, local, observed_at=utc_now(), cancelled=cancelled)
+                                     for t in baseline_tasks]
+            capability = None
+            if len(baseline_receipts) == 2:
+                candidate = capability_evidence(baseline_receipts, baseline_tasks, model['model_version'],
+                    utc_now(), witness=baseline_session.attests)
+                if candidate is not None:
+                    capability = candidate
             if args.app_root is not None and resources[1]['state'] == 'DECLARED':
-                planner = ExistingHexelion(args.app_root, args.private_base_url)
+                planner = ExistingHexelion(args.app_root, args.private_base_url, capability)
                 planner_task = task(prefix + '-plan', 'hexelion', resources[1]['model_version'],
-                    'private-model', hashlib.sha256(public_prompt().encode()).hexdigest(), 'ollama_loopback', 512)
+                    'private-model', planner.input_sha256, 'ollama_loopback', 512)
             authority = demo_gate(tasks + ([planner_task] if planner_task else []), args.approval_ref)
-            budget = TokenBudget(640 if args.app_root is not None else 128)
             session = Session(authority, budget)
-            receipts = []
+            receipts = list(baseline_receipts)
             if planner_task is not None:
                 receipts.append(session.execute(planner_task, planner, observed_at=utc_now(), cancelled=cancelled))
-            can_delegate = args.app_root is None or (planner is not None and planner.decision == 'DELEGATE_LOCAL'
-                and receipts and receipts[0]['phase'] == 'complete')
+            can_delegate = args.app_root is None or (capability is not None and planner is not None and planner.decision == 'DELEGATE_LOCAL'
+                and receipts and receipts[-1]['phase'] == 'complete')
             for t, adapter in zip(tasks, adapters):
                 if t['source'] != 'local-model' or can_delegate:
                     receipts.append(session.execute(t, adapter, observed_at=utc_now(), cancelled=cancelled))
@@ -210,8 +227,10 @@ def main(argv=None):
         'unprobed_transports': {k: throughput.no_data('no_authorized_endpoint_supplied')
             for k in ('mcp_sse', 'mcp_streamable_http', 'web_manual')},
         'configuration_import': throughput.no_data('credential_configs_not_read'),
-        'tasks': tasks + ([planner_task] if planner_task else []), 'receipts': receipts,
-        'delegation_decision': decision, 'local_tokens_remaining': budget.remaining,
+        'tasks': (baseline_tasks if args.execute_public else []) + tasks + ([planner_task] if planner_task else []),
+        'receipts': receipts, 'delegation_decision': decision,
+        'local_tokens_remaining': budget.remaining,
+        'local_token_ceiling': ceiling if args.execute_public else 0,
         'aggregation': aggregate(rows), 'improvement_proposal': evaluate(rows),
         'projections': projections(receipts, stamp),
         'limits': ['Client loopback and catalog fields do not attest server egress or weights.',

@@ -176,6 +176,15 @@ the operator signal cancellation without storing its path. JSON is emitted to st
 export/publication requires the ordinary review. Exit0 for a successful execute-public
 probe requires two valid specialist receipts; failed skill tests still emit evidence.
 
+Use `--bootstrap-baseline` with the existing planner to measure two public worker
+samples before requesting a proposal. This is an explicit, host-authorized baseline,
+not a model-requested fallback. Only two distinct, current PASS receipt references
+bound to the worker's digest enter the planner's fixed public evidence context.
+The host additionally refuses delegation without that context even if the model
+hallucinates DELEGATE_LOCAL. Baseline and planner/worker sessions share one768-token
+budget (128+512+128). A failed baseline or planner abstention invokes no specialist
+follow-up. Repeats remain one unique content case, so no LoRA becomes eligible.
+
 ## Claude integration and rollback
 
 Read the report once. Preserve inventory `kind` and each receipt's attribution,
@@ -225,3 +234,8 @@ Fixed proxy error codes now survive into a closed optional failure_cause field;
 identity rejection is not mislabeled as a broken transport. H5 delta recheck passes,
 including68 targeted tests twice. Latest complete suite:617 tests twice (one skip),
 all canonical companion gates GREEN. No training or model activation occurred.
+
+Bootstrap context is immutable and rehashed against the authorized input. Baselines
+must match the expected tasks/public input, be fresh (<=120 s), and be witnessed by
+their actual host Session; self-hashed or old planner receipts are insufficient.
+Independent H5 bootstrap recheck:74 targeted tests twice, no remaining blockers.
