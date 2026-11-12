@@ -9,10 +9,10 @@ import sys
 import urllib.request
 
 from .delegation import Failure, HEX, PROXY_CAUSES, sha, verify
-from .transports import run_worker, throughput, sort_prompt
+from .transports import run_worker, throughput, sort_prompt, PROFILES
 
 PUBLIC_PLAN = {'schema': 'public-delegation-choice-v1', 'actions': ['DELEGATE_LOCAL', 'NO_DATA'],
-               'specialist': 'serion-sort', 'budget_tokens': 64, 'privacy': 'LOCAL_ONLY'}
+               'specialist': 'serion-sort', 'maximum_worker_tokens': 128, 'privacy': 'LOCAL_ONLY'}
 
 
 def capability_evidence(receipts, tasks, expected, now, *, witness=None):
@@ -21,15 +21,15 @@ def capability_evidence(receipts, tasks, expected, now, *, witness=None):
         if not callable(witness) or len(receipts) != 2 or len(tasks) != 2:
             return None
         current = datetime.datetime.fromisoformat(now.replace('Z', '+00:00'))
-        profile = 'json-array' if tasks[0].get('task_id') == 'public-sort-json' else 'csv'
-        wanted_id = 'public-sort-json' if profile == 'json-array' else 'public-sort'
+        profile = next(k for k, v in PROFILES.items() if v[0] == tasks[0].get('task_id'))
+        wanted_id, wanted_cap = PROFILES[profile]
         wanted_input = hashlib.sha256(sort_prompt(throughput.FIXTURE.read_bytes(), profile).encode()).hexdigest()
         refs = []
         for receipt, task in zip(receipts, tasks):
             if (task['source'] != 'baseline-model' or task['task_id'] != wanted_id
                     or task['specialist'] != 'serion-sort' or task['input_sha256'] != wanted_input
                     or task['model_version'] != expected or task['transport'] != 'ollama_loopback'
-                    or task['max_tokens'] != 64 or not verify(receipt)
+                    or task['max_tokens'] != wanted_cap or not verify(receipt)
                     or receipt['task_sha256'] != sha(task) or receipt['run_id'] != task['run_id']
                     or receipt['source'] != task['source'] or receipt['model_version'] != expected
                     or receipt['phase'] != 'complete' or receipt['measurement'] is None

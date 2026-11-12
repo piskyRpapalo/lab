@@ -14,6 +14,8 @@ from .delegation import Failure, sha
 from .reuse import instrument
 
 throughput = instrument('throughput')
+PROFILES = {'csv': ('public-sort', 64), 'json-array': ('public-sort-json', 64),
+            'json-array-128': ('public-sort-json128', 128)}
 
 
 class StdioMCP:
@@ -188,7 +190,7 @@ class NativeHealth:
 
 
 def sort_prompt(raw, profile='csv'):
-    if profile not in ('csv', 'json-array'):
+    if profile not in PROFILES:
         raise Failure('PERMISSION')
     prompt = throughput.public_input(raw)
     return prompt if profile == 'csv' else prompt + ' Return only a JSON array of these 16 integers.'
@@ -197,7 +199,7 @@ def sort_prompt(raw, profile='csv'):
 def grade_public(answer, raw, profile='csv'):
     import re
     normalized = answer.strip()
-    if profile == 'json-array':
+    if profile.startswith('json-array'):
         try:
             values = throughput.strict_json(normalized)
         except (TypeError, ValueError):
@@ -223,7 +225,8 @@ def _generate(connection, base, model, expected, raw, profile):
         body = {'model': model, 'prompt': sort_prompt(raw, profile),
             'stream': False, 'think': False, 'keep_alive': 0, 'options': {k: settings[k]
                 for k in ('temperature', 'seed', 'num_ctx', 'num_predict')}}
-        if profile == 'json-array':
+        body['options']['num_predict'] = PROFILES[profile][1]
+        if profile.startswith('json-array'):
             body['format'] = {'type': 'array', 'items': {'type': 'integer'}, 'minItems': 16, 'maxItems': 16}
         result = call('/api/generate', body)
         metrics = throughput.sample(result, model, time.monotonic_ns() - started)
@@ -256,7 +259,7 @@ class LocalModel:
     def __call__(self, task, cancelled):
         if (task['transport'] != 'ollama_loopback' or task['input_sha256'] != self.input_sha256
                 or hashlib.sha256(sort_prompt(self.raw, self.profile).encode()).hexdigest() != self.input_sha256
-                or task['max_tokens'] != 64):
+                or task['max_tokens'] != PROFILES[self.profile][1]):
             raise Failure('PERMISSION')
         # Enforce a bounded client wait without reconfiguring/stopping the model service.
         return run_worker(_generate, (self.base, self.model, task['model_version'], self.raw, self.profile),

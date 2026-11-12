@@ -10,7 +10,7 @@ import time
 from .delegation import Failure, Session, TokenBudget, encode, sha, verify
 from .improvement import aggregate, evaluate
 from .reuse import ROOT, PATHS, instrument
-from .transports import LocalModel, NativeHealth, StdioMCP
+from .transports import LocalModel, NativeHealth, StdioMCP, PROFILES
 from .hexelion import ExistingHexelion, public_prompt, capability_evidence
 
 throughput = instrument('throughput')
@@ -39,7 +39,8 @@ def demo_gate(approved_tasks, approval_ref):
     def authorize(request):
         return {'approved': sha(request) in allowed, 'task_sha256': sha(request),
             'approval_ref': approval_ref, 'expires_ns': time.monotonic_ns() + 30_000_000_000,
-            'max_tokens': 512 if request['source'] == 'private-model' else 64,
+            'max_tokens': 512 if request['source'] == 'private-model' else
+                128 if request['task_id'] == 'public-sort-json128' else 64,
             'max_ms': 30000, 'max_depth': 1, 'local_only': True}
     return authorize
 
@@ -142,7 +143,7 @@ def main(argv=None):
     parser.add_argument('--app-root', type=Path, help='reuse existing APP Hexelion proxy for planner measurement')
     parser.add_argument('--run-prefix', help='public session label; no device identity')
     parser.add_argument('--bootstrap-baseline', action='store_true', help='measure two public baselines before planner')
-    parser.add_argument('--worker-profile', choices=('csv', 'json-array'), default='csv')
+    parser.add_argument('--worker-profile', choices=tuple(PROFILES), default='csv')
     args = parser.parse_args(argv)
     if args.execute_public and not args.approval_ref:
         parser.error('--execute-public requires host approval reference')
@@ -151,6 +152,7 @@ def main(argv=None):
     if args.bootstrap_baseline and (not args.execute_public or args.app_root is None):
         parser.error('--bootstrap-baseline requires explicit execution and existing APP planner')
     cancelled = lambda: args.stop_file is not None and args.stop_file.exists()
+    worker_id, worker_cap = PROFILES[args.worker_profile]
     resources = [model_catalog(args.base_url, args.model, 'local-model'),
                  model_catalog(args.private_base_url, args.private_model, 'private-model')]
     for script, source in [(args.native_mcp, 'native-mcp'), (args.private_mcp, 'private-mcp')]:
@@ -170,19 +172,17 @@ def main(argv=None):
                 local = LocalModel(args.base_url, args.model, args.worker_profile)
                 for suffix in ('one', 'two'):
                     tasks.append(task(prefix + '-' + suffix, 'serion-sort', model['model_version'],
-                                      'local-model', local.input_sha256, 'ollama_loopback', 64))
-                    if args.worker_profile == 'json-array':
-                        tasks[-1]['task_id'] = 'public-sort-json'
+                                      'local-model', local.input_sha256, 'ollama_loopback', worker_cap))
+                    tasks[-1]['task_id'] = worker_id
                     adapters.append(local)
             baseline_tasks = []
-            ceiling = 768 if args.bootstrap_baseline else 640 if args.app_root is not None else 128
+            ceiling = (512 if args.app_root is not None else 0) + (4 if args.bootstrap_baseline else 2) * worker_cap
             budget = TokenBudget(ceiling)
             if args.bootstrap_baseline and model['state'] == 'DECLARED':
                 baseline_tasks = [task(prefix + '-base-' + suffix, 'serion-sort', model['model_version'],
-                    'baseline-model', local.input_sha256, 'ollama_loopback', 64) for suffix in ('one', 'two')]
-                if args.worker_profile == 'json-array':
-                    for t in baseline_tasks:
-                        t['task_id'] = 'public-sort-json'
+                    'baseline-model', local.input_sha256, 'ollama_loopback', worker_cap) for suffix in ('one', 'two')]
+                for t in baseline_tasks:
+                    t['task_id'] = worker_id
                 baseline_session = Session(demo_gate(baseline_tasks, args.approval_ref), budget)
                 baseline_receipts = [baseline_session.execute(t, local, observed_at=utc_now(), cancelled=cancelled)
                                      for t in baseline_tasks]

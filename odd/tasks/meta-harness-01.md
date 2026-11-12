@@ -47,8 +47,8 @@ cryptographic signatures. No replacement key store or authorization service exis
 
 Only local execution is implemented: WEB_MANUAL is not callable, remote spending
 is not implemented, unknown budget fails closed. One dispatch/depth <=1; model
-output ceiling64 tokens for the public specialist and512 for the existing Hexelion
-planner; timeout <=30 s. Shared session budget is conservative:
+output ceiling64 tokens for the original specialist profiles,128 for explicit
+json-array-128, and512 for the existing Hexelion planner; timeout <=30 s. Shared session budget is conservative:
 reserve worst-case tokens, refund only known unused tokens. Failed/uncertain calls
 retain reservation. A run ID executes once per Session; exact replay returns its
 cached receipt, changed payload/concurrent duplicate is rejected. Unknown outcomes
@@ -181,8 +181,8 @@ samples before requesting a proposal. This is an explicit, host-authorized basel
 not a model-requested fallback. Only two distinct, current PASS receipt references
 bound to the worker's digest enter the planner's fixed public evidence context.
 The host additionally refuses delegation without that context even if the model
-hallucinates DELEGATE_LOCAL. Baseline and planner/worker sessions share one768-token
-budget (128+512+128). A failed baseline or planner abstention invokes no specialist
+hallucinates DELEGATE_LOCAL. Baseline and planner/worker sessions share one budget:768 tokens for64-token
+workers;1024 for explicit128-token workers (256+512+256). A failed baseline or planner abstention invokes no specialist
 follow-up. Repeats remain one unique content case, so no LoRA becomes eligible.
 
 ## Claude integration and rollback
@@ -206,44 +206,7 @@ Next mission selected: bind these proposal/receipt records to Claude's existing
 LAB-3/4 reader with source identity and freshness tests. Separate ownership CLAIM
 before any APP changes; keep the S110 and native MCP infrastructure untouched.
 
-## Verification log · 2026-11-12
+## Evidence
 
-Local canonical checks: discovery **616 tests twice, one existing skip, zero failures**;
-norte5, llms2, Node chunk responder and tree11996/12109B all twice GREEN. New targeted
-suite: **67 tests twice**, also measured with existing `eval_harness.py` (deterministic
-counts). No real inference in tests: only pure injections, synthetic local HTTP and
-synthetic stdio processes. Seven deliberate code mutations were caught twice in
-disposable copies: permission bypass, shared-budget overrun, cancellation after
-reservation, re-sealed false success, MCP identity replacement, incomplete planner,
-and duplicate reviewer identity. No source worktree was mutated for sabotage.
-
-H5 independent review found four initial blocker groups and one snapshot compatibility
-regression. All fixed and rechecked: executable byte binding before launch;
-cancellation/deadline recheck/refund; strict planner completion; semantic receipt
-validation; registered Python main namespace. Independent67 tests twice and additional
-synthetic exploits found no remaining blocker. This is code evidence, not a live
-model, network-isolation or human-signature attestation. Live result appended separately.
-
-The first real planner probe at `50fb481` failed twice; MCP health passed, and no
-specialist call escaped the failed planner. Retain these failed source-bound receipts.
-The adapter had changed the native planner's512-token/think-low contract to64/false.
-The corrected adapter preserves its working parameters with an explicit512-token
-planner grant and shared640-token ceiling (512+64+64), while the public throughput
-specialist remains fixed64. Specific root cause of those two failures is not isolated.
-Fixed proxy error codes now survive into a closed optional failure_cause field;
-identity rejection is not mislabeled as a broken transport. H5 delta recheck passes,
-including68 targeted tests twice. Latest complete suite:617 tests twice (one skip),
-all canonical companion gates GREEN. No training or model activation occurred.
-
-Bootstrap context is immutable and rehashed against the authorized input. Baselines
-must match the expected tasks/public input, be fresh (<=120 s), and be witnessed by
-their actual host Session; self-hashed or old planner receipts are insufficient.
-Independent H5 bootstrap recheck:74 targeted tests twice, no remaining blockers.
-
-CSV baseline at74415db:4/4 OUTPUT_SCHEMA, planner abstained twice. This supports
-contract repair, not LoRA. Explicit `--worker-profile json-array` adds a closed
-16-integer grammar and public prompt suffix; task/input hashes differ from CSV.
-The fixture case hash stays the same, so profile variants do not add independent
-cases. Original CSV/#173 remain unchanged. Final code checks:624 tests twice
-(one skip),75 targeted twice; H5 format-repair recheck PASS. Live outcomes below
-are in the source-bound receipt summary linked from the benchmark index.
+[Measured outcomes and dated verification log](../../benchmarks/receipts/20261112-meta-harness-summary.md).
+Profiles csv64, json-array64 and json-array-128 keep distinct task/budget bindings.

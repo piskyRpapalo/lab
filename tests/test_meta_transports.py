@@ -138,8 +138,13 @@ class ModelTests(unittest.TestCase):
     def test_profile_mutation_is_denied_and_does_not_inflate_case_identity(self):
         csv = LocalModel('http://127.0.0.1:1', 'synthetic:tiny')
         structured = LocalModel('http://127.0.0.1:1', 'synthetic:tiny', 'json-array')
+        expanded = LocalModel('http://127.0.0.1:1', 'synthetic:tiny', 'json-array-128')
         self.assertNotEqual(csv.input_sha256, structured.input_sha256)
         self.assertEqual(csv.case_sha256, structured.case_sha256)
+        self.assertEqual(expanded.input_sha256, structured.input_sha256)
+        self.assertEqual(expanded.case_sha256, structured.case_sha256)
+        with self.assertRaises(Failure):
+            expanded(task(input_sha256=expanded.input_sha256), lambda: False)
         request = task(input_sha256=csv.input_sha256)
         csv.profile = 'json-array'
         with self.assertRaises(Failure) as caught:
@@ -196,6 +201,9 @@ class ModelTests(unittest.TestCase):
             structured = LocalModel('http://127.0.0.1:' + str(server.server_port), 'synthetic:tiny', 'json-array')
             self.assertEqual(structured(task(input_sha256=structured.input_sha256), lambda: False)['grade'], 'PASS')
             self.assertEqual(Handler.bodies[-1]['format']['maxItems'], 16)
+            expanded = LocalModel('http://127.0.0.1:' + str(server.server_port), 'synthetic:tiny', 'json-array-128')
+            self.assertEqual(expanded(task(input_sha256=expanded.input_sha256, max_tokens=128), lambda: False)['grade'], 'PASS')
+            self.assertEqual(Handler.bodies[-1]['options']['num_predict'], 128)
             Handler.paths = []
             Handler.digest = 'b' * 64
             with self.assertRaises(Failure) as caught:

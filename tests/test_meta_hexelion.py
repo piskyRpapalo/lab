@@ -12,6 +12,7 @@ from unittest.mock import patch
 from meta_harness import cli
 from meta_harness.delegation import Failure, Session, TokenBudget, sha
 from meta_harness.hexelion import ExistingHexelion, public_prompt, capability_evidence
+from meta_harness.transports import sort_prompt
 from tests.test_meta_delegation import task, grant, STAMP, result
 
 FAKE_PROXY = '''import json,urllib.request
@@ -27,13 +28,13 @@ def ask(text,endpoint=None,opener=None,output_format=None):
 
 
 class HexelionTests(unittest.TestCase):
-    def bootstrap(self, choice='DELEGATE_LOCAL', grade='PASS', enabled=True):
+    def bootstrap(self, choice='DELEGATE_LOCAL', grade='PASS', enabled=True, profile='csv'):
         calls = []
         class Local:
             input_sha256 = hashlib.sha256(cli.throughput.public_input(cli.throughput.FIXTURE.read_bytes()).encode()).hexdigest()
             case_sha256 = hashlib.sha256(cli.throughput.FIXTURE.read_bytes()).hexdigest()
-            def __init__(self, *args):
-                pass
+            def __init__(self, base, model, profile):
+                self.input_sha256 = hashlib.sha256(sort_prompt(cli.throughput.FIXTURE.read_bytes(), profile).encode()).hexdigest()
             def __call__(self, request, cancelled):
                 calls.append(request['source'])
                 return {'model_version': request['model_version'], 'tokens': 3,
@@ -53,6 +54,7 @@ class HexelionTests(unittest.TestCase):
         args = ['--execute-public', '--approval-ref', 'e' * 64, '--app-root', '/synthetic']
         if enabled:
             args += ['--bootstrap-baseline']
+        args += ['--worker-profile', profile]
         with patch.object(cli, 'model_catalog', catalog), patch.object(cli, 'LocalModel', Local), \
                 patch.object(cli, 'ExistingHexelion', Planner), patch('sys.stdout', output):
             code = cli.main(args)
@@ -73,6 +75,15 @@ class HexelionTests(unittest.TestCase):
         self.assertEqual(calls, [])
         self.assertEqual(len(report['receipts']), 1)
         self.assertFalse(report['delegation_decision']['permission_granted_by_model'])
+
+    def test_expanded_output_budget_is_explicit_in_host_grants_and_total(self):
+        code, report, calls = self.bootstrap(profile='json-array-128')
+        self.assertEqual(code, 0)
+        self.assertEqual(report['local_token_ceiling'], 1024)
+        self.assertEqual(report['local_tokens_remaining'], 1024 - 4 * 3 - 7)
+        tasks = [t for t in report['tasks'] if t['source'] != 'private-model']
+        self.assertTrue(all(t['max_tokens'] == 128 for t in tasks))
+        self.assertTrue(all(t['task_id'] == 'public-sort-json128' for t in tasks))
 
     def test_failed_baseline_or_planner_abstention_never_falls_back(self):
         for choice, grade in [('NO_DATA', 'PASS'), ('DELEGATE_LOCAL', 'OUTPUT_SCHEMA')]:
@@ -102,8 +113,12 @@ class HexelionTests(unittest.TestCase):
             with patch('meta_harness.hexelion.run_worker', worker):
                 adapter(request, lambda: False)
             adapter._capability_bytes = json.dumps(context).encode()
-            with self.assertRaises(Failure):
-                adapter(request, lambda: False)
+            with patch('meta_harness.hexelion.run_worker', return_value={'decision': 'DELEGATE_LOCAL',
+                    'proxy_sha256': 'e' * 64, 'result': {'synthetic': True}}) as dispatch:
+                with self.assertRaises(Failure) as caught:
+                    adapter(request, lambda: False)
+                self.assertEqual(caught.exception.category, 'PERMISSION')
+                dispatch.assert_not_called()
 
     def test_capability_requires_current_expected_baseline_tasks_and_session_witness(self):
         digest = 'a' * 64
