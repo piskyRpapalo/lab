@@ -39,7 +39,8 @@ def demo_gate(approved_tasks, approval_ref):
     def authorize(request):
         return {'approved': sha(request) in allowed, 'task_sha256': sha(request),
             'approval_ref': approval_ref, 'expires_ns': time.monotonic_ns() + 30_000_000_000,
-            'max_tokens': 64, 'max_ms': 30000, 'max_depth': 1, 'local_only': True}
+            'max_tokens': 512 if request['source'] == 'private-model' else 64,
+            'max_ms': 30000, 'max_depth': 1, 'local_only': True}
     return authorize
 
 
@@ -168,9 +169,9 @@ def main(argv=None):
             if args.app_root is not None and resources[1]['state'] == 'DECLARED':
                 planner = ExistingHexelion(args.app_root, args.private_base_url)
                 planner_task = task(prefix + '-plan', 'hexelion', resources[1]['model_version'],
-                    'private-model', hashlib.sha256(public_prompt().encode()).hexdigest(), 'ollama_loopback', 64)
+                    'private-model', hashlib.sha256(public_prompt().encode()).hexdigest(), 'ollama_loopback', 512)
             authority = demo_gate(tasks + ([planner_task] if planner_task else []), args.approval_ref)
-            budget = TokenBudget(192 if args.app_root is not None else 128)
+            budget = TokenBudget(640 if args.app_root is not None else 128)
             session = Session(authority, budget)
             receipts = []
             if planner_task is not None:

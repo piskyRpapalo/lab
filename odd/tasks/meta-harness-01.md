@@ -47,7 +47,8 @@ cryptographic signatures. No replacement key store or authorization service exis
 
 Only local execution is implemented: WEB_MANUAL is not callable, remote spending
 is not implemented, unknown budget fails closed. One dispatch/depth <=1; model
-output ceiling64 tokens; timeout <=30 s. Shared session budget is conservative:
+output ceiling64 tokens for the public specialist and512 for the existing Hexelion
+planner; timeout <=30 s. Shared session budget is conservative:
 reserve worst-case tokens, refund only known unused tokens. Failed/uncertain calls
 retain reservation. A run ID executes once per Session; exact replay returns its
 cached receipt, changed payload/concurrent duplicate is rejected. Unknown outcomes
@@ -64,6 +65,8 @@ interrupts client waits. Timeout bounds the client, not server compute terminati
 APP255 fields: task/run/specialist/version/source, phase, observed_at, measurement,
 failure_class, confidence_basis, receipt_ref, next_action and approval_state. It
 also binds task_sha256, approval_ref and known/unknown/not-started outcome.
+An optional closed `failure_cause` preserves known proxy diagnostic codes; older
+v1 receipts without that extension remain verifiable at their original hashes.
 Measurement is tokens, output hash and deterministic grade, never raw output.
 Full SHA-256 seals canonical bytes excluding receipt_ref. Self-hash is integrity,
 not origin, human identity, gold validity or model-weight attestation. Consumers
@@ -164,7 +167,7 @@ python3 -B -m meta_harness.cli --execute-public --approval-ref "$APPROVAL_REF" \
 Private paths are shell configuration only and never enter the report. Use independent
 worktrees; check compute contention before opting in. No models are downloaded.
 With --app-root, existing Hexelion proxy proposes DELEGATE_LOCAL or NO_DATA; the
-adapter caps legacy proxy output to64, validates catalog digests/remote metadata and
+adapter preserves the existing512-token/think-low planner contract, validates catalog digests/remote metadata and
 strict decision schema. It requests no model unload. The proposal does not approve
 anything: the host's grant must still match the exact task. Failed/NO_DATA planner
 never falls back to specialist invocation. Without --app-root this is explicitly a
@@ -211,3 +214,14 @@ cancellation/deadline recheck/refund; strict planner completion; semantic receip
 validation; registered Python main namespace. Independent67 tests twice and additional
 synthetic exploits found no remaining blocker. This is code evidence, not a live
 model, network-isolation or human-signature attestation. Live result appended separately.
+
+The first real planner probe at `50fb481` failed twice; MCP health passed, and no
+specialist call escaped the failed planner. Retain these failed source-bound receipts.
+The adapter had changed the native planner's512-token/think-low contract to64/false.
+The corrected adapter preserves its working parameters with an explicit512-token
+planner grant and shared640-token ceiling (512+64+64), while the public throughput
+specialist remains fixed64. Specific root cause of those two failures is not isolated.
+Fixed proxy error codes now survive into a closed optional failure_cause field;
+identity rejection is not mislabeled as a broken transport. H5 delta recheck passes,
+including68 targeted tests twice. Latest complete suite:617 tests twice (one skip),
+all canonical companion gates GREEN. No training or model activation occurred.

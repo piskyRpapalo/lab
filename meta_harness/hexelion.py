@@ -7,7 +7,7 @@ from pathlib import Path
 import sys
 import urllib.request
 
-from .delegation import Failure, sha
+from .delegation import Failure, PROXY_CAUSES, sha
 from .transports import run_worker, throughput
 
 PUBLIC_PLAN = {'schema': 'public-delegation-choice-v1', 'actions': ['DELEGATE_LOCAL', 'NO_DATA'],
@@ -42,8 +42,8 @@ def _plan(connection, app_root, base, expected):
                 body = throughput.strict_json(request.data)
                 if body.get('model') != proxy.MODEL or body.get('prompt') != public_prompt():
                     raise Failure('PERMISSION')
-                body['options'] = {'num_predict': 64, 'num_ctx': 2048, 'temperature': 0, 'seed': 42}
-                body['think'] = False
+                # Preserve the working planner's GPT-OSS think-low contract.
+                body['options']['num_predict'] = 512
                 # No keep_alive: preserve the proxy/server's current retention behavior.
                 request = urllib.request.Request(request.full_url, data=json.dumps(body).encode(),
                     headers={'Content-Type': 'application/json'}, method='POST')
@@ -56,6 +56,7 @@ def _plan(connection, app_root, base, expected):
             try:
                 if request.full_url.endswith('/api/tags'):
                     if throughput.model_digest(value, proxy.MODEL) != expected:
+                        refused.append('MODEL_IDENTITY')
                         raise Failure('MODEL_IDENTITY')
                 else:
                     throughput.reject_remote(value)
@@ -70,7 +71,8 @@ def _plan(connection, app_root, base, expected):
             output_format={'type': 'object', 'properties': {'action': {'type': 'string',
                 'enum': ['DELEGATE_LOCAL', 'NO_DATA']}}, 'required': ['action'], 'additionalProperties': False})
         if answer.get('estado') != 'MEASURED':
-            raise Failure(refused[0] if refused else 'EVIDENCE')
+            code = answer.get('causa')
+            raise Failure(refused[0] if refused else PROXY_CAUSES.get(code, 'EVIDENCE'), code)
         decision = throughput.strict_json(answer['texto'])
         if (type(decision) is not dict or set(decision) != {'action'}
                 or decision['action'] not in ('DELEGATE_LOCAL', 'NO_DATA')):
@@ -78,13 +80,13 @@ def _plan(connection, app_root, base, expected):
         if throughput.model_digest(throughput.request('/api/tags', base=base), proxy.MODEL) != expected:
             raise Failure('MODEL_IDENTITY')
         tokens = answer.get('medida', {}).get('gen_tokens')
-        if type(tokens) is not int or not 0 < tokens <= 64:
+        if type(tokens) is not int or not 0 < tokens <= 512:
             raise Failure('BUDGET')
         connection.send({'decision': decision['action'], 'proxy_sha256': proxy_sha,
             'result': {'model_version': expected, 'output_sha256': sha(decision), 'tokens': tokens,
                        'grade': 'PASS', 'basis': 'public_deterministic_reference'}})
     except Failure as exc:
-        connection.send({'failure': exc.category})
+        connection.send({'failure': exc.category, 'cause': exc.cause})
     except OSError:
         connection.send({'failure': 'TRANSPORT'})
     except Exception:
@@ -103,7 +105,7 @@ class ExistingHexelion:
     def __call__(self, task, cancelled):
         self.decision, self.proxy_sha256 = None, None
         if (task['input_sha256'] != hashlib.sha256(public_prompt().encode()).hexdigest()
-                or task['max_tokens'] != 64 or task['transport'] != 'ollama_loopback'):
+                or task['max_tokens'] != 512 or task['transport'] != 'ollama_loopback'):
             raise Failure('PERMISSION')
         response = run_worker(_plan, (str(self.app_root), self.base, task['model_version']),
                               task['timeout_ms'], cancelled)

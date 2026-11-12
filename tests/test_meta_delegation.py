@@ -226,6 +226,21 @@ class DelegationTests(unittest.TestCase):
         receipt['receipt_ref'] = sha({k: v for k, v in receipt.items() if k != 'receipt_ref'})
         self.assertFalse(verify(receipt))
 
+    def test_proxy_cause_is_closed_and_earlier_v1_receipts_remain_verifiable(self):
+        def rejected(t, c):
+            raise Failure('PROTOCOL', 'station_rejected_request')
+        receipt = self.run_one(dispatch=rejected)
+        self.assertEqual(receipt['failure_cause'], 'station_rejected_request')
+        self.assertTrue(verify(receipt))
+        def private_error(t, c):
+            raise Failure('PROTOCOL', 'fake-private-api-key')
+        scrubbed = self.run_one(dispatch=private_error)
+        self.assertNotIn(b'fake-private', encode(scrubbed))
+        earlier = dict(scrubbed)
+        earlier.pop('failure_cause')
+        earlier['receipt_ref'] = sha({k: v for k, v in earlier.items() if k != 'receipt_ref'})
+        self.assertTrue(verify(earlier))
+
     def test_expired_while_waiting_budget_never_dispatches_and_refunds(self):
         clock = iter([0, 0, 31_000_000_000])
         budget = TokenBudget(64)

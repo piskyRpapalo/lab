@@ -268,7 +268,7 @@ def run_worker(target, args, timeout_ms, cancelled):
                     except EOFError:
                         raise Failure('TRANSPORT') from None
                     if isinstance(result, dict) and 'failure' in result:
-                        raise Failure(result['failure'])
+                        raise Failure(result['failure'], result.get('cause'))
                     return result
                 if not process.is_alive():
                     raise Failure('TRANSPORT')

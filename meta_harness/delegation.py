@@ -20,6 +20,12 @@ NEXT = {'NONE': 'review_receipt', 'PERMISSION': 'request_permission', 'BUDGET': 
         'MODEL_IDENTITY': 'verify_model', 'OUTPUT_SCHEMA': 'repair_contract',
         'TASK_SKILL': 'collect_independent_holdout', 'EVIDENCE': 'collect_evidence',
         'UNKNOWN': 'diagnose_without_retry'}
+PROXY_CAUSES = {'station_rejected_request': 'PROTOCOL', 'station_returned_no_text': 'EVIDENCE',
+    'station_response_exceeds_receipt_budget': 'EVIDENCE', 'station_invalid_json': 'PROTOCOL',
+    'station_invalid_response': 'PROTOCOL', 'generation_duration_unmeasured': 'EVIDENCE',
+    'station_timeout': 'TRANSPORT', 'station_probe_timeout': 'TRANSPORT',
+    'station_unavailable': 'TRANSPORT', 'station_model_unconfirmed': 'MODEL_IDENTITY',
+    'station_model_unavailable': 'MODEL_IDENTITY'}
 
 
 def sha(value):
@@ -27,8 +33,9 @@ def sha(value):
 
 
 class Failure(Exception):
-    def __init__(self, category):
+    def __init__(self, category, cause=None):
         self.category = category if category in FAILURES - {'NONE'} else 'UNKNOWN'
+        self.cause = cause if cause in PROXY_CAUSES and PROXY_CAUSES[cause] == self.category else None
         super().__init__(self.category)
 
 
@@ -41,7 +48,7 @@ def validate_task(task):
     for key in ('model_version', 'input_sha256'):
         if type(task[key]) is not str or not HEX.fullmatch(task[key]):
             raise Failure('PROTOCOL')
-    for key, lo, hi in [('max_tokens', 0, 64), ('timeout_ms', 1, 30000), ('depth', 0, 1)]:
+    for key, lo, hi in [('max_tokens', 0, 512), ('timeout_ms', 1, 30000), ('depth', 0, 1)]:
         if type(task[key]) is not int or not lo <= task[key] <= hi:
             raise Failure('BUDGET')
     if task['privacy'] != 'LOCAL_ONLY':
@@ -114,8 +121,9 @@ def seal(receipt):
 def verify(receipt):
     keys = {'schema', 'task_id', 'run_id', 'specialist', 'model_version', 'source', 'phase',
             'observed_at', 'measurement', 'failure_class', 'confidence_basis', 'next_action',
-            'approval_state', 'task_sha256', 'approval_ref', 'outcome', 'receipt_ref'}
-    if type(receipt) is not dict or set(receipt) != keys or receipt.get('schema') != 'preceptoros.meta-receipt/1':
+            'approval_state', 'task_sha256', 'approval_ref', 'outcome', 'receipt_ref', 'failure_cause'}
+    if (type(receipt) is not dict or set(receipt) not in (keys, keys - {'failure_cause'})
+            or receipt.get('schema') != 'preceptoros.meta-receipt/1'):
         return False
     body = {k: v for k, v in receipt.items() if k != 'receipt_ref'}
     try:
@@ -140,7 +148,7 @@ def verify(receipt):
         measurement = receipt['measurement']
         if measurement is not None:
             if (type(measurement) is not dict or set(measurement) != {'tokens', 'output_sha256', 'grade'}
-                    or type(measurement['tokens']) is not int or not 0 <= measurement['tokens'] <= 64
+                    or type(measurement['tokens']) is not int or not 0 <= measurement['tokens'] <= 512
                     or type(measurement['output_sha256']) is not str or not HEX.fullmatch(measurement['output_sha256'])
                     or measurement['grade'] not in ('PASS', 'OUTPUT_SCHEMA', 'TASK_SKILL', 'NOT_EVALUATED')):
                 return False
@@ -153,6 +161,10 @@ def verify(receipt):
             return False
         if category == 'NONE' and (measurement is None or receipt['outcome'] != 'KNOWN'):
             return False
+        cause = receipt.get('failure_cause', None if category == 'NONE' else category.lower())
+        if cause != (None if category == 'NONE' else category.lower()):
+            if type(cause) is not str or PROXY_CAUSES.get(cause) != category:
+                return False
         if ((category == 'NONE') != (receipt['phase'] == 'complete')
                 or (category == 'CANCELLED') != (receipt['phase'] == 'cancelled')
                 or (receipt['approval_state'] == 'EXTERNAL_GATE') != (receipt['approval_ref'] is not None)):
@@ -186,7 +198,7 @@ class Session:
                 return copy.deepcopy(previous[1])
             self.runs[run_id] = (fingerprint, None)
         started, measurement, approval, approval_ref = self.clock(), None, 'NO_DATA', None
-        category, phase, dispatched, reserved = 'NONE', 'complete', False, False
+        category, phase, dispatched, reserved, cause = 'NONE', 'complete', False, False, None
         try:
             if cancelled():
                 raise Failure('CANCELLED')
@@ -222,6 +234,7 @@ class Session:
                 phase = 'failed'
         except Failure as exc:
             category = exc.category
+            cause = exc.cause
             phase = 'cancelled' if category == 'CANCELLED' else 'failed' if dispatched else 'blocked'
         except Exception:
             # Do not persist arbitrary adapter exception text, private paths or credentials.
@@ -232,6 +245,7 @@ class Session:
             'run_id': run_id, 'specialist': task['specialist'], 'model_version': task['model_version'],
             'source': task['source'], 'phase': phase, 'observed_at': observed_at,
             'measurement': measurement, 'failure_class': category,
+            'failure_cause': cause or (None if category == 'NONE' else category.lower()),
             'confidence_basis': basis if measurement is not None else 'NO_DATA',
             'next_action': NEXT[category], 'approval_state': approval,
             'task_sha256': fingerprint, 'approval_ref': approval_ref,

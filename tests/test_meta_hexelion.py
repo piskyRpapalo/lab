@@ -33,11 +33,13 @@ class HexelionTests(unittest.TestCase):
             choice = 'DELEGATE_LOCAL'
             remote = False
             done = True
+            inner_digest_change = False
             def do_GET(self):
                 type(self).calls.append(self.path)
                 self.send_response(200)
                 self.end_headers()
-                self.wfile.write(json.dumps({'models': [{'name': 'hexelion:latest', 'digest': 'a' * 64}]}).encode())
+                digest = ('b' if self.inner_digest_change and len(self.calls) == 2 else 'a') * 64
+                self.wfile.write(json.dumps({'models': [{'name': 'hexelion:latest', 'digest': digest}]}).encode())
             def do_POST(self):
                 type(self).calls.append(self.path)
                 type(self).bodies.append(json.loads(self.rfile.read(int(self.headers['Content-Length']))))
@@ -59,14 +61,14 @@ class HexelionTests(unittest.TestCase):
                 source = Path(directory) / 'hexelion_proxy.py'
                 source.write_text(FAKE_PROXY)
                 adapter = ExistingHexelion(directory, 'http://127.0.0.1:' + str(server.server_port))
-                request = task(input_sha256=hashlib.sha256(public_prompt().encode()).hexdigest())
+                request = task(input_sha256=hashlib.sha256(public_prompt().encode()).hexdigest(), max_tokens=512)
                 value = adapter(request, lambda: False)
                 self.assertEqual(adapter.decision, 'DELEGATE_LOCAL')
                 self.assertEqual(value['tokens'], 8)
                 self.assertEqual(adapter.proxy_sha256, hashlib.sha256(source.read_bytes()).hexdigest())
                 self.assertEqual(Handler.calls, ['/api/tags', '/api/tags', '/api/generate', '/api/tags'])
-                self.assertEqual(Handler.bodies[0]['options']['num_predict'], 64)
-                self.assertIs(Handler.bodies[0]['think'], False)
+                self.assertEqual(Handler.bodies[0]['options']['num_predict'], 512)
+                self.assertEqual(Handler.bodies[0]['think'], 'low')
                 self.assertNotIn('keep_alive', Handler.bodies[0])
                 self.assertNotIn('fake-private', json.dumps(value))
                 Handler.choice = 'NO_DATA'
@@ -87,6 +89,11 @@ class HexelionTests(unittest.TestCase):
                         adapter(request, lambda: False)
                     self.assertEqual(caught.exception.category, 'PROTOCOL')
                     self.assertIsNone(adapter.decision)
+                Handler.done, Handler.inner_digest_change, Handler.calls = True, True, []
+                with self.assertRaises(Failure) as caught:
+                    adapter(request, lambda: False)
+                self.assertEqual(caught.exception.category, 'MODEL_IDENTITY')
+                self.assertNotIn('/api/generate', Handler.calls)
         finally:
             server.shutdown()
             server.server_close()
