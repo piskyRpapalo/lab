@@ -1,0 +1,187 @@
+{
+  "description": "Two executions of the new public-fixture experiment, two samples each; not LAB164 replication.",
+  "executions": [
+    {
+      "receipt": {
+        "attempted": 2,
+        "byte_identical": true,
+        "cause": null,
+        "comparison_key": "178f2bf71cfb033cfa7296ac11a215c510fb4f8ebaf756b19a456b882f6700ca",
+        "cpu_gpu_split": {
+          "cause": "placement_not_measured",
+          "state": "NO_DATA"
+        },
+        "date_utc": "2026-11-12T12:20:21+00:00",
+        "experiment_id": "public-throughput-v1",
+        "failed": 0,
+        "fixture_sha256": "5bf9fa9a054054d541696c016b04f340bed289700cbd2b8ebeb9826e88020f8c",
+        "hardware_class": {
+          "cause": "hardware_not_declared",
+          "state": "NO_DATA"
+        },
+        "inference_backend": {
+          "cause": "backend_not_measured",
+          "state": "NO_DATA"
+        },
+        "input_sha256": "fdab55304ed19ab233d11f76156864eb6dc792e66e839ded584ecd78de23ecc2",
+        "limitations": [
+          "New public experiment; not a reconstruction of LAB #164.",
+          "Model digest and timing counters are service-reported, not independently authenticated.",
+          "Throughput does not measure semantic quality, fairness, energy or regulatory compliance.",
+          "keep_alive=0 requests unloading; cold-cache equivalence is not established."
+        ],
+        "model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "model_name": "qwen3:1.7b",
+        "model_stable": true,
+        "ollama_version": "0.40.3",
+        "power": {
+          "cause": "power_not_measured",
+          "state": "NO_DATA"
+        },
+        "ram": {
+          "cause": "memory_not_measured",
+          "state": "NO_DATA"
+        },
+        "samples": [
+          {
+            "attempt": 1,
+            "eval_count": 64,
+            "eval_duration_ns": 1167632000,
+            "generation_tokens_per_s": 54.81179,
+            "load_ns": 1903689161,
+            "response_bytes": 109,
+            "response_sha256": "9e22a5f22d49640f2a5c78406eef10e19d799dc3389c34d75ec27659f73f728c",
+            "state": "MEASURED",
+            "wall_ns": 3217467956
+          },
+          {
+            "attempt": 2,
+            "eval_count": 64,
+            "eval_duration_ns": 1165221000,
+            "generation_tokens_per_s": 54.925203,
+            "load_ns": 914906226,
+            "response_bytes": 109,
+            "response_sha256": "9e22a5f22d49640f2a5c78406eef10e19d799dc3389c34d75ec27659f73f728c",
+            "state": "MEASURED",
+            "wall_ns": 2222668083
+          }
+        ],
+        "schema": "bench-repro-01-v1",
+        "server_egress": {
+          "cause": "server_network_isolation_not_attested",
+          "state": "NO_DATA"
+        },
+        "settings": {
+          "keep_alive": 0,
+          "num_ctx": 2048,
+          "num_predict": 64,
+          "seed": 42,
+          "stream": false,
+          "temperature": 0,
+          "think": false
+        },
+        "source": {
+          "commit": "bbf96e3e97f905deae30e56de4d8ab91106844b6",
+          "runner_sha256": "5353703ce37fc9563c0e0a30b6f2478cf42ecc93617c9db0a37c1276bf178819"
+        },
+        "state": "MEASURED",
+        "succeeded": 2
+      },
+      "receipt_sha256": "ccd751855ef7f7fa02806c9113ee343c2fd7f3d3b73c754d2dbbd2e5fc64bbc1"
+    },
+    {
+      "receipt": {
+        "attempted": 2,
+        "byte_identical": true,
+        "cause": null,
+        "comparison_key": "178f2bf71cfb033cfa7296ac11a215c510fb4f8ebaf756b19a456b882f6700ca",
+        "cpu_gpu_split": {
+          "cause": "placement_not_measured",
+          "state": "NO_DATA"
+        },
+        "date_utc": "2026-11-12T12:20:27+00:00",
+        "experiment_id": "public-throughput-v1",
+        "failed": 0,
+        "fixture_sha256": "5bf9fa9a054054d541696c016b04f340bed289700cbd2b8ebeb9826e88020f8c",
+        "hardware_class": {
+          "cause": "hardware_not_declared",
+          "state": "NO_DATA"
+        },
+        "inference_backend": {
+          "cause": "backend_not_measured",
+          "state": "NO_DATA"
+        },
+        "input_sha256": "fdab55304ed19ab233d11f76156864eb6dc792e66e839ded584ecd78de23ecc2",
+        "limitations": [
+          "New public experiment; not a reconstruction of LAB #164.",
+          "Model digest and timing counters are service-reported, not independently authenticated.",
+          "Throughput does not measure semantic quality, fairness, energy or regulatory compliance.",
+          "keep_alive=0 requests unloading; cold-cache equivalence is not established."
+        ],
+        "model_digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+        "model_name": "qwen3:1.7b",
+        "model_stable": true,
+        "ollama_version": "0.40.3",
+        "power": {
+          "cause": "power_not_measured",
+          "state": "NO_DATA"
+        },
+        "ram": {
+          "cause": "memory_not_measured",
+          "state": "NO_DATA"
+        },
+        "samples": [
+          {
+            "attempt": 1,
+            "eval_count": 64,
+            "eval_duration_ns": 1171943000,
+            "generation_tokens_per_s": 54.610164,
+            "load_ns": 891860364,
+            "response_bytes": 109,
+            "response_sha256": "9e22a5f22d49640f2a5c78406eef10e19d799dc3389c34d75ec27659f73f728c",
+            "state": "MEASURED",
+            "wall_ns": 2210280870
+          },
+          {
+            "attempt": 2,
+            "eval_count": 64,
+            "eval_duration_ns": 1157103000,
+            "generation_tokens_per_s": 55.310547,
+            "load_ns": 914389239,
+            "response_bytes": 109,
+            "response_sha256": "9e22a5f22d49640f2a5c78406eef10e19d799dc3389c34d75ec27659f73f728c",
+            "state": "MEASURED",
+            "wall_ns": 2214473078
+          }
+        ],
+        "schema": "bench-repro-01-v1",
+        "server_egress": {
+          "cause": "server_network_isolation_not_attested",
+          "state": "NO_DATA"
+        },
+        "settings": {
+          "keep_alive": 0,
+          "num_ctx": 2048,
+          "num_predict": 64,
+          "seed": 42,
+          "stream": false,
+          "temperature": 0,
+          "think": false
+        },
+        "source": {
+          "commit": "bbf96e3e97f905deae30e56de4d8ab91106844b6",
+          "runner_sha256": "5353703ce37fc9563c0e0a30b6f2478cf42ecc93617c9db0a37c1276bf178819"
+        },
+        "state": "MEASURED",
+        "succeeded": 2
+      },
+      "receipt_sha256": "a7a6a095e468f90aeda9a0a089d8c278c7a2fc43fd86b69858ad8386e99bca88"
+    }
+  ],
+  "integrity_recipe": "Each receipt_sha256 hashes UTF-8 json.dumps(receipt, sort_keys=True, separators=(comma,colon), ensure_ascii=True).",
+  "machine_class": {
+    "state": "DECLARED",
+    "value": "Beelink-class"
+  },
+  "measurement_command": "python3 -B benchmarks/station-96-first-pass-20261029/smoke.py --model qwen3:1.7b --public-fixture"
+}
