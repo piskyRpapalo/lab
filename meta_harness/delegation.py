@@ -53,7 +53,7 @@ def validate_task(task):
             raise Failure('BUDGET')
     if task['privacy'] != 'LOCAL_ONLY':
         raise Failure('PERMISSION')
-    if task['transport'] not in ('mcp_stdio', 'ollama_loopback', 'web_manual'):
+    if task['transport'] not in ('mcp_stdio', 'ollama_loopback', 'web_manual', 'local_function'):
         raise Failure('TRANSPORT')
     return task
 

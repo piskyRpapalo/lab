@@ -12,6 +12,7 @@ from .improvement import aggregate, evaluate
 from .reuse import ROOT, PATHS, instrument
 from .transports import LocalModel, NativeHealth, StdioMCP, PROFILES
 from .hexelion import ExistingHexelion, public_prompt, capability_evidence
+from .workers import SPECS, select_worker, tool_inventory
 
 throughput = instrument('throughput')
 
@@ -40,7 +41,7 @@ def demo_gate(approved_tasks, approval_ref):
         return {'approved': sha(request) in allowed, 'task_sha256': sha(request),
             'approval_ref': approval_ref, 'expires_ns': time.monotonic_ns() + 30_000_000_000,
             'max_tokens': 512 if request['source'] == 'private-model' else
-                128 if request['task_id'] == 'public-sort-json128' else 64,
+                0 if request['task_id'] == 'public-sort-native' else 128 if request['task_id'] == 'public-sort-json128' else 64,
             'max_ms': 30000, 'max_depth': 1, 'local_only': True}
     return authorize
 
@@ -120,9 +121,9 @@ def provenance():
 
 
 def pilot_rows(receipts, input_hash):
-    models = [r for r in receipts if r['source'] == 'local-model']
+    models = [r for r in receipts if r['source'] in ('local-model', 'local-tool')]
     if not models:
-        models = [r for r in receipts if r['source'] == 'baseline-model']
+        models = [r for r in receipts if r['source'] in ('baseline-model', 'baseline-tool')]
     target = 'OUTPUT_SCHEMA' if any(r['failure_class'] == 'OUTPUT_SCHEMA' for r in models) else 'TASK_SKILL'
     return [{'content_sha256': input_hash, 'split': 'holdout', 'target': target,
              'arm': 'baseline', 'repeat': index, 'failure': r['failure_class'], 'origin': 'MEASURED'}
@@ -143,7 +144,7 @@ def main(argv=None):
     parser.add_argument('--app-root', type=Path, help='reuse existing APP Hexelion proxy for planner measurement')
     parser.add_argument('--run-prefix', help='public session label; no device identity')
     parser.add_argument('--bootstrap-baseline', action='store_true', help='measure two public baselines before planner')
-    parser.add_argument('--worker-profile', choices=tuple(PROFILES), default='csv')
+    parser.add_argument('--worker-profile', choices=tuple(SPECS), default='csv')
     args = parser.parse_args(argv)
     if args.execute_public and not args.approval_ref:
         parser.error('--execute-public requires host approval reference')
@@ -152,7 +153,7 @@ def main(argv=None):
     if args.bootstrap_baseline and (not args.execute_public or args.app_root is None):
         parser.error('--bootstrap-baseline requires explicit execution and existing APP planner')
     cancelled = lambda: args.stop_file is not None and args.stop_file.exists()
-    worker_id, worker_cap = PROFILES[args.worker_profile]
+    worker_id, worker_cap = SPECS[args.worker_profile]
     resources = [model_catalog(args.base_url, args.model, 'local-model'),
                  model_catalog(args.private_base_url, args.private_model, 'private-model')]
     for script, source in [(args.native_mcp, 'native-mcp'), (args.private_mcp, 'private-mcp')]:
@@ -168,19 +169,20 @@ def main(argv=None):
                                   sha({'tool': 'ping'}), 'mcp_stdio', 0))
                 adapters.append(native)
             model = resources[0]
-            if model['state'] == 'DECLARED':
-                local = LocalModel(args.base_url, args.model, args.worker_profile)
+            local, version, worker_source, baseline_source, transport = select_worker(
+                args.worker_profile, args.base_url, args.model, model, model_factory=LocalModel)
+            if local is not None:
                 for suffix in ('one', 'two'):
-                    tasks.append(task(prefix + '-' + suffix, 'serion-sort', model['model_version'],
-                                      'local-model', local.input_sha256, 'ollama_loopback', worker_cap))
+                    tasks.append(task(prefix + '-' + suffix, 'serion-sort', version,
+                                      worker_source, local.input_sha256, transport, worker_cap))
                     tasks[-1]['task_id'] = worker_id
                     adapters.append(local)
             baseline_tasks = []
             ceiling = (512 if args.app_root is not None else 0) + (4 if args.bootstrap_baseline else 2) * worker_cap
             budget = TokenBudget(ceiling)
-            if args.bootstrap_baseline and model['state'] == 'DECLARED':
-                baseline_tasks = [task(prefix + '-base-' + suffix, 'serion-sort', model['model_version'],
-                    'baseline-model', local.input_sha256, 'ollama_loopback', worker_cap) for suffix in ('one', 'two')]
+            if args.bootstrap_baseline and local is not None:
+                baseline_tasks = [task(prefix + '-base-' + suffix, 'serion-sort', version,
+                    baseline_source, local.input_sha256, transport, worker_cap) for suffix in ('one', 'two')]
                 for t in baseline_tasks:
                     t['task_id'] = worker_id
                 baseline_session = Session(demo_gate(baseline_tasks, args.approval_ref), budget)
@@ -188,7 +190,7 @@ def main(argv=None):
                                      for t in baseline_tasks]
             capability = None
             if len(baseline_receipts) == 2:
-                candidate = capability_evidence(baseline_receipts, baseline_tasks, model['model_version'],
+                candidate = capability_evidence(baseline_receipts, baseline_tasks, version,
                     utc_now(), witness=baseline_session.attests)
                 if candidate is not None:
                     capability = candidate
@@ -204,15 +206,17 @@ def main(argv=None):
             can_delegate = args.app_root is None or (capability is not None and planner is not None and planner.decision == 'DELEGATE_LOCAL'
                 and receipts and receipts[-1]['phase'] == 'complete')
             for t, adapter in zip(tasks, adapters):
-                if t['source'] != 'local-model' or can_delegate:
+                if t['source'] != worker_source or can_delegate:
                     receipts.append(session.execute(t, adapter, observed_at=utc_now(), cancelled=cancelled))
             for t, adapter in zip(tasks, adapters):
                 if isinstance(adapter, NativeHealth) and adapter.inventory is not None:
                     resources[2] = dict(adapter.inventory, source='native-mcp', kind='MCP')
-            local_receipts = [r for r in receipts if r['source'] == 'local-model']
-            if local_receipts:
+            local_receipts = [r for r in receipts if r['source'] == worker_source]
+            if local_receipts and worker_source == 'local-model':
                 resources[0]['generation'] = {'state': 'MEASURED' if any(r['outcome'] == 'KNOWN'
                     for r in local_receipts) else 'NO_DATA', 'receipt_refs': [r['receipt_ref'] for r in local_receipts]}
+            if worker_source == 'local-tool':
+                resources.append(tool_inventory(version, local_receipts))
             rows = pilot_rows(receipts, local.case_sha256) if local_receipts or baseline_receipts else []
         except Exception:
             print(json.dumps(throughput.no_data('public_demo_failed_without_retry')))
@@ -252,7 +256,7 @@ def main(argv=None):
         print(json.dumps(throughput.no_data('report_byte_ceiling')))
         return 1
     print(raw.decode())
-    completed = len([r for r in receipts if r['source'] == 'local-model']) == 2
+    completed = len([r for r in receipts if r['source'] in ('local-model', 'local-tool')]) == 2
     return 0 if not args.execute_public or completed and all(r['failure_class'] == 'NONE' for r in receipts) else 1
 
 

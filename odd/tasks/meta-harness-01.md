@@ -208,5 +208,14 @@ before any APP changes; keep the S110 and native MCP infrastructure untouched.
 
 ## Evidence
 
+`--worker-profile native-sort` selects the existing Python sorting primitive as a
+fixed local tool. It accepts only the public16-integer fixture, spends zero model
+tokens, and is independently checked for monotonic order and multiset conservation.
+Its `model_version` field is the tool code hash; inventory kind TOOL and
+`model_execution=NO_DATA(native_function_not_model)` prevent model impersonation.
+Host grants, witnessed baseline freshness and the planner proposal remain required.
+No MCP server or recursive router is added. This is a measured architectural control
+after both small models failed the same task, not a LoRA or a hidden benchmark fix.
+
 [Measured outcomes and dated verification log](../../benchmarks/receipts/20261112-meta-harness-summary.md).
 Profiles csv64, json-array64 and json-array-128 keep distinct task/budget bindings.
