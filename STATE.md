@@ -5,7 +5,7 @@
 [Verified per-PR states, exact SHA, workflow receipts and limits](odd/tasks/benchmark-status-20261111.md) · [Comando receipt](https://github.com/piskyRpapalo/buzon/issues/61#issuecomment-6790565281).
 
 - **Nov 10:** LAB #144–#149, APP #235, WEB #799 merged; exact-head CI SUCCESS. LAB #150–#154 were created late Nov 10 and merged Nov 11; CI SUCCESS.
-- **Nov 11:** LAB #155–#160 merged; CI SUCCESS. #158's *experimental* verdict is RED, not GREEN. LAB #161/#162 remain OPEN DRAFT; CI SUCCESS.
+- **Nov 11 (20:53 UTC):** LAB #155–#162, #167, #169 MERGED; CI SUCCESS. #158 experiment RED. #165/#166 OPEN; CI queued.
 - **NO_DATA:** solar energy/J per token, human-gold calibration, unattended dispatch and physical accessibility; not measured in these reports.
 
 ### Archived snapshot · Oct 22 (not current)
