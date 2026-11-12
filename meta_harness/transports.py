@@ -187,17 +187,32 @@ class NativeHealth:
                     'tokens': 0, 'grade': 'NOT_EVALUATED', 'basis': 'protocol_roundtrip'}
 
 
-def grade_public(answer, raw):
+def sort_prompt(raw, profile='csv'):
+    if profile not in ('csv', 'json-array'):
+        raise Failure('PERMISSION')
+    prompt = throughput.public_input(raw)
+    return prompt if profile == 'csv' else prompt + ' Return only a JSON array of these 16 integers.'
+
+
+def grade_public(answer, raw, profile='csv'):
     import re
     normalized = answer.strip()
-    if not re.fullmatch(r'\d{1,2}(?:\s*,\s*\d{1,2}){15}', normalized):
-        return 'OUTPUT_SCHEMA'
-    values = [int(v) for v in normalized.split(',')]
+    if profile == 'json-array':
+        try:
+            values = throughput.strict_json(normalized)
+        except (TypeError, ValueError):
+            return 'OUTPUT_SCHEMA'
+        if type(values) is not list or len(values) != 16 or any(type(v) is not int for v in values):
+            return 'OUTPUT_SCHEMA'
+    else:
+        if not re.fullmatch(r'\d{1,2}(?:\s*,\s*\d{1,2}){15}', normalized):
+            return 'OUTPUT_SCHEMA'
+        values = [int(v) for v in normalized.split(',')]
     expected = sorted(throughput.strict_json(raw)['values'])
     return 'PASS' if values == expected else 'TASK_SKILL'
 
 
-def _generate(connection, base, model, expected, raw):
+def _generate(connection, base, model, expected, raw, profile):
     """Worker sends only hashes/counters to the parent, never prompt/answer text."""
     try:
         call = lambda path, body=None: throughput.request(path, body, base)
@@ -205,14 +220,17 @@ def _generate(connection, base, model, expected, raw):
             raise Failure('MODEL_IDENTITY')
         settings = throughput.SETTINGS
         started = time.monotonic_ns()
-        result = call('/api/generate', {'model': model, 'prompt': throughput.public_input(raw),
+        body = {'model': model, 'prompt': sort_prompt(raw, profile),
             'stream': False, 'think': False, 'keep_alive': 0, 'options': {k: settings[k]
-                for k in ('temperature', 'seed', 'num_ctx', 'num_predict')}})
+                for k in ('temperature', 'seed', 'num_ctx', 'num_predict')}}
+        if profile == 'json-array':
+            body['format'] = {'type': 'array', 'items': {'type': 'integer'}, 'minItems': 16, 'maxItems': 16}
+        result = call('/api/generate', body)
         metrics = throughput.sample(result, model, time.monotonic_ns() - started)
         if throughput.model_digest(call('/api/tags'), model) != expected:
             raise Failure('MODEL_IDENTITY')
         connection.send({'model_version': expected, 'output_sha256': metrics['response_sha256'],
-            'tokens': metrics['eval_count'], 'grade': grade_public(result['response'], raw),
+            'tokens': metrics['eval_count'], 'grade': grade_public(result['response'], raw, profile),
             'basis': 'public_deterministic_reference'})
     except Failure as exc:
         connection.send({'failure': exc.category})
@@ -225,20 +243,23 @@ def _generate(connection, base, model, expected, raw):
 
 
 class LocalModel:
-    def __init__(self, base, model):
+    def __init__(self, base, model, profile='csv'):
         self.base = throughput.local_url(base)
         if model.endswith(':cloud'):
             raise Failure('PERMISSION')
         self.model = model
         self.raw = throughput.FIXTURE.read_bytes()
-        self.input_sha256 = hashlib.sha256(throughput.public_input(self.raw).encode()).hexdigest()
+        self.profile = profile
+        self.input_sha256 = hashlib.sha256(sort_prompt(self.raw, profile).encode()).hexdigest()
+        self.case_sha256 = hashlib.sha256(self.raw).hexdigest()
 
     def __call__(self, task, cancelled):
         if (task['transport'] != 'ollama_loopback' or task['input_sha256'] != self.input_sha256
+                or hashlib.sha256(sort_prompt(self.raw, self.profile).encode()).hexdigest() != self.input_sha256
                 or task['max_tokens'] != 64):
             raise Failure('PERMISSION')
         # Enforce a bounded client wait without reconfiguring/stopping the model service.
-        return run_worker(_generate, (self.base, self.model, task['model_version'], self.raw),
+        return run_worker(_generate, (self.base, self.model, task['model_version'], self.raw, self.profile),
                           task['timeout_ms'], cancelled)
 
 

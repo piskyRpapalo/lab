@@ -131,6 +131,20 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(grade_public(','.join(map(str, sorted(values))), raw), 'PASS')
         self.assertEqual(grade_public(','.join(map(str, values)), raw), 'TASK_SKILL')
         self.assertEqual(grade_public('not the contract', raw), 'OUTPUT_SCHEMA')
+        self.assertEqual(grade_public(json.dumps(sorted(values)), raw, 'json-array'), 'PASS')
+        self.assertEqual(grade_public(json.dumps(values), raw, 'json-array'), 'TASK_SKILL')
+        self.assertEqual(grade_public(json.dumps([True] * 16), raw, 'json-array'), 'OUTPUT_SCHEMA')
+
+    def test_profile_mutation_is_denied_and_does_not_inflate_case_identity(self):
+        csv = LocalModel('http://127.0.0.1:1', 'synthetic:tiny')
+        structured = LocalModel('http://127.0.0.1:1', 'synthetic:tiny', 'json-array')
+        self.assertNotEqual(csv.input_sha256, structured.input_sha256)
+        self.assertEqual(csv.case_sha256, structured.case_sha256)
+        request = task(input_sha256=csv.input_sha256)
+        csv.profile = 'json-array'
+        with self.assertRaises(Failure) as caught:
+            csv(request, lambda: False)
+        self.assertEqual(caught.exception.category, 'PERMISSION')
 
     def test_remote_endpoints_and_cloud_aliases_refused_without_io(self):
         for base in ('http://example.org:80', 'http://127.0.0.1:80@evil.test:80'):
@@ -159,6 +173,8 @@ class ModelTests(unittest.TestCase):
                 value = {'model': self.response_model, 'done': True,
                     'response': ','.join(map(str, sorted(throughput.strict_json(throughput.FIXTURE.read_bytes())['values']))),
                     'eval_count': 32, 'eval_duration': 1000000000, 'load_duration': 0}
+                if type(self).bodies[-1].get('format'):
+                    value['response'] = json.dumps(sorted(throughput.strict_json(throughput.FIXTURE.read_bytes())['values']))
                 self.send_response(200)
                 self.end_headers()
                 self.wfile.write(json.dumps(value).encode())
@@ -177,6 +193,9 @@ class ModelTests(unittest.TestCase):
             self.assertEqual(Handler.bodies[0]['options']['num_predict'], 64)
             self.assertIs(Handler.bodies[0]['think'], False)
             self.assertEqual(Handler.bodies[0]['keep_alive'], 0)
+            structured = LocalModel('http://127.0.0.1:' + str(server.server_port), 'synthetic:tiny', 'json-array')
+            self.assertEqual(structured(task(input_sha256=structured.input_sha256), lambda: False)['grade'], 'PASS')
+            self.assertEqual(Handler.bodies[-1]['format']['maxItems'], 16)
             Handler.paths = []
             Handler.digest = 'b' * 64
             with self.assertRaises(Failure) as caught:

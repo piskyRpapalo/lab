@@ -31,6 +31,7 @@ class HexelionTests(unittest.TestCase):
         calls = []
         class Local:
             input_sha256 = hashlib.sha256(cli.throughput.public_input(cli.throughput.FIXTURE.read_bytes()).encode()).hexdigest()
+            case_sha256 = hashlib.sha256(cli.throughput.FIXTURE.read_bytes()).hexdigest()
             def __init__(self, *args):
                 pass
             def __call__(self, request, cancelled):

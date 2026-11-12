@@ -120,6 +120,8 @@ def provenance():
 
 def pilot_rows(receipts, input_hash):
     models = [r for r in receipts if r['source'] == 'local-model']
+    if not models:
+        models = [r for r in receipts if r['source'] == 'baseline-model']
     target = 'OUTPUT_SCHEMA' if any(r['failure_class'] == 'OUTPUT_SCHEMA' for r in models) else 'TASK_SKILL'
     return [{'content_sha256': input_hash, 'split': 'holdout', 'target': target,
              'arm': 'baseline', 'repeat': index, 'failure': r['failure_class'], 'origin': 'MEASURED'}
@@ -140,6 +142,7 @@ def main(argv=None):
     parser.add_argument('--app-root', type=Path, help='reuse existing APP Hexelion proxy for planner measurement')
     parser.add_argument('--run-prefix', help='public session label; no device identity')
     parser.add_argument('--bootstrap-baseline', action='store_true', help='measure two public baselines before planner')
+    parser.add_argument('--worker-profile', choices=('csv', 'json-array'), default='csv')
     args = parser.parse_args(argv)
     if args.execute_public and not args.approval_ref:
         parser.error('--execute-public requires host approval reference')
@@ -164,10 +167,12 @@ def main(argv=None):
                 adapters.append(native)
             model = resources[0]
             if model['state'] == 'DECLARED':
-                local = LocalModel(args.base_url, args.model)
+                local = LocalModel(args.base_url, args.model, args.worker_profile)
                 for suffix in ('one', 'two'):
                     tasks.append(task(prefix + '-' + suffix, 'serion-sort', model['model_version'],
                                       'local-model', local.input_sha256, 'ollama_loopback', 64))
+                    if args.worker_profile == 'json-array':
+                        tasks[-1]['task_id'] = 'public-sort-json'
                     adapters.append(local)
             baseline_tasks = []
             ceiling = 768 if args.bootstrap_baseline else 640 if args.app_root is not None else 128
@@ -175,6 +180,9 @@ def main(argv=None):
             if args.bootstrap_baseline and model['state'] == 'DECLARED':
                 baseline_tasks = [task(prefix + '-base-' + suffix, 'serion-sort', model['model_version'],
                     'baseline-model', local.input_sha256, 'ollama_loopback', 64) for suffix in ('one', 'two')]
+                if args.worker_profile == 'json-array':
+                    for t in baseline_tasks:
+                        t['task_id'] = 'public-sort-json'
                 baseline_session = Session(demo_gate(baseline_tasks, args.approval_ref), budget)
                 baseline_receipts = [baseline_session.execute(t, local, observed_at=utc_now(), cancelled=cancelled)
                                      for t in baseline_tasks]
@@ -205,7 +213,7 @@ def main(argv=None):
             if local_receipts:
                 resources[0]['generation'] = {'state': 'MEASURED' if any(r['outcome'] == 'KNOWN'
                     for r in local_receipts) else 'NO_DATA', 'receipt_refs': [r['receipt_ref'] for r in local_receipts]}
-            rows = pilot_rows(receipts, local.input_sha256) if local_receipts else []
+            rows = pilot_rows(receipts, local.case_sha256) if local_receipts or baseline_receipts else []
         except Exception:
             print(json.dumps(throughput.no_data('public_demo_failed_without_retry')))
             return 1
@@ -223,7 +231,7 @@ def main(argv=None):
         resources[1]['generation'] = {'state': 'MEASURED' if planner_receipt['outcome'] == 'KNOWN' else 'NO_DATA',
                                      'receipt_ref': planner_receipt['receipt_ref']}
     report = {'schema': 'preceptoros.meta-evidence/1', 'mission': 'META-HARNESS-01', 'observed_at': stamp, 'source': provenance(),
-        'inventory': resources, 'inventory_scope': 'operator_selected_targets_only',
+        'inventory': resources, 'inventory_scope': 'operator_selected_targets_only', 'worker_profile': args.worker_profile,
         'unprobed_transports': {k: throughput.no_data('no_authorized_endpoint_supplied')
             for k in ('mcp_sse', 'mcp_streamable_http', 'web_manual')},
         'configuration_import': throughput.no_data('credential_configs_not_read'),

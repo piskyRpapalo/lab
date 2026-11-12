@@ -239,3 +239,11 @@ Bootstrap context is immutable and rehashed against the authorized input. Baseli
 must match the expected tasks/public input, be fresh (<=120 s), and be witnessed by
 their actual host Session; self-hashed or old planner receipts are insufficient.
 Independent H5 bootstrap recheck:74 targeted tests twice, no remaining blockers.
+
+CSV baseline at74415db:4/4 OUTPUT_SCHEMA, planner abstained twice. This supports
+contract repair, not LoRA. Explicit `--worker-profile json-array` adds a closed
+16-integer grammar and public prompt suffix; task/input hashes differ from CSV.
+The fixture case hash stays the same, so profile variants do not add independent
+cases. Original CSV/#173 remain unchanged. Final code checks:624 tests twice
+(one skip),75 targeted twice; H5 format-repair recheck PASS. Live outcomes below
+are in the source-bound receipt summary linked from the benchmark index.
