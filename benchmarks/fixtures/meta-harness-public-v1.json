@@ -1,0 +1,1 @@
+{"schema":"meta-harness-public-v1","specialist":"serion-sort","repetitions":2,"max_tokens":64,"timeout_ms":30000,"privacy":"LOCAL_ONLY","throughput_fixture":"throughput-public-v1.json","review_only":true}
