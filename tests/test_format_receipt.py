@@ -2,6 +2,7 @@
 """Tests for bin/format_receipt.py — the receipt is the post (ideas20oct §2)."""
 from __future__ import annotations
 import json
+import hashlib
 import subprocess
 import sys
 import tempfile
@@ -17,10 +18,12 @@ import format_receipt as fr
 HARNESS = {
     "schema": "preceptoros.lab.harness-receipt/1", "suite": "tests",
     "verdict": "GREEN", "coverage": 10, "total": 10, "determinism": True,
-    "weight_b": 4173, "speed_s": 4.438, "sha256": "abc123",
+    "weight_b": 4173, "speed_s": 4.438,
     "observed_at": "2026-10-20T00:00:00Z",
     "runtime": {"machine": "x86_64", "python": "3.12.15", "system": "Linux"},
 }
+HARNESS['sha256'] = hashlib.sha256(json.dumps(HARNESS, sort_keys=True, ensure_ascii=False,
+                                               separators=(',', ':')).encode()).hexdigest()[:16]
 YARDSTICK = {
     "schema": "preceptoros.lab.yardstick-receipt/1", "state": "GREEN",
     "command": "python3 -m unittest discover -s tests",
@@ -36,7 +39,7 @@ class FormatReceiptTests(unittest.TestCase):
         self.assertIn("GREEN", t)
         self.assertIn("10/10", t)
         self.assertIn("4173 B", t)
-        self.assertIn("abc123", t)
+        self.assertIn(HARNESS['sha256'], t)
         self.assertIn("FIRMO", t)
 
     def test_yardstick_receipt_mentions_runs(self):
@@ -80,6 +83,32 @@ class FormatReceiptTests(unittest.TestCase):
         r["cause"] = "zero tests discovered"
         t = fr.format_harness_receipt(r)
         self.assertIn("NO_DATA", t)
+
+    def test_untrusted_fields_cannot_leak_paths_credentials_or_machine_names(self):
+        canary = '/private/credential-CANARY'
+        evil = {'schema':canary, 'suite':canary, 'verdict':canary, 'coverage':canary,
+                'total':canary, 'determinism':canary, 'weight_b':canary, 'speed_s':canary,
+                'sha256':canary, 'observed_at':canary, 'state':canary, 'command':canary,
+                'cause':canary, 'runtime':{'machine':canary,'python':canary},
+                'runs':[{'state':canary,'passed':canary,'tests':canary,'elapsed_s':canary}]}
+        for formatter, schema in ((fr.format_harness_receipt, HARNESS['schema']),
+                                  (fr.format_yardstick_receipt, YARDSTICK['schema'])):
+            text = formatter(dict(evil, schema=schema))
+            self.assertNotIn('CANARY', text)
+            self.assertIn('NO_DATA', text)
+
+    def test_nonfinite_values_and_unknown_schema_fail_closed(self):
+        self.assertEqual(fr._number(float('nan')), 'NO_DATA')
+        self.assertEqual(fr._number(float('inf')), 'NO_DATA')
+        self.assertEqual(fr._number(True), 'NO_DATA')
+        self.assertEqual(fr._number(10**1000), 'NO_DATA')
+        self.assertEqual(fr._verified_harness_hash(dict(HARNESS, sha256='a'*16)), 'NO_DATA')
+        with tempfile.NamedTemporaryFile('w', suffix='.json') as f:
+            json.dump({'schema':'fake-harness-receipt/1-PRIVATE','state':'secret'}, f); f.flush()
+            text = fr.format_receipt(f.name)
+            self.assertNotIn('PRIVATE', text)
+            self.assertNotIn('secret', text)
+            self.assertIn('NO_DATA', text)
 
 
 if __name__ == "__main__":
