@@ -1,0 +1,67 @@
+{
+  "command": "python3 -m unittest tests.test_isolated_recovery_drill",
+  "git": "git version 2.53.0",
+  "host": "anonymous_local_lab_runner",
+  "limitations": [
+    "real_host_recovery_unverified",
+    "real_host_stability_unverified",
+    "synthetic_host_witness",
+    "no_execution_authority"
+  ],
+  "observed_at": "2026-11-13T17:24:21Z",
+  "python": "3.14.4",
+  "runs": [
+    {
+      "base_sha": "7e08448a38db70a66e199039ca541da8c4b20461",
+      "base_tree": "0eea7c84c9a9e89e1b6298757996633008b3a789",
+      "baseline_pass": true,
+      "candidate_pass": false,
+      "candidate_sha": "75f7d5e10c80cdf52641bdbd7c8e6458daa5a82c",
+      "execution": "NOT_AUTHORIZED",
+      "host_witness": "SYNTHETIC",
+      "lineage_integrity": "INTEGRITY_VERIFIED",
+      "operation_ref": "66b79eca565efb49da9bc2be0caa4b926d97e56b096c5e8aa36be7134817c5b6",
+      "patch_sha256": "3f60f8e56dc8bac6861cc65afff154d9171bdc01bd28a65ae579fcacaf2c743d",
+      "proposal_ref": "37bc906327e82447e8cdd7d82f4025d6166f974a40209bf1de225601e90a2c37",
+      "real_host_recovery": "NO_DATA",
+      "restored_pass": true,
+      "restored_tree_matches": true,
+      "scope": "temporary_fixture_only",
+      "source": "NO_DATA(real_host_stability)",
+      "state": "DEMONSTRATED_IN_SANDBOX",
+      "timings_ns": {
+        "baseline": 31780611,
+        "candidate": 113899070,
+        "restore": 2922679,
+        "restored": 15690571
+      }
+    },
+    {
+      "base_sha": "7e08448a38db70a66e199039ca541da8c4b20461",
+      "base_tree": "0eea7c84c9a9e89e1b6298757996633008b3a789",
+      "baseline_pass": true,
+      "candidate_pass": false,
+      "candidate_sha": "75f7d5e10c80cdf52641bdbd7c8e6458daa5a82c",
+      "execution": "NOT_AUTHORIZED",
+      "host_witness": "SYNTHETIC",
+      "lineage_integrity": "INTEGRITY_VERIFIED",
+      "operation_ref": "66b79eca565efb49da9bc2be0caa4b926d97e56b096c5e8aa36be7134817c5b6",
+      "patch_sha256": "3f60f8e56dc8bac6861cc65afff154d9171bdc01bd28a65ae579fcacaf2c743d",
+      "proposal_ref": "37bc906327e82447e8cdd7d82f4025d6166f974a40209bf1de225601e90a2c37",
+      "real_host_recovery": "NO_DATA",
+      "restored_pass": true,
+      "restored_tree_matches": true,
+      "scope": "temporary_fixture_only",
+      "source": "NO_DATA(real_host_stability)",
+      "state": "DEMONSTRATED_IN_SANDBOX",
+      "timings_ns": {
+        "baseline": 15486572,
+        "candidate": 113847473,
+        "restore": 3217205,
+        "restored": 15698104
+      }
+    }
+  ],
+  "schema": "preceptoros.lab.sandbox-recovery-drill-receipt/1",
+  "source": "local temporary synthetic fixture"
+}
