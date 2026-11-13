@@ -94,3 +94,15 @@ class ReadinessTests(unittest.TestCase):
             self.assertEqual(db.execute('SELECT count(*) FROM claims').fetchone()[0], 0)
             self.assertEqual(db.execute('SELECT count(*) FROM budget_reservations').fetchone()[0], 0)
             self.assertEqual(db.execute('SELECT remaining FROM durable_budget').fetchone()[0], 128)
+
+    def test_head_mismatch_and_unknown_are_both_accessible(self):
+        packet = self.read(head='f'*40)
+        record = packet['machine']['record']
+        self.assertEqual(record['cause'], 'candidate_head_mismatch')
+        self.assertEqual(record['journal_outcome'], 'UNKNOWN')
+        for name in ('text', 'speech'):
+            self.assertIn('HEAD', packet[name]['summary'])
+            self.assertIn('unknown', packet[name]['summary'])
+            self.assertEqual(packet[name]['state_ref'], record['projection_ref'])
+        from meta_harness.delegation import encode
+        self.assertLess(len(encode(record)), 1024)
