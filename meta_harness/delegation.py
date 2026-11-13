@@ -194,7 +194,11 @@ class Session:
         try:
             with self.lock:
                 if self.journal is not None:
-                    return self.journal.attests(receipt, sha(task), task['run_id']) is True
+                    if self.journal.attests(receipt, sha(task), task['run_id']) is True:
+                        return True
+                    stored = self.runs.get(task['run_id'])
+                    return (receipt.get('outcome') == 'NOT_STARTED' and stored is not None
+                            and stored[0] == sha(task) and stored[1] == receipt)
                 stored = self.runs.get(task['run_id'])
                 if stored is not None and stored[0] == sha(task) and stored[1] == receipt:
                     return True
@@ -208,24 +212,26 @@ class Session:
         instrument('evidence').valid_time(observed_at)
         task = copy.deepcopy(task)
         fingerprint, run_id = sha(task), task['run_id']
+        def replay(previous):
+            try:
+                witnessed = (verify(previous) and previous['task_sha256'] == fingerprint
+                    and previous['run_id'] == run_id
+                    and self.journal.attests(previous, fingerprint, run_id) is True)
+            except Exception:
+                witnessed = False
+            if not witnessed:
+                raise Failure('EVIDENCE')
+            return copy.deepcopy(previous)
         with self.lock:
             if self.journal is not None:
                 try:
-                    previous = self.journal.claim(run_id, fingerprint)
+                    previous = self.journal.lookup(run_id, fingerprint)
                 except Failure:
                     raise
                 except Exception:
                     raise Failure('EVIDENCE') from None
                 if previous is not None:
-                    try:
-                        witnessed = (verify(previous) and previous['task_sha256'] == fingerprint
-                            and previous['run_id'] == run_id
-                            and self.journal.attests(previous, fingerprint, run_id) is True)
-                    except Exception:
-                        witnessed = False
-                    if not witnessed:
-                        raise Failure('EVIDENCE')
-                    return copy.deepcopy(previous)
+                    return replay(previous)
             previous = self.runs.get(run_id)
             if previous is not None:
                 if previous[0] != fingerprint or previous[1] is None:
@@ -233,7 +239,7 @@ class Session:
                 return copy.deepcopy(previous[1])
             self.runs[run_id] = (fingerprint, None)
         started, measurement, approval, approval_ref = self.clock(), None, 'NO_DATA', None
-        category, phase, dispatched, reserved, cause = 'NONE', 'complete', False, False, None
+        category, phase, dispatched, reserved, cause, claimed = 'NONE', 'complete', False, False, None, False
         try:
             if cancelled():
                 raise Failure('CANCELLED')
@@ -268,6 +274,27 @@ class Session:
                 if now - started >= task['timeout_ms'] * 1_000_000:
                     raise Failure('TRANSPORT')
                 check_grant(fresh_grant, task, now)
+            if self.journal is not None:
+                try:
+                    previous = self.journal.claim(run_id, fingerprint)
+                except Failure:
+                    raise
+                except Exception:
+                    raise Failure('EVIDENCE') from None
+                if previous is not None:
+                    self.budget.settle(task['max_tokens'], 0)
+                    reserved = False
+                    value = replay(previous)
+                    with self.lock:
+                        self.runs[run_id] = (fingerprint, value)
+                    return value
+                claimed = True
+                if cancelled():
+                    raise Failure('CANCELLED')
+                now = self.clock()
+                if now - started >= task['timeout_ms'] * 1_000_000:
+                    raise Failure('TRANSPORT')
+                check_grant(fresh_grant if self.admission is not None else grant, task, now)
             dispatched = True
             value = check_result(dispatch(copy.deepcopy(task), cancelled), task)
             if cancelled():
@@ -301,7 +328,7 @@ class Session:
             'outcome': 'KNOWN' if measurement is not None else 'UNKNOWN' if dispatched else 'NOT_STARTED'}
         receipt = seal(receipt)
         with self.lock:
-            if self.journal is not None:
+            if self.journal is not None and claimed:
                 try:
                     self.journal.finish(run_id, fingerprint, receipt)
                 except Failure:

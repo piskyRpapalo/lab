@@ -66,6 +66,15 @@ class ExecutionJournal:
             raise Failure('EVIDENCE')
         return value
 
+    def _require_resolved(self, db):
+        rows = db.execute('SELECT run_id,task_ref,receipt FROM claims LIMIT 4097').fetchall()
+        if len(rows) > 4096:
+            raise Failure('EVIDENCE')
+        for old_id, old_ref, raw in rows:
+            prior = self._receipt(raw, old_id, old_ref)
+            if prior is None or prior['outcome'] == 'UNKNOWN':
+                raise Failure('EVIDENCE')
+
     def claim(self, run_id, task_ref):
         """Atomically claim, or replay a known result; uncertain work blocks new work."""
         try:
@@ -76,16 +85,26 @@ class ExecutionJournal:
                     if row[0] != task_ref or row[1] is None:
                         raise Failure('REPLAY')
                     return self._receipt(row[1], run_id, task_ref)
-                rows = db.execute('SELECT run_id,task_ref,receipt FROM claims LIMIT 4097').fetchall()
-                if len(rows) > 4096:
-                    raise Failure('EVIDENCE')
-                for old_id, old_ref, raw in rows:
-                    prior = self._receipt(raw, old_id, old_ref)
-                    if prior is None or prior['outcome'] == 'UNKNOWN':
-                        raise Failure('EVIDENCE')
+                self._require_resolved(db)
                 db.execute('INSERT INTO claims(run_id,task_ref,receipt) VALUES(?,?,NULL)', (run_id, task_ref))
                 db.commit()
                 return None
+        except Failure:
+            raise
+        except (sqlite3.Error, OSError, ValueError, TypeError):
+            raise Failure('EVIDENCE') from None
+
+    def lookup(self, run_id, task_ref):
+        """Read an existing result without reserving a new run before permission."""
+        try:
+            with closing(self._connect()) as db:
+                row = db.execute('SELECT task_ref,receipt FROM claims WHERE run_id=?', (run_id,)).fetchone()
+                if row is None:
+                    self._require_resolved(db)
+                    return None
+                if row[0] != task_ref or row[1] is None:
+                    raise Failure('REPLAY')
+                return self._receipt(row[1], run_id, task_ref)
         except Failure:
             raise
         except (sqlite3.Error, OSError, ValueError, TypeError):
