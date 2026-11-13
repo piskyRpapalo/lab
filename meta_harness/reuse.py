@@ -6,7 +6,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PATHS = {'throughput': 'benchmarks/station-96-first-pass-20261029/smoke.py',
          'evidence': 'bin/dfa06_evidence_bundle.py', 'family': 'bin/dfa_b5_family_blind_gate.py',
-         'compare': 'bin/compare_receipts.py', 'suite': 'bin/eval_harness.py'}
+         'compare': 'bin/compare_receipts.py', 'suite': 'bin/eval_harness.py',
+         'resources': 'bin/resource_decision.py'}
 
 
 @lru_cache(None)

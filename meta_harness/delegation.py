@@ -180,8 +180,11 @@ class Session:
     No automatic retries. Once dispatch may have started, an unknown outcome is cached
     and the token reservation retained. Restart/multiple-process guarantees are NO_DATA.
     """
-    def __init__(self, authority, budget, *, clock=time.monotonic_ns):
+    def __init__(self, authority, budget, *, clock=time.monotonic_ns, admission=None):
         self.authority, self.budget, self.clock = authority, budget, clock
+        # Optional host-owned resource gate. It never replaces the exact-task grant.
+        # Host retains any resource lease until a known outcome/reconciliation.
+        self.admission = admission
         self.runs, self.lock = {}, threading.RLock()
 
     def attests(self, receipt, task):
@@ -228,6 +231,20 @@ class Session:
             if now - started >= task['timeout_ms'] * 1_000_000:
                 raise Failure('TRANSPORT')
             check_grant(grant, task, now)
+            if self.admission is not None:
+                if not callable(self.admission) or self.admission(
+                        copy.deepcopy(task), copy.deepcopy(grant), dispatch, cancelled) is not True:
+                    raise Failure('EVIDENCE')
+                if cancelled():
+                    raise Failure('CANCELLED')
+                fresh_grant = self.authority(copy.deepcopy(task))
+                check_grant(fresh_grant, task, self.clock())
+                if fresh_grant['approval_ref'] != grant['approval_ref']:
+                    raise Failure('PERMISSION')
+                now = self.clock()
+                if now - started >= task['timeout_ms'] * 1_000_000:
+                    raise Failure('TRANSPORT')
+                check_grant(fresh_grant, task, now)
             dispatched = True
             value = check_result(dispatch(copy.deepcopy(task), cancelled), task)
             if cancelled():
