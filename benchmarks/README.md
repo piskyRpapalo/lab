@@ -14,6 +14,7 @@ Contributor instructions: [Submit a reproducible local benchmark](../docs/contri
 
 - [3D STL geometry audit · 2026-11-11](receipts/20261111-stl-geometry-audit.md): four local binary STL mesh checks (topology, extents, signed volume); 3D AI-generation/physical print NO_DATA. Separate from the text-model matrix and throughput rankings.
 - [Local Ollama · Beelink · 2026-11-11](ollama-beelink-20261111/README.md): six installed models, 12 measured generation-throughput samples, wall/load metrics and original private receipt digest; quality and CPU/GPU split NO_DATA.
+- [Local receipt extraction · qwen2.5vl on CPU · 2026-11-12](receipts/20261112-receipt-extraction-qwen25vl-local.md): one open vision model, fully on-device, 26 photographed receipts scored field by field; 139/142 fields (97.9%), and a repeat on one Ollama version 1 field apart from the previous run (not a general vision benchmark).
 - [Seven habitat families · local AI-security literal pilot · 2026-11-11](receipts/20261111-seven-family-security-pilot.md): 48 local model calls against the existing 12-case corpus; keyword-only diagnostics and a source-qualified seven-family evidence/NO_DATA map (not safety certification).
 - [Tanda 1 · 2026-10-30](station-tanda1-20261030/README.md): three local models on the unified-memory station, three hot runs each, medians and honest sensor peaks; the 131,072-context trial is recorded NO_PROMOVER.
 - [Unified-memory station · 2026-10-29](station-96-first-pass-20261029/README.md): short 70B local measurement and deterministic small-model smoke.
