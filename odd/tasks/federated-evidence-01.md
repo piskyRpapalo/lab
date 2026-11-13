@@ -97,3 +97,58 @@ Next: coordinate an idle, owned-resource window, use existing bench-repro runner
 sequentially, match exact digest+controls, measure peak host/device memory and
 pressure around each public fixture; retain negatives. Production wiring and
 atomic resource reservations remain with the runtime owner.
+
+## Continuation · source-preserving APP consumption
+
+Before changes:16 protected files matched published8eb0a1a byte-for-byte,
+12 directed tests passed; literal-head CI43403881804 reverified3/3.176 remained
+OPEN/DRAFT at7d89317 with literal-head CI43402087203;177631f598 remained stacked
+and unreconciled pending Sovereign integration. No new census/probe was run.
+
+Additional scope in this SAME178: `bin/federated_projection.py`,
+`docs/federated-consumption.md`, explicit historical replay example and new
+projection/preservation tests. Source schema node-metadata/1 is reused with
+kind=projection and separate source/projection seals; record/views follows177.
+No UI, dispatcher, live producer, source rewrite, model invocation or new node.
+Current consumption distinguishes DECLARED/OBSERVED/scoped VERIFIED/STALE/
+NO_DATA; legacy metadata VERIFIED is not upgraded to inference. Host pins and
+host read time are required; jointly re-sealed altered packets fail recomputation.
+All records abstain from admission. Pressure and calibration gaps remain caused.
+
+The original source JSON, summary and12-test verifier stay byte-identical;
+this feature log only appends. A new preservation test fixes their original byte
+lengths/hashes and feature prefix. Public packets contain anonymous node/model
+refs only, bounded below16KiB. Example time09:42Z is explicitly HISTORICAL_REPLAY,
+not a fresh observation. Missing inputs do not mean absent machines/models.
+
+Existing WEB mini-guide registered as a candidate with source blobs/manifest
+hash,105453984 declared weight bytes and declared19/32 vs2/32; no evaluation or
+download repeated. Five rack nodes exclude phones and browser candidates.
+No training proposed; use existing independent evidence gates and an owned idle
+calibration window. Handoff to Claude uses the existing brain-cycle task contract
+separately from census context, never a fake cycle inferred from metadata.
+Continuation validation/CI pending final publication; prior receipts remain dated.
+
+10:06Z continuity order: construction continues without waiting for signatures.
+176/177 stay untouched;175 was revalidated OPEN/DRAFT at444b5847f72c43e3a3eb7082a6e486dd439ff1c9,
+base3647403,mergeStateUNSTABLE,no visible statusCheckRollup. Its CI is
+NO_DATA(no_visible_checks_in_PR_view), not assumed red or green. It remains in
+the inventory; no ownership of that independent benchmark slice is inferred.
+`docs/nvidia-benchmark-proposals.md` adds N1 existing-backend throughput/GPU
+attribution, N2 task/context envelope, N3 conditional pre-existing TensorRT
+engine. NVIDIA primary sources consulted; no install, inference, service or
+power/clock action. Mobile clients remain future consumers, not enrolled nodes.
+
+Continuation validation: canonical581 tests x2 (580pass/1existing skip),
+5.854/5.634s; all workflow companions x2 PASS (Norte5,Node7,llms2,tree11996B).
+32 targeted tests cover original12 +19 consumer/CLI cases +1 preservation gate.
+Full six-packet historical replay repeated byte-identically, SHA256
+a1523b969788ba1dceaba11891abcedfcd827465468086b0935e7eec0da42f26.
+Five physical nodes remain distinct from five backend observations: node-c has
+two; node-a has no supplied current metadata snapshot. Replica input aliases,
+expired/future evidence, re-sealed changes, corrupted parts, symlinks, missing
+pressure, false admission and channel divergence are rejected or retain NO_DATA.
+Original16 files/hashes remain protected (feature log append-only); source JSON,
+summary, collector and old verifier were not altered. New files all<16384B.
+Next: final-head CI, exact-SHA review, Claude read-only contract adoption, later
+owned idle-window measurements. No signature was awaited to finish construction.
