@@ -1,0 +1,166 @@
+{
+  "schema": "NO_DATA: no existing LAB receipt schema fits field extraction (preceptoros.lab.harness-receipt/1 is for harness test receipts, bench-repro-01-v1 for throughput); the fields are documented in the card",
+  "reporting": "contributor-reported",
+  "claim": "field extraction accuracy and per-receipt latency; not a quality, safety, fairness or compliance certification",
+  "closest_existing": {
+    "card": "benchmarks/artemis-candidates-20260927 (vision candidates; JSON output only, does not measure vision)",
+    "harness": "NO_DATA: matching harness not identified"
+  },
+  "state": "MEASURED",
+  "date": "2026-11-12",
+  "observed_window_utc": {
+    "start": "2026-11-11T23:40:51Z",
+    "end": "2026-11-12T04:02:11Z"
+  },
+  "workload": "photographed-receipt field extraction (vendor, date, total, VAT amount, VAT rate, category) scored against human labels",
+  "workload_version": "Receipt-Ghostbuster development set, 26 labelled receipts, 142 scored fields",
+  "reference": {
+    "inputs": "real photographed shop receipts from one shopper; not synthetic",
+    "denominators": "26 receipts; 142 fields (a field is scored only where the label gives a value)",
+    "labels_by": "the contributor, from the paper receipts",
+    "labels_independently_checked": "NO_DATA: not independently checked; not independent ground truth",
+    "exclusions": "none; all 26 labelled receipts were read and scored"
+  },
+  "scope": "SMALL_SINGLE_SHOPPER_SET",
+  "not_a_general_vision_benchmark": true,
+  "source": {
+    "repository": "https://github.com/Aimilios94/Receipt-Ghostbuster",
+    "code_commit": "c3820c2935f6428b59e231d72666c8b48af01da2",
+    "result_commit": "0f8b3785b9bd9d41f9fe79dbc06246a9a446df57",
+    "result_file": "backend/eval/models.json at result_commit",
+    "command": "python backend/scripts/eval_models.py --models ollama:qwen2.5vl-receipt --refresh",
+    "offline_conditions": "loopback Ollama endpoint only; LangSmith tracing off; Sentry DSN empty; cloud provider keys replaced with dummies",
+    "pr_head_sha": "NO_DATA: PR not yet opened",
+    "human_signoff": "NO_DATA: pending the Soberano's signature on the exact PR head"
+  },
+  "model": {
+    "tag": "qwen2.5vl-receipt",
+    "built_from": "qwen2.5vl:7b plus PARAMETER num_ctx 16384 (backend/ollama/Modelfile)",
+    "ollama_digest": "55b7b42733a497978693d7cf3d978f2aa2184d907a6d770c1c58c7158247d645",
+    "base_weights_blob_sha256": "a99b7f834d754b88f122d865f32758ba9f0994a83f8363df2c1e71c17605a025",
+    "family": "qwen25vl",
+    "parameter_size": "8.3B",
+    "quant": "Q4_K_M",
+    "context_tokens": 16384
+  },
+  "decoding": {
+    "temperature": "0.0001, the base model's default (not set in the request)",
+    "max_tokens": 4096,
+    "seed": "NO_DATA: not set",
+    "num_ctx": "16384, from the Modelfile"
+  },
+  "engine": {
+    "runtime": "Ollama 0.40.14",
+    "runner": "llamacpp",
+    "processor_observed": "100% CPU (ollama ps at end of run)",
+    "integrated_gpu": "NO_DATA: not used; Ollama dropped the integrated GPU by default"
+  },
+  "host_class": "AMD Ryzen 7 5700G, 8 cores / 16 threads, 32 GB RAM, Windows 10 (build 19045), x86_64",
+  "python": "3.14.4",
+  "results": {
+    "n_receipts": 26,
+    "n_errored": 0,
+    "n_missing": 0,
+    "fields": {
+      "vendor": {
+        "correct": 25,
+        "scored": 25
+      },
+      "date": {
+        "correct": 23,
+        "scored": 25
+      },
+      "total": {
+        "correct": 26,
+        "scored": 26
+      },
+      "vat_amount": {
+        "correct": 21,
+        "scored": 21
+      },
+      "vat_rate": {
+        "correct": 21,
+        "scored": 21
+      },
+      "category": {
+        "correct": 23,
+        "scored": 24
+      }
+    },
+    "overall": {
+      "correct": 139,
+      "scored": 142,
+      "accuracy_pct": 97.9
+    },
+    "receipts_fully_correct": {
+      "count": 23,
+      "n": 26
+    },
+    "latency_s_per_receipt": {
+      "p50": 391.2,
+      "p95": 1295.2,
+      "avg": 595.4
+    },
+    "cost_usd": 0,
+    "review_gate": {
+      "wrong_reads": 3,
+      "wrong_reads_auto_posted": 1,
+      "correct_reads_sent_to_review_pct": 30.4
+    }
+  },
+  "repeatability": {
+    "comparison": "previous full read of the same 26 on 2026-11-07, same model digest, same Ollama 0.40.14, same prompt",
+    "previous": {
+      "correct": 138,
+      "scored": 142,
+      "accuracy_pct": 97.2,
+      "receipts_fully_correct": 22
+    },
+    "receipts_identical_on_every_scored_field": 23,
+    "per_field_identical": {
+      "vendor": 25,
+      "date": 24,
+      "total": 26,
+      "vat_amount": 25,
+      "vat_rate": 25,
+      "category": 26
+    },
+    "receipts_fixed": 1,
+    "receipts_broken": 0,
+    "cause_of_earlier_rise": "NO_DATA: two runs on one version cannot separate version from chance",
+    "fixed_between_runs": "machine, Ollama 0.40.14, model digest, prompt, the Ollama read path, and the scorer (both read sets scored at code commit c3820c2)",
+    "changed_between_runs": "code commit (previous run at dedb262 with uncommitted changes); the changes add other providers and do not touch the Ollama read path or the prompt"
+  },
+  "history_same_26": [
+    {
+      "date": "2026-10-22",
+      "accuracy_pct": 89.4
+    },
+    {
+      "date": "2026-11-03 to 2026-11-05",
+      "accuracy_pct": 90.1
+    },
+    {
+      "date": "2026-11-07",
+      "accuracy_pct": 97.2
+    },
+    {
+      "date": "2026-11-12",
+      "accuracy_pct": 97.9
+    }
+  ],
+  "held_out_test_set": "NO_DATA: the 9-receipt locked test set was not re-read in this run",
+  "power": "NO_DATA: no meter",
+  "thermal_control": "NO_DATA: not instrumented",
+  "independent_replication": "NO_DATA: one machine",
+  "sha256": {
+    "result_file_at_result_commit": "dacc2c3e0e971b643e307f60fcb5059455f0c518052509d3f48ec716db804e07",
+    "eval_models_py_at_code_commit": "602df28261610c09540e37b53960ff01cafff9f4d3260b325a8a5c58b6cfb888",
+    "eval_extraction_py_at_code_commit": "acad7aa67ba031fbfd6f2053ceb5125104066cecebc560873b3e214d1df7f74b",
+    "modelfile_at_code_commit": "ac10dbca7554201c7595d5a78ddc19117f145b5a404ba50d24bb7023e590b978",
+    "labels_private": "35a0f69f68ceca16977dd3e32fbac8c3ffedbd7b6334e7cc8e1c24f69476e5f9",
+    "run_log_private": "6a05158e1a73352122d347949545786eadc6a28f236ac275fdd0e7515a008956"
+  },
+  "privacy": "aggregates only: no receipt images, labels, field values, prompts, model answers or file names",
+  "external_reproduction": "NO_DATA: the receipt photos and labels are private; the method, code and model are public"
+}
