@@ -18,7 +18,7 @@ def propose(receipts, *, verify_source=None):
     must return the literal True only for fresh and independently sourced data.
     Receipt data and witness results do not confer authority to apply a change.
     """
-    empty = {'schema': 'preceptoros.self-improvement/1', 'state': 'NO_DATA',
+    empty = {'schema': 'preceptoros.self-improvement/2', 'state': 'NO_DATA',
              'cause': 'evidence_unavailable', 'suggestions': [],
              'execution_authorized': False}
     try:
@@ -43,8 +43,10 @@ def propose(receipts, *, verify_source=None):
         suggestions = [{'failure_class': category, 'next_action': NEXT[category],
                         'evidence_refs': sorted(groups[category])}
                        for category in sorted(groups)]
-        body = {'schema': empty['schema'], 'state': 'PROPOSAL_ONLY',
-                'cause': 'human_review_required', 'suggestions': suggestions,
+        body = {'schema': empty['schema'],
+                'state': 'REVIEW_REQUIRED' if suggestions else 'NO_CHANGE',
+                'cause': 'human_review_required' if suggestions else 'no_failure_in_supplied_receipts',
+                'suggestions': suggestions,
                 'execution_authorized': False}
         return dict(body, proposal_ref=sha(body))
     except Exception:
