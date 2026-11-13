@@ -1,0 +1,161 @@
+"""Bounded planner measurement using the existing APP proxy, never an authority."""
+import hashlib
+import datetime
+import importlib.util
+import io
+import json
+from pathlib import Path
+import sys
+import urllib.request
+
+from .delegation import Failure, HEX, PROXY_CAUSES, sha, verify
+from .transports import run_worker, throughput, sort_prompt, PROFILES
+from .workers import baseline_spec
+
+PUBLIC_PLAN = {'schema': 'public-delegation-choice-v1', 'actions': ['DELEGATE_LOCAL', 'NO_DATA'],
+               'specialist': 'serion-sort', 'maximum_worker_tokens': 128, 'privacy': 'LOCAL_ONLY'}
+
+
+def capability_evidence(receipts, tasks, expected, now, *, witness=None):
+    """Accept only this run's witnessed public baseline tasks, never planner enums."""
+    try:
+        if not callable(witness) or len(receipts) != 2 or len(tasks) != 2:
+            return None
+        current = datetime.datetime.fromisoformat(now.replace('Z', '+00:00'))
+        wanted_id = tasks[0]['task_id']
+        wanted_input, wanted_source, wanted_transport, wanted_cap = baseline_spec(wanted_id)
+        refs = []
+        for receipt, task in zip(receipts, tasks):
+            if (task['source'] != wanted_source or task['task_id'] != wanted_id
+                    or task['specialist'] != 'serion-sort' or task['input_sha256'] != wanted_input
+                    or task['model_version'] != expected or task['transport'] != wanted_transport
+                    or task['max_tokens'] != wanted_cap or not verify(receipt)
+                    or receipt['task_sha256'] != sha(task) or receipt['run_id'] != task['run_id']
+                    or receipt['source'] != task['source'] or receipt['model_version'] != expected
+                    or receipt['phase'] != 'complete' or receipt['measurement'] is None
+                    or receipt['measurement']['grade'] != 'PASS'
+                    or receipt['confidence_basis'] != 'public_deterministic_reference'
+                    or witness(receipt, task) is not True):
+                return None
+            stamp = datetime.datetime.fromisoformat(receipt['observed_at'].replace('Z', '+00:00'))
+            if not 0 <= (current - stamp).total_seconds() <= 120:
+                return None
+            refs.append(receipt['receipt_ref'])
+        if len(set(refs)) != 2 or tasks[0]['run_id'] == tasks[1]['run_id']:
+            return None
+        return {'model_version': expected, 'baseline_refs': refs, 'baseline_passed': 2}
+    except Exception:
+        return None
+
+
+def public_prompt(capability=None):
+    if capability is not None:
+        if (type(capability) is not dict or set(capability) != {'model_version', 'baseline_refs', 'baseline_passed'}
+                or type(capability['model_version']) is not str or not HEX.fullmatch(capability['model_version'])
+                or type(capability['baseline_refs']) is not list or len(capability['baseline_refs']) != 2
+                or type(capability['baseline_passed']) is not int or capability['baseline_passed'] != 2
+                or any(type(r) is not str or not HEX.fullmatch(r) for r in capability['baseline_refs'])
+                or len(set(capability['baseline_refs'])) != 2):
+            raise Failure('EVIDENCE')
+    return ('Propose only: a human has authorized a local public integer-sorting test. '
+            'Choose DELEGATE_LOCAL only when two current baseline receipts below passed; '
+            'otherwise choose NO_DATA. A catalog or port alone is insufficient. '
+            'You cannot grant permissions or train anything. Return only JSON with one key action. '
+            'Public case: ' + json.dumps(PUBLIC_PLAN, sort_keys=True) +
+            ' Measured evidence: ' + json.dumps(capability, sort_keys=True))
+
+
+def _plan(connection, app_root, base, expected, capability):
+    try:
+        root = Path(app_root)
+        path = root / 'hexelion_proxy.py'
+        proxy_sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        sys.path.insert(0, str(root))
+        spec = importlib.util.spec_from_file_location('meta_existing_hexelion_proxy', path)
+        proxy = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(proxy)
+        actual = throughput.model_digest(throughput.request('/api/tags', base=base), proxy.MODEL)
+        if actual != expected:
+            raise Failure('MODEL_IDENTITY')
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), throughput.NoRedirect())
+        refused = []
+        def bounded_open(request, timeout=None):
+            if request.full_url not in (base + '/api/tags', base + '/api/generate'):
+                raise Failure('PERMISSION')
+            if request.data is not None:
+                body = throughput.strict_json(request.data)
+                if body.get('model') != proxy.MODEL or body.get('prompt') != public_prompt(capability):
+                    raise Failure('PERMISSION')
+                # Preserve the working planner's GPT-OSS think-low contract.
+                body['options']['num_predict'] = 512
+                # No keep_alive: preserve the proxy/server's current retention behavior.
+                request = urllib.request.Request(request.full_url, data=json.dumps(body).encode(),
+                    headers={'Content-Type': 'application/json'}, method='POST')
+            with opener.open(request, timeout=min(timeout or 30, 30)) as response:
+                raw = response.read(65537)
+            if len(raw) > 65536:
+                refused.append('PROTOCOL')
+                raise Failure('PROTOCOL')
+            value = throughput.strict_json(raw)
+            try:
+                if request.full_url.endswith('/api/tags'):
+                    if throughput.model_digest(value, proxy.MODEL) != expected:
+                        refused.append('MODEL_IDENTITY')
+                        raise Failure('MODEL_IDENTITY')
+                else:
+                    throughput.reject_remote(value)
+                    if value.get('done') is not True:
+                        refused.append('PROTOCOL')
+                        raise Failure('PROTOCOL')
+            except ValueError:
+                refused.append('PERMISSION')
+                raise Failure('PERMISSION') from None
+            return io.BytesIO(raw)
+        answer = proxy.ask(public_prompt(capability), endpoint=base, opener=bounded_open,
+            output_format={'type': 'object', 'properties': {'action': {'type': 'string',
+                'enum': ['DELEGATE_LOCAL', 'NO_DATA']}}, 'required': ['action'], 'additionalProperties': False})
+        if answer.get('estado') != 'MEASURED':
+            code = answer.get('causa')
+            raise Failure(refused[0] if refused else PROXY_CAUSES.get(code, 'EVIDENCE'), code)
+        decision = throughput.strict_json(answer['texto'])
+        if (type(decision) is not dict or set(decision) != {'action'}
+                or decision['action'] not in ('DELEGATE_LOCAL', 'NO_DATA')):
+            raise Failure('OUTPUT_SCHEMA')
+        if throughput.model_digest(throughput.request('/api/tags', base=base), proxy.MODEL) != expected:
+            raise Failure('MODEL_IDENTITY')
+        tokens = answer.get('medida', {}).get('gen_tokens')
+        if type(tokens) is not int or not 0 < tokens <= 512:
+            raise Failure('BUDGET')
+        connection.send({'decision': decision['action'], 'proxy_sha256': proxy_sha,
+            'result': {'model_version': expected, 'output_sha256': sha(decision), 'tokens': tokens,
+                       'grade': 'PASS', 'basis': 'public_deterministic_reference'}})
+    except Failure as exc:
+        connection.send({'failure': exc.category, 'cause': exc.cause})
+    except OSError:
+        connection.send({'failure': 'TRANSPORT'})
+    except Exception:
+        connection.send({'failure': 'PROTOCOL'})
+    finally:
+        connection.close()
+
+
+class ExistingHexelion:
+    def __init__(self, app_root, base, capability=None):
+        self.app_root, self.base = Path(app_root), throughput.local_url(base)
+        if not (self.app_root / 'hexelion_proxy.py').is_file():
+            raise Failure('TRANSPORT')
+        self.decision, self.proxy_sha256 = None, None
+        self._capability_bytes = json.dumps(capability, sort_keys=True).encode()
+        self.input_sha256 = hashlib.sha256(public_prompt(capability).encode()).hexdigest()
+
+    def __call__(self, task, cancelled):
+        self.decision, self.proxy_sha256 = None, None
+        capability = throughput.strict_json(self._capability_bytes)
+        actual_input = hashlib.sha256(public_prompt(capability).encode()).hexdigest()
+        if (task['input_sha256'] != self.input_sha256 or actual_input != self.input_sha256
+                or task['max_tokens'] != 512 or task['transport'] != 'ollama_loopback'):
+            raise Failure('PERMISSION')
+        response = run_worker(_plan, (str(self.app_root), self.base, task['model_version'], capability),
+                              task['timeout_ms'], cancelled)
+        self.decision, self.proxy_sha256 = response['decision'], response['proxy_sha256']
+        return response['result']
