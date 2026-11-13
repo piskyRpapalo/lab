@@ -178,6 +178,7 @@ for operator review; no automatic deletions, promotions, timers or deployments.
 Next selected authorized mission: source-attributed read-only resource evidence
 for admission/concurrency bounds, composed with the existing router/Session;
 no load experiment or service restart until idle/coordinated conditions exist.
+
 ## Integration correction · 13 November 2026
 
 GitHub closed #177 by merging its original631f598 into the former #176 branch
@@ -190,3 +191,6 @@ and all historical receipts remain preserved. Revalidate the full gate twice
 and literal source head; any new head needs its own human signature. APP/live
 E2E remains NO_DATA(not_exercised_by_this_LAB_change).
 
+Gate after reconciliation: directed49 x2 PASS; full717 x2 (716 pass, one
+existing skip), companions x2 PASS;14 real-code mutations x2 in each gate
+(56 detections total), no model execution. Literal-head CI follows publication.
