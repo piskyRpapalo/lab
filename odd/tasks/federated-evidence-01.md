@@ -3,7 +3,8 @@
 Explore: APP255, Private Mesa3, LAB176→177, current main3647403;
 existing bench_repro runner and dated device receipts remain authoritative for
 their own experiments. A catalog is not a generation/quality/resource witness.
-Three separately observed nodes; never infer shared storage or capacity.
+Original three-node commission expanded by the Sovereign to five physical
+nodes (Jetson and Raspberry added). Never infer shared storage or capacity.
 
 Scope: `bin/federated_node_snapshot.py`, its negative tests, scrubbed dated
 snapshots and this document. New branch from current main; no dependency on
@@ -77,6 +78,21 @@ NO_DATA and no training proposal or execution. Catalog licenses alone cannot
 license a future corpus. No automatic promotion.
 
 Rollback: optional offline collector only; reviewed revert. Nothing installed.
+
+13-Nov extension: a historical Beelink user-context entry from3-Sep records
+key-based passwordless SSH to node-a; no need to alter passwords. All three
+edge peers appear offline in tailnet status, but mDNS+LAN and strict verification
+against existing host keys recovered node-d/e. Device-tree confirms both
+physical models in private receipts. Only anonymous a-e alias admission changes
+in the collector; preserve the prior three snapshots and their exact old source
+hash/commit, add two current source-bound snapshots (6 and1 catalog tags).
+Pressure unavailable on both remains NO_DATA, not zero. Same private tag on
+node-d/c identifies different digests and sizes; no alias-based routing.
+Extension validation: 12 directed tests PASS; canonical561 tests x2 (560pass,
+1existing skip),5.751/5.617s; Norte5,Node7,llms2,tree11996/12109 B x2 PASS.
+Original three source-versioned snapshots remain byte-identical; new node-d/e
+snapshots bind collector2b23a6b9c33148c6414395aa0286eab0cd0bc54681fc2a08c902bd8911492de4.
+Extension final-head CI pending publication; prior559-test/CI receipt historical.
 Next: coordinate an idle, owned-resource window, use existing bench-repro runner
 sequentially, match exact digest+controls, measure peak host/device memory and
 pressure around each public fixture; retain negatives. Production wiring and

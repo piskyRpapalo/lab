@@ -118,7 +118,7 @@ def host_snapshot():
 
 
 def collect(node, backend, backend_only=False):
-    if not re.fullmatch(r'node-[abc]', node):
+    if not re.fullmatch(r'node-[abcde]', node):
         raise ValueError('anonymous_node_required')
     # Earliest observation bounds age; collection duration never refreshes it.
     observed_at = datetime.now(timezone.utc).isoformat()
@@ -178,7 +178,7 @@ def freshness(snapshot, now):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--node', required=True, choices=['node-a', 'node-b', 'node-c'])
+    parser.add_argument('--node', required=True, choices=['node-a', 'node-b', 'node-c', 'node-d', 'node-e'])
     parser.add_argument('--port', type=int, default=11434)
     parser.add_argument('--backend-only', action='store_true', help='Tunnel observation: do not attribute collector host telemetry to target')
     args = parser.parse_args()

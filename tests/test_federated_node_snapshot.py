@@ -26,6 +26,13 @@ class Fake:
 
 
 class Boundaries(unittest.TestCase):
+    def test_five_anonymous_nodes_keep_independent_identity(self):
+        records = [snapshot.collect('node-' + letter, Fake([])) for letter in 'abcde']
+        self.assertEqual([r['node'] for r in records], ['node-a', 'node-b', 'node-c', 'node-d', 'node-e'])
+        self.assertEqual(len({r['snapshot_ref'] for r in records}), 5)
+        with self.assertRaises(ValueError):
+            snapshot.collect('node-f', Fake([]))
+
     def test_client_bounds_and_safe_errors(self):
         class Opener:
             def __init__(self, content):
