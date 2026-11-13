@@ -73,3 +73,26 @@ class PreflightTests(unittest.TestCase):
             return True
         self.assertEqual(self.run_check(source_witness=fail)['state'], 'NO_DATA')
         self.assertEqual(self.run_check(source_witness=mutate)['proposal_ref'], self.run_check()['proposal_ref'])
+
+class ProtectedClassesTests(PreflightTests):
+    def test_sensitive_classes_refused_even_when_explicitly_allowlisted(self):
+        paths = ['.git/config', '.git/hooks/pre-commit', '.gitmodules',
+                 'docs/nested/AGENTS.md', 'docs/nested/CLAUDE.md',
+                 'meta_harness/self_improvement.py', 'meta_harness/reuse.py',
+                 'meta_harness/brain.py', 'meta_harness/hexelion.py',
+                 'meta_harness/cli.py', 'setup.py', 'pyproject.toml',
+                 'src/feature/test_guard.py', 'tools/deploy.sh',
+                 'policies/permission.md', 'docs/permissions.md', 'docs/security-policy.md',
+                 '.github/workflows/check.yml']
+        for path in paths:
+            p = proposal()
+            p['paths'] = [path]
+            with self.subTest(path=path):
+                self.assertEqual(self.run_check(p, allowed_paths=frozenset({path}))['cause'],
+                                 'protected_path')
+
+    def test_feature_and_documentation_are_not_globally_protected(self):
+        for path in ('docs/design.md', 'features/new_feature.py'):
+            p = proposal()
+            p['paths'] = [path]
+            self.assertEqual(self.run_check(p, allowed_paths=frozenset({path}))['state'], 'PROPOSE_ONLY')

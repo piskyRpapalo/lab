@@ -12,13 +12,27 @@ from .improvement import _digest, _hex
 
 SHA1 = re.compile(r'[0-9a-f]{40}\Z')
 PATH = re.compile(r'[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*\Z')
-PROTECTED = ('AGENTS.md', 'CLAUDE.md', '.github/', 'tests/', 'bin/',
-             'meta_harness/execution_journal.py', 'meta_harness/uncertainty_ack.py',
-             'meta_harness/host_witness.py', 'meta_harness/delegation.py',
-             'meta_harness/resource_admission.py', 'meta_harness/transports.py',
-             'meta_harness/workers.py', 'meta_harness/uncertainty_views.py',
-             'meta_harness/readonly_mirror.py', 'meta_harness/memory_draft.py',
-             'meta_harness/improvement.py', 'meta_harness/self_build_preflight.py')
+# Conservative classes, not a permission system. Changes to these classes may
+# be proposed via a separate sovereign review, never this ordinary path.
+PROTECTED_COMPONENTS = frozenset({'.git', '.github', 'tests', 'test', 'bin',
+                                  'firmas', 'signatures', 'permissions', 'policies',
+                                  'governance', 'security', 'migrations', 'deploy'})
+PROTECTED_NAMES = frozenset({'agents.md', 'claude.md', '.gitmodules', '.gitattributes',
+                             '.gitignore', 'pyproject.toml', 'setup.py', 'setup.cfg',
+                             'makefile', 'dockerfile', 'compose.yml', 'compose.yaml',
+                             'package.json', 'package-lock.json', 'requirements.txt'})
+ENTRYPOINT = re.compile(r'(?:^|[-_.])(install|setup|deploy|launch|entrypoint|bootstrap|permission|permissions|policy|policies|governance|security|authorization|auth|signature|signatures)(?:[-_.]|$)')
+
+
+def protected_path(path):
+    parts = tuple(part.casefold() for part in PurePosixPath(path).parts)
+    name = parts[-1]
+    return (bool(set(parts) & PROTECTED_COMPONENTS) or name in PROTECTED_NAMES
+            or bool(ENTRYPOINT.search(name)) or name.startswith('test_')
+            or name.endswith(('_test.py', '.test.js', '.test.mjs'))
+            or parts[0] == 'meta_harness')
+
+
 KEYS = {'schema', 'repo_ref', 'base_sha', 'patch_ref', 'paths', 'reason_ref',
         'problem_ref', 'test_plan_ref', 'budget', 'dependencies', 'recovery_ref',
         'human_review_ref'}
@@ -54,7 +68,7 @@ def check(proposal, *, allowed_paths, source_witness=None, evidence_witness=None
                 or any(type(x) is not str or len(x) > 240 or not PATH.fullmatch(x)
                        or any(part in ('.', '..') for part in PurePosixPath(x).parts) for x in paths)):
             return _result('REFUSED', 'invalid_paths')
-        if any(x == prefix or (prefix.endswith('/') and x.startswith(prefix)) for x in paths for prefix in PROTECTED):
+        if any(protected_path(x) for x in paths):
             return _result('REFUSED', 'protected_path')
         if (type(allowed_paths) is not frozenset or any(x not in allowed_paths for x in paths)):
             return _result('REFUSED', 'path_not_allowlisted')
