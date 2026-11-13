@@ -54,3 +54,38 @@ Any missing field has a cause; no runtime/service/power change is authorized.
 
 Positive host-wiring tests use explicit test doubles, not measured node profiles.
 Real measurement/results and final exact-head CI will be appended separately.
+
+## Observed result · 13 November11:32:50Z
+
+Two generations completed with stable service-reported digest65ec0654 and
+identical answer hashes. Existing scorer returned OUTPUT_SCHEMA twice (64-token
+CSV profile). Generation37.755684/38.569877 tokens/s; end-to-end6.007932206/
+5.841060936s; load4.156353210/3.867681426s. These timings do not qualify this
+model for the task. No retry or alternate profile/model was run for a green score.
+
+Idle5 sensor samples: GR3D0%; VDD_IN mean4922mW. Execution58 samples:
+GR3D0–99%; VDD_IN mean9367.207mW/max20496mW; vendor RAM max2709MB.
+Available RAM before6622068736B; sampled minimum4798836736B; sampled maximum
+temperature60937mC. Scope is host shared memory/global GPU/rail, not process
+peak or demonstrated NVIDIA model attribution. TTFT, process peak, concurrency
+and integrated joules remain NO_DATA. There is one distinct public case, no
+independent holdout or calibrated admission envelope. No profile is promoted.
+
+Experiment ref59bf06a6d75cf68b210cc73dd70e205c39016cd7ab88cd3ac9306d1288e5c7a2;
+source commitf46fddc3 preserves the exact probe/runner/scorer hashes. No source
+or historical measurement was rewritten. The original experiment source code
+was delivered over known-host SSH/stdin, not installed on the node.
+
+Final local gate:754 tests x2 (753 pass, one existing skip); all canonical
+companions x2 PASS;14 real-code mutations in two rounds per gate,56 detections.
+19 directed tests including immutable measurement seals PASS. An initial gate
+correctly caught that a historical replay pinned old delegation bytes: preserved
+the original artifact byte-for-byte and published replay-r2 with current source
+hashes rather than rewriting the past. Postflight snapshot11:35:08Z confirms
+zero resident models and PSI NO_DATA; it is a separate new metadata revision.
+
+APP/runtime consumption remains NO_DATA(host_not_wired); route/lease callbacks
+in positive integration tests are explicit test doubles, not node capability
+measurements. Current real two-attempt quality failure cannot create a lease
+or profile. New governance audit LOGIC-SOVEREIGNTY-01 is separate, proposed in
+Mesa6851704388. No governance document or APP file changed by this slice.

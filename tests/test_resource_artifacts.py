@@ -36,7 +36,10 @@ class Artifacts(unittest.TestCase):
         self.assertIn('SYNTHETIC', record['evidence_basis'])
 
     def test_real_catalog_replay_is_reproducible_and_cannot_execute(self):
-        record = self.load('20261113-resource-contract-replay.json')
+        historical = ROOT / 'benchmarks/receipts/20261113-resource-contract-replay.json'
+        self.assertEqual(hashlib.sha256(historical.read_bytes()).hexdigest(),
+                         '62bce6dce90537db776abac72fc3b7b02c7e7c5e3c33281eb5d70e7d4810a6b9')
+        record = self.load('20261113-resource-contract-replay-r2.json')
         self.assertEqual(record, bridge.report())
         self.assertEqual(record['model_calls'], 0)
         for key in ('no_profile', 'tampered', 'expired', 'malicious'):
