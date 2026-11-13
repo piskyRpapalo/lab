@@ -28,3 +28,8 @@ leave false uncertainty and block other work. New tests verify no persistent
 claim in those cases, including100 denied runs and restart. An interruption after
 the final atomic claim remains uncertain, even if it occurred just before the
 adapter call: the journal cannot prove that an external side effect did not begin.
+
+A synthetic existing brain-cycle fixture also commits a result, loses its ACK,
+restarts Session and continues the cycle with the original task witnessed once.
+The fixture planner and memory writer are test doubles: this is not APP/live E2E,
+durable budget recovery or human authorization for a real action.
