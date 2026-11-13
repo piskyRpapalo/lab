@@ -18,3 +18,7 @@ ceiling, not a provider billing meter, a multi-host quota or a durable resource
 lease. Human-authorized resolution and handling a damaged journal are separate
 proposals; no uncertain reservation is released automatically. Tests use only
 temporary synthetic SQLite journals; no APP or service is activated.
+
+Local validation: 781 tests twice (one pre-existing skip), canonical companion
+checks twice and 11 directed budget tests twice. Real child process exit after
+atomic claim retains the reservation after restart. CI exact-head follows.

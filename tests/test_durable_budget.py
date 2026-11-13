@@ -143,4 +143,3 @@ class DurableBudgetTests(unittest.TestCase):
             with self.assertRaises(Failure): other.initialize_budget(value)
         other.claim('old-run', 'f'*64)
         with self.assertRaises(Failure): other.initialize_budget(128)
-
