@@ -30,7 +30,8 @@ class PreflightTests(unittest.TestCase):
 
     def test_protected_or_unallowlisted_paths_are_refused(self):
         for name in ('tests/test_example.py', 'AGENTS.md', '.github/workflows/test.yml',
-                     'meta_harness/execution_journal.py', '../file'):
+                     'meta_harness/execution_journal.py', 'meta_harness/resource_admission.py',
+                     'bin/verify_llms_tree.py', '../file'):
             p = proposal()
             p['paths'] = [name]
             self.assertEqual(self.run_check(p, allowed_paths=frozenset({name}))['state'],

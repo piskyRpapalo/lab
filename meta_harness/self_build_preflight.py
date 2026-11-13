@@ -12,9 +12,12 @@ from .improvement import _digest, _hex
 
 SHA1 = re.compile(r'[0-9a-f]{40}\Z')
 PATH = re.compile(r'[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*\Z')
-PROTECTED = ('AGENTS.md', 'CLAUDE.md', '.github/', 'tests/',
+PROTECTED = ('AGENTS.md', 'CLAUDE.md', '.github/', 'tests/', 'bin/',
              'meta_harness/execution_journal.py', 'meta_harness/uncertainty_ack.py',
              'meta_harness/host_witness.py', 'meta_harness/delegation.py',
+             'meta_harness/resource_admission.py', 'meta_harness/transports.py',
+             'meta_harness/workers.py', 'meta_harness/uncertainty_views.py',
+             'meta_harness/readonly_mirror.py', 'meta_harness/memory_draft.py',
              'meta_harness/improvement.py', 'meta_harness/self_build_preflight.py')
 KEYS = {'schema', 'repo_ref', 'base_sha', 'patch_ref', 'paths', 'reason_ref',
         'problem_ref', 'test_plan_ref', 'budget', 'dependencies', 'recovery_ref',
