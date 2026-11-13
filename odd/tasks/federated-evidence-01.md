@@ -35,6 +35,16 @@ source97b0014a91647210217ea0218ee3e4adfdb00c5793e5dc9a2224608690dda5d5.
 NO_DATA(remote_exact_head_CI_until_publication); no local check substitutes CI.
 J mapping: NO_DATA(no_verified_mapping_for_this_commission).
 
+CI correction before signature: inspection of run43401694565 proved checkout
+was GitHub's synthetic merge0e674041, despite its association with head3d9f7cb.
+Do not equate run.headSha with checked-out HEAD. This slice additionally pins
+`.github/workflows/pruebas.yml` checkout to PR head SHA (push uses github.sha)
+and asserts `git rev-parse HEAD` equals that SHA before the unchanged suite.
+Literal exact-head CI must be verified on the resulting final head; the earlier
+green run is retained as merge-ref evidence. Same correction applied to176 on
+its own branch;177 is preserved until parent integration. No signature carries
+across these new heads. No runtime/collector/measurement changes in this fix.
+
 Failures/limits preserved: node-aSSH timeoutx2; node-c127.0.0.1:11434 refused
 although its separately bound primary backend is reachable through the existing
 tunnel. Primary17tags/14digests, secondary2tags/1digest; do not unify registries.
