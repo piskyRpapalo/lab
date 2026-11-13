@@ -178,3 +178,15 @@ for operator review; no automatic deletions, promotions, timers or deployments.
 Next selected authorized mission: source-attributed read-only resource evidence
 for admission/concurrency bounds, composed with the existing router/Session;
 no load experiment or service restart until idle/coordinated conditions exist.
+## Integration correction · 13 November 2026
+
+GitHub closed #177 by merging its original631f598 into the former #176 branch
+at26f7f248, after #176 had already reached main033737f. Mainef8c756 therefore
+contains #175/#176/#178 but does not contain these brain/context/memory files.
+This owner branch now merges actualmainef8c756 without rewriting original
+commits. A successor main-target PR is necessary; closed #177 is not proof of
+main integration. No merge or signature by Codex. The former isolated preview
+and all historical receipts remain preserved. Revalidate the full gate twice
+and literal source head; any new head needs its own human signature. APP/live
+E2E remains NO_DATA(not_exercised_by_this_LAB_change).
+
