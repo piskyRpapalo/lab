@@ -82,7 +82,8 @@ class ProtectedClassesTests(PreflightTests):
                  'meta_harness/brain.py', 'meta_harness/hexelion.py',
                  'meta_harness/cli.py', 'setup.py', 'pyproject.toml',
                  'src/feature/test_guard.py', 'tools/deploy.sh',
-                 'policies/permission.md', '.github/workflows/check.yml']
+                 'policies/permission.md', 'docs/permissions.md', 'docs/security-policy.md',
+                 '.github/workflows/check.yml']
         for path in paths:
             p = proposal()
             p['paths'] = [path]

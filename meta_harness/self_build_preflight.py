@@ -21,7 +21,7 @@ PROTECTED_NAMES = frozenset({'agents.md', 'claude.md', '.gitmodules', '.gitattri
                              '.gitignore', 'pyproject.toml', 'setup.py', 'setup.cfg',
                              'makefile', 'dockerfile', 'compose.yml', 'compose.yaml',
                              'package.json', 'package-lock.json', 'requirements.txt'})
-ENTRYPOINT = re.compile(r'(?:^|[-_.])(install|setup|deploy|launch|entrypoint|bootstrap)(?:[-_.]|$)')
+ENTRYPOINT = re.compile(r'(?:^|[-_.])(install|setup|deploy|launch|entrypoint|bootstrap|permission|permissions|policy|policies|governance|security|authorization|auth|signature|signatures)(?:[-_.]|$)')
 
 
 def protected_path(path):
