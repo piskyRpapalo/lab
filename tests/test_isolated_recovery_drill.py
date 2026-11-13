@@ -2,6 +2,7 @@
 import copy
 import subprocess
 import unittest
+from unittest.mock import patch
 
 from meta_harness.delegation import Failure
 from meta_harness.improvement import _digest
@@ -100,3 +101,22 @@ class RecoveryDrillTests(unittest.TestCase):
         obj.write_bytes(b'corrupt')
         self.assertEqual(self.drill.assess()['source'], 'NO_DATA')
         self.assertFalse(self.drill.assess()['execution_authorized'])
+
+    def test_changed_head_prevents_sandbox_success_before_or_during_restore(self):
+        self.drill.git(self.drill.repo, 'checkout', '-q', '--detach', self.drill.base)
+        with self.assertRaisesRegex(AssertionError, 'fixture_prerequisites_failed'):
+            self.drill.run()
+        self.drill.git(self.drill.repo, 'checkout', '-q', '--detach', self.drill.head)
+        restore = self.drill.restore
+        def change_during_restore():
+            elapsed = restore()
+            self.drill.git(self.drill.repo, 'checkout', '-q', '--detach', self.drill.base)
+            return elapsed
+        with patch.object(self.drill, 'restore', side_effect=change_during_restore):
+            with self.assertRaisesRegex(AssertionError, 'sandbox_restoration_failed'):
+                self.drill.run()
+
+    def test_missing_synthetic_fixture_guard_refuses_measurement(self):
+        self.drill.witness.stable_source = None
+        with self.assertRaisesRegex(AssertionError, 'fixture_prerequisites_failed'):
+            self.drill.run()

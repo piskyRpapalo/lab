@@ -28,3 +28,9 @@ GitWitness accepts only supported docs fixture paths; other real tasks untested.
 A Git tree hash alone does not validate unrelated files or host stability. This
 does not establish concurrent host fencing, real signer, APP E2E or disaster
 recovery. Rollback of the fixture change is removal through normal review.
+
+Revision: the initial two-run receipt is preserved unchanged. A second receipt
+(`20261113-isolated-recovery-drill-r2.json`) records two new runs after tightening
+the fixture to refuse a changed source HEAD or unavailable fixture guard before
+and after restoration. The new guard remains synthetic, not host fencing. The
+old receipt remains historical evidence of its own earlier fixture revision.

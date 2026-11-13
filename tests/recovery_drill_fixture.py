@@ -91,13 +91,17 @@ class Drill:
 
     def run(self):
         before = self.assess()
-        if self.baseline_ok is not True or self.candidate_ok is not False or before['integrity'] != 'INTEGRITY_VERIFIED':
+        if (self.baseline_ok is not True or self.candidate_ok is not False
+                or before['integrity'] != 'INTEGRITY_VERIFIED' or before['cause'] != 'real_host_stability'
+                or self.witness.inspect({'proposal': self.p, 'proposal_ref': self.proposal_ref})['state'] != 'VERIFIED'):
             raise AssertionError('fixture_prerequisites_failed')
         restore_ns = self.restore()
         tree_equal = self.same_tree()
         restored_ns, restored_ok = self.check(self.copy)
         after = self.assess()
-        if not tree_equal or not restored_ok or after['integrity'] != 'INTEGRITY_VERIFIED':
+        if (not tree_equal or not restored_ok or after['integrity'] != 'INTEGRITY_VERIFIED'
+                or after['cause'] != 'real_host_stability'
+                or self.witness.inspect({'proposal': self.p, 'proposal_ref': self.proposal_ref})['state'] != 'VERIFIED'):
             raise AssertionError('sandbox_restoration_failed')
         return {'state': 'DEMONSTRATED_IN_SANDBOX', 'scope': 'temporary_fixture_only',
                 'base_sha': self.base, 'base_tree': self.base_tree, 'candidate_sha': self.head,
