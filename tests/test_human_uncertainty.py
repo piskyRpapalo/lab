@@ -126,4 +126,3 @@ class HumanUncertainty(unittest.TestCase):
             other.acknowledge_unknown(task()['run_id'], sha(task()), evidence_ref='e'*64,
                 authority_ref='f'*64, observed_at=STAMP, expected_ref=p['resolution_ref'],
                 human_authorize=lambda _:True, quiescence=lambda _:True)
-

@@ -31,3 +31,7 @@ unavailable, leave the journal blocked. The old run remains UNKNOWN. Actual
 signature verification, worker fencing, APP projection and budget settlement
 of an unknown outcome are host responsibilities and remain NO_DATA here.
 All tests use synthetic human/fence witnesses; no real signature is claimed.
+
+Local validation: 789 tests twice (one existing skip), companion checks twice,
+69 directed controls twice. A separate synthetic process rechecks the host
+witness and leaves the unknown reservation charged. Exact-head CI follows.

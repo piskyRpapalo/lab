@@ -118,4 +118,3 @@ class UncertaintyAcknowledgements:
             raise
         except Exception:
             raise Failure('EVIDENCE') from None
-
