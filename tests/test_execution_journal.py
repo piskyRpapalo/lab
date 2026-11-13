@@ -56,6 +56,7 @@ class DurableSession(unittest.TestCase):
 
     def test_lost_ack_after_dispatch_does_not_trigger_another_call(self):
         class LostAck:
+            def lookup(self, *args): return self.journal.lookup(*args)
             def claim(self, *args): return self.journal.claim(*args)
             def finish(self, *args): raise OSError('lost acknowledgement')
         wrapper = LostAck(); wrapper.journal = self.journal
@@ -101,7 +102,7 @@ class DurableSession(unittest.TestCase):
 
     def test_malformed_replay_from_host_journal_cannot_be_accepted(self):
         class Forged:
-            def claim(self, *args): return {'outcome': 'KNOWN'}
+            def lookup(self, *args): return {'outcome': 'KNOWN'}
             def attests(self, *args): return True
         session = Session(grant, TokenBudget(128), journal=Forged())
         with self.assertRaises(Failure) as error:
@@ -116,3 +117,83 @@ class DurableSession(unittest.TestCase):
         with closing(sqlite3.connect(self.path)) as db:
             db.execute('UPDATE claims SET receipt=?', ('{}',)); db.commit()
         self.assertFalse(session.attests(receipt, task()))
+
+    def test_denied_and_insufficient_budget_do_not_persist_claims(self):
+        for authority, budget in ((lambda _: None, 128), (grant, 0)):
+            session = Session(authority, TokenBudget(budget), journal=self.journal)
+            receipt = session.execute(task(), self.worker, observed_at=STAMP)
+            self.assertEqual(receipt['outcome'], 'NOT_STARTED')
+            with closing(sqlite3.connect(self.path)) as db:
+                self.assertEqual(db.execute('SELECT count(*) FROM claims').fetchone()[0], 0)
+        receipt = self.session().execute(task(run_id='next-run'), self.worker, observed_at=STAMP)
+        self.assertEqual(receipt['outcome'], 'KNOWN')
+        self.assertEqual(self.calls, [1])
+
+    def test_interruption_before_grant_or_admission_leaves_no_persistent_claim(self):
+        def interrupt(*_): raise KeyboardInterrupt()
+        for session in (Session(interrupt, TokenBudget(128), journal=self.journal),
+                        Session(grant, TokenBudget(128), journal=self.journal, admission=interrupt)):
+            with self.assertRaises(KeyboardInterrupt):
+                session.execute(task(), self.worker, observed_at=STAMP)
+            with closing(sqlite3.connect(self.path)) as db:
+                self.assertEqual(db.execute('SELECT count(*) FROM claims').fetchone()[0], 0)
+        receipt = self.session().execute(task(), self.worker, observed_at=STAMP)
+        self.assertEqual(receipt['outcome'], 'KNOWN')
+        self.assertEqual(self.calls, [1])
+
+    def test_repeated_rejections_do_not_grow_journal(self):
+        for index in range(100):
+            denied = Session(lambda _: None, TokenBudget(128), journal=self.journal)
+            receipt = denied.execute(task(run_id='denied-%d' % index), self.worker, observed_at=STAMP)
+            self.assertEqual(receipt['failure_class'], 'PERMISSION')
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM claims').fetchone()[0], 0)
+        self.assertEqual(self.session().execute(task(), self.worker, observed_at=STAMP)['outcome'], 'KNOWN')
+
+    def test_cancellation_before_dispatch_does_not_strand_other_tasks(self):
+        session = Session(grant, TokenBudget(128), journal=self.journal)
+        receipt = session.execute(task(), self.worker, observed_at=STAMP, cancelled=lambda: True)
+        self.assertEqual((receipt['phase'], receipt['outcome']), ('cancelled', 'NOT_STARTED'))
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM claims').fetchone()[0], 0)
+        self.assertEqual(self.session().execute(task(run_id='after-cancel'), self.worker, observed_at=STAMP)['outcome'], 'KNOWN')
+
+    def test_synthetic_brain_reconciles_lost_ack_after_restart_without_reexecution(self):
+        from meta_harness.brain import cycle, verify_cycle
+        from tests.test_brain import BrainTests
+        args, kw, _ = BrainTests().prepare()
+        worker = kw['worker']
+        calls = []
+        class TrackedWorker:
+            version = worker.version
+            def __call__(self, t, cancelled):
+                calls.append(t['run_id'])
+                return worker(t, cancelled)
+        tracked = TrackedWorker()
+        class LostAfterCommit:
+            def lookup(self, *args): return self.journal.lookup(*args)
+            def claim(self, *args): return self.journal.claim(*args)
+            def attests(self, *args): return self.journal.attests(*args)
+            def finish(self, *args):
+                self.journal.finish(*args)
+                raise OSError('synthetic_lost_ack')
+        wrapper = LostAfterCommit(); wrapper.journal = self.journal
+        original = kw['session']
+        first = Session(original.authority, TokenBudget(512), journal=wrapper)
+        with self.assertRaises(Failure):
+            first.execute(kw['baseline_tasks'][0], tracked, observed_at=kw['now']())
+        kw['session'] = Session(original.authority, TokenBudget(512), journal=ExecutionJournal(self.path))
+        kw['worker'] = tracked
+        def write_draft(receipt, request, *, cancelled):
+            self.assertTrue(kw['session'].attests(receipt, request))
+            return {'schema':'preceptoros.meta-memory-draft/1', 'state':'PENDING',
+                    'cause':'exact_draft_present', 'receipt_ref':receipt['receipt_ref']}
+        kw['write_draft'] = write_draft
+        result = cycle(*args, **kw)
+        tasks = kw['baseline_tasks'] + [kw['delegated_task'], kw['planner_factory'].request]
+        self.assertTrue(verify_cycle(result, tasks, witness=kw['session'].attests))
+        self.assertEqual(result['record']['state'], 'MEASURED', result['record'])
+        self.assertEqual(result['record']['promotion'], 'NOT_AUTHORIZED')
+        self.assertEqual(result['memory']['state'], 'PENDING')
+        self.assertEqual(calls.count(kw['baseline_tasks'][0]['run_id']), 1)
+        self.assertEqual(len(calls), 3)

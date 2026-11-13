@@ -5,8 +5,9 @@ already reconciles durable drafts; it is not a dispatch journal. This optional
 host-owned SQLite journal extends Session, without another dispatcher/service.
 
 A new private journal must be explicitly created in a private host-owned
-directory; existing files are never overwritten. The journal atomically records
-run_id and exact task digest before dispatch. A completed witnessed receipt can
+directory; existing files are never overwritten. Read-only lookup happens before
+authorization; the atomic run_id/task digest claim happens only after permission,
+budget, cancellation and admission checks, immediately before dispatch. A completed witnessed receipt can
 be replayed after restart; changed input with the same run_id is rejected.
 Unknown/in-flight work blocks new claims until the host resolves it. No cleanup,
 automatic retry, reconciliation override or memory promotion is provided.
@@ -20,3 +21,15 @@ provide multi-host locking. No APP/service deployment or production E2E claimed.
 An unresolved claim requires a separately authorized reconciliation procedure;
 it must never be deleted merely to make progress. External authority checks
 remain in Session; the journal cannot mint permissions.
+
+Independent review found that the earlier head inserted claims before checking
+permission. Denial, inadequate budget or interruption during those checks could
+leave false uncertainty and block other work. New tests verify no persistent
+claim in those cases, including100 denied runs and restart. An interruption after
+the final atomic claim remains uncertain, even if it occurred just before the
+adapter call: the journal cannot prove that an external side effect did not begin.
+
+A synthetic existing brain-cycle fixture also commits a result, loses its ACK,
+restarts Session and continues the cycle with the original task witnessed once.
+The fixture planner and memory writer are test doubles: this is not APP/live E2E,
+durable budget recovery or human authorization for a real action.
