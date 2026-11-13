@@ -7,15 +7,18 @@ import json
 from contextlib import closing
 import os
 from pathlib import Path
+import secrets
 import sqlite3
 import stat
 
 from .delegation import Failure, encode, verify
+from .uncertainty_ack import UncertaintyAcknowledgements
 
 
-class ExecutionJournal:
-    def __init__(self, path):
+class ExecutionJournal(UncertaintyAcknowledgements):
+    def __init__(self, path, *, resolution_witness=None):
         self.path = Path(path).absolute()
+        self.resolution_witness = resolution_witness
         self._check()
 
     @classmethod
@@ -27,6 +30,9 @@ class ExecutionJournal:
         journal = cls(path)
         with closing(journal._connect()) as db:
             db.execute('CREATE TABLE claims (run_id TEXT PRIMARY KEY, task_ref TEXT NOT NULL, receipt TEXT)')
+            db.execute('CREATE TABLE journal_identity (id TEXT NOT NULL)')
+            db.execute('INSERT INTO journal_identity VALUES(?)', (secrets.token_hex(32),))
+            db.execute('CREATE TABLE resolution_events (run_id TEXT PRIMARY KEY, task_ref TEXT NOT NULL, record TEXT NOT NULL)')
         return journal
 
     @staticmethod
@@ -73,7 +79,8 @@ class ExecutionJournal:
         for old_id, old_ref, raw in rows:
             prior = self._receipt(raw, old_id, old_ref)
             if prior is None or prior['outcome'] == 'UNKNOWN':
-                raise Failure('EVIDENCE')
+                if not self._resolution_witnessed(db, old_id, old_ref, raw):
+                    raise Failure('EVIDENCE')
 
     @staticmethod
     def _budget_enabled(db):
