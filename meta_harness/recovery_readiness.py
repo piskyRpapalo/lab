@@ -43,8 +43,13 @@ class RecoveryReadiness:
                     reservation = 'RETAINED' if prior['reservation']['state'] == 'RETAINED' else 'NO_DATA'
         except Exception:
             pass
-        summary = ('Prior outcome unknown; recovery and authority remain unverified.' if evidence == 'UNKNOWN'
-                   else 'Recovery readiness is unverified; human authority and host evidence are required.')
+        if head != 'DECLARED_MATCH':
+            summary = ('Candidate HEAD mismatch; prior outcome unknown; recovery remains unverified.'
+                       if evidence == 'UNKNOWN' else
+                       'Candidate HEAD mismatch; recovery and authority remain unverified.')
+        else:
+            summary = ('Prior outcome unknown; recovery and authority remain unverified.' if evidence == 'UNKNOWN'
+                       else 'Recovery readiness is unverified; human authority and host evidence are required.')
         record = {'schema': 'preceptoros.lab.recovery-readiness/1', 'kind': 'projection',
                   'state': 'NO_DATA', 'cause': cause, 'observed_at': observed_at,
                   'head': head, 'candidate_sha': self._candidate, 'previous_sha': self._previous,
