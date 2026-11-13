@@ -175,25 +175,31 @@ def verify(receipt):
 
 
 class Session:
-    """Single-process run-id ledger. Host owns permissions and durable idempotency.
+    """Run-id ledger; optional host journal preserves claims across restarts.
 
     No automatic retries. Once dispatch may have started, an unknown outcome is cached
-    and the token reservation retained. Restart/multiple-process guarantees are NO_DATA.
+    and the token reservation retained. Without a journal, restart/multiple-process
+    guarantees are NO_DATA. The host owns journal integrity and budget recovery.
     """
-    def __init__(self, authority, budget, *, clock=time.monotonic_ns, admission=None):
+    def __init__(self, authority, budget, *, clock=time.monotonic_ns, admission=None, journal=None):
         self.authority, self.budget, self.clock = authority, budget, clock
         # Optional host-owned resource gate. It never replaces the exact-task grant.
         # Host retains any resource lease until a known outcome/reconciliation.
         self.admission = admission
+        self.journal = journal
         self.runs, self.lock = {}, threading.RLock()
 
     def attests(self, receipt, task):
         """Witness only this host session's completed cached execution, not a self-hash."""
         try:
             with self.lock:
+                if self.journal is not None:
+                    return self.journal.attests(receipt, sha(task), task['run_id']) is True
                 stored = self.runs.get(task['run_id'])
-                return stored is not None and stored[0] == sha(task) and stored[1] == receipt
-        except (KeyError, TypeError, ValueError):
+                if stored is not None and stored[0] == sha(task) and stored[1] == receipt:
+                    return True
+                return False
+        except Exception:
             return False
 
     def execute(self, task, dispatch, *, observed_at, cancelled=lambda: False):
@@ -203,6 +209,23 @@ class Session:
         task = copy.deepcopy(task)
         fingerprint, run_id = sha(task), task['run_id']
         with self.lock:
+            if self.journal is not None:
+                try:
+                    previous = self.journal.claim(run_id, fingerprint)
+                except Failure:
+                    raise
+                except Exception:
+                    raise Failure('EVIDENCE') from None
+                if previous is not None:
+                    try:
+                        witnessed = (verify(previous) and previous['task_sha256'] == fingerprint
+                            and previous['run_id'] == run_id
+                            and self.journal.attests(previous, fingerprint, run_id) is True)
+                    except Exception:
+                        witnessed = False
+                    if not witnessed:
+                        raise Failure('EVIDENCE')
+                    return copy.deepcopy(previous)
             previous = self.runs.get(run_id)
             if previous is not None:
                 if previous[0] != fingerprint or previous[1] is None:
@@ -278,5 +301,12 @@ class Session:
             'outcome': 'KNOWN' if measurement is not None else 'UNKNOWN' if dispatched else 'NOT_STARTED'}
         receipt = seal(receipt)
         with self.lock:
+            if self.journal is not None:
+                try:
+                    self.journal.finish(run_id, fingerprint, receipt)
+                except Failure:
+                    raise
+                except Exception:
+                    raise Failure('EVIDENCE') from None
             self.runs[run_id] = (fingerprint, receipt)
         return copy.deepcopy(receipt)
