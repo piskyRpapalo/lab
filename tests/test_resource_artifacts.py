@@ -45,7 +45,10 @@ class Artifacts(unittest.TestCase):
         historical3 = ROOT / 'benchmarks/receipts/20261113-resource-contract-replay-r3.json'
         self.assertEqual(hashlib.sha256(historical3.read_bytes()).hexdigest(),
                          '7041ff4c883c379c97ea4674e9b7742cbc5cccdffd2d767d40d7cbd2d74f25ae')
-        record = self.load('20261113-resource-contract-replay-r4.json')
+        historical4 = ROOT / 'benchmarks/receipts/20261113-resource-contract-replay-r4.json'
+        self.assertEqual(hashlib.sha256(historical4.read_bytes()).hexdigest(),
+                         '72ecc13092e41b91e851f680249208e2a0065804a960ab62b2f90d6525140925')
+        record = self.load('20261113-resource-contract-replay-r5.json')
         self.assertEqual(record, bridge.report())
         self.assertEqual(record['model_calls'], 0)
         for key in ('no_profile', 'tampered', 'expired', 'malicious'):

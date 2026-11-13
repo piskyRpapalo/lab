@@ -187,6 +187,9 @@ class Session:
         # Host retains any resource lease until a known outcome/reconciliation.
         self.admission = admission
         self.journal = journal
+        from .execution_journal import DurableTokenBudget
+        if isinstance(budget, DurableTokenBudget) and budget.journal is not journal:
+            raise Failure('EVIDENCE')
         self.runs, self.lock = {}, threading.RLock()
 
     def attests(self, receipt, task):
@@ -276,7 +279,11 @@ class Session:
                 check_grant(fresh_grant, task, now)
             if self.journal is not None:
                 try:
-                    previous = self.journal.claim(run_id, fingerprint)
+                    from .execution_journal import DurableTokenBudget
+                    if isinstance(self.budget, DurableTokenBudget):
+                        previous = self.journal.claim(run_id, fingerprint, budget_cap=task['max_tokens'])
+                    else:
+                        previous = self.journal.claim(run_id, fingerprint)
                 except Failure:
                     raise
                 except Exception:

@@ -75,7 +75,42 @@ class ExecutionJournal:
             if prior is None or prior['outcome'] == 'UNKNOWN':
                 raise Failure('EVIDENCE')
 
-    def claim(self, run_id, task_ref):
+    @staticmethod
+    def _budget_enabled(db):
+        return db.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='durable_budget'").fetchone() is not None
+
+    def initialize_budget(self, limit):
+        """Explicit one-time initialization on an empty, host-created journal."""
+        if type(limit) is not int or not 0 <= limit <= 4096:
+            raise Failure('BUDGET')
+        try:
+            with closing(self._connect()) as db:
+                db.execute('BEGIN IMMEDIATE')
+                if self._budget_enabled(db) or db.execute('SELECT 1 FROM claims LIMIT 1').fetchone():
+                    raise Failure('EVIDENCE')
+                db.execute('CREATE TABLE durable_budget (id INTEGER PRIMARY KEY CHECK(id=1), initial_limit INTEGER NOT NULL, remaining INTEGER NOT NULL)')
+                db.execute('CREATE TABLE budget_reservations (run_id TEXT PRIMARY KEY, cap INTEGER NOT NULL, status TEXT NOT NULL)')
+                db.execute('INSERT INTO durable_budget VALUES(1,?,?)', (limit, limit))
+                db.commit()
+        except Failure:
+            raise
+        except (sqlite3.Error, OSError, ValueError, TypeError):
+            raise Failure('EVIDENCE') from None
+
+    def remaining_budget(self):
+        try:
+            with closing(self._connect()) as db:
+                row = db.execute('SELECT initial_limit,remaining FROM durable_budget WHERE id=1').fetchone()
+                if (row is None or type(row[0]) is not int or type(row[1]) is not int
+                        or not 0 <= row[1] <= row[0] <= 4096):
+                    raise Failure('EVIDENCE')
+                return row[1]
+        except Failure:
+            raise
+        except (sqlite3.Error, OSError, ValueError, TypeError):
+            raise Failure('EVIDENCE') from None
+
+    def claim(self, run_id, task_ref, *, budget_cap=None):
         """Atomically claim, or replay a known result; uncertain work blocks new work."""
         try:
             with closing(self._connect()) as db:
@@ -86,6 +121,17 @@ class ExecutionJournal:
                         raise Failure('REPLAY')
                     return self._receipt(row[1], run_id, task_ref)
                 self._require_resolved(db)
+                enabled = self._budget_enabled(db)
+                if enabled != (budget_cap is not None):
+                    raise Failure('EVIDENCE')
+                if enabled:
+                    if type(budget_cap) is not int or not 0 <= budget_cap <= 512:
+                        raise Failure('BUDGET')
+                    changed = db.execute('UPDATE durable_budget SET remaining=remaining-? WHERE id=1 AND initial_limit BETWEEN 0 AND 4096 AND remaining>=? AND remaining<=initial_limit',
+                                         (budget_cap, budget_cap))
+                    if changed.rowcount != 1:
+                        raise Failure('BUDGET')
+                    db.execute('INSERT INTO budget_reservations VALUES(?,?,?)', (run_id, budget_cap, 'RESERVED'))
                 db.execute('INSERT INTO claims(run_id,task_ref,receipt) VALUES(?,?,NULL)', (run_id, task_ref))
                 db.commit()
                 return None
@@ -120,6 +166,22 @@ class ExecutionJournal:
                                     (encode(receipt).decode(), run_id, task_ref))
                 if result.rowcount != 1:
                     raise Failure('EVIDENCE')
+                if self._budget_enabled(db):
+                    reservation = db.execute('SELECT cap,status FROM budget_reservations WHERE run_id=?', (run_id,)).fetchone()
+                    if reservation is None or reservation[1] != 'RESERVED':
+                        raise Failure('EVIDENCE')
+                    cap = reservation[0]
+                    if receipt['outcome'] == 'UNKNOWN':
+                        db.execute("UPDATE budget_reservations SET status='UNKNOWN' WHERE run_id=?", (run_id,))
+                    else:
+                        used = receipt['measurement']['tokens'] if receipt['outcome'] == 'KNOWN' else 0
+                        if type(used) is not int or not 0 <= used <= cap:
+                            raise Failure('EVIDENCE')
+                        changed = db.execute('UPDATE durable_budget SET remaining=remaining+? WHERE id=1 AND remaining+?<=initial_limit',
+                                             (cap-used, cap-used))
+                        if changed.rowcount != 1:
+                            raise Failure('EVIDENCE')
+                        db.execute("UPDATE budget_reservations SET status='SETTLED' WHERE run_id=?", (run_id,))
                 db.commit()
         except Failure:
             raise
@@ -134,3 +196,25 @@ class ExecutionJournal:
                         and self._receipt(row[1], run_id, task_ref) == receipt)
         except (sqlite3.Error, OSError, ValueError, TypeError, Failure):
             return False
+
+
+class DurableTokenBudget:
+    """Session adapter; actual reservation and settlement are journal transactions."""
+    def __init__(self, journal):
+        if not isinstance(journal, ExecutionJournal):
+            raise Failure('EVIDENCE')
+        self.journal = journal
+        self.journal.remaining_budget()  # No implicit creation or reset.
+
+    @property
+    def remaining(self):
+        return self.journal.remaining_budget()
+
+    def reserve(self, cap):
+        if type(cap) is not int or cap < 0 or cap > self.remaining:
+            raise Failure('BUDGET')
+        # Preflight only: claim() makes the actual atomic reservation.
+
+    def settle(self, cap, used):
+        # finish() settles atomically with the final witnessed receipt.
+        pass
