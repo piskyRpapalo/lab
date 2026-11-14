@@ -1,17 +1,14 @@
 import copy
-import importlib.util
 from pathlib import Path
 import sys
 import unittest
 
 ROOT = Path(__file__).parents[1]
-SPEC = importlib.util.spec_from_file_location('resource_decision', ROOT / 'bin/resource_decision.py')
-r = importlib.util.module_from_spec(SPEC)
-sys.modules[SPEC.name] = r
-SPEC.loader.exec_module(r)
-SPEC = importlib.util.spec_from_file_location('resource_probe', ROOT / 'bin/resource_decision_probe.py')
-p = importlib.util.module_from_spec(SPEC)
-SPEC.loader.exec_module(p)
+# Reuse the same module/class identity as other LAB suites: reloading
+# resource_decision under its canonical name invalidates Host isinstance().
+sys.path.insert(0, str(ROOT / 'bin'))
+import resource_decision as r
+import resource_decision_probe as p
 
 
 class ResourceDecision(unittest.TestCase):
