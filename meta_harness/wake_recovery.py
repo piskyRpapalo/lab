@@ -133,6 +133,8 @@ def plan(task: dict, intent: Intent, observations: Sequence[Observation],
                 if resources.age_seconds(o.observed_at,now)>120:raise _EvidenceRejected('OBSERVATION_STALE')
                 if o.condition not in ('ONLINE','NETWORK_DOWN','SERVICE_FAILED','SUSPENDED','POWERED_OFF','UNKNOWN'):
                     raise ValueError('condition_invalid')
+                if o.function_ready and o.condition!='ONLINE':
+                    raise _EvidenceRejected('OBSERVATION_CONTRADICTS_FUNCTION')
                 result.append(o)
             return result
         obs=checked(observations)
@@ -190,6 +192,14 @@ def plan(task: dict, intent: Intent, observations: Sequence[Observation],
         latest=checked(after)
         if any(o.condition=='ONLINE' and o.function_ready for o in latest):
             return finish('CANCELLED','REAPPEARED_BEFORE_SIMULATION',method)
+        if len({o.witness_ref for o in latest})<2:
+            return finish('ABSTAIN','FINAL_WITNESSES_MISSING',method)
+        if len({o.condition for o in latest})!=1:
+            return finish('ABSTAIN','FINAL_OBSERVATIONS_CONFLICT',method)
+        if latest[0].condition!=condition:
+            return finish('ABSTAIN','FINAL_DIAGNOSIS_CHANGED',method)
+        if any(resources.age_seconds(o.observed_at,now)>min(resources.age_seconds(x.observed_at,now) for x in obs) for o in latest):
+            return finish('ABSTAIN','FINAL_OBSERVATIONS_PRECEDE_DIAGNOSIS',method)
         stages.extend(['EXECUTE_SIMULATED','VERIFY'])
         deadline=(now+timedelta(seconds=300)).isoformat()
         next_state=Ledger(intent.node_ref,ledger.version+1,ledger.attempts+1,deadline,
