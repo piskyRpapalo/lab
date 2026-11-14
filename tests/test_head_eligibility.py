@@ -20,7 +20,7 @@ def setup():
     head['head_ref']=h.resources.sha(head)
     check=dict(head_ref=head['head_ref'],task_ref=h.resources.sha(task),generation=1,base_ref=head['base_ref'],
                architecture=head['architecture'],max_rank=16,targets=['q_proj'],runtime_ref=head['runtime_ref'],
-               license_allowed=True,provenance_ref='4'*64,permission='ALLOWED',observed_at=fixture.NOW.isoformat(),origin='SYNTHETIC')
+               license_allowed=True,provenance_ref='4'*64,permission='ALLOWED',observed_at=fixture.NOW.isoformat(),origin='SYNTHETIC',profile_ref=profiles[0]['profile_ref'])
     return dict(task=task,heads=[head],checks=[check],packets=packets,profiles=profiles,policy=policy,host=host,
                 verify_head=lambda a,b,t:a==head and b==check and t==task,now=fixture.NOW,generation=1)
 
@@ -75,8 +75,18 @@ class Eligibility(unittest.TestCase):
 
     def test_session_change_and_cache_other_head(self):
         for field in ('pin','cache'):
-            def edit(d):d[field]={'base_ref':d['task']['model_version'],'adapter_ref':'9'*64,'generation':1}
+            def edit(d):d[field]={'base_ref':d['task']['model_version'],'adapter_ref':'9'*64,'head_ref':d['heads'][0]['head_ref'],'generation':1}
             self.assertEqual(self.run_case(edit)['details'][0]['cause'],'SESSION_OR_CACHE_HEAD_MISMATCH')
+
+    def test_cache_revision_change_even_with_same_weights(self):
+        def edit(d):
+            head=d['heads'][0]
+            d['cache']={'base_ref':head['base_ref'],'adapter_ref':head['adapter_ref'],'head_ref':head['head_ref'],'generation':1}
+            head['revision_ref']='8'*64;head.pop('head_ref');head['head_ref']=h.resources.sha(head)
+        self.assertEqual(self.run_case(edit)['details'][0]['cause'],'SESSION_OR_CACHE_HEAD_MISMATCH')
+
+    def test_resource_profile_must_be_bound_to_head_report(self):
+        self.assertEqual(self.run_case(lambda d:d['checks'][0].update(profile_ref='9'*64))['details'][0]['cause'],'HEAD_RESOURCE_PROFILE_MISMATCH')
 
     def test_generation_change(self):
         self.assertEqual(self.run_case(lambda d:d.update(generation=2))['details'][0]['cause'],'PROVENANCE_OR_GENERATION_MISMATCH')

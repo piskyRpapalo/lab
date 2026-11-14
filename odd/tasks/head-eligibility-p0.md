@@ -17,7 +17,8 @@ ABSTAIN (including PRODUCTION_ADMISSION_NOT_CONNECTED),not an execution approval
 Heads are immutable JSON manifests sealed by head_ref:base_ref,adapter_ref,
 revision_ref,runtime_ref are exact64hex;architecture,rank,alpha,targets,node,backend.
 Reports bind head/task/generation,base/architecture/runtime,rank/targets support,
-license_allowed,provenance_ref,permission,observed_at,origin. verify_head is a
+license_allowed,provenance_ref,permission,observed_at,origin and exact resource
+profile_ref. The host witness must bind that profile to the entire head configuration. verify_head is a
 trusted bounded host callback,not populated by model JSON;hashes alone authenticate
 nothing. Production reports cannot become synthetic positive controls. Caller
 must provide separately witnessed aggregate resource profiles for the exact
@@ -27,7 +28,7 @@ configuration;P0 does not estimate adapter RAM,quality or GPU capacity from rank
 ref/cause details;summary<1024bytes contains their digest and candidate count,
 task/resource/decision refs. No arbitrary labels,private identifiers or payloads
 are echoed. Errors fail closed;input copies protect caller objects. Pin and cache
-bind exact base/adapter/generation;no silent switch or implicit base fallback.
+bind exact base/adapter/full head_ref/generation;no silent switch or implicit base fallback.
 Baseline model selection remains existing resource policy;head ordering is stable
 by digest,not a new quality rank or scheduler. Base-without-adapter and C2C cache
 layout/peer compatibility are future explicitly scoped contracts,not inferred here.

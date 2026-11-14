@@ -11,7 +11,7 @@ HEAD_KEYS = {'base_ref', 'adapter_ref', 'revision_ref', 'architecture', 'rank',
              'alpha', 'targets', 'runtime_ref', 'node', 'backend', 'head_ref'}
 CHECK_KEYS = {'head_ref', 'task_ref', 'generation', 'base_ref', 'architecture',
               'max_rank', 'targets', 'runtime_ref', 'license_allowed', 'provenance_ref',
-              'permission', 'observed_at', 'origin'}
+              'permission', 'observed_at', 'origin', 'profile_ref'}
 
 
 def _hex(value):
@@ -25,7 +25,7 @@ def evaluate(task, heads, checks, *, packets, profiles, policy, host, verify_hea
     Up to32 heads/32 compatibility reports,256KiB total input. Each compatibility
     report is independently checked by verify_head(head,report,task). Its booleans
     are not self-authenticating. Existing resource host validation runs first.
-    pin/cache are either None or exact {base_ref,adapter_ref,generation} bindings.
+    pin/cache are either None or exact {base_ref,adapter_ref,head_ref,generation} bindings.
     Base fallback must be a separate future policy; no implicit head switch here.
     """
     task_ref, resource_ref, details = None, None, []
@@ -55,8 +55,8 @@ def evaluate(task, heads, checks, *, packets, profiles, policy, host, verify_hea
             return finish(resource['cause'])
         choice = resource['choice']
         for binding in (pin, cache):
-            if binding is not None and (type(binding) is not dict or set(binding) != {'base_ref','adapter_ref','generation'}
-                    or not _hex(binding['base_ref']) or not _hex(binding['adapter_ref'])
+            if binding is not None and (type(binding) is not dict or set(binding) != {'base_ref','adapter_ref','head_ref','generation'}
+                    or not _hex(binding['base_ref']) or not _hex(binding['adapter_ref']) or not _hex(binding['head_ref'])
                     or type(binding['generation']) is not int or binding['generation'] != generation):
                 return finish('SESSION_OR_CACHE_BINDING_INVALID')
         seen = set()
@@ -81,7 +81,7 @@ def evaluate(task, heads, checks, *, packets, profiles, policy, host, verify_hea
                 cause = 'BASE_IDENTITY_MISMATCH'
             elif head['node'] != choice['node'] or head['backend'] != choice['backend']:
                 cause = 'DEVICE_RESOURCE_MISMATCH'
-            elif any(b is not None and (b['base_ref'] != head['base_ref'] or b['adapter_ref'] != head['adapter_ref']) for b in (pin,cache)):
+            elif any(b is not None and (b['base_ref'] != head['base_ref'] or b['adapter_ref'] != head['adapter_ref'] or b['head_ref'] != head['head_ref']) for b in (pin,cache)):
                 cause = 'SESSION_OR_CACHE_HEAD_MISMATCH'
             elif len(matches) != 1 or set(matches[0]) != CHECK_KEYS:
                 cause = 'COMPATIBILITY_EVIDENCE_MISSING'
@@ -92,6 +92,8 @@ def evaluate(task, heads, checks, *, packets, profiles, policy, host, verify_hea
                 elif (check['task_ref'] != task_ref or type(check['generation']) is not int
                       or check['generation'] != generation or not _hex(check['provenance_ref'])):
                     cause = 'PROVENANCE_OR_GENERATION_MISMATCH'
+                elif check['profile_ref'] != choice['profile_ref']:
+                    cause = 'HEAD_RESOURCE_PROFILE_MISMATCH'
                 elif (check['base_ref'] != head['base_ref'] or check['runtime_ref'] != head['runtime_ref']
                       or check['architecture'] != head['architecture']
                       or type(check['max_rank']) is not int or check['max_rank'] < head['rank']
