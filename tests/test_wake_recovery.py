@@ -20,7 +20,7 @@ def fixture(index=1,condition='SUSPENDED',method='WAKE_LAN'):
             'lease_ref':'c'*64,'choice':{'node':'node-b'},'observed_at':NOW.isoformat()}
     record['admission_ref']=w.sha(record)
     return dict(task=task,intent=i,observations=obs,capability=w.Capability(i.node_ref,method,NOW.isoformat(),'d'*64,True),
-                ledger=w.Ledger(i.node_ref,0),now=NOW,verify_observation=lambda o:True,
+                ledger=w.Ledger(i.node_ref,0),after=list(obs),now=NOW,verify_observation=lambda o:True,
                 verify_capability=lambda c:True,admission=lambda t:record)
 
 
@@ -134,6 +134,7 @@ class WakeTests(unittest.TestCase):
         d.update(task=t,now=fixtures.NOW,admission=gate.record)
         d['observations']=[replace(o,observed_at=fixtures.NOW.isoformat()) for o in d['observations']]
         d['capability']=replace(d['capability'],observed_at=fixtures.NOW.isoformat())
+        d['after']=[replace(o,observed_at=fixtures.NOW.isoformat()) for o in d['after']]
         self.check(d,'PHYSICAL_ACTION_NOT_IMPLEMENTED')
         self.assertEqual(calls,[])
         gate.lease=lambda *_:None
@@ -167,3 +168,18 @@ class WakeTests(unittest.TestCase):
         self.check(d,'INPUT_OR_IDENTITY_INVALID')
         d=fixture();original=d['admission'](d['task']);original['lease_ref']='0'*64
         self.check(d,'HOST_GRANT_ROUTE_RESOURCE_LEASE_NOT_WITNESSED')
+
+    def test_missing_conflicting_or_changed_final_observations_abstain(self):
+        for after,cause in [((), 'FINAL_WITNESSES_MISSING'),
+                ([fixture()['observations'][0]],'FINAL_WITNESSES_MISSING'),
+                ([fixture()['observations'][0],replace(fixture()['observations'][1],condition='POWERED_OFF')],'FINAL_OBSERVATIONS_CONFLICT'),
+                ([replace(o,condition='POWERED_OFF') for o in fixture()['observations']],'FINAL_DIAGNOSIS_CHANGED')]:
+            d=fixture();d['after']=after;r=self.check(d,cause)
+            self.assertEqual(r['receipt']['state'],'ABSTAIN');self.assertIsNone(r['next_ledger'])
+            self.assertNotIn('EXECUTE_SIMULATED',r['receipt']['stages'])
+
+    def test_old_or_self_contradictory_final_observations(self):
+        d=fixture();d['after']=[replace(o,observed_at=(NOW-timedelta(seconds=1)).isoformat()) for o in d['after']]
+        self.check(d,'FINAL_OBSERVATIONS_PRECEDE_DIAGNOSIS')
+        d=fixture();d['after'][0]=replace(d['after'][0],function_ready=True)
+        self.check(d,'OBSERVATION_CONTRADICTS_FUNCTION')
