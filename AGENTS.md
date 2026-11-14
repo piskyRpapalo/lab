@@ -5,7 +5,7 @@ successfully downloaded text file (SHA: 2c30009910d1731d0ba51c27f956f4d91c779b15
 This is the single canonical instruction set for agents working in the lab. Tool-specific files point here and do not create parallel policy.
 
 - The agent proposes and measures; a human signs PR by PR. Never sign, merge, choose the Mesa's seal letter, push to `main`, or push to Jetson.
-- Start branches from current `origin/main`. Publish work as a draft PR titled `REQUIERE_FIRMA`; the Sovereign decides whether to sign and merge.
+- Start branches from current `origin/main`. Publish reviewable work as a draft PR titled `HITL` (historical alias `REQUIERE_FIRMA`), unless the owning mission requires a narrower convention; the Sovereign decides on exact-head integration.
 - This repository is the measured record. Each number carries source, machine, date, harness/command, and scope. Vendor figures are labeled as declared, never as local measurements. `NO_DATA` always has its cause; do not invent or silently omit fields.
 - Do not commit raw prompts, raw answers, credentials, private identifiers, or personal data. Receipts and artifacts may contain counts and paths, never private values.
 - Preserve human review and zero telemetry. Do not send model inputs, outputs, or node state to an external service as part of a benchmark.
@@ -39,12 +39,18 @@ or no query overlap, and `--exclude-source-id` can add source hashes to the excl
 
 - The single source of truth for decrees, pre-signatures, and fulfilled signatures is the private `firmas` repository → `LIBRO_DE_FIRMAS.md`. Consult it before proposing; never contradict a live decree.
 - Every FIRMA transcription cites the decree that authorizes it. Every merge updates the book with its receipt (agents publish the receipt in the PR; the Mesa appends it to the book).
-- House ceiling applies (piece < 16,384 B): when the book reaches the ceiling, new material goes to NEW files in the `firmas` repository, linked from the book. Nothing is deleted; entries are only re-classified.
+- The former 16,384-byte **source-piece** ceiling was revoked by the [2026-11-01 decree](https://github.com/piskyRpapalo/roadmap/blob/main/odd/DECRETO-TECHO-NUEVO-20261101.md). The separately scoped Mesa receipt limit and existing test/resource budgets remain. Preserve signature-book history and link future receipts without deleting entries.
 
 
 ## THE MARCH (formerly ODD) — the workflow law (amendment · 2026-10-28 · amends the workflow sections of this file)
 
 - THE MARCH (formerly ODD) is law: explore, implement, check — every piece of work. One feature per feature document (odd/tasks/<feature>.md), one work unit per commit, one slice per PR.
-- The signature gates the MERGE, never the BUILDING. Work never halts for a signature: register the question in the feature document's log, take the lawful default (NO_DATA with cause, honest measurement), and continue.
-- Docs-only PRs merge under the standing THE MARCH FIRMO, cited in the receipt. Pieces of value are signed by the Sovereign per piece and per exact head; batches expire.
+- Human signature gates integration; **stop a blocked or unsafe step**, preserve its cause and evidence, and continue only other independently authorized work when useful. An honest RED, `NO_DATA(cause)` or safe stop is a meaningful research result, not a reason to penalize a preceptor.
+- Routine editorial-only publication can use the currently authorized path; authority-bearing `AGENTS.md`, access, security and CI texts are **not** automatically eligible. Consequential PRs require the Sovereign's exact-head signature; batches expire.
 - The Desk's status board (the two readers' harness) lives in the live pulse (buzon#54 · EL NORTE; the old odd/STATUS.md board of the web repository is retired, 2026-11-04); read it at the start of a watch cycle.
+
+## Shared research culture
+
+The [Sovereign's public declaration of benevolent collaboration](https://github.com/piskyRpapalo/preceptoros-public-mesa#creative-freedom-and-benevolent-collaboration) and the [Free Path Law](https://github.com/piskyRpapalo/roadmap/blob/main/LEY-CAMINO-LIBRE.md) favor creativity, reproducible experiments, constructive disagreement and learning from failure. Metrics evaluate experiments, **never the worth of collaborators**. No ranking of people/providers, punitive quota or obligation to manufacture green evidence. Keep privacy, consent, safety and existing human signing boundaries.
+
+— Codex GPT-6 · 2026-11-14 proposed contract alignment, pending exact-head human review.
