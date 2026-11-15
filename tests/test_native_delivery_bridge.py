@@ -14,12 +14,23 @@ from tests.test_meta_delegation import grant
 
 
 class DeliveryTests(unittest.TestCase):
-    def setup_bridge(self):
+    def setup_bridge(self, native=False):
         tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);Path(tmp.name).chmod(0o700)
         journal=ExecutionJournal.create(Path(tmp.name)/'journal.db');journal.initialize_budget(256)
         t,packets,profiles,policy,_,_,worker,calls=admission_fixtures.AdmissionTests().fixture()
         active={'grant':True,'pin':True,'lease':True,'ack':True,'effect':True,'cancel':False}
         clock=[fixtures.NOW]
+        if native:
+            from meta_harness.workers import NativeSort
+            actual=NativeSort()
+            t.update(task_id='public-sort-native',specialist='serion-sort',model_version=actual.version,
+                     source='local-tool',input_sha256=actual.input_sha256,transport='local_function',max_tokens=0)
+            packets[0]['record']['models']['items'][0]['model_version']=actual.version
+            profiles[0]['model_version']=actual.version
+            def worker(request,cancelled):
+                calls.append('dispatch');value=actual(request,cancelled)
+                active['native_result']=value
+                return value
         pin=dict(session_ref='1'*64,generation=1,node_ref='2'*64,base_ref=t['model_version'],head_ref=None,
                  runtime_ref='3'*64,selection_ref='4'*64,constraints_ref='5'*64,observed_at=fixtures.NOW.isoformat())
         bound=BoundWorker(t,pin,local_node_ref=pin['node_ref'],worker=worker,
@@ -49,6 +60,19 @@ class DeliveryTests(unittest.TestCase):
         self.assertFalse(r['live']);self.assertFalse(r['remote_authorized']);self.assertEqual(r['authority'],'none')
         self.assertLess(len(resources.encode(r)),1024)
         self.assertEqual(brain.deliver_bound(b,**k)['state'],'REPLAY');self.assertEqual(len(d),1);self.assertEqual(c,['dispatch'])
+
+    def test_actual_native_sort_under_explicit_synthetic_host_policy(self):
+        from meta_harness.workers import NativeSort
+        import json
+        b,k,a,c,d,_=self.setup_bridge(native=True)
+        frame=brain.deliver_bound(b,**k)
+        self.assertEqual(frame['state'],'VERIFIED');self.assertEqual(c,['dispatch'])
+        expected=sha(sorted(json.loads(NativeSort().raw)['values']))
+        receipt=k['session'].journal.lookup(b.task()['run_id'],sha(b.task()))
+        self.assertEqual(receipt['measurement']['output_sha256'],expected)
+        self.assertEqual(receipt['measurement']['tokens'],0)
+        self.assertEqual(frame['origin'],'HOST_SUPPLIED_UNATTESTED')
+        self.assertFalse(frame['live']);self.assertFalse(frame['remote_authorized'])
 
     def test_denied_or_cancelled_before_delivery(self):
         for flag in ('grant','pin','cancel','lease'):
