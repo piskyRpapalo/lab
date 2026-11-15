@@ -48,11 +48,21 @@ class BoundWorker:
         self._worker, self._witness, self._now = worker, witness, now
         bound = dict(original)
         bound['input_sha256'] = sha({'schema': 'preceptoros.execution-binding/1',
-                                    'original_task_ref': sha(original), 'pin': pin})
+                                    'original_input_sha256': original['input_sha256'], 'pin': pin})
         self._bound = encode(bound).decode()
 
     def task(self):
         return json.loads(self._bound)
+
+    def pin(self):
+        return json.loads(self._pin)
+
+    def original_for(self, task):
+        """Trusted consumer proof; never reinterpret an unrelated or stale task."""
+        if not _flat(task) or task != self.task():
+            raise Failure('EVIDENCE')
+        self._check(lambda: False)
+        return json.loads(self._original)
 
     def record(self):
         row = dict(schema='preceptoros.execution-binding/1', task_ref=sha(self.task()),

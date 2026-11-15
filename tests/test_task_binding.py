@@ -143,6 +143,60 @@ class BindingTests(unittest.TestCase):
         denied=s.execute(changed.task(),changed,observed_at=fixtures.NOW.strftime('%Y-%m-%dT%H:%M:%SZ'))
         self.assertNotEqual(denied['phase'],'complete');self.assertEqual(calls,['dispatch'])
 
+    def test_existing_brain_accepts_bound_original_context(self):
+        from tests.test_brain import BrainTests
+        from meta_harness.brain import cycle, verify_projections, verify_cycle
+        from meta_harness.cli import demo_gate
+        args,kw,calls=BrainTests().prepare()
+        native=kw['worker']
+        stamp=kw['now']()
+        current=datetime.fromisoformat(stamp.replace('Z','+00:00'))
+        original_tasks=kw['baseline_tasks']+[kw['delegated_task']]
+        proofs=tuple(BoundWorker(t,pin(base_ref=native.version,observed_at=stamp,
+            selection_ref=args[1].record()['context_ref']),local_node_ref=NODE,
+            worker=native,witness=lambda *_:True,now=lambda:current) for t in original_tasks)
+        tasks=[b.task() for b in proofs]
+        def routed(t,c):
+            matches=[b for b in proofs if b.task()==t]
+            if len(matches)!=1:raise Failure('EVIDENCE')
+            return matches[0](t,c)
+        routed.version=native.version
+        kw.update(worker=routed,baseline_tasks=tasks[:2],delegated_task=tasks[2])
+        kw['session'].authority=lambda t:demo_gate(tasks+[kw['planner_factory'].request],'d'*64)(t)
+        kw['bindings']=proofs
+        r=cycle(*args,**kw)
+        self.assertEqual(r['record']['state'],'MEASURED',r['record'])
+        self.assertTrue(verify_projections(r['views'],r['record']))
+        self.assertEqual(calls,['planner','memory'])
+        # Wrong-context binding is rejected before any new baseline dispatch.
+        called=[]
+        wrong=tuple(BoundWorker(t,pin(base_ref=native.version,observed_at=stamp),
+            local_node_ref=NODE,worker=lambda *a:called.append(1),witness=lambda *_:True,
+            now=lambda:current) for t in original_tasks)
+        altered=dict(kw,bindings=wrong,baseline_tasks=[b.task() for b in wrong[:2]],
+                     delegated_task=wrong[2].task())
+        rejected=cycle(*args,**altered)
+        self.assertEqual(rejected['record']['state'],'NO_DATA')
+        self.assertEqual(rejected['receipts'],[]);self.assertEqual(called,[])
+        self.assertEqual(len(r['receipts']),4)
+        all_tasks=tasks+[kw['planner_factory'].request]
+        self.assertFalse(verify_cycle(r,all_tasks,witness=kw['session'].attests))
+        self.assertTrue(verify_cycle(r,all_tasks,witness=kw['session'].attests,bindings=proofs))
+        from meta_harness.hexelion import capability_evidence
+        import copy
+        forged=copy.deepcopy(r['receipts'][0])
+        forged['measurement']['output_sha256']='8'*64
+        forged['receipt_ref']=sha({k:v for k,v in forged.items() if k!='receipt_ref'})
+        self.assertTrue(verify(forged))  # checksum integrity alone is insufficient
+        self.assertIsNone(capability_evidence([forged,r['receipts'][1]],tasks[:2],native.version,
+            stamp,witness=kw['session'].attests,bindings=proofs,
+            context_ref=args[1].record()['context_ref']))
+        for bad_proofs,ctx in (((),args[1].record()['context_ref']),
+                               (proofs+proofs[:1],args[1].record()['context_ref']),
+                               (proofs,'f'*64)):
+            self.assertIsNone(capability_evidence(r['receipts'][:2],tasks[:2],native.version,
+                stamp,witness=kw['session'].attests,bindings=bad_proofs,context_ref=ctx))
+
     def test_hostile_metadata_hooks_not_called(self):
         class Evil:
             def __deepcopy__(self,memo):raise AssertionError('hook executed')
