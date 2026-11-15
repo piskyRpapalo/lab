@@ -298,8 +298,10 @@ def deliver_bound(bound, *, session, receive, attest_ack, witness_execution, now
             row.update(execution_ref=prior['receipt_ref'],observed_at=prior['observed_at'])
             if resources.age_seconds(prior['observed_at'],current())>120:
                 return finish('STALE','prior_receipt_expired_not_live')
-            return finish('REPLAY' if prior['outcome']=='KNOWN' else 'NO_DATA',
-                          'prior_execution_not_new_delivery' if prior['outcome']=='KNOWN' else 'prior_outcome_unknown')
+            if prior['outcome']=='KNOWN':
+                return finish('REPLAY','prior_execution_not_new_delivery')
+            return finish('NO_DATA','prior_outcome_unknown' if prior['outcome']=='UNKNOWN'
+                          else 'prior_not_started_requires_new_request')
         grant=permission(task)
         if session.admission(task,grant,bound,cancelled) is not True:
             evidence=session.admission.record(task)

@@ -130,6 +130,18 @@ class DeliveryTests(unittest.TestCase):
         self.assertEqual(r['state'],'CANCELLED');self.assertEqual(c,['dispatch'])
         self.assertEqual(r['stages']['verified'],'NO_DATA')
 
+    def test_cancelled_after_claim_is_not_relabelled_unknown_on_replay(self):
+        b,k,a,c,d,_=self.setup_bridge();journal=k['session'].journal;claim=journal.claim
+        def stop_after_claim(*args,**kwargs):
+            r=claim(*args,**kwargs);a['cancel']=True;return r
+        journal.claim=stop_after_claim
+        first=brain.deliver_bound(b,**k)
+        self.assertEqual(first['state'],'CANCELLED');self.assertEqual(c,[])
+        a['cancel']=False
+        second=brain.deliver_bound(b,**k)
+        self.assertEqual(second['cause'],'prior_not_started_requires_new_request')
+        self.assertEqual(len(d),1);self.assertEqual(c,[])
+
     def test_expired_grant_never_delivers(self):
         b,k,a,c,d,_=self.setup_bridge()
         k['session'].authority=lambda t:dict(grant(t),expires_ns=0)
