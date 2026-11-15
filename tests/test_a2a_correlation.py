@@ -130,6 +130,29 @@ class A2ACorrelationTests(unittest.TestCase):
         self.assertEqual(out['state'],'CORRELATED_UNVERIFIED')
         self.assertEqual(out['observation_ref'],expected)
 
+    def test_untrusted_deepcopy_hook_never_runs(self):
+        class Hostile:
+            called=False
+            def __deepcopy__(self,memo):
+                self.called=True
+                raise RuntimeError('unsafe_hook')
+        bad=Hostile()
+        req=copy.deepcopy(self.req);req['agent']=bad
+        out=self.run_case(request=req)
+        self.assertEqual(out['state'],'NO_DATA')
+        self.assertFalse(bad.called)
+
+    def test_non_dict_envelope_hook_never_runs(self):
+        class Hostile:
+            called=False
+            def __deepcopy__(self,memo):
+                self.called=True
+                raise RuntimeError('unsafe_hook')
+        bad=Hostile()
+        out=self.run_case(request=bad)
+        self.assertEqual(out['state'],'NO_DATA')
+        self.assertFalse(bad.called)
+
     def test_deterministic_compact_receipt(self):
         r=self.run_case();self.assertEqual(r,self.run_case())
         self.assertLess(len(encode(r)),1024)
