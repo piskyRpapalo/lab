@@ -45,3 +45,13 @@ UNKNOWN no retry, and native AdmissionGate with explicit TEST DOUBLE profile/lea
 NO_DATA(authenticated_host_context;physical_device_lease;remote_E2E;live_LoRA_swap).
 Next: P2 deterministic routing must consume the original head/resource decisions,
 then freeze these pins BEFORE asking for exact-task approval. Junie retains S1/MCP.
+
+## Measured report budget regression
+
+Adding a source module expands the existing CLI provenance manifest; its expanded
+128-token fixture reached 16407 bytes and failed the unchanged 16384-byte ceiling
+x2. Baseline e08887f passed. Scope amended in Mesa #3: cli.py throughput_contract
+now carries the canonical bench-repro-01-v1 identifier without its redundant prose
+caption. Every source file/hash and report field remains; byte ceiling unchanged.
+Future unbounded manifest growth still needs a separately reviewed bounded
+provenance representation, not budget inflation or silent source omissions.

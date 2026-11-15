@@ -117,7 +117,7 @@ def provenance():
     except (OSError, subprocess.CalledProcessError):
         commit = throughput.no_data('git_source_unavailable')
     return {'commit': commit, 'source_sha256': sha(hashes), 'files': hashes,
-            'throughput_contract': 'bench-repro-01-v1 helpers; meta receipts have their own schema'}
+            'throughput_contract': 'bench-repro-01-v1'}
 
 
 def pilot_rows(receipts, input_hash):
