@@ -1,5 +1,6 @@
 """Host-supplied A2A correlation, NOT authentication, authorization or transport."""
 from datetime import datetime, timedelta, timezone
+from copy import deepcopy
 from .delegation import HEX, LABEL, encode, sha
 
 REQUEST = 'preceptoros.lab.a2a-request/1'
@@ -41,6 +42,9 @@ def correlate(request, observation, *, now, witness, seen_request_refs=()):
              replay='NO_DATA(durable_replay_store_not_bound)',
              evidence='HOST_SUPPLIED_UNVERIFIED')
     try:
+        # Freeze caller-owned metadata before validation: witness callbacks must not
+        # mutate the object whose digest and binding were already checked.
+        request, observation = deepcopy(request), deepcopy(observation)
         if (type(request) is not dict or set(request)!=REQ
                 or type(observation) is not dict or set(observation)!=OBS
                 or len(encode(request))>1024 or len(encode(observation))>1024):
@@ -88,7 +92,7 @@ def correlate(request, observation, *, now, witness, seen_request_refs=()):
         if not callable(witness):
             return _done(out,'NO_DATA','host_capture_missing')
         try:
-            accepted=witness(request,observation)
+            accepted=witness(deepcopy(request),deepcopy(observation))
         except Exception:
             return _done(out,'NO_DATA','host_capture_error')
         if accepted is not True:

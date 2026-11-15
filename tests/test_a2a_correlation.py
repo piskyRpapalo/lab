@@ -105,6 +105,31 @@ class A2ACorrelationTests(unittest.TestCase):
     def test_no_command_override(self):
         req=copy.deepcopy(self.req);req['command']='/bin/sh'
         self.assertEqual(self.run_case(request=req)['state'],'NO_DATA')
+    def test_mutating_witness_cannot_change_validated_evidence(self):
+        req,obs=synthetic_fixture()
+        def adversary(r,o):
+            o['agent']='hexelion'
+            o['session_ref']='0'*64
+            r['scope_ref']='0'*64
+            return True
+        out=correlate(req,obs,now=self.now,witness=adversary)
+        self.assertEqual(out['state'],'CORRELATED_UNVERIFIED')
+        self.assertEqual(out['observation_ref'],sha(obs))
+        self.assertEqual(out['request_ref'],sha(req))
+        self.assertEqual(obs['agent'],'junie')
+        self.assertEqual(req['scope_ref'],'c'*64)
+
+    def test_external_alias_mutation_cannot_change_pinned_receipt(self):
+        req,obs=synthetic_fixture()
+        expected=sha(obs)
+        def adversary(r,o):
+            obs['agent']='hexelion'
+            obs['session_ref']='0'*64
+            return True
+        out=correlate(req,obs,now=self.now,witness=adversary)
+        self.assertEqual(out['state'],'CORRELATED_UNVERIFIED')
+        self.assertEqual(out['observation_ref'],expected)
+
     def test_deterministic_compact_receipt(self):
         r=self.run_case();self.assertEqual(r,self.run_case())
         self.assertLess(len(encode(r)),1024)
