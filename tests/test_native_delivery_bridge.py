@@ -152,6 +152,8 @@ class DeliveryTests(unittest.TestCase):
         receipt=k['session'].journal.lookup(b.task()['run_id'],sha(b.task()))
         other,kw,active,calls,deliveries,_=self.setup_bridge()
         kw['session'].execute=lambda *args,**kwargs:copy.deepcopy(receipt)
+        # An optimistic downstream callback cannot replace native journal attestation.
+        kw['witness_execution']=lambda *_:True
         r=brain.deliver_bound(other,**kw)
         self.assertNotEqual(r['state'],'VERIFIED');self.assertEqual(calls,[])
 
