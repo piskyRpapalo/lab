@@ -113,10 +113,14 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--probe", choices=ALL_PROBES)
     parser.add_argument("--all", action="store_true")
+    parser.add_argument("--long-horizon-fixture", action="store_true")
     args = parser.parse_args(argv)
-    if args.all == (args.probe is not None):
-        parser.error("choose exactly one of --all or --probe")
-    if args.all:
+    if int(args.all) + int(args.probe is not None) + int(args.long_horizon_fixture) != 1:
+        parser.error("choose exactly one of --all, --probe or --long-horizon-fixture")
+    if args.long_horizon_fixture:
+        from meta_harness.long_horizon_gate import synthetic_replay
+        receipt = synthetic_replay()
+    elif args.all:
         receipt = aggregate_receipt()
     else:
         receipt = run_probe(args.probe)
@@ -124,7 +128,7 @@ def main(argv: list[str] | None = None) -> int:
     print(encoded)
     if len(encoded.encode("utf-8")) >= 1024:
         return 2
-    return 0 if receipt.get("detected") else (2 if receipt.get("state") == "NO_DATA" else 1)
+    return 0 if (receipt.get("detected") or (args.long_horizon_fixture and receipt.get("state") == "PASS")) else (2 if receipt.get("state") == "NO_DATA" else 1)
 
 
 if __name__ == "__main__":
