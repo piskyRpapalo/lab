@@ -261,3 +261,78 @@ def preflight(task: dict, pair: Pair, pin: Pin, evaluation: Evaluation, witness:
         return finish('CLOCK_INVALID_OR_FUTURE')
     except Exception:
         return finish('INPUT_OR_HOST_EVIDENCE_INVALID')
+
+
+@dataclass(frozen=True)
+class CacheKey:
+    task_ref: str
+    pair_ref: str  # both exact base/LoRA manifests and the trained fuser
+    pin_ref: str  # host/runtime/generation
+    session_ref: str
+    context_ref: str  # original selected sources and revisions
+    tool_scope_ref: str  # host-approved MCP/tool schemas and policy revision
+    permission_ref: str  # live grant/revocation revision; hash alone is not authority
+
+
+@dataclass(frozen=True)
+class CacheRecord:
+    key: CacheKey
+    cache_ref: str  # complete cache manifest digest, never raw KV data here
+    observed_at: str
+    origin: str
+
+
+def cache_preflight(*, cache, expected, verify_cache=None, **inputs):
+    """Compose native C2C preflight and isolated cache-scope source checks.
+
+    Host-owned expected key and live verifier are mandatory. No cache loader,
+    model/head switch, latent transport, permission or automatic text fallback.
+    A changed source/ACL/tool/head/session invalidates reuse even if tensors fit.
+    """
+    row=dict(schema='preceptoros.c2c-cache-scope/0',state='ABSTAIN',cause='CACHE_EVIDENCE_MISSING',
+        origin='NO_DATA',preflight_ref=None,scope_ref=None,cache_ref=None,
+        dispatch_authorized=False,cache_reuse_authorized=False,promotion='NOT_AUTHORIZED',
+        fallback='TEXT_REQUIRES_NEW_ADMISSION')
+    def finish(cause,ready=False):
+        row.update(state='READY_FOR_ISOLATED_BENCH' if ready else 'ABSTAIN',cause=cause)
+        row['receipt_ref']=sha(row)
+        if len(resources.encode(row))>=1024:raise ValueError('receipt_bound')
+        return row
+    try:
+        # Primitive refs checked BEFORE asdict/deepcopy of caller-owned values.
+        def key_valid(key):
+            return type(key) is CacheKey and all(_hex(getattr(key,k)) for k in CacheKey.__dataclass_fields__)
+        if (not key_valid(expected) or type(cache) is not CacheRecord or not key_valid(cache.key)
+                or not _hex(cache.cache_ref) or type(cache.observed_at) is not str
+                or len(cache.observed_at)>64 or type(cache.origin) is not str
+                or cache.origin not in ('SIMULATED','MEASURED')):
+            return finish('CACHE_MANIFEST_INVALID')
+        expected_fields=asdict(expected)
+        saved=CacheRecord(CacheKey(**asdict(cache.key)),cache.cache_ref,cache.observed_at,cache.origin)
+        row.update(scope_ref=sha(expected_fields),cache_ref=saved.cache_ref)
+        if not callable(verify_cache):return finish('CACHE_LIVE_WITNESS_MISSING')
+        first=preflight(**inputs)
+        row.update(preflight_ref=first['receipt_ref'],origin=first['origin'])
+        if first['state']!='READY_FOR_ISOLATED_BENCH':return finish(first['cause'])
+        if (expected_fields['task_ref']!=first['task_ref'] or expected_fields['pair_ref']!=first['pair_ref']
+                or expected_fields['pin_ref']!=first['pin_ref']):
+            return finish('CACHE_TASK_PAIR_OR_PIN_MISMATCH')
+        if asdict(saved.key)!=expected_fields:return finish('CACHE_SCOPE_MISMATCH')
+        if saved.origin!=first['origin']:return finish('CACHE_ORIGIN_MISMATCH')
+        if resources.age_seconds(saved.observed_at,inputs['now'])>120:return finish('CACHE_STALE')
+        def witnessed():
+            # Each callback gets fresh isolated values. It cannot alter the compared key.
+            copy=CacheRecord(CacheKey(**asdict(saved.key)),saved.cache_ref,saved.observed_at,saved.origin)
+            return verify_cache(copy,CacheKey(**expected_fields)) is True
+        if not witnessed():return finish('CACHE_NOT_CURRENTLY_WITNESSED')
+        # Re-read canonical preconditions after source/permission checks.
+        final=preflight(**inputs)
+        if (final['state']!='READY_FOR_ISOLATED_BENCH' or any(final[k]!=first[k]
+                for k in ('task_ref','pair_ref','pin_ref','evidence_ref','admission_ref','evaluation_ref','resource_ref','origin'))):
+            return finish('CACHE_FINAL_PREFLIGHT_CHANGED')
+        if not witnessed():return finish('CACHE_WITNESS_REVOKED')
+        return finish('CACHE_PRECONDITIONS_ONLY_NOT_AUTHORIZATION',True)
+    except resources.EvidenceTimeError:
+        return finish('CACHE_CLOCK_INVALID_OR_FUTURE')
+    except Exception:
+        return finish('CACHE_HOST_OR_EVIDENCE_ERROR')
