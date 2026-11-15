@@ -260,7 +260,7 @@ def deliver_bound(bound, *, session, receive, attest_ack, witness_execution, now
         agent_ref=None, node_ref=None, mission_ref=None, delivery_ref=None, execution_ref=None,
         observed_at=None, stages={k:'NO_DATA' for k in
             ('observed','received','authorized','executed','verified')}, authority='none',
-        origin='HOST_SUPPLIED_UNATTESTED', live=False, remote_authorized=False)
+        origin='NO_DATA', source_basis='HOST_SUPPLIED_UNATTESTED', live=False, remote_authorized=False)
 
     def finish(state, cause):
         row.update(state=state,cause=cause)

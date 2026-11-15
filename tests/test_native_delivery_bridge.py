@@ -71,7 +71,8 @@ class DeliveryTests(unittest.TestCase):
         receipt=k['session'].journal.lookup(b.task()['run_id'],sha(b.task()))
         self.assertEqual(receipt['measurement']['output_sha256'],expected)
         self.assertEqual(receipt['measurement']['tokens'],0)
-        self.assertEqual(frame['origin'],'HOST_SUPPLIED_UNATTESTED')
+        self.assertEqual(frame['origin'],'NO_DATA')
+        self.assertEqual(frame['source_basis'],'HOST_SUPPLIED_UNATTESTED')
         self.assertFalse(frame['live']);self.assertFalse(frame['remote_authorized'])
 
     def test_denied_or_cancelled_before_delivery(self):

@@ -46,7 +46,7 @@ OBSERVED, RECEIVED, AUTHORIZED, EXECUTED, VERIFIED are distinct. Observed remain
 NO_DATA: process presence is not used as proof of receiving. Native receipt refs
 are retained without raw task/result data. Cached outcomes retain original time;
 stale records and missing sources never become LIVE. live=false and
-remote_authorized=false ALWAYS. origin=HOST_SUPPLIED_UNATTESTED, authority=none.
+remote_authorized=false ALWAYS. origin=NO_DATA, source_basis=HOST_SUPPLIED_UNATTESTED, authority=none.
 VERIFIED means specified local callback checks passed; it is not host authentication,
 APP E2E, authority over other CLI or physical admission. Test artifacts SIMULATED.
 
