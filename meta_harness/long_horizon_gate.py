@@ -163,7 +163,8 @@ def evaluate(frozen: dict, packet: dict, *, pre_run_ref: str,
                    ('sandbox_repaired','repair_script_verified')):
             return done('FAIL_MODEL','final_checker_failed',steps=len(actions))
         return done('PASS','all_frozen_checks_passed',steps=len(actions),score='4/4')
-    except (TypeError, KeyError, ValueError, OverflowError):
+    except Exception:
+        # A hostile or broken host callback must not leak its error text.
         return done('EVAL_INVALID','untrusted_or_malformed_evidence')
 
 

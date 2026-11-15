@@ -115,6 +115,12 @@ class LongHorizonGateTests(unittest.TestCase):
         self.assertEqual(r['state'],'EVAL_INVALID')
         self.assertNotIn('synthetic-secret-do-not-log',repr(r))
 
+    def test_host_runtime_exception_is_sanitized(self):
+        def broken(): raise RuntimeError('synthetic-sensitive-exception')
+        r = self.verdict(witness=broken)
+        self.assertEqual(r['state'], 'EVAL_INVALID')
+        self.assertNotIn('synthetic-sensitive-exception', repr(r))
+
     def test_ordered_steps_exact(self):
         packet=copy.deepcopy(self.packet);packet['actions'][5]['step']=3
         self.assertEqual(self.verdict(packet=packet)['state'],'EVAL_INVALID')
