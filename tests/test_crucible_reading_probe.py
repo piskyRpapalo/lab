@@ -49,6 +49,18 @@ class ReadingProbeTests(unittest.TestCase):
         self.assertEqual(receipt["no_data"], "11/13")
         self.assertLess(len(json.dumps(receipt).encode("utf-8")), 1024)
 
+    def test_crucible_long_horizon_native_fixture_is_pure(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            result = run_crucible.main(["--long-horizon-fixture"])
+        receipt = json.loads(output.getvalue())
+        self.assertEqual(result, 0)
+        self.assertEqual(receipt["state"], "PASS")
+        self.assertEqual(receipt["steps"], 25)
+        self.assertEqual(receipt["basis"], "SYNTHETIC_OR_HOST_SUPPLIED")
+        self.assertEqual(receipt["authority"], "none")
+        self.assertLess(len(json.dumps(receipt).encode("utf-8")), 1024)
+
     def test_receipt_is_compact_and_cli_returns_green(self):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
