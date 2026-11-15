@@ -62,6 +62,16 @@ class CacheTests(unittest.TestCase):
         def revoke(*_):active[0]=False;return True
         self.assertEqual(c.cache_preflight(cache=cache,expected=key,verify_cache=revoke,**d)['cause'],'CACHE_FINAL_PREFLIGHT_CHANGED')
 
+    def test_final_resource_and_origin_changes_are_not_ignored(self):
+        from unittest.mock import patch
+        d,key,cache=self.fixture();first=c.preflight(**d)
+        for field,value in [('resource_ref','e'*64),('origin','SIMULATED')]:
+            final=dict(first,**{field:value})
+            final['receipt_ref']=c.sha({k:v for k,v in final.items() if k!='receipt_ref'})
+            with patch.object(c,'preflight',side_effect=[first,final]):
+                r=c.cache_preflight(cache=cache,expected=key,verify_cache=lambda *_:True,**d)
+            self.assertEqual(r['cause'],'CACHE_FINAL_PREFLIGHT_CHANGED')
+
     def test_missing_models_not_rescued_by_cache(self):
         d,key,cache=self.fixture()
         self.assertEqual(self.run_cache(witness=replace(d['witness'],checkpoints_local=False))['cause'],'NO_DATA_LOCAL_CHECKPOINTS')

@@ -328,7 +328,7 @@ def cache_preflight(*, cache, expected, verify_cache=None, **inputs):
         # Re-read canonical preconditions after source/permission checks.
         final=preflight(**inputs)
         if (final['state']!='READY_FOR_ISOLATED_BENCH' or any(final[k]!=first[k]
-                for k in ('task_ref','pair_ref','pin_ref','evidence_ref','admission_ref','evaluation_ref'))):
+                for k in ('task_ref','pair_ref','pin_ref','evidence_ref','admission_ref','evaluation_ref','resource_ref','origin'))):
             return finish('CACHE_FINAL_PREFLIGHT_CHANGED')
         if not witnessed():return finish('CACHE_WITNESS_REVOKED')
         return finish('CACHE_PRECONDITIONS_ONLY_NOT_AUTHORIZATION',True)
