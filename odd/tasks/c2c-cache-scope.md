@@ -53,7 +53,11 @@ First proposed specialty remains tools-and-limits; rank16/alpha32/q-k-v-o target
 are a candidate recipe from existing adapters, not measured support per device.
 Use own consented trajectories and current tool schemas; frozen family-separated
 holdout, base-vs-adapter, PROTECTS/REDUNDANT/REGRESSION/UNFIXED. Current OSS round
-records only6 real pairs vs minimum50; no synthetic filler relabeled as real.
+dry-run reports 7 real pairs (6 train/1 eval) vs minimum50; no synthetic filler
+relabeled as real. This is the historical OSS action protocol, not a qualified
+Mistral tools dataset. Static source audit also found the Ollama adapter drops
+canonical closed schemas and audit_last.n; Junie must reconcile the existing
+S1 schema path before those trajectories can be used as faithful tool examples.
 Training still needs exact approved data/base/node/budget/stop rules. No training,
 installation, model transfer or promotion is performed by this increment.
 
