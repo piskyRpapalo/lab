@@ -140,7 +140,8 @@ def probe(alias, context_ref, *, transport=None, clock=None):
     r=request(digest({'operator_ssh_alias':alias}),context_ref,secrets.token_hex(16),now())
     row=dict(schema='preceptoros.remote-completion-probe/1',state='NO_DATA',cause='unobserved',
         origin='SIMULATED' if transport is not None else 'REAL',node_ref=r['node_ref'],
-        request_ref=r['request_ref'],context_ref=context_ref,program_ref=hashlib.sha256(REMOTE.encode()).hexdigest(),
+        request_ref=r['request_ref'],context_ref=context_ref,nonce=r['nonce'],
+        issued_at=r['issued_at'],expires_at=r['expires_at'],program_ref=hashlib.sha256(REMOTE.encode()).hexdigest(),
         authority='none',native_dispatch_authorized=False,APP_E2E=False,
         physical_alias_binding='NO_DATA',portable_authentication='NO_DATA',attempts=0)
     try:
@@ -158,7 +159,7 @@ def probe(alias, context_ref, *, transport=None, clock=None):
                 return d
             reply=json.loads(raw,object_pairs_hook=unique)
             if verify_completion(r,reply,now()):
-                row.update(state='PROBE_COMPLETED',cause='correlation_and_result_checked',reply_ref=digest(reply))
+                row.update(state='PROBE_COMPLETED',cause='correlation_and_result_checked',reply_ref=digest(reply),completed_at=reply['observed_at'])
             else:row['cause']='completion_mismatch_or_expired'
     except (OSError,ValueError,TypeError,TimeoutError,subprocess.TimeoutExpired,RecursionError):
         row['cause']='transport_or_protocol_unknown_no_retry'

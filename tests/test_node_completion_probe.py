@@ -27,6 +27,12 @@ class ProbeTests(unittest.TestCase):
         self.assertFalse(r['native_dispatch_authorized']);self.assertFalse(r['APP_E2E'])
         self.assertEqual(r['authority'],'none');self.assertEqual(r['portable_authentication'],'NO_DATA')
         self.assertLess(len(m.encoded(r)),1024)
+        request={k:r[k] for k in ('node_ref','context_ref','nonce','issued_at','expires_at')}
+        request.update(schema='public-sort-probe/1',values=m.VALUES[:])
+        self.assertEqual(m.digest(request),r['request_ref'])
+        reply={k:r[k] for k in ('node_ref','context_ref','nonce','request_ref')}
+        reply.update(schema='public-sort-completion/1',values=sorted(m.VALUES),observed_at=r['completed_at'])
+        self.assertEqual(m.digest(reply),r['reply_ref'])
 
     def test_wrong_node_task_context_nonce_and_result(self):
         for field,value in [('node_ref','b'*64),('request_ref','b'*64),('context_ref','b'*64),

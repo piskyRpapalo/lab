@@ -44,3 +44,8 @@ receipt nor an ACK confers authority. Requests for ACK stay in Mesa #3/#37/#39.
 A successful real probe demonstrates only one authenticated operator-channel
 public computation roundtrip. It does NOT demonstrate APP/Acho->S1->remote task
 E2E, model inference, node admission, physical rights or a live LoRA swap.
+
+Successful receipts retain nonce, issued/expires/completed UTC times and exact
+request/reply digests. Together with fixed public VALUES and source revision these
+reconstruct both wire documents without storing private SSH configuration. Receipt
+checksum can be revalidated; portable authentication still remains NO_DATA.
