@@ -16,18 +16,36 @@ PUBLIC_PLAN = {'schema': 'public-delegation-choice-v1', 'actions': ['DELEGATE_LO
                'specialist': 'serion-sort', 'maximum_worker_tokens': 128, 'privacy': 'LOCAL_ONLY'}
 
 
-def capability_evidence(receipts, tasks, expected, now, *, witness=None):
+def capability_evidence(receipts, tasks, expected, now, *, witness=None, bindings=(), context_ref=None):
     """Accept only this run's witnessed public baseline tasks, never planner enums."""
     try:
         if not callable(witness) or len(receipts) != 2 or len(tasks) != 2:
             return None
+        originals = tasks
+        if bindings:
+            from .task_binding import BoundWorker
+            if (type(bindings) is not tuple or not 1 <= len(bindings) <= 3
+                    or type(context_ref) is not str or not HEX.fullmatch(context_ref)
+                    or any(type(b) is not BoundWorker for b in bindings)):
+                return None
+            originals, pins = [], []
+            for task in tasks:
+                matches = [b for b in bindings if b.task() == task]
+                if len(matches) != 1:
+                    return None
+                if matches[0].pin()['selection_ref'] != context_ref:
+                    return None
+                originals.append(matches[0].original_for(task))
+                pins.append(matches[0].record()['pin_ref'])
+            if len(set(pins)) != 1:
+                return None
         current = datetime.datetime.fromisoformat(now.replace('Z', '+00:00'))
         wanted_id = tasks[0]['task_id']
         wanted_input, wanted_source, wanted_transport, wanted_cap = baseline_spec(wanted_id)
         refs = []
-        for receipt, task in zip(receipts, tasks):
+        for receipt, task, original in zip(receipts, tasks, originals):
             if (task['source'] != wanted_source or task['task_id'] != wanted_id
-                    or task['specialist'] != 'serion-sort' or task['input_sha256'] != wanted_input
+                    or task['specialist'] != 'serion-sort' or original['input_sha256'] != wanted_input
                     or task['model_version'] != expected or task['transport'] != wanted_transport
                     or task['max_tokens'] != wanted_cap or not verify(receipt)
                     or receipt['task_sha256'] != sha(task) or receipt['run_id'] != task['run_id']

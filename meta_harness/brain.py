@@ -26,7 +26,7 @@ def _complete(receipt, task, session):
 
 
 def cycle(query, snapshot, *, context, session, worker, baseline_tasks, delegated_task,
-          planner_factory, now, write_draft=None, cancelled=lambda: False):
+          planner_factory, now, write_draft=None, cancelled=lambda: False, bindings=()):
     """Run exactly the operator-prepared tasks. Model choice never grants permission.
 
     planner_factory(capability) -> (adapter, exact task); adapter exposes decision
@@ -46,6 +46,18 @@ def cycle(query, snapshot, *, context, session, worker, baseline_tasks, delegate
         fresh()
         event('context', 'MEASURED', snapshot.record()['context_ref'])
         stage = 'baseline'
+        if bindings:
+            from .task_binding import BoundWorker
+            if (type(bindings) is not tuple or len(bindings) != 3
+                    or any(type(b) is not BoundWorker for b in bindings)
+                    or len({b.record()['pin_ref'] for b in bindings}) != 1):
+                raise ContextError('context_contract_invalid')
+            for task in list(baseline_tasks) + [delegated_task]:
+                matches = [b for b in bindings if b.task() == task]
+                if (len(matches) != 1
+                        or matches[0].pin()['selection_ref'] != snapshot.record()['context_ref']):
+                    raise ContextError('context_contract_invalid')
+                matches[0].original_for(task)
         if len(baseline_tasks) != 2:
             raise ContextError('context_contract_invalid')
         baseline = []
@@ -55,7 +67,8 @@ def cycle(query, snapshot, *, context, session, worker, baseline_tasks, delegate
             baseline.append(receipt)
             receipts.append(receipt)
         capability = capability_evidence(baseline, baseline_tasks, worker.version, now(),
-                                         witness=session.attests)
+                                         witness=session.attests, bindings=bindings,
+                                         context_ref=snapshot.record()['context_ref'])
         if capability is None:
             cause = 'baseline_not_witnessed'
         else:
@@ -179,7 +192,7 @@ def valid_record(record):
         return False
 
 
-def verify_cycle(result, tasks, *, witness):
+def verify_cycle(result, tasks, *, witness, bindings=()):
     """Host-local chain verification. Serialized hashes alone are not attestation."""
     try:
         record, receipts = result['record'], result['receipts']
@@ -194,7 +207,8 @@ def verify_cycle(result, tasks, *, witness):
             bound = [by_hash[r['task_sha256']] for r in receipts]
             first, planned_task, delegated = bound[0], bound[2], bound[3]
             capability = capability_evidence(receipts[:2], bound[:2], first['model_version'],
-                receipts[2]['observed_at'], witness=witness)
+                receipts[2]['observed_at'], witness=witness, bindings=bindings,
+                context_ref=record['context_ref'])
             if (capability is None or planned_task['source'] != 'private-model'
                     or planned_task['specialist'] != 'hexelion' or planned_task['max_tokens'] != 512
                     or planned_task['task_id'] != 'public-sort'
