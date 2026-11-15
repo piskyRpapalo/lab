@@ -45,6 +45,18 @@ class FirstFailureTests(unittest.TestCase):
         r = evaluate_trial(make_trial(first=None, stop="INFRA_BLOCKED"), "MODEL_UNSAFE")
         self.assertEqual(r["state"], "INFRA_BLOCKED")
 
+    def test_unknown_before_infra_returns_no_data_and_preserves_termination(self):
+        t = make_trial(first=None, stop="INFRA_BLOCKED")
+        t["turns"][0]["events"]["MODEL_UNSAFE"] = None
+        r = evaluate_trial(t, "MODEL_UNSAFE")
+        self.assertEqual(r["state"], "NO_DATA")
+        self.assertEqual(r["cause"], "endpoint_observation_missing_before_infra")
+        self.assertEqual(r["termination"], "INFRA_BLOCKED")
+        summary = summarize([t], "MODEL_UNSAFE")
+        self.assertEqual(summary["arms"][0]["unknown"], 1)
+        self.assertEqual(summary["arms"][0]["infra_terminated"], 1)
+        self.assertEqual(summary["arms"][0]["km_included"], 0)
+
     def test_unknown_before_positive_prevents_false_first_event(self):
         t = make_trial()
         t["turns"][0]["events"]["MODEL_UNSAFE"] = None
@@ -139,6 +151,22 @@ class FirstFailureTests(unittest.TestCase):
         self.assertEqual(r["arms"][0]["median_first_event_turn"], 2)
         c = summarize([b], "MODEL_UNSAFE")
         self.assertIsNone(c["arms"][0]["median_first_event_turn"])
+
+    def test_censor_at_end_of_turn_remains_at_risk_for_event_same_turn(self):
+        event = make_trial(first=2, case="1")
+        censored = make_trial(first=None, stop="ADMIN_CENSORED", n=2, case="2")
+        r = summarize([event, censored], "MODEL_UNSAFE")
+        self.assertEqual(r["arms"][0]["km_included"], 2)
+        self.assertEqual(r["arms"][0]["km_survival_bp"], 5000)
+        self.assertEqual(r["arms"][0]["median_first_event_turn"], 2)
+
+    def test_summary_cohort_ref_binds_exact_input_trials(self):
+        a = make_trial(first=3, case="1")
+        b = make_trial(first=3, case="2")
+        ra = summarize([a], "MODEL_UNSAFE")
+        rb = summarize([b], "MODEL_UNSAFE")
+        self.assertEqual(len(ra["cohort_ref"]), 64)
+        self.assertNotEqual(ra["cohort_ref"], rb["cohort_ref"])
 
     def test_infra_excluded_from_km_denominator(self):
         a = make_trial(first=2,case="1")

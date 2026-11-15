@@ -96,7 +96,7 @@ def evaluate_trial(trial, endpoint):
         "cause": "invalid_trial_or_endpoint", "endpoint": (
             endpoint if type(endpoint) is str and endpoint in EVENTS else None
         ), "arm": None, "turn": None, "horizon": None,
-        "trial_ref": None, "authority": "none",
+        "termination": None, "trial_ref": None, "authority": "none",
         "evidence": "SYNTHETIC_OR_UNATTESTED",
     }
     if endpoint not in EVENTS or not _valid(trial):
@@ -104,6 +104,7 @@ def evaluate_trial(trial, endpoint):
     out["trial_ref"] = _hash(trial)
     out["arm"] = trial["arm"]
     out["horizon"] = trial["horizon"]
+    out["termination"] = trial["termination"]
     unknown_before = False
     for item in trial["turns"]:
         event = item["events"][endpoint]
@@ -116,11 +117,16 @@ def evaluate_trial(trial, endpoint):
                 out.update(state="EVENT", cause="observed_event",
                            turn=item["turn"])
             return _receipt(out)
-    if trial["termination"] == "INFRA_BLOCKED":
+    if unknown_before:
+        cause = (
+            "endpoint_observation_missing_before_infra"
+            if trial["termination"] == "INFRA_BLOCKED"
+            else "endpoint_observation_missing"
+        )
+        out.update(state="NO_DATA", cause=cause, turn=len(trial["turns"]))
+    elif trial["termination"] == "INFRA_BLOCKED":
         out.update(state="INFRA_BLOCKED", cause="infrastructure_unavailable",
                    turn=len(trial["turns"]))
-    elif unknown_before:
-        out.update(state="NO_DATA", cause="endpoint_observation_missing")
     else:
         out.update(state="CENSORED", cause=(
             "horizon_no_event" if trial["termination"] == "HORIZON"
@@ -156,7 +162,7 @@ def summarize(trials, endpoint):
         "schema": SCHEMA, "state": "EVAL_INVALID",
         "cause": "invalid_cohort", "endpoint": (
             endpoint if type(endpoint) is str and endpoint in EVENTS else None
-        ), "horizon": None, "paired_cases": False,
+        ), "horizon": None, "cohort_ref": None, "paired_cases": False,
         "basis": None, "authority": "none",
         "evidence": "SYNTHETIC_OR_UNATTESTED", "arms": [],
     }
@@ -175,14 +181,15 @@ def summarize(trials, endpoint):
         return _receipt(base)
     base["horizon"] = trials[0]["horizon"]
     base["basis"] = trials[0]["basis"]
+    base["cohort_ref"] = _hash(sorted(_hash(t) for t in trials))
     arm_cases = {a: {t["case_ref"] for t in trials if t["arm"] == a}
                  for a in ARMS}
     base["paired_cases"] = bool(arm_cases[ARMS[0]]) and (
         arm_cases[ARMS[0]] == arm_cases[ARMS[1]]
     )
     for arm in ARMS:
-        outcomes = [evaluate_trial(t, endpoint) for t in trials
-                    if t["arm"] == arm]
+        arm_trials = [t for t in trials if t["arm"] == arm]
+        outcomes = [evaluate_trial(t, endpoint) for t in arm_trials]
         n = {state: sum(r["state"] == state for r in outcomes)
              for state in ("EVENT", "CENSORED", "INFRA_BLOCKED",
                            "NO_DATA", "EVAL_INVALID")}
@@ -190,7 +197,13 @@ def summarize(trials, endpoint):
         base["arms"].append({
             "arm": arm, "n": len(outcomes), "events": n["EVENT"],
             "censored": n["CENSORED"], "infra": n["INFRA_BLOCKED"],
+            "infra_terminated": sum(
+                t["termination"] == "INFRA_BLOCKED" for t in arm_trials
+            ),
             "unknown": n["NO_DATA"], "invalid": n["EVAL_INVALID"],
+            "km_included": sum(
+                r["state"] in ("EVENT", "CENSORED") for r in outcomes
+            ),
             "km_survival_bp": survival_bp,
             "median_first_event_turn": median,
         })
