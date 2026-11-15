@@ -153,6 +153,34 @@ class A2ACorrelationTests(unittest.TestCase):
         self.assertEqual(out['state'],'NO_DATA')
         self.assertFalse(bad.called)
 
+    def test_hostile_request_key_hook_never_runs(self):
+        class HostileKey:
+            called=False
+            def __hash__(self):return 911
+            def __deepcopy__(self,memo):
+                self.called=True
+                raise RuntimeError('unsafe_key_hook')
+        key=HostileKey()
+        req=copy.deepcopy(self.req)
+        req[key]='synthetic'
+        result=self.run_case(request=req)
+        self.assertEqual(result['state'],'NO_DATA')
+        self.assertFalse(key.called)
+
+    def test_hostile_observation_key_hook_never_runs(self):
+        class HostileKey:
+            called=False
+            def __hash__(self):return 913
+            def __deepcopy__(self,memo):
+                self.called=True
+                raise RuntimeError('unsafe_key_hook')
+        key=HostileKey()
+        obs=copy.deepcopy(self.obs)
+        obs[key]='synthetic'
+        result=self.run_case(observation=obs)
+        self.assertEqual(result['state'],'NO_DATA')
+        self.assertFalse(key.called)
+
     def test_deterministic_compact_receipt(self):
         r=self.run_case();self.assertEqual(r,self.run_case())
         self.assertLess(len(encode(r)),1024)

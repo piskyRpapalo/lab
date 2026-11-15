@@ -46,6 +46,11 @@ def correlate(request, observation, *, now, witness, seen_request_refs=()):
         # mutate the object whose digest and binding were already checked.
         if type(request) is not dict or type(observation) is not dict:
             return _done(out,'NO_DATA','invalid_schema_or_size')
+        # Keys must also be exact strings: hostile key __deepcopy__ hooks
+        # must not run before the closed-schema validation.
+        if (any(type(k) is not str for k in request)
+                or any(type(k) is not str for k in observation)):
+            return _done(out,'NO_DATA','invalid_schema_or_size')
         # Reject non-JSON value types before deepcopy: hostile __deepcopy__ hooks
         # must never execute while inspecting untrusted envelope metadata.
         safe=(type(None),bool,int,float,str)
