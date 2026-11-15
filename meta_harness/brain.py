@@ -239,3 +239,116 @@ def verify_cycle(result, tasks, *, witness, bindings=()):
         return True
     except (ValueError, TypeError, KeyError, AttributeError):
         return False
+
+
+def deliver_bound(bound, *, session, receive, attest_ack, witness_execution, now,
+                  cancelled=lambda: False):
+    """Controlled local receiver bridge; never remote scope or a CLI TTY injector.
+
+    Host callbacks must be bounded and independently attest original sources.
+    ACK means received only. Native grant, AdmissionGate, journal and final lease
+    checks remain distinct. Callback agreement is not portable authentication.
+    """
+    import copy
+    from datetime import datetime, timedelta
+    from .delegation import Session, Failure, check_grant
+    from .execution_journal import ExecutionJournal, DurableTokenBudget
+    from .resource_admission import AdmissionGate, resources
+    from .task_binding import BoundWorker
+
+    row = dict(schema='preceptoros.native-delivery/0', state='NO_DATA', cause='host_contract_missing',
+        agent_ref=None, node_ref=None, mission_ref=None, delivery_ref=None, execution_ref=None,
+        observed_at=None, stages={k:'NO_DATA' for k in
+            ('observed','received','authorized','executed','verified')}, authority='none',
+        origin='HOST_SUPPLIED_UNATTESTED', live=False, remote_authorized=False)
+
+    def finish(state, cause):
+        row.update(state=state,cause=cause)
+        row['receipt_ref']=sha(row)
+        if len(encode(row))>=1024:raise ValueError('delivery_receipt_bound')
+        return row
+
+    def current():
+        t=now()
+        if type(t) is not datetime or t.utcoffset()!=timedelta(0):raise Failure('EVIDENCE')
+        return t
+
+    def permission(task):
+        if cancelled():raise Failure('CANCELLED')
+        grant=session.authority(copy.deepcopy(task))
+        check_grant(grant,task,session.clock())
+        return grant
+
+    try:
+        if (type(bound) is not BoundWorker or type(session) is not Session
+                or type(session.admission) is not AdmissionGate
+                or type(session.journal) is not ExecutionJournal
+                or type(session.budget) is not DurableTokenBudget
+                or session.budget.journal is not session.journal
+                or not all(callable(f) for f in (receive,attest_ack,witness_execution,now,cancelled))):
+            return finish('NO_DATA','durable_session_admission_and_host_callbacks_required')
+        task=bound.task()
+        bound.original_for(task)
+        pin=bound.pin()
+        row.update(agent_ref=pin['session_ref'],node_ref=pin['node_ref'],
+                   mission_ref=pin['constraints_ref'],observed_at=current().strftime('%Y-%m-%dT%H:%M:%SZ'))
+        permission(task)
+        prior=session.journal.lookup(task['run_id'],sha(task))
+        if prior is not None:
+            row.update(execution_ref=prior['receipt_ref'],observed_at=prior['observed_at'])
+            if resources.age_seconds(prior['observed_at'],current())>120:
+                return finish('STALE','prior_receipt_expired_not_live')
+            return finish('REPLAY' if prior['outcome']=='KNOWN' else 'NO_DATA',
+                          'prior_execution_not_new_delivery' if prior['outcome']=='KNOWN' else 'prior_outcome_unknown')
+        grant=permission(task)
+        if session.admission(task,grant,bound,cancelled) is not True:
+            evidence=session.admission.record(task)
+            return finish('NO_DATA','pre_delivery_'+(evidence['cause'] if evidence else 'admission_missing'))
+        envelope=dict(schema='preceptoros.mission-delivery/0',task_ref=sha(task),
+            agent_ref=pin['session_ref'],node_ref=pin['node_ref'],mission_ref=pin['constraints_ref'],
+            context_ref=pin['selection_ref'],generation=pin['generation'],issued_at=pin['observed_at'])
+        envelope['delivery_ref']=sha(envelope)
+        row['delivery_ref']=envelope['delivery_ref']
+        permission(task)
+        ack=receive(copy.deepcopy(envelope))
+        if (type(ack) is not dict or any(type(k) is not str for k in ack)
+                or any(type(v) is not str or len(v)>128 for v in ack.values())
+                or set(ack)!={'schema','delivery_ref','agent_ref','node_ref','context_ref','state','observed_at'}
+                or ack['schema']!='preceptoros.mission-ack/0' or ack['state']!='RECEIVED'
+                or ack['delivery_ref']!=envelope['delivery_ref'] or ack['agent_ref']!=pin['session_ref']
+                or ack['node_ref']!=pin['node_ref'] or ack['context_ref']!=pin['selection_ref']):
+            return finish('NO_DATA','ack_mismatch')
+        age=resources.age_seconds(ack['observed_at'],current())
+        if (not 0<=age<=120 or age>resources.age_seconds(pin['observed_at'],current())
+                or attest_ack(copy.deepcopy(envelope),copy.deepcopy(ack)) is not True):
+            return finish('NO_DATA','ack_not_witnessed_or_expired')
+        row['stages']['received']='RECEIVED'
+        permission(task)
+        bound.original_for(task)
+        receipt=session.execute(task,bound,observed_at=current().strftime('%Y-%m-%dT%H:%M:%SZ'),cancelled=cancelled)
+        row.update(execution_ref=receipt['receipt_ref'],observed_at=receipt['observed_at'])
+        if not _complete(receipt,task,session):
+            return finish('CANCELLED' if receipt['failure_class']=='CANCELLED' else 'NO_DATA',
+                          'native_execution_not_verified_'+receipt['failure_class'].lower())
+        admission=session.admission.record(task)
+        if admission is None or admission['state']!='VERIFIED' or admission['task_ref']!=sha(task):
+            return finish('NO_DATA','resource_admission_not_witnessed')
+        # Independent execution observation, not inference from receipt success.
+        if witness_execution(copy.deepcopy(receipt),copy.deepcopy(task),copy.deepcopy(admission),bound.pin()) is not True:
+            return finish('NO_DATA','execution_witness_missing')
+        row['stages']['executed']='EXECUTED'
+        permission(task)
+        bound.original_for(task)
+        choice=admission['choice']
+        if (session.admission.route(copy.deepcopy(task),bound,choice['node'],choice['backend']) is not True
+                or session.admission.lease(copy.deepcopy(task),choice['node'],choice['backend'])!=admission['lease_ref']):
+            return finish('NO_DATA','final_route_or_lease_revoked')
+        if resources.age_seconds(receipt['observed_at'],current())>120:
+            return finish('STALE','execution_receipt_expired_not_live')
+        permission(task)
+        row['stages'].update(authorized='AUTHORIZED',verified='VERIFIED')
+        return finish('VERIFIED','local_task_ack_admission_execution_and_witness_checked')
+    except Failure as error:
+        return finish('CANCELLED' if error.category=='CANCELLED' else 'NO_DATA',error.category.lower())
+    except Exception:
+        return finish('NO_DATA','host_channel_or_clock_unknown')
