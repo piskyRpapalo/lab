@@ -75,3 +75,54 @@ producer provenance, exact model digest and endpoint evidence; LAB owners should
 provide a host-bound admission object to this adapter. Any subsequent execution
 must still pass through the existing S1/MCP authorization, `Session`, and
 `ExecutionJournal` contracts.
+
+## Junie → MetaHarness producer contract (proposed, not yet authenticated)
+
+The selector handoff must carry separate, closed objects rather than one
+ambiguous `verified=true` flag:
+
+1. `ranking`: `skill_id`, ordered candidate IDs, score, benchmark-family and
+   independent-case refs, quality timestamp, evaluator version, and benchmark
+   receipt ref. Ranking is evidence of measured quality only.
+2. `model_identity`: immutable model ID, exact model digest, architecture and
+   runtime compatibility refs.
+3. `endpoint_identity`: node/host identity ref, backend, endpoint ID, model digest,
+   observed availability and timestamp. A URL or `CONNECTED` declaration alone
+   is not accreditation.
+4. `resource_admission`: exact `task_ref`, selected node/backend/model and
+   admission receipt from the existing LAB `AdmissionGate` host boundary.
+5. `producer_provenance`: agent-card identity, source repository/revision, receipt
+   digest and signature over the canonical complete envelope. The verifier must
+   resolve the producer key through an already authorized host trust source; the
+   envelope cannot supply or self-authorize its own trust key.
+6. `human_review`: explicit state and reference to the existing human decision.
+   It may describe review but cannot be synthesized from Talk text or model output.
+
+The receiving host verifies the envelope signature before consuming its fields,
+then independently checks freshness, task/context binding, model and endpoint
+identity, quality policy, risk policy, and resource admission. Even a valid
+producer signature does not issue a grant. Execution remains gated by the
+existing human grant and S1/Session/ExecutionJournal path. A replay, changed task,
+changed endpoint/model digest, revoked producer key, expired receipt, failed
+quality/safety gate, or absent human grant must reject or abstain.
+
+No existing LAB verifier was found that authenticates Junie's model-selector
+receipts. Do not add a new signer/trust registry here: real handoff remains
+`NO_DATA(authenticated_selector_producer_verifier_unavailable)` until the owner
+provides an existing trust source and a verifiable receipt fixture.
+
+## R2 report-size fix
+
+The CLI provenance summary now carries the full source-manifest digest and file
+count, while the exact path→digest manifest remains reproducible from the
+referenced clean commit and fixed source selection. This avoids embedding the
+entire manifest in every report; the 16,384-byte ceiling is unchanged. The
+regression test rebuilds the manifest and checks its digest against the summary.
+
+## Deferred candidate · DeepSeek V4.1
+
+State remains `NO_DATA(local_runtime_not_admitted)`. Preserve existing partial
+artifacts. A later hardware-admission record must bind witnessed host identity,
+accelerator/runtime versions, measured free memory, exact model/checkpoint digest,
+endpoint/backend, and a bounded inference test receipt. This increment performed
+no model download, deletion, load, or training.

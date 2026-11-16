@@ -1,5 +1,6 @@
 """Pure interoperability controls; all positive evidence is synthetic."""
 import copy
+import hashlib
 import unittest
 from datetime import datetime, timezone
 
@@ -8,6 +9,8 @@ from meta_harness.delegation import Session, TokenBudget
 from meta_harness.specialist_interop import (
     RECOMMENDATION_SCHEMA, evaluate, make_integrity_receipt,
 )
+from meta_harness import cli
+from meta_harness.reuse import PATHS, ROOT
 
 NOW = datetime(2026, 11, 16, 12, 0, tzinfo=timezone.utc)
 
@@ -137,6 +140,18 @@ class SpecialistInteropTests(unittest.TestCase):
         self.assertEqual([item['task_ref'] for item in ordered], sorted(item['task_ref'] for item in outputs))
         self.assertTrue(all(item['state'] == 'SIMULATED_PROPOSAL' for item in ordered))
         self.assertTrue(all(not item['dispatch_authorized'] for item in ordered))
+
+    def test_provenance_report_references_full_manifest_without_embedding_it(self):
+        value = cli.provenance()
+        paths = sorted((ROOT / 'meta_harness').glob('*.py')) + [
+            ROOT / 'benchmarks/fixtures/meta-harness-public-v1.json',
+            cli.throughput.FIXTURE]
+        paths += [ROOT / path for path in PATHS.values()]
+        hashes = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+                  for path in paths}
+        self.assertEqual(value['source_sha256'], sha(hashes))
+        self.assertEqual(value['source_file_count'], len(hashes))
+        self.assertNotIn('files', value)
 
 
 if __name__ == '__main__':

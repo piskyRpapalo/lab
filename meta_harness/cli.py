@@ -116,7 +116,13 @@ def provenance():
             commit = throughput.no_data('uncommitted_evidence_code')
     except (OSError, subprocess.CalledProcessError):
         commit = throughput.no_data('git_source_unavailable')
-    return {'commit': commit, 'source_sha256': sha(hashes), 'files': hashes,
+    # The digest binds the complete sorted path->file-SHA map. Embedding every
+    # entry again in each evidence report duplicated source metadata and could
+    # push otherwise valid reports over the unchanged 16 KiB receipt ceiling.
+    # The exact manifest is reproducible from this commit and the file selection
+    # above; retain its reference and cardinality in the bounded report.
+    return {'commit': commit, 'source_sha256': sha(hashes),
+            'source_file_count': len(hashes),
             'throughput_contract': 'bench-repro-01-v1'}
 
 
