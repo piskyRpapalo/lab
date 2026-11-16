@@ -118,6 +118,43 @@ receipts. Do not add a new signer/trust registry here: real handoff remains
 `NO_DATA(authenticated_selector_producer_verifier_unavailable)` until the owner
 provides an existing trust source and a verifiable receipt fixture.
 
+The related contracts do not close that gap: `ExecutionJournal.GrantVerificationSource`
+is an abstract host boundary with no installed implementation; its scope is
+execution grants, not benchmark producers. p0x `verify_lab_receipt_auth` checks
+that a claimed witness carries a non-null `proof_of_auth` and explicitly leaves
+cryptographic verification to the host. `skill_registry` stores fields but has
+no signature verifier or trusted-key source. None of these may be repurposed as
+proof of Junie producer identity.
+
+### R3 envelope wire shape
+
+The receiver contract is the closed object
+`hexelion.specialist-evidence-envelope/1` with exactly:
+`schema, origin, producer, model, endpoint, task_ref, skill, benchmark,
+admission_ref, hitl, signature, envelope_sha256`.
+
+- `producer`: `producer_id, source_ref, revision, key_ref`.
+- `model`: `model_id, digest, version, architecture`.
+- `endpoint`: `node_id, backend, endpoint_ref, model_digest, state, observed_at`.
+- `skill`: `skill_id, quality_score, safety_gate, security_risk,
+  independent_cases, evidence_refs` (current synthetic threshold `security_risk <= 0.2`).
+- `benchmark`: `benchmark_id, benchmark_sha256, receipt_sha256, observed_at, expires_at,
+  quality_score, independent_cases`.
+- `hitl`: `status, decision_ref`; this only describes review and is not a verified
+  human signature.
+- Measured `signature`: `algorithm=Ed25519, key_ref, value` where `value` is the
+  64-byte signature encoded as 128 lowercase hex characters. It signs the
+  canonical UTF-8 bytes of the envelope excluding `signature` and
+  `envelope_sha256`. The envelope integrity digest is SHA-256 over the canonical
+  envelope excluding `envelope_sha256` and therefore includes the signature.
+
+Synthetic fixtures use `origin=SYNTHETIC` and the exact signature value
+`{algorithm: NONE, key_ref: null, value: null}`. They may validate structure and
+binding only. A forged but well-formed measured signature cannot be distinguished
+from a valid one until an authorized trust source supplies the producer key; it
+therefore remains `NO_DATA`, never an authenticated proposal. An altered signature
+without an updated envelope digest is rejected as an integrity mismatch.
+
 ## R2 report-size fix
 
 The CLI provenance summary now carries the full source-manifest digest and file
