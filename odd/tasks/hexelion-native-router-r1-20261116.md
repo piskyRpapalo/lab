@@ -78,6 +78,13 @@ must still pass through the existing S1/MCP authorization, `Session`, and
 
 ## Junie → MetaHarness producer contract (proposed, not yet authenticated)
 
+Current p0x `skill_selector.py` exports `routing_table` rows with model name,
+quality, safety boolean, fallback name, HITL boolean, and reason. It omits the
+registry's `model_digest`, host/backend, evidence refs, case counts, and verified
+timestamp, and the exported document has no producer signature. Therefore it
+cannot currently satisfy the receiver contract below. Do not infer those omitted
+fields from a model label or selector timestamp.
+
 The selector handoff must carry separate, closed objects rather than one
 ambiguous `verified=true` flag:
 
