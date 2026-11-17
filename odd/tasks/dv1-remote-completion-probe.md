@@ -35,8 +35,8 @@ result checker and genuine host witness. No service is invented to fill those.
 
 Junie consumes probe/verify_completion and exact source/request/reply digests;
 review the operator-channel-to-native-host witness bridge, five-device mapping,
-resource reservation, session fencing and stdout/process cleanup. PI/Hexelion
-consumes synthetic transports and rejects swapped node/context/task/nonce,
+resource reservation, session fencing and stdout/process cleanup. Independent reviewers
+consume synthetic transports and reject swapped node/context/task/nonce,
 checksum-valid forged/mismatched result, expired/future clocks, timeout/network
 loss, duplicate JSON keys, oversize output and alias injection. Neither a probe
 receipt nor an ACK confers authority. Requests for ACK stay in Mesa #3/#37/#39.
@@ -49,3 +49,13 @@ Successful receipts retain nonce, issued/expires/completed UTC times and exact
 request/reply digests. Together with fixed public VALUES and source revision these
 reconstruct both wire documents without storing private SSH configuration. Receipt
 checksum can be revalidated; portable authentication still remains NO_DATA.
+
+Offline consumers can call `verify_completed_receipt_integrity(row)` to
+reconstruct the fixed request/response, verify the exact schema, the program
+fingerprint, time bounds, correlation and nested SHA-256 values. It accepts
+completed receipts only and never confers host authority. Because the checker
+does not observe the SSH channel, a producer can fabricate a self-consistent
+receipt, including relabeling `SIMULATED` as `REAL`. A valid offline checksum
+means **consistency only**, not proof of live transport, physical node identity,
+model execution, consent or admission. Independent channel evidence and a
+separately authorized host witness remain necessary.
