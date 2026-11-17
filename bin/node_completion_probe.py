@@ -168,6 +168,67 @@ def probe(alias, context_ref, *, transport=None, clock=None):
     return row
 
 
+
+def verify_completed_receipt_integrity(row):
+    """Offline checksum/correlation check, NOT proof of transport or host authority.
+
+    A self-consistent receipt can be fabricated by its producer. In particular,
+    this function cannot authenticate 'origin=REAL' without a trusted channel.
+    """
+    try:
+        expected = {
+            'schema', 'state', 'cause', 'origin', 'node_ref', 'request_ref',
+            'context_ref', 'nonce', 'issued_at', 'expires_at', 'program_ref',
+            'authority', 'native_dispatch_authorized', 'APP_E2E',
+            'physical_alias_binding', 'portable_authentication', 'attempts',
+            'reply_ref', 'completed_at', 'receipt_ref',
+        }
+        if (type(row) is not dict or set(row) != expected
+                or len(encoded(row)) >= LIMIT
+                or row['schema'] != 'preceptoros.remote-completion-probe/1'
+                or row['state'] != 'PROBE_COMPLETED'
+                or row['cause'] != 'correlation_and_result_checked'
+                or row['origin'] not in ('REAL', 'SIMULATED')
+                or row['authority'] != 'none'
+                or row['native_dispatch_authorized'] is not False
+                or row['APP_E2E'] is not False
+                or row['physical_alias_binding'] != 'NO_DATA'
+                or row['portable_authentication'] != 'NO_DATA'
+                or type(row['attempts']) is not int or row['attempts'] != 1
+                or type(row['nonce']) is not str
+                or re.fullmatch('[0-9a-f]{32}', row['nonce']) is None
+                or not all(ref(row[k]) for k in
+                           ('node_ref', 'request_ref', 'context_ref', 'program_ref',
+                            'reply_ref', 'receipt_ref'))
+                or row['program_ref'] != hashlib.sha256(REMOTE.encode()).hexdigest()
+                or row['receipt_ref'] != digest({k: v for k, v in row.items()
+                                                 if k != 'receipt_ref'})):
+            return False
+        req = {
+            'schema': 'public-sort-probe/1',
+            'node_ref': row['node_ref'],
+            'nonce': row['nonce'],
+            'context_ref': row['context_ref'],
+            'issued_at': row['issued_at'],
+            'expires_at': row['expires_at'],
+            'values': VALUES[:],
+            'request_ref': row['request_ref'],
+        }
+        reply = {
+            'schema': 'public-sort-completion/1',
+            'node_ref': row['node_ref'],
+            'nonce': row['nonce'],
+            'context_ref': row['context_ref'],
+            'request_ref': row['request_ref'],
+            'values': sorted(VALUES),
+            'observed_at': row['completed_at'],
+        }
+        return (row['reply_ref'] == digest(reply)
+                and verify_completion(req, reply, stamp(row['completed_at'])))
+    except (ValueError, KeyError, TypeError, OverflowError, RecursionError):
+        return False
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--ssh-alias',required=True)

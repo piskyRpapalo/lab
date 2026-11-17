@@ -75,4 +75,42 @@ class ProbeTests(unittest.TestCase):
         self.assertFalse(m.verify_completion(r,reply,NOW))
 
 
+
+    def test_stored_receipt_integrity_is_reconstructable(self):
+        r=m.probe('test-node','a'*64,transport=self.wire(),clock=lambda:NOW)
+        self.assertTrue(m.verify_completed_receipt_integrity(r))
+        self.assertFalse(m.verify_completed_receipt_integrity(None))
+        self.assertFalse(m.verify_completed_receipt_integrity({'state':'NO_DATA'}))
+
+    def test_stored_receipt_rejects_mutation_even_with_rehashed_outer_digest(self):
+        r=m.probe('test-node','a'*64,transport=self.wire(),clock=lambda:NOW)
+        for field,value in [('nonce','0'*32),('request_ref','f'*64),
+                            ('reply_ref','f'*64),('program_ref','f'*64),
+                            ('attempts',True),('authority','host'),
+                            ('native_dispatch_authorized',True),('APP_E2E',True),
+                            ('physical_alias_binding','VERIFIED'),
+                            ('portable_authentication','VERIFIED'),
+                            ('origin','SYNTHETIC'),('completed_at','bad')]:
+            with self.subTest(field=field):
+                bad=dict(r);bad[field]=value
+                bad['receipt_ref']=m.digest({k:v for k,v in bad.items() if k!='receipt_ref'})
+                self.assertFalse(m.verify_completed_receipt_integrity(bad))
+
+    def test_stored_receipt_rejects_extra_authority_claim(self):
+        r=m.probe('test-node','a'*64,transport=self.wire(),clock=lambda:NOW)
+        r['human_authorized']=True
+        r['receipt_ref']=m.digest({k:v for k,v in r.items() if k!='receipt_ref'})
+        self.assertFalse(m.verify_completed_receipt_integrity(r))
+
+    def test_checksum_cannot_attest_transport_origin(self):
+        r=m.probe('test-node','a'*64,transport=self.wire(),clock=lambda:NOW)
+        # A producer can relabel SIMULATED as REAL and compute a matching hash.
+        # A True integrity verdict MUST NEVER be promoted to live authentication.
+        self.assertEqual(r['origin'],'SIMULATED')
+        r['origin']='REAL'
+        r['receipt_ref']=m.digest({k:v for k,v in r.items() if k!='receipt_ref'})
+        self.assertTrue(m.verify_completed_receipt_integrity(r))
+        self.assertEqual(r['portable_authentication'],'NO_DATA')
+
+
 if __name__=='__main__':unittest.main()
