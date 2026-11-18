@@ -92,11 +92,16 @@ Directed and canonical gates (twice, exact branch head):
     PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest tests.test_lora_runtime_probe
     PYTHONDONTWRITEBYTECODE=1 python3 -B -m unittest discover -s tests -p test_*.py
 
-Additional exact-head gates (Codex GPT-6 Web review, 2026-11-18):
-commit 9928e84, directed 23/23 PASS x2; full LAB 1256 total
-(1255 PASS + 1 SKIP) x2, zero failures. A deliberate digest-check
-mutation made the directed regression RED; unmodified code GREEN.
-Counts supersede the earlier pre-commit suite census in the local trial.
+Historical gate snapshot on code commit 9928e84 (2026-11-18):
+directed 23/23 PASS x2; LAB full 1256 total (1255 PASS + 1 SKIP)
+x2, zero failures. A separately asserted digest-mutation sabotage has
+NO_DATA(no_mutation_receipt_attached); negative fixture tests are not
+evidence that a live source mutation was executed. The originally
+published receipt count refers to the earlier source tree.
+
+After the KV-cache safety change at 18480af: directed 25 PASS x2;
+LAB full 1258 total (1257 PASS + 1 SKIP) x2; both companion gates x2.
+These values must be rechecked against the final PR head before merge.
 
 **Limitations / NO_DATA:** real loaded-tensor attestation, original HF model
 revision used during training, independently scored semantic quality,
