@@ -206,7 +206,8 @@ def snapshot(*, endpoint: str, node: str, base_path: str, base_sha256: str,
 
 def prepare_request_head(*, witness: dict, base_ref: str, adapter_ref: str,
                          session_ref: str, context_ref: str, tool_scope_ref: str,
-                         permission_ref: str, verify_witness, now: datetime) -> dict:
+                         permission_ref: str, verify_witness, now: datetime,
+                         mode: str = "adapter") -> dict:
     """Bind an operator-chosen adapter SHA to a catalog ID, never choose by model text.
 
     The engine can silently accept a request referring to a nonexistent adapter
@@ -216,7 +217,7 @@ def prepare_request_head(*, witness: dict, base_ref: str, adapter_ref: str,
     """
     row = dict(schema="preceptoros.lora-request-binding/1", state="NO_DATA",
                cause="UNVERIFIED", selection_ref=None, lora=[],
-               dispatch_authorized=False, cache_reuse_authorized=False,
+               cache_prompt=False, dispatch_authorized=False, cache_reuse_authorized=False,
                promotion="NOT_AUTHORIZED")
     def finish(cause: str):
         row["cause"] = cause
@@ -225,6 +226,8 @@ def prepare_request_head(*, witness: dict, base_ref: str, adapter_ref: str,
             raise ValueError("receipt_budget")
         return row
     try:
+        if type(mode) is not str or mode not in ("base", "adapter"):
+            return finish("REQUEST_MODE_INVALID")
         refs = (base_ref, adapter_ref, session_ref, context_ref,
                 tool_scope_ref, permission_ref)
         if not all(type(v) is str and HEX.fullmatch(v) for v in refs):
@@ -269,11 +272,16 @@ def prepare_request_head(*, witness: dict, base_ref: str, adapter_ref: str,
         binding = dict(base_ref=base_ref, adapter_ref=adapter_ref,
                        session_ref=session_ref, context_ref=context_ref,
                        tool_scope_ref=tool_scope_ref, permission_ref=permission_ref,
-                       snapshot_ref=witness["snapshot_ref"], adapter_id=identifier)
+                       snapshot_ref=witness["snapshot_ref"], adapter_id=identifier,
+                       mode=mode)
         if type(binding["snapshot_ref"]) is not str or not HEX.fullmatch(binding["snapshot_ref"]):
             return finish("WITNESS_SNAPSHOT_INVALID")
+        # A per-request list names the head, never the global server state.
+        # Cache remains OFF for adapter and base requests until switching/KV
+        # invalidation is independently proven on this exact runtime.
+        selected = [{"id": identifier, "scale": 1.0}] if mode == "adapter" else []
         row.update(state="PREPARED_ONLY", cause="NOT_AN_EXECUTION_OR_CACHE_GRANT",
-                   selection_ref=sha(binding), lora=[{"id": identifier, "scale": 1.0}])
+                   selection_ref=sha(binding), lora=selected, cache_prompt=False)
         return finish(row["cause"])
     except Exception:
         return finish("HOST_OR_WITNESS_ERROR")

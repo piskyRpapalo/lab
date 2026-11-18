@@ -110,3 +110,40 @@ APP adaptador_registro.py, Mesa private #39/#40. Scientific comparison:
 llama.cpp native per-request routing vs LRAgent/PReCache style shared KV,
 with a verified compatibility and cache invalidation witness before
 performance claims. Never add another agent or register a second authority.
+
+
+## Follow-up KV-return RED · fresh independent server, same day
+
+The initial LoRA E2E deliberately used cache_prompt=false; it proved correct
+head request routing, NOT correctness of cache reuse. An independent fresh
+llama.cpp b10488 server (separate loopback port and process, same pinned
+CPU/base/head artifacts, global scales 0,0 throughout) compared:
+
+- Two distinct synthetic tasks; for each, deterministic base control
+  with cache_prompt=false repeated twice.
+- Six head-to-base transitions: R8 -> base, R16 -> base, R8 -> base
+  for each prompt. Adapter request had cache_prompt=true; then base
+  with cache_prompt=true; then identical base with cache_prompt=false.
+- **RED 6/6:** cached base reply SHA-256 differed from its fresh base control
+  while server reported 52 or 55 cached prompt tokens.
+- **GREEN 6/6:** fresh base reply with cache_prompt=false matched the
+  independently established base control digest exactly. The adapter
+  selection never modified the global LoRA scales.
+
+This is observed output divergence associated with prompt caching across
+head transitions, **not proof of the internal tensor/KV mechanism**.
+The model, host, runtime build and workload are fixed; the cause remains
+NO_DATA(exact_KV_tensor_cause_not_attested), and results do not generalize
+to other engines or hardware. This RED is recorded separately in
+benchmarks/receipts/20261118-lora-kv-return-red.json (681 bytes).
+
+**Native fail-closed change:** prepare_request_head now has an explicit
+operator-owned mode, adapter (returns exact attested LoRA ID) or base (returns
+empty adapter list). Both ALWAYS produce cache_prompt=false and
+cache_reuse_authorized=false, bound to different selection_refs.
+A model cannot opt in to reuse, and the helper never grants execution.
+The existing dispatch client must honor this flag for ALL request modes,
+especially the return-to-base. Current LAB only prepares the flags;
+actual production wiring is NO_DATA(not_wired). Cache optimizations may
+be reconsidered only after independent no-cache vs cached comparisons,
+head-transition negative controls and exact backend/runtime pinning.

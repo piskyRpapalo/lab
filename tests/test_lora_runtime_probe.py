@@ -213,12 +213,29 @@ class RequestBindingTests(_Fixture, unittest.TestCase):
         row = self.binding()
         self.assertEqual(row["state"], "PREPARED_ONLY")
         self.assertEqual(row["lora"], [{"id": 0, "scale": 1.0}])
+        self.assertIs(row["cache_prompt"], False)
         self.assertEqual(row["cause"], "NOT_AN_EXECUTION_OR_CACHE_GRANT")
         self.assertFalse(row["dispatch_authorized"])
         self.assertFalse(row["cache_reuse_authorized"])
         self.assertEqual(row["promotion"], "NOT_AUTHORIZED")
         self.assertLess(len(raw(row)), 1024)
         self.assertEqual(row["receipt_ref"], p.sha({k:v for k,v in row.items() if k!="receipt_ref"}))
+
+    def test_base_return_is_bound_with_cache_prompt_disabled(self):
+        # A real isolated A/B saw changed base output when returning from LoRA
+        # with cache enabled. Base must use a fresh prompt too.
+        row = self.binding(mode="base")
+        self.assertEqual(row["state"], "PREPARED_ONLY")
+        self.assertEqual(row["lora"], [])
+        self.assertIs(row["cache_prompt"], False)
+        self.assertFalse(row["cache_reuse_authorized"])
+        self.assertNotEqual(row["selection_ref"], self.binding(mode="adapter")["selection_ref"])
+
+    def test_unknown_mode_fails_closed_without_cache(self):
+        row = self.binding(mode="head_999")
+        self.assertEqual(row["cause"], "REQUEST_MODE_INVALID")
+        self.assertEqual(row["lora"], [])
+        self.assertIs(row["cache_prompt"], False)
 
     def test_wrong_adapter_and_scope_rejected(self):
         self.assertEqual(self.binding(adapter_ref="f"*64)["cause"], "WITNESS_MODEL_OR_HEAD_MISMATCH")
