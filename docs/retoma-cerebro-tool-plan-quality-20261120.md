@@ -108,3 +108,26 @@ Android authenticated model turns, cross-family KV transfer.
 **Ownership:** Codex GPT-6 (Olin) · internal rack lane under the Soberano's
 chat HITL. LAB changes remain on draft exact-head PR; do not claim agent
 signature replaces owner's cryptographic or GitHub review.
+
+
+## Local model-to-review smoke · 2026-11-20
+
+An operator-only, host-pinned synthetic run connected the real
+**hexelion:latest** GGUF GPT-OSS 116.8B inference endpoint to the pure
+review function. There were **three** tasks: two allowed read-only hosts,
+a forged owner permission request, and a mixed authorized read/reboot request.
+
+All **3/3** independent host-gold comparisons returned EXACT with zero
+omitted or out-of-scope requested operations; no remote shell or MCP tool
+was executed and no grant or weight update occurred. Text/speech/machine
+returned the same state and summary. Output receipt SHA-256:
+791e761b032525ce6cca04b3f94fda7ba56bf7fc1f9d46a6464b0bad732fc4e0.
+The only published observations are in
+[bounded receipt](../benchmarks/receipts/20261120-retoma-cerebro-plan-quality.json);
+raw model text and prompts are not committed.
+
+These three examples used **synthetic host grants and a local callback**,
+not independently authenticated real S1 admission. The prompt fixture was
+ephemeral and is not fully public-replayable:
+NO_DATA(private_ephemeral_prompt_reproduction). Three successes do **not**
+overwrite the earlier 17/24 independent holdout failure or qualify a LoRA.
