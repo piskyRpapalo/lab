@@ -6,6 +6,8 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 
 Broadcast receipts now lead all 32 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
+- [Context fusion · calibrated synthetic evidence windows · 2026-11-20](context-fusion-20261120/README.md): 64 constructed cases; source-bound 2D alignment 64/64 vs raw 19/64; malformed anchors and unauthorized sources refused. Evidence slots are not model token windows; real KV/cache transfer is NO_DATA.
+
 Delegation evidence: [META-HARNESS-01 outcomes](receipts/20261112-meta-harness-summary.md) retain failed model probes, safe abstentions and two measured Hexelion-to-native-tool executions. One public case, fixed grants, receipts and explicit LoRA refusal; not general model accuracy or autonomous APP E2E.
 
 Public reproduction method: [BENCH-REPRO-01](../odd/tasks/bench-repro-01.md) extends the existing two-pass local runner with a public synthetic fixture. [Four new Qwen3 samples](receipts/20261112-public-throughput-qwen3.json) retain source and fixture hashes; this is a new experiment, not byte-identical reproduction of the unpublished #164 input. Throughput and task accuracy remain separate.
