@@ -1,8 +1,9 @@
 # Hexelion v1 · synthetic host-policy routing holdout · 2026-11-20
 
-Benchcard: machine=Beelink x86_64 via Onexstation inference tunnel | date=2026-11-20 | runner=private synthetic policy fixture, Python 3.14.4, model hexelion:latest | quant=NO_DATA(exact_GGUF_quant_label_unverified) | sha256=215f8c4120b3574fdc86d55a0bb6e712301205312adb56bcaf97e2697986156a
 
 Broadcast receipt: figure=17/24 exact proposals (70.8%), 0 out-of-policy selections among 21 schema-valid outputs | model=hexelion:latest (116.8B GPT-OSS GGUF) | machine=Beelink x86_64 inference proxy to Onexstation | date=2026-11-20 | sha256=d18ee9819d2413e823710f4d4225dabff8d6c5162478141619e7633b7552164b (private local measurement; not a signature).
+
+Benchcard: machine=Beelink x86_64 via Onexstation inference tunnel | date=2026-11-20 | runner=private synthetic policy fixture, Python 3.14.4, model hexelion:latest | quant=NO_DATA(exact_GGUF_quant_label_unverified) | sha256=215f8c4120b3574fdc86d55a0bb6e712301205312adb56bcaf97e2697986156a
 
 **RED benchmark, not a production readiness certificate.** The experiment generated natural-language requests for a **synthetic** five-Linux allowlist and separately supplied a host-policy fixture. It asked the local model to emit a closed JSON list of `READ_ARCH` proposals. There was no real SSH dispatch or human authorization in this 24-case holdout. The authorization oracle was independently encoded in the fixture, not computed from the model answer.
 
