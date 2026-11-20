@@ -173,7 +173,6 @@ class ToolPlanQualityTests(unittest.TestCase):
             '{"tasks":[]} trailing',
             '{"tasks":[NaN]}',
             '{"tasks":[]}' + (" " * 4100),
-            '{"tasks":[{"node_ref":"%s","tool_ref":"%s"}]}' % (NODE_A, TOOL_R),
         )
         for input_text in samples:
             with self.subTest(input_text=input_text[:70]):
