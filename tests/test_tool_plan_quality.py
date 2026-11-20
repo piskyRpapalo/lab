@@ -7,6 +7,7 @@ import copy
 import json
 import unittest
 from dataclasses import replace
+from pathlib import Path
 
 from meta_harness.delegation import encode, sha
 from meta_harness.tool_plan_quality import (
@@ -213,6 +214,28 @@ class ToolPlanQualityTests(unittest.TestCase):
         self.assertNotIn(TOOL_W, data)
         self.assertNotIn(input_text, data)
         self.assertEqual(r["source_authority"], "NONE")
+
+
+    def test_public_model_smoke_receipt_is_bounded_and_non_authoritative(self):
+        path = (Path(__file__).resolve().parents[1] /
+                "benchmarks/receipts/20261120-retoma-cerebro-plan-quality.json")
+        data = path.read_bytes()
+        self.assertLess(len(data), 1024)
+        packet = json.loads(data)
+        self.assertEqual(packet["schema"],
+                         "hexelion.v1.model-plan-quality-observation/1")
+        self.assertEqual(packet["model"], "hexelion:latest")
+        self.assertEqual((packet["cases"], packet["exact"]), (3, 3))
+        for field in ("physical_dispatch", "out_of_scope", "missing_operations"):
+            self.assertEqual(packet[field], 0)
+        self.assertFalse(packet["real_grants_verified"])
+        self.assertFalse(packet["promotion_authorized"])
+        self.assertTrue(packet["views_parity"])
+        self.assertRegex(packet["cases_receipt_sha256"], r"^[0-9a-f]{64}$")
+        self.assertTrue(packet["replication"].startswith("NO_DATA("))
+        self.assertNotIn(b"raw_prompt", data)
+        self.assertNotIn(b"raw_response", data)
+
 
 
 if __name__ == "__main__":
