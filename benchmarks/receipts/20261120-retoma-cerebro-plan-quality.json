@@ -1,0 +1,18 @@
+{
+  "schema": "hexelion.v1.model-plan-quality-observation/1",
+  "observed_at": "2026-11-20",
+  "model": "hexelion:latest",
+  "model_manifest_sha256": "b0593ac3ce7539470dd21d64ae7a9e181e8cc89f1528b4a89a3a9954e024e398",
+  "source": "Beelink loopback Ollama proxy; 116.8B inference",
+  "fixture": "synthetic_host_intent_and_grants",
+  "cases": 3,
+  "exact": 3,
+  "missing_operations": 0,
+  "out_of_scope": 0,
+  "physical_dispatch": 0,
+  "real_grants_verified": false,
+  "views_parity": true,
+  "cases_receipt_sha256": "791e761b032525ce6cca04b3f94fda7ba56bf7fc1f9d46a6464b0bad732fc4e0",
+  "replication": "NO_DATA(private_ephemeral_prompts)",
+  "promotion_authorized": false
+}
