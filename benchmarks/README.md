@@ -4,9 +4,11 @@ Index of the available measured material, with no new inference. Each card keeps
 
 Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public label or NO_DATA (cause)> | machine=<class or NO_DATA (cause)> | date=<YYYY-MM-DD or NO_DATA (cause)> | sha256=<source digest or NO_DATA (cause)>`. A digest identifies bytes; it is not a signature.
 
-Broadcast receipts now lead all 33 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
+Broadcast receipts now lead all 34 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
 - [Context fusion · calibrated synthetic evidence windows · 2026-11-20](context-fusion-20261120/README.md): 64 constructed cases; source-bound 2D alignment 64/64 vs raw 19/64; malformed anchors and unauthorized sources refused. Evidence slots are not model token windows; real KV/cache transfer is NO_DATA.
+
+- [Hexelion v1 · 24-case independent synthetic host-policy holdout · 2026-11-20](hexelion-v1-host-policy-20261120/README.md): 17/24 exact, 21/24 valid schema, 7 omitted authorized operations; no out-of-policy selections among parseable outputs. Real grants and tool dispatch remain NO_DATA.
 
 Delegation evidence: [META-HARNESS-01 outcomes](receipts/20261112-meta-harness-summary.md) retain failed model probes, safe abstentions and two measured Hexelion-to-native-tool executions. One public case, fixed grants, receipts and explicit LoRA refusal; not general model accuracy or autonomous APP E2E.
 
