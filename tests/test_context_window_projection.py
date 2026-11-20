@@ -138,7 +138,7 @@ class ContextWindowProjectionTests(unittest.TestCase):
 
     def test_model_budget_or_tool_scope_does_not_grant(self):
         _,ws=sample()
-        switched=run(windows=(replace(ws[0],context_budget_bytes=300),ws[1]))
+        switched=run(windows=(replace(ws[0],context_budget_bytes=300,max_chunks=3),ws[1]))
         self.assertGreater(switched['details'][0]['selected_bytes'],run()['details'][0]['selected_bytes'])
         self.assertFalse(switched['receipt']['dispatch_authorized'])
         self.assertFalse(switched['receipt']['kv_reuse_authorized'])
