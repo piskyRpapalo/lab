@@ -79,7 +79,13 @@ def select_chunks(query: str, chunks: Iterable[Chunk], policy: SelectionPolicy) 
         return Selection("NO_DATA", "query has no indexable terms", (), ())
 
     corpus = tuple(chunks)
-    df = {term: sum(term in set(_terms(chunk.text)) for chunk in corpus) for term in query_terms}
+    # Excluded or over-budget sources must not influence document frequencies:
+    # even their presence must not change the context an authorized query sees.
+    eligible = tuple(chunk for chunk in corpus
+                     if not chunk.excluded
+                     and chunk.source_id not in policy.exclude_source_ids
+                     and chunk.byte_count <= policy.max_chunk_bytes)
+    df = {term: sum(term in set(_terms(chunk.text)) for chunk in eligible) for term in query_terms}
     ranked: list[RankedChunk] = []
     excluded: list[ExcludedChunk] = []
     for chunk in corpus:
@@ -99,7 +105,7 @@ def select_chunks(query: str, chunks: Iterable[Chunk], policy: SelectionPolicy) 
             continue
         score = 0
         for term, count in term_counts.items():
-            score += min(count, 8) * (len(corpus) + 1) * policy.idf_scale // (df[term] + 1)
+            score += min(count, 8) * (len(eligible) + 1) * policy.idf_scale // (df[term] + 1)
         ranked.append(RankedChunk(chunk, score, "integer lexical overlap with inverse document frequency"))
 
     ranked.sort(key=lambda item: (-item.priority, item.chunk.chunk_id))
