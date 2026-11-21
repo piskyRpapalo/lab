@@ -125,7 +125,7 @@ def audit(timeline,snapshots,*,validate_schema,verify_source,now,verify_observat
             if m.get("valid-from")!=when.date().isoformat() or (last is not None and when<=last):return fail("moment_order")
             last=when;raw=snapshots.get(ref)
             if type(raw) is not bytes or not 1<=len(raw)<=16384:return fail("snapshot_missing")
-            if sha256(raw).hexdigest()!=digest:return fail("snapshot_hash_mismatch")
+            if sha256(raw).hexdigest()!=digest:return fail("snapshot_sha_mismatch")
             doc=parse(raw)
             if doc.get("$schema")!=ARCH or validate_schema(ARCH,doc) is not True:return fail("architecture_schema_invalid")
             err=graph(doc)
