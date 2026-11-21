@@ -35,9 +35,15 @@ Direct remote identities were verified through the owner's existing SSH known_ho
 | Qwen3 1.7B control | ARM64 edge board | **MEASURED** | 2 x 2 = 4 | 9.228603 / 10.007279 / 9.989695 / 9.395382 tok/s; median **9.692539 tok/s** | NO_DATA(no_quality_eval) |
 | Qwen2.5 1.5B control | NVIDIA ARM64 edge | **MEASURED** | 2 x 2 = 4 | 35.630617 / 35.871705 / 33.270639 / 35.834387 tok/s; median **35.732502 tok/s** | NO_DATA(no_quality_eval) |
 | LFM3 1.7B Q4 | ARM64 edge board + NVIDIA edge | **HOLD** (new runtime required) | 0 | NO_DATA(no_inference) | NO_DATA |
-| Inkling 2 Mini | AMD station | **HOLD** (runtime/format/GPU qualification) | 0 | NO_DATA(no_inference) | NO_DATA |
+| Inkling 2 Mini IQ4_NL | AMD station | **MEASURED_CPU_ONLY** (GPU HOLD) | 2 x 2 (prefill/decode) | prefill 61.923764 tok/s, decode 12.455315 tok/s | NO_DATA(pending_quality_exploratory) |
 
 **Research axes for the follow-on benchmark:** exact plan, correct NO_DATA/false abstention, refusal and revocation by S1, typed source/TTL, intelligible ACHO text/voice/machine equivalence, serial adapter changes, context pinning and cache epoch. A semantic cache or projected H state **is not** a validated shared KV cache across heterogeneous model architectures. Rotation of LoRA heads is hypothetical until the exact trained adapters, model base revision, tokenizer, binding, cache invalidation, rollback and independent judging have all passed.
+
+## Inkling 2 Mini CPU-only GGUF receipt (2026-11-21)
+
+On remote AMD x86_64 unified-memory station, isolated `llama.cpp` compiled at source commit `e6d624b9a4b95c6b52f5ca384d70b75581f9821a`, standalone binary digest SHA256 `74aadfd64422a6f749878e9d10455149345dad70098303cc052600c52ef9339c`; **not** the installed Ollama service. Official ggml-org Inkling-2-Mini `IQ4_NL` file size **17,627,940,768 bytes**, independently matched official LFS SHA256 `cbdf3fa9dc50a4124977980f37da4f1fa764b0cfe800d275cd43d26ce2a81af4`. This is **not** the original mixed NVFP4/MXFP8 checkpoint and makes no claim for its performance.
+
+Direct `llama-bench` CPU-only `-p 128 -n 32 -r 2 -t 8 -ngl 0 -o jsonl` exit 0, 16.093 s wall. Prefill 128-token samples **64.3852 / 59.4624 tok/s**, average **61.923764** (SD 3.480928); generation 32-token samples **12.2757 / 12.6349 tok/s**, average **12.455315** (SD 0.254022). Raw benchmark result stays private with exact SHA256 `a68a5b5a1ffa589b8b7179dee4e54560f4d508624c11ea96521a98a55ee6ca7e`. No power or RAM peak sensor capture in this first test. **NO_DATA(Inkling_GPU;Inkling_model_quality;LoRA_trainability;Android_run;cross_model_KV)**. This is a new `llama-bench` yardstick and **not comparable to the Ollama 64-generation-token controls without re-running both in the same engine and settings**.
 
 ## First remote receipts (2026-11-21; exact existing LAB runner)
 
@@ -62,6 +68,6 @@ Reuse [`c2c-cache-scope.md`](c2c-cache-scope.md), `c2c_preflight`, `head_eligibi
 
 ## Next action
 
-Remote control receipts done; qualify private compatible LFM3 runtime without changing the installed Ollama service; confirm Inkling's local runtime against AMD unified memory before 20 GB download; then append exact hashes, sample counts, failures, and narrow verdicts. **NO_DATA(new_models_measured)** until the inference actually occurs.
+Remote controls and Inkling CPU-only measurements are completed and recorded above. LFM3 portable engines on ARM64 are still building; GPU acceleration and model-quality suites remain separate, pending. Study LoRA only with exact trained-compatible checkpoint and holdout.
 
 — Codex GPT-6 · benchmark owner for this isolated study only.
