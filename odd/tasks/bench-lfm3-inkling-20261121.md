@@ -71,6 +71,21 @@ Identical **verified** GGUF binary on both hosts: 1,099,627,808 bytes, SHA-256 `
 
 An unqualified exploratory `llama-cli` prompt-only trial on Inkling reported 0/6 unique JSON objects; inspection showed interactive chat/reasoning/prompt echo in captured stdout, and stopping at the generation limit, making the parser/answer boundary unsuitable for semantic scoring. Its private receipt digest is `07a4719b0682f1a7528f68262ff011a959433035d277bf02f9f3c351813d72aa`. Preserve this failure as **NO_DATA(valid_semantic_evaluator)** rather than asserting that Inkling cannot follow instructions. Next evaluator uses isolated `llama-server` OpenAI-compatible chat messages, explicit output grammar, sealed synthetic tasks, and retains separate validity/exactness metrics. Even then labels authored for this study are *not* independent held-out gold.
 
+
+## Jetson: LFM3 same-weight CPU benchmark (2026-11-21)
+
+The NVIDIA Jetson/la-torre ARM64 node completed an isolated recent `llama.cpp` CPU benchmark after a long local compile. The first remote SSH bridge request expired after 600 s **without cancelling the child build**; subsequent verified remote inspection observed its continued progress and exact completion. No duplicate compile, model pull or inference was started. The existing Jetson Ollama 0.33.2 service and models were not updated, unloaded or restarted.
+
+Model file: same official LiquidAI LFM3-1.7B Q4_K_M, **1,099,627,808 bytes**, SHA-256 `3793e1e6e2266919d6e015287221b41100175a98eddaba92e111aed3b05c93c4`. Source pinned `llama.cpp` commit `e6d624b9a4b95c6b52f5ca384d70b75581f9821a`, compiled binary SHA-256 `c37d56e481f2b386a1c0d68f1022be4bdaed10320b75395f2e42a943893b7d38`.
+
+Conditions: CPU-only, **4 threads**, `llama-bench -p 128 -n 32 -r 2 -t 4 -ngl 0 -o jsonl`, repeated in two separate executions, 4 valid samples per axis, zero failures.
+
+- Prefill throughput: **14.2749, 14.2785, 14.2751, 14.2783 tok/s**; median **14.2767**.
+- Decode throughput: **10.3975, 10.3988, 10.3861, 10.3966 tok/s**; median **10.39705**.
+- Two-run total wall: **67.87 s**. Receipt SHA-256 `8c0f622abe937e516d6f5a2a648708f705db691a4ff173fbe88fe1d3e582c547`.
+
+On Orange Pi, the same GGUF/benchmark/settings and four CPU threads produced decode median **12.452 tok/s**, vs **10.39705 tok/s** on Jetson: a host-specific CPU-only result, **not** a causal hardware superiority claim. CPU governor, thermals, frequency, inference placement and energy were not controlled or metered. Jetson GPU acceleration is **NO_DATA(not_run)**.
+
 ## Data hygiene and gates
 
 1. Keep full machine-local receipts private under owner-only permissions. Store only counts, digests, commands, sanitized capability descriptions, failures and source/version hashes in PR.
