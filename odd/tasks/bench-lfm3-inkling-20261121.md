@@ -25,7 +25,7 @@
 
 Direct remote identities were verified through the owner's existing SSH known_hosts with `StrictHostKeyChecking=yes`. The Beelink was an SSH pass-through only; inference for the above cohort belongs on the remote endpoints. OS RAM and GPU memory are separate accounting domains.
 
-**Upstream compatibility:** LiquidAI's [LFM3 GGUF model card](https://huggingface.co/LiquidAI/LFM3-1.7B-GGUF) requires **Ollama >= 0.40.12**. Do not attempt to run it with any version above; test a portable, isolated recent llama.cpp build or private Ollama runtime without upgrading live services. [Inkling 2 Mini](https://huggingface.co/thinkingmachines/Inkling-2-Mini) (Apache-2.0; 26.4B total, 3.4B active, ~20 GB mixed NVFP4/MXFP8) has published inference support, but AMD device/backend/precision and memory residency remain unqualified. 3.4B active does not mean 3.4B resident.
+**Upstream compatibility:** LiquidAI's [LFM3 GGUF model card](https://huggingface.co/LiquidAI/LFM3-1.7B-GGUF) requires **Ollama >= 0.40.12**. Do not attempt to run it with any older version; test a portable, isolated recent llama.cpp build or private Ollama runtime without upgrading live services. [Inkling 2 Mini](https://huggingface.co/thinkingmachines/Inkling-2-Mini) (Apache-2.0; 26.4B total, 3.4B active, ~20 GB mixed NVFP4/MXFP8) has published inference support, but AMD device/backend/precision and memory residency remain unqualified. 3.4B active does not mean 3.4B resident.
 
 ## Measurement matrix
 
