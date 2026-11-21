@@ -142,3 +142,24 @@ class CalmAtlasGate(unittest.TestCase):
  def test_reused_path(self):
   t=copy.deepcopy(self.timeline);t["moments"][1]["details"]["detailed-architecture"]=self.p1
   self.assertEqual(self.run_case(t)["cause"],"unsafe_snapshot_reference")
+
+ def test_indirect_public_to_native_bridge(self):
+  self.mutate(lambda g:(g["nodes"].append(node("relay")),
+                        g["relationships"].append(edge("public-relay","web","relay")),
+                        g["relationships"].append(edge("relay-native","relay","bridge"))),"public_native_denied")
+ def test_two_relays_to_native_bridge(self):
+  self.mutate(lambda g:(g["nodes"].extend([node("relay-a"),node("relay-b")]),
+                        g["relationships"].extend([edge("web-a","web","relay-a"),
+                            edge("a-b","relay-a","relay-b"),
+                            edge("b-native","relay-b","bridge")])),"public_native_denied")
+ def test_reversed_flow_from_public_to_native(self):
+  self.mutate(lambda g:(g["relationships"].append(edge("native-to-public","bridge","web")),
+       g["flows"].append({"unique-id":"reverse-access","name":"reverse","description":"test",
+       "transitions":[{"relationship-unique-id":"native-to-public","sequence-number":1,
+                       "description":"reverse","direction":"destination-to-source"}]})),"public_native_denied")
+ def test_native_outbound_without_reverse_is_allowed(self):
+  g=architecture();g["relationships"].append(edge("native-to-web","bridge","web"))
+  raw=enc(g);t=copy.deepcopy(self.timeline)
+  t["moments"][0]["metadata"]["hexelion"]["snapshot_sha256"]=hashlib.sha256(raw).hexdigest()
+  snapshots=dict(self.snap);snapshots[self.p1]=raw
+  self.assertEqual(self.run_case(t,snapshots)["state"],"DOCUMENT_CHECKED")

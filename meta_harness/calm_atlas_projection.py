@@ -80,6 +80,30 @@ def graph(g):
             if t.get("direction")=="destination-to-source":a,b=b,a
             if prev is not None and prev!=a:return "flow_disconnected"
             prev=b
+    # CALM connects records links; access through intermediate nodes is still
+    # access to the privileged bridge. Test reachability, not only direct edges.
+    reachable = {}
+    for src, dst in directed.values():
+        reachable.setdefault(src, set()).add(dst)
+    for flow in g.get("flows", []):
+        for transition in flow["transitions"]:
+            if transition.get("direction") == "destination-to-source":
+                src, dst = directed[transition["relationship-unique-id"]]
+                reachable.setdefault(dst, set()).add(src)
+    privileged = {name for name, data in pool.items()
+                  if data["metadata"]["hexelion"].get("boundary") == "PRIVILEGED_NATIVE"}
+    public = [name for name, data in pool.items()
+              if data["metadata"]["hexelion"].get("boundary") == "PUBLIC_REMOTE"]
+    for origin in public:
+        seen = {origin}
+        pending = [origin]
+        while pending:
+            for target in reachable.get(pending.pop(), ()):
+                if target in privileged:
+                    return "public_native_denied"
+                if target not in seen:
+                    seen.add(target)
+                    pending.append(target)
     return None
 def delta(old,new):
     out={}
