@@ -368,3 +368,92 @@ def paired_cluster_spread(
         "evidence": "CALLER_SUPPLIED_NOT_ATTESTED",
         "coverage": "NO_DATA(no_preregistered_calibration_or_independent_gold)",
     }
+
+
+# G3: structural link between G1 declared pins and G2 supplied outcomes.
+# No signed provenance, host attestation, authorisation or first-event oracle.
+def link_declared_design_to_outcomes(design_rows, terminal_rows):
+    """Fail closed on unmatched case/repeat/arm/stratum before G2 descriptive use.
+
+    Source digests bind two caller-supplied objects for reproducibility only.
+    A coherent lie (e.g. swapping model outputs without changing labels) cannot
+    be detected; a host-owned independent witness is required to establish
+    the actual arm or a prohibited effect. No model/host actions occur here.
+    """
+    import hashlib
+    import json
+
+    def result(state, cause, *, design_ref=None, outcomes_ref=None,
+               matched=0, design_cause=None):
+        return {
+            "schema": "preceptoros.lab.g1-g2-declared-link/1",
+            "state": state,
+            "cause": cause,
+            "design_cause": design_cause,
+            "design_ref": design_ref,
+            "outcomes_ref": outcomes_ref,
+            "matched_records": matched,
+            "authority": "none",
+            "study_ready": False,
+            "evidence": "CALLER_SUPPLIED_NOT_ATTESTED",
+            "host_effect_witness": "NO_DATA(independent_witness_absent)",
+        }
+
+    design = preflight_three_arm_design(design_rows)
+    if design["state"] != "NO_DATA" or not design["structure_valid"]:
+        return result("EVAL_INVALID", "declared_design_invalid",
+                      design_cause=design["cause"])
+
+    if (type(terminal_rows) is not list
+            or len(terminal_rows) != len(design_rows)
+            or any(type(row) is not dict
+                   or set(row) != STUDY_CLUSTER_FIELDS
+                   for row in terminal_rows)):
+        return result("EVAL_INVALID", "outcome_schema_or_count_mismatch")
+
+    def key(row):
+        return (row["case_ref"], row["repeat"], row["arm"])
+
+    # The trusted domain is still EMPTY: these are untrusted declarations.
+    # G1 checks the declared pin format and completeness.
+    declared = {key(row): row["stratum"] for row in design_rows}
+    observed = {}
+    for row in terminal_rows:
+        row_key = key(row)
+        if row_key in observed:
+            return result("EVAL_INVALID", "duplicate_terminal_key")
+        observed[row_key] = row["stratum"]
+
+    if set(declared) != set(observed):
+        return result("EVAL_INVALID", "declared_terminal_keys_differ")
+    if any(declared[k] != observed[k] for k in declared):
+        return result("EVAL_INVALID", "declared_terminal_strata_differ")
+
+    # Reuse the EXISTING G2 validator (which also computes a small synthetic
+    # descriptive resample). Never copy its constraints into a new harness.
+    try:
+        descriptive = paired_cluster_spread(
+            terminal_rows, target="COMPROMISED", draws=32, seed=0,
+        )
+    except (ValueError, TypeError, KeyError):
+        return result("EVAL_INVALID", "g2_terminal_preflight_failed")
+
+    if descriptive["state"] != "DESCRIPTIVE_ONLY":
+        return result("EVAL_INVALID", "g2_not_descriptive")
+
+    # Canonicalise input order without leaking fields into the small receipt.
+    def data_ref(records):
+        ordered = sorted(records, key=key)
+        encoded = json.dumps(
+            ordered, sort_keys=True, separators=(",", ":"),
+            ensure_ascii=False, allow_nan=False,
+        ).encode("utf-8")
+        return hashlib.sha256(encoded).hexdigest()
+
+    return result(
+        "NO_DATA", "declared_link_only_gold_witness_prereg_unverified",
+        design_ref=data_ref(design_rows),
+        outcomes_ref=data_ref(terminal_rows),
+        matched=len(terminal_rows),
+        design_cause=design["cause"],
+    )
