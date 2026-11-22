@@ -97,6 +97,14 @@ class FormatReceiptTests(unittest.TestCase):
             self.assertNotIn('CANARY', text)
             self.assertIn('NO_DATA', text)
 
+    def test_large_valid_json_draft_is_not_rejected_by_retired_source_ceiling(self):
+        with tempfile.NamedTemporaryFile("w", suffix=".json") as f:
+            json.dump({"schema": "unsupported/1", "padding": "x" * 20000}, f)
+            f.flush()
+            text = fr.format_receipt(f.name)
+        self.assertIn("NO_DATA", text)
+        self.assertNotIn("x" * 100, text)
+
     def test_nonfinite_values_and_unknown_schema_fail_closed(self):
         self.assertEqual(fr._number(float('nan')), 'NO_DATA')
         self.assertEqual(fr._number(float('inf')), 'NO_DATA')

@@ -14,7 +14,6 @@ from pathlib import Path
 
 SCHEMA = "preceptoros.lab.a11y-install/1"
 CEILING = 1024
-FILE_LIMIT = 16384
 FILES = ("bin/instalar-pc", "bin/instalar-pc-voz")
 
 
@@ -38,8 +37,8 @@ def verify(app_root):
         executable = os.access(path, os.X_OK)
         syntax = subprocess.run(["bash", "-n", str(path)], capture_output=True, timeout=5).returncode == 0
         files.append({"bytes": size, "sha256": _digest(path)})
-        if size >= FILE_LIMIT or not executable or not syntax:
-            causes.append("installer file failed size, executable, or shell syntax check")
+        if not executable or not syntax:
+            causes.append("installer file failed executable or shell syntax check")
     writes = None
     marker = False
     exit_code = None

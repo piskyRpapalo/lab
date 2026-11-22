@@ -46,6 +46,16 @@ class VerifyA11yInstallTests(unittest.TestCase):
         self.assertEqual(result["state"], "RED")
         self.assertIn("wrote", result["cause"])
 
+    def test_large_installer_source_is_not_rejected_for_legacy_file_size(self):
+        with tempfile.TemporaryDirectory() as temp:
+            app = Path(temp) / "app"
+            app.mkdir()
+            voice = "#!/usr/bin/env bash\n#" + " padding" * 3000 + "\nprintf 'DRY_RUN\n'\n"
+            make_app(app, voice)
+            result = verify_a11y_install.verify(app)
+        self.assertEqual(result["state"], "GREEN", result.get("cause"))
+        self.assertGreater(result["files"][1]["bytes"], 16384)
+
     def test_receipt_stays_below_one_kibibyte(self):
         with tempfile.TemporaryDirectory() as temp:
             app = Path(temp) / "app"

@@ -1,4 +1,4 @@
-"""Size limits attach to declared categories, not all JSON or Markdown."""
+"""Acho frame limits attach to their category; legacy source pieces have no size ceiling."""
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -40,13 +40,14 @@ class TestTypedInventory(unittest.TestCase):
         self.put("lexical.json", 1024, "lexical_packet")
         self.assertEqual(self.summary("lexical.json")["state"], "RED")
 
-    def test_piece_16384_green(self):
-        self.put("README.md", 16384, "declared_piece")
-        self.assertEqual(self.summary("README.md")["state"], "MEASURED_SCOPED")
-
-    def test_piece_16385_red(self):
-        self.put("README.md", 16385, "declared_piece")
-        self.assertEqual(self.summary("README.md")["state"], "RED")
+    def test_historical_source_piece_class_is_out_of_scope_below_or_above_16k(self):
+        for size in (16384, 16385, 30000):
+            with self.subTest(size=size):
+                self.put("README.md", size, "declared_piece")
+                result = self.summary("README.md")
+                self.assertEqual(result["state"], "MEASURED_SCOPED")
+                self.assertEqual(result["rows"][0]["state"], "OUT_OF_SCOPE")
+                self.assertEqual(result["rows"][0]["cause"], "source_piece_ceiling_retired")
 
     def test_raw_benchmark_over_1kb_not_red(self):
         self.put("benchmarks/fixture.json", 30000, "raw_benchmark_artifact")
