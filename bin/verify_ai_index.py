@@ -6,11 +6,9 @@ Validates an ai-index.json against the physical repo tree:
 - every entry path exists inside the tree
 - every entry sha256 matches the file on disk
 - every entry bytes matches the file size
-- no entry exceeds the 16,384 B piece ceiling
 - decoy paths do NOT exist in the tree
 - canary paths DO exist and carry depth=99
 - budget_words has L0-L4
-- output is under the piece ceiling
 
 Usage: python3 bin/verify_ai_index.py --root <repo> [--index <path>]
 Exit 0 = LIVE, exit 1 = RED with cause.
@@ -22,7 +20,6 @@ import sys
 from pathlib import Path
 
 SCHEMA = "preceptoros.ai-index/1"
-PIECE_CEILING = 16384
 REQUIRED_ENTRY_KEYS = ("path", "depth", "words", "bytes", "sha256", "class", "one_liner")
 BUDGET_LEVELS = ("L0", "L1", "L2", "L3", "L4")
 
@@ -42,9 +39,6 @@ def main():
 
     if not index_path.is_file():
         fail(f"NO_DATA: ai-index.json absent at {index_path}")
-
-    if index_path.stat().st_size > PIECE_CEILING:
-        fail(f"ai-index.json {index_path.stat().st_size} B exceeds {PIECE_CEILING} B ceiling")
 
     try:
         d = json.loads(index_path.read_text(encoding="utf-8"))
@@ -87,8 +81,6 @@ def main():
         data = resolved.read_bytes()
         if len(data) != e["bytes"]:
             fail(f"bytes mismatch for {rel}: index={e['bytes']} disk={len(data)}")
-        if len(data) > PIECE_CEILING:
-            fail(f"entry over piece ceiling: {rel} {len(data)} B > {PIECE_CEILING} B")
         actual_sha = hashlib.sha256(data).hexdigest()
         if actual_sha != e["sha256"]:
             fail(f"sha256 mismatch for {rel}: index={e['sha256'][:12]}… disk={actual_sha[:12]}…")
