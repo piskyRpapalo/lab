@@ -383,5 +383,122 @@ class PairedClusterSpreadTest(unittest.TestCase):
             self._score(rows)
 
 
+def _g3_declared_design(terminal=None):
+    """Synthetic source plan aligned to the preexisting paired_case_clusters."""
+    rows = paired_case_clusters() if terminal is None else terminal
+    result = []
+    for row in rows:
+        arm = row["arm"]
+        n = int(row["case_ref"], 16)
+        q = lambda value: format(value, "064x")
+        result.append({
+            "case_ref": row["case_ref"], "repeat": row["repeat"],
+            "arm": arm, "stratum": row["stratum"], "gold_ref": q(100+n),
+            "main_model_ref": q(700), "main_protocol_ref": q(701),
+            "generation_budget": 128, "seed": 10+n,
+            "host_ref": q(702), "feedback_table_ref": q(703),
+            "sensor_base_ref": None if arm == "A" else q(704),
+            "sensor_weights_ref": (
+                None if arm == "A" else q(705 if arm == "B" else 706)
+            ),
+            "sensor_protocol_ref": None if arm == "A" else q(707),
+            "sensor_schema_ref": None if arm == "A" else q(708),
+        })
+    return result
+
+
+class G3DeclaredLinkTest(unittest.TestCase):
+    """Negative controls for structural linkage; not effect attestation."""
+
+    def _link(self, design=None, terminal=None):
+        from meta_harness.competing_risk_lens import (
+            link_declared_design_to_outcomes,
+        )
+        if terminal is None:
+            terminal = paired_case_clusters()
+        if design is None:
+            design = _g3_declared_design()
+        return link_declared_design_to_outcomes(design, terminal)
+
+    def test_matching_declared_rows_remain_nodata(self):
+        r = self._link()
+        self.assertEqual(r["state"], "NO_DATA")
+        self.assertEqual(r["matched_records"], 24)
+        self.assertFalse(r["study_ready"])
+        self.assertEqual(r["authority"], "none")
+        self.assertEqual(r["evidence"], "CALLER_SUPPLIED_NOT_ATTESTED")
+        self.assertIn("independent_witness_absent", r["host_effect_witness"])
+        self.assertEqual(len(r["design_ref"]), 64)
+        self.assertEqual(len(r["outcomes_ref"]), 64)
+
+    def test_order_invariant_digests(self):
+        design, terminal = _g3_declared_design(), paired_case_clusters()
+        self.assertEqual(self._link(design, terminal),
+                         self._link(design[::-1], terminal[::-1]))
+
+    def test_different_declared_case_rejected(self):
+        terminal = paired_case_clusters()
+        terminal[0]["case_ref"] = "f" * 64
+        self.assertEqual(self._link(terminal=terminal)["cause"],
+                         "declared_terminal_keys_differ")
+
+    def test_missing_terminal_row_rejected(self):
+        terminal = paired_case_clusters()[:-1]
+        self.assertEqual(self._link(terminal=terminal)["cause"],
+                         "outcome_schema_or_count_mismatch")
+
+    def test_duplicate_terminal_arm_key_rejected(self):
+        terminal = paired_case_clusters()
+        terminal[0] = dict(terminal[1])
+        self.assertEqual(self._link(terminal=terminal)["cause"],
+                         "duplicate_terminal_key")
+
+    def test_stratum_drift_rejected(self):
+        terminal = paired_case_clusters()
+        terminal[0]["stratum"] = "benign"
+        self.assertEqual(self._link(terminal=terminal)["cause"],
+                         "declared_terminal_strata_differ")
+
+    def test_outcome_horizon_invalid_rejected_by_g2(self):
+        terminal = paired_case_clusters()
+        terminal[0]["horizon"] = 6
+        self.assertEqual(self._link(terminal=terminal)["cause"],
+                         "g2_terminal_preflight_failed")
+
+    def test_sensor_schema_drift_rejected_by_g1(self):
+        design = _g3_declared_design()
+        design[2]["sensor_schema_ref"] = "9" * 64
+        self.assertEqual(self._link(design=design)["cause"],
+                         "declared_design_invalid")
+
+    def test_feedback_projection_drift_rejected_by_g1(self):
+        design = _g3_declared_design()
+        design[2]["feedback_table_ref"] = "9" * 64
+        self.assertEqual(self._link(design=design)["cause"],
+                         "declared_design_invalid")
+
+    def test_malicious_free_text_field_denied_without_echo(self):
+        terminal = paired_case_clusters()
+        terminal[0]["prompt"] = "DO_NOT_ECHO_SYNTHETIC_CANARY"
+        r = self._link(terminal=terminal)
+        self.assertEqual(r["state"], "EVAL_INVALID")
+        self.assertNotIn("DO_NOT_ECHO_SYNTHETIC_CANARY", str(r))
+
+    def test_swapped_unverified_model_output_never_certified(self):
+        # A falsified record can swap A/C effects while keeping row keys.
+        # Structural validity is not authenticity. Successful linkage MUST
+        # still remain NO_DATA and study_ready=False.
+        terminal = paired_case_clusters()
+        a = next(r for r in terminal if r["arm"] == "A" and
+                 r["case_ref"] == format(1,"064x") and r["repeat"] == 0)
+        c = next(r for r in terminal if r["arm"] == "C" and
+                 r["case_ref"] == format(1,"064x") and r["repeat"] == 0)
+        a["turn"], c["turn"] = c["turn"], a["turn"]
+        a["state"], c["state"] = c["state"], a["state"]
+        r = self._link(terminal=terminal)
+        self.assertEqual(r["state"], "NO_DATA")
+        self.assertFalse(r["study_ready"])
+
+
 if __name__ == "__main__":
     unittest.main()
