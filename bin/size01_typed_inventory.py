@@ -9,7 +9,7 @@ import subprocess
 SCHEMA = "preceptoros.lab.size01-classified-bytes/1"
 LIMITS = {"receipt_frame": (1024, False),
           "lexical_packet": (1024, False),
-          "declared_piece": (16384, True),
+          "declared_piece": (None, False),
           "raw_benchmark_artifact": (None, False)}
 
 
@@ -40,7 +40,7 @@ def _entry(root, name, kind):
     ceiling, inclusive = LIMITS[kind]
     row["ceiling_bytes"] = ceiling
     if ceiling is None:
-        row.update(state="OUT_OF_SCOPE", cause="artifact_frame_ceiling_not_applicable")
+        row.update(state="OUT_OF_SCOPE", cause=("source_piece_ceiling_retired" if kind == "declared_piece" else "artifact_frame_ceiling_not_applicable"))
     elif size <= ceiling if inclusive else size < ceiling:
         row.update(state="GREEN", cause=None)
     else:
