@@ -77,3 +77,29 @@ Run `python3 -m unittest tests.test_competing_risk_lens` twice on the exact
 branch and obtain independent review. Preserve all RED/NO_DATA in the receipt.
 This branch must stay DRAFT, no merge or production integration. The
 Soberano retains go/no-go, exact-head signature and TRAIN-02 authority.
+
+
+## G1: statically paired A/B/C experiment-design preflight (not execution)
+
+New function in the same G0 statistics module, not another runner:
+preflight_three_arm_design. It checks three arms A=main without sensor,
+B=unaltered sensor under closed output, and C=adapted sensor under
+the exact same schema. It rejects:
+- missing/duplicate arms, case/repeat mismatch or paired seed drift;
+- changed main-model digest, main inference protocol, generation budget,
+  host or feedback-projection table across a cohort;
+- mismatched gold digests across the same paired case;
+- sensor-base/schema/protocol differences between B and C;
+- A accidentally containing a sensor, missing B/C sensor hashes,
+  or byte-identical sensor weights (no actual treatment contrast).
+
+Each row declares SHA-shaped identifiers; the validator cannot establish
+that a hash belongs to a real model, that a human gold is blind, that an
+adapter was trained, that permissions exist or that the host witness works.
+A structurally valid cohort returns NO_DATA with structure_valid=true,
+not GO/VERIFIED. Different hardware require separately pinned comparisons.
+
+The first G1 run is pure Python/unit-only on invented hashes; no model,
+GPU, CLI session, training, SSH or hardware effects are required.
+TRAIN-02 retains priority. A scientific cohort needs a separately signed
+preregistration before its first model token.
