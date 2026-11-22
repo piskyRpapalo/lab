@@ -208,9 +208,14 @@ host-owned independent effect witness and time-ordering elsewhere.
 
 **Reproducible measurement, not scientific experiment:** exact branch source
 read via GitHub MCP and replayed twice in temporary Beelink SentinelX
-stdlib-only process as UID technical `sentinelx`, **57/57 PASS x2**.
-Module SHA-256 `9aafc5792da98bcf242748ebb9b1c9008167cb1020724cf2e13de26d6fe3fb76`;
-test SHA-256 `b763ec1d6deaf81f366d0de29f2f06a3d5e3e1d3e4228af39a5788be7cfeb293`.
+stdlib-only process as UID technical `sentinelx`, **58/58 PASS x2**
+after a deliberate RED reproduction of an unhashable untrusted terminal key.
+Module SHA-256 `e8588cd911a6860ed335b7251a5db0318fe2ebfa6f6c8396916494133e054e3d`;
+test SHA-256 `5578f864f35370b7213f43f663790f9e50701b0ce8930499665cd8aa7f81dd99`.
+Adversarial defect found: when terminal repeat was a list instead of an
+integer, key lookup raised uncaught TypeError before G2 validation.
+Fixed with a narrow TypeError-to-EVAL_INVALID boundary, now tested for
+unhashable case_ref/repeat/arm. A RED reproduction existed before the fix.
 Intentional ephemeral sabotage: disable only the plan/result key-set guard;
 the specific mismatch negative test turns **RED x2**. Never committed.
 These metrics precede this documentation-only edit; code SHA remains valid.
