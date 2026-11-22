@@ -120,8 +120,6 @@ def format_yardstick_receipt(r: dict) -> str:
 
 def format_receipt(path: str) -> str:
     raw = Path(path).read_bytes()
-    if len(raw) >= 16384:
-        raise ValueError('receipt_limit')
     r = json.loads(raw)
     if type(r) is not dict:
         raise ValueError('receipt_shape')
