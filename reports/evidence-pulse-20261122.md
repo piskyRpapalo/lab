@@ -1,0 +1,21 @@
+# LAB · dated 72-hour evidence pulse (relocated from STATE.md)
+
+**2026-11-22 correction receipt.** Original LAB [#245](https://github.com/piskyRpapalo/lab/pull/245) was merged (0e122b0f3ce25c06910928fb60bca17445d60b4a) while its source-head CI [run 45017983668](https://github.com/piskyRpapalo/lab/actions/runs/45017983668) was RED: INDEX 15,305 B > budget 12,109 B. This report **preserves the appendix while restoring the depth-1 STATE.md budget**. The status of LAB #244 is corrected to MERGED; no experiment, source harness or active study was modified. Source blob SHA of uncorrected STATE.md: 5184cebfaa0285a61837a10461244fb164a2fe7d.
+
+## Evidence pulse · GitHub readback 2026-11-22 UTC (not a new benchmark)
+
+**Scope:** documentation-only audit by Codex GPT-6 Web through GitHub connector; source is the public `main` readback and linked cards/PRs, **not** a fresh test run, model invocation, physical measurement or deployment. This pulse does not supersede the dated 2026-11-11 snapshot above.
+
+| Research line | Source-backed state on this readback | Limit / missing witness |
+|---|---|---|
+| 2D context alignment | [2026-11-20 card](benchmarks/context-fusion-20261120/README.md): **64/64** aligned vs **19/64** unaligned; poisoned anchors refused **64/64**. Synthetic evidence slots, not tokens. | `NO_DATA(cross_model_real_KV_alignment_or_attested_grants)`; controlled geometry, not LoRA/real host proof. |
+| Hexelion host-policy planner | [2026-11-20 card](benchmarks/hexelion-v1-host-policy-20261120/README.md): **17/24 exact**, **21/24 valid JSON**, seven permitted targets omitted, synthetic grants. | RED effectiveness; `NO_DATA(actual_signed_multi_host_MCP_dispatch_in_this_holdout)`. |
+| Multi-turn and longer-horizon statistics | Existing `meta_harness/multi_turn_first_failure.py` and `long_horizon_gate.py` are **pure evaluators** with explicitly untrusted/synthetic supplied events. | Presence of source code does **not** imply a running judge, real attack, authenticated witness or a sound recording. |
+| New security-study G0/G1 lens | [LAB PR #244](https://github.com/piskyRpapalo/lab/pull/244) **MERGED MAIN 2026-11-22T11:33:51Z** (merge SHA `aad63ece66ecffd084a21fb3f75925716d384326`). Its G0/G1 code is a pure synthetic statistical instrument, not a confirmatory physical study; its own exact-head CI succeeded. | `NO_DATA(confirmatory_GOLD_or_owner_authorized_host_effect)`; do not duplicate or edit that PR's files. |
+| Remote Inkling/LFM3 | [LAB PR #243](https://github.com/piskyRpapalo/lab/pull/243) is reflected in main merge `5fc67df6a999aab776874095ab3063083e40eaf1`. | Benchmark conditions remain the card's own; no new measurement in this pulse. |
+| TRAIN-02 Qwen job | The active scientific commission is outside this doc-only branch; evidence must be read from the current private Mesa and OWNER's job-specific physical receipt. | `NO_DATA(authenticated_remote_training_output_not_independently_observed_by_this_readback)`. A staged script or SHA check does not prove GPU training, EDGE delivery, quality acceptance or model promotion. |
+| Sovereign S1 revocation | [p0x PR #139](https://github.com/piskyRpapalo/p0x/pull/139) is merged; the private S1 change is not duplicated here. | `NO_DATA(116B_to_S1_to_MCP_independent_effect_witness)`. Synthetic revocation tests do not authorize tools. |
+
+**Strict separation:** SOURCE FILE / DRAFT PR / MERGED MAIN / DEPLOYED SERVICE / PHYSICAL E2E are different states. No model weights, CLI, OWNER grant, S1 authorization, app installation, external data or agent execution has been altered. The 24-case planner holdout is already exposed and must not silently become training GOLD. The new security study must freeze gold/witness independently before any confirmatory trial.
+
+**Verification performed here:** GitHub source readback and linked files; `NO_DATA(two_local_test_runs_not_executed_read_write_only)`. LAB #245's exact-head GitHub Actions `pruebas` run `45017983668` **FAILED** on the declared depth budget (15,305 indexed B > 12,109 B) in Python 3.10/3.11/3.12, after the functional test groups passed. This repair relocates the long appendix outside the `llms.txt` depth-1 index; it does not increase the budget or relax the verifier.
