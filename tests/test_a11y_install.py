@@ -50,7 +50,7 @@ class VerifyA11yInstallTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             app = Path(temp) / "app"
             app.mkdir()
-            voice = "#!/usr/bin/env bash\\n#" + " padding" * 3000 + "\\nprintf 'DRY_RUN\\n'\\n"
+            voice = "#!/usr/bin/env bash\n#" + " padding" * 3000 + "\nprintf 'DRY_RUN\n'\n"
             make_app(app, voice)
             result = verify_a11y_install.verify(app)
         self.assertEqual(result["state"], "GREEN", result.get("cause"))
