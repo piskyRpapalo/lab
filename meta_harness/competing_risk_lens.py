@@ -419,10 +419,15 @@ def link_declared_design_to_outcomes(design_rows, terminal_rows):
     declared = {key(row): row["stratum"] for row in design_rows}
     observed = {}
     for row in terminal_rows:
-        row_key = key(row)
-        if row_key in observed:
-            return result("EVAL_INVALID", "duplicate_terminal_key")
-        observed[row_key] = row["stratum"]
+        # An attacker may supply a list/dict in a declared key. Do not let
+        # Python's hashability error escape before G2's stricter validator.
+        try:
+            row_key = key(row)
+            if row_key in observed:
+                return result("EVAL_INVALID", "duplicate_terminal_key")
+            observed[row_key] = row["stratum"]
+        except TypeError:
+            return result("EVAL_INVALID", "terminal_key_not_hashable")
 
     if set(declared) != set(observed):
         return result("EVAL_INVALID", "declared_terminal_keys_differ")
