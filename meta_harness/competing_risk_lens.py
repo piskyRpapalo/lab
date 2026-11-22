@@ -235,3 +235,136 @@ def preflight_three_arm_design(rows):
         "NO_DATA", "structure_only_gold_witness_prereg_unverified",
         group_count=len(groups), strata=strata,
     )
+
+
+# G2: descriptive matched-cluster spread. NOT a confidence interval or
+# replacement for a prespecified, independently reviewed variance estimator.
+STUDY_CLUSTER_FIELDS = frozenset((
+    "case_ref", "repeat", "arm", "stratum", "turn", "state", "horizon",
+))
+
+
+def paired_cluster_spread(
+    records, *, target, reference_arm="A", treatment_arm="C",
+    draws=128, seed=0,
+):
+    """Diagnostic resampling of entire cases, keeping A/B/C and repeats together.
+
+    An entire fixture/case is the sampled unit; turns and repeats are not
+    independent trials. Outputs are descriptive percentiles of a resampling
+    distribution, NOT calibrated confidence intervals or independent gold.
+    Terminal causes are caller-supplied and not independently authenticated.
+
+    Early administrative censoring is forbidden here: its reasons cannot be
+    expressed in this small terminal-only input schema. Refuse rather than
+    silently assume independent censoring. This is not a runner or witness.
+    """
+    from random import Random
+
+    if (target not in CAUSES or reference_arm not in STUDY_ARMS
+            or treatment_arm not in STUDY_ARMS
+            or reference_arm == treatment_arm):
+        raise ValueError("invalid_contrast")
+    if (type(draws) is not int or not 32 <= draws <= 512
+            or type(seed) is not int or not 0 <= seed < 2**32):
+        raise ValueError("invalid_resampling_budget")
+    if type(records) is not list or not 9 <= len(records) <= 4000:
+        raise ValueError("invalid_cohort_size")
+
+    def _digest(value):
+        return (type(value) is str and len(value) == 64
+                and all(char in "0123456789abcdef" for char in value))
+
+    groups = {}
+    strata, horizons = set(), set()
+    for row in records:
+        if type(row) is not dict or set(row) != STUDY_CLUSTER_FIELDS:
+            raise ValueError("invalid_row_shape")
+        if (not _digest(row["case_ref"])
+                or row["arm"] not in STUDY_ARMS
+                or row["stratum"] not in STUDY_STRATA
+                or row["state"] not in (*CAUSES, CENSOR)
+                or type(row["repeat"]) is not int
+                or not 0 <= row["repeat"] <= 9
+                or type(row["horizon"]) is not int
+                or row["horizon"] not in (5, 12)
+                or type(row["turn"]) is not int
+                or not 1 <= row["turn"] <= row["horizon"]):
+            raise ValueError("invalid_row_value")
+        if row["state"] == CENSOR and row["turn"] != row["horizon"]:
+            raise ValueError("early_censor_reason_not_represented")
+        key = (row["repeat"], row["arm"])
+        case = groups.setdefault(row["case_ref"], {})
+        if key in case:
+            raise ValueError("duplicate_case_repeat_arm")
+        case[key] = row
+        strata.add(row["stratum"])
+        horizons.add(row["horizon"])
+
+    if len(strata) != 1 or len(horizons) != 1:
+        raise ValueError("mixed_stratum_or_horizon")
+    if len(groups) < 3:
+        raise ValueError("insufficient_case_clusters")
+    expected_repeats = None
+    for case in groups.values():
+        repeats = {key[0] for key in case}
+        if (not repeats or set(case) != {
+                (repeat, arm) for repeat in repeats for arm in STUDY_ARMS}):
+            raise ValueError("incomplete_three_arm_case")
+        if expected_repeats is None:
+            expected_repeats = repeats
+        elif repeats != expected_repeats:
+            raise ValueError("unequal_repeat_sets_between_cases")
+
+    ordered = sorted(groups)
+    repeats_sorted = sorted(expected_repeats)
+
+    def _estimate(selection):
+        per_arm = {reference_arm: [], treatment_arm: []}
+        for slot, case_ref in enumerate(selection):
+            case = groups[case_ref]
+            for repeat in repeats_sorted:
+                for arm in per_arm:
+                    row = case[(repeat, arm)]
+                    per_arm[arm].append({
+                        "trajectory_id": f"{slot}-{repeat}-{arm}",
+                        "turn": row["turn"],
+                        "state": row["state"],
+                        "stratum": row["stratum"],
+                    })
+        return (descriptive_cif(per_arm[treatment_arm])["cif"][target]
+                - descriptive_cif(per_arm[reference_arm])["cif"][target])
+
+    point = _estimate(ordered)
+    rng = Random(seed)
+    sample = sorted(
+        _estimate([ordered[rng.randrange(len(ordered))]
+                   for _ in ordered])
+        for _ in range(draws)
+    )
+
+    def _percentile(numerator, denominator):
+        position = Fraction((draws - 1) * numerator, denominator)
+        low = position.numerator // position.denominator
+        high = min(low + 1, draws - 1)
+        weight = position - low
+        return sample[low] * (1 - weight) + sample[high] * weight
+
+    return {
+        "schema": "preceptoros.lab.paired-cluster-spread/1",
+        "state": "DESCRIPTIVE_ONLY",
+        "target": target,
+        "reference_arm": reference_arm,
+        "treatment_arm": treatment_arm,
+        "point_difference": point,
+        "resampling_p025": _percentile(1, 40),
+        "resampling_p975": _percentile(39, 40),
+        "sampled_unit": "entire_case_A_B_C_with_repeats",
+        "case_clusters": len(groups),
+        "repeats_per_case": len(repeats_sorted),
+        "draws": draws,
+        "seed": seed,
+        "authority": "none",
+        "evidence": "CALLER_SUPPLIED_NOT_ATTESTED",
+        "coverage": "NO_DATA(no_preregistered_calibration_or_independent_gold)",
+    }
