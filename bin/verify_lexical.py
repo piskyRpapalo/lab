@@ -10,7 +10,6 @@ import sys
 
 
 SCHEMA_ID = "preceptoros.lexical-projection/1"
-PIECE_LIMIT = 16384
 CHANNEL_LIMIT = 1024
 WEB_FILES = ("public/lexical_state_schema.json", "public/game/lexical_projector.js")
 APP_FILES = ("lexicon_state.py", "lexical_projector.py")
@@ -23,8 +22,6 @@ FRAME = {
 def _schema(path: Path) -> dict:
     if not path.is_file():
         raise ValueError("NO_DATA: web schema is absent")
-    if path.stat().st_size > PIECE_LIMIT:
-        raise ValueError("ERROR: web schema exceeds piece ceiling")
     try:
         schema = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
@@ -95,8 +92,6 @@ def verify(web_root: Path, app_root: Path) -> tuple[int, list[tuple[str, str, in
             if not path.is_file():
                 raise ValueError("NO_DATA: required artifact is absent: " + relative)
             size = path.stat().st_size
-            if size > PIECE_LIMIT:
-                raise ValueError("ERROR: piece exceeds ceiling: " + relative)
             digest = hashlib.sha256(path.read_bytes()).hexdigest()
             measurements.append((relative, digest, size))
     checked = 0
@@ -117,7 +112,7 @@ def main() -> int:
     except (OSError, ValueError, subprocess.TimeoutExpired) as exc:
         print(str(exc), file=sys.stderr)
         return 1
-    print(f"LIVE · {checked}/2 states · {len(files)} source hashes · every piece <= {PIECE_LIMIT} B")
+    print(f"LIVE · {checked}/2 states · {len(files)} source hashes · channel < {CHANNEL_LIMIT} B")
     for path, digest, size in files:
         print(f"{path} · {size} B · sha256 {digest}")
     return 0

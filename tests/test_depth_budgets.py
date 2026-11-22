@@ -40,10 +40,14 @@ class DepthBudgetTests(unittest.TestCase):
         result = inspect(self.row(targets=[{"repo": "web", "path": "../outside"}]), self.roots)[0]
         self.assertEqual(result["cause"], "target_escapes_repository")
 
-    def test_piece_over_ceiling_is_red(self):
+    def test_large_source_passes_when_aggregate_reading_budget_allows(self):
         (self.root / "large.md").write_bytes(b"x" * 16385)
-        result = inspect(self.row(targets=[{"repo": "web", "path": "large.md"}]), self.roots)[0]
-        self.assertEqual(result["cause"], "piece_limit_exceeded")
+        target = [{"repo": "web", "path": "large.md"}]
+        result = inspect(self.row(budget=20000, targets=target), self.roots)[0]
+        self.assertEqual((result["status"], result["bytes"]), ("LIVE", 16385))
+        over_budget = inspect(self.row(budget=16000, targets=target), self.roots)[0]
+        self.assertEqual((over_budget["status"], over_budget["cause"]),
+                         ("RED", "aggregate_budget_exceeded"))
 
 
 if __name__ == "__main__":

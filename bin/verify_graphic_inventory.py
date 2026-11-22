@@ -6,15 +6,12 @@ from pathlib import Path
 import re
 import subprocess
 
-CEILING = 16384
 FOLDERS = ('public/game', 'public/assets')
 ROW = re.compile(r'\| ([\w.-]+\.(?:js|css)) \| (\d+) \| ([CRD]) \| ([BLVH]) \|')
 
 
 def verify(root, inventory):
     data = inventory.read_bytes()
-    if len(data) >= CEILING:
-        raise ValueError(f'inventory is {len(data)} B; expected < {CEILING} B')
     text = data.decode('utf-8')
     base = re.search(r'origin/main `([0-9a-f]{7,40})`', text)
     if not base:

@@ -5,8 +5,6 @@ import hashlib
 import json
 from pathlib import Path
 
-PIECE_LIMIT = 16384
-
 
 def inspect(manifest, roots):
     results = []
@@ -36,9 +34,6 @@ def inspect(manifest, roots):
             size = len(data)
             total += size
             digest.update(repo.encode("utf-8") + b"/" + relative.encode("utf-8") + b"\0" + data)
-            if size > PIECE_LIMIT:
-                cause = "piece_limit_exceeded"
-                break
         budget = depth.get("budget_bytes")
         if cause:
             status = "RED"

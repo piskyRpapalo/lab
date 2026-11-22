@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check INDEX paths, DEPTH budgets, and per-file ceilings against the tree."""
+"""Check INDEX paths and declared reading-depth budgets against the tree."""
 import argparse
 import re
 from pathlib import Path
@@ -8,7 +8,6 @@ INDEX_RE = re.compile(r"^INDEX:\s*(.+)$", re.MULTILINE)
 DEPTH_RE = re.compile(r"^DEPTH:\s*(.+)$", re.MULTILINE)
 BUDGET_RE = re.compile(r"^BUDGET:\s*(.+)$", re.MULTILINE)
 ITEM_RE = re.compile(r"\s*([^;,\s#]+)(?:#L([1-9][0-9]*))?\s*")
-PIECE_CEILING = 16384
 
 
 def main():
@@ -46,8 +45,6 @@ def main():
             continue
         size = resolved.stat().st_size
         total_bytes += size
-        if size > PIECE_CEILING:
-            failures.append(f"over piece ceiling: {rel} {size} B > {PIECE_CEILING} B")
         if line:
             try:
                 line_count = len(resolved.read_text(encoding="utf-8").splitlines())

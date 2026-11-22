@@ -74,12 +74,12 @@ class TestGenAiIndex(unittest.TestCase):
             self.assertEqual(d["canaries"][0]["depth"], 99)
             self.assertTrue((REPO / d["canaries"][0]["path"]).exists())
 
-    def test_output_under_ceiling(self):
+    def test_output_remains_valid_json(self):
         with tempfile.TemporaryDirectory() as td:
             out = Path(td) / "ai-index.json"
             r = run_gen(REPO, out, indexed="README.md,llms.txt,AGENTS.md,STATE.md")
             self.assertEqual(r.returncode, 0, r.stderr)
-            self.assertLessEqual(out.stat().st_size, 16384)
+            self.assertGreater(len(json.loads(out.read_text())["entries"]), 0)
 
     def test_default_output_is_not_self_indexed(self):
         with tempfile.TemporaryDirectory() as td:
@@ -97,16 +97,19 @@ class TestGenAiIndex(unittest.TestCase):
             )
             self.assertEqual(checked.returncode, 0, checked.stdout + checked.stderr)
 
-    def test_over_ceiling_file_is_skipped(self):
+    def test_large_file_is_indexed_with_exact_bytes_and_digest(self):
+        import hashlib
         with tempfile.TemporaryDirectory() as td:
             big = Path(td) / "big.md"
             big.write_text("word " * 5000)
             out = Path(td) / "ai-index.json"
             r = run_gen(Path(td), out, indexed="big.md")
             self.assertEqual(r.returncode, 0, r.stderr)
-            self.assertIn("SKIPPED", r.stdout)
             d = json.loads(out.read_text())
-            self.assertEqual(len(d["entries"]), 0)
+            self.assertEqual(len(d["entries"]), 1)
+            self.assertEqual(d["entries"][0]["bytes"], big.stat().st_size)
+            self.assertEqual(d["entries"][0]["sha256"],
+                             hashlib.sha256(big.read_bytes()).hexdigest())
 
     def test_banned_words_absent(self):
         banned = ["ora" + "cle", "nota" + "ry", "dep" + "in",

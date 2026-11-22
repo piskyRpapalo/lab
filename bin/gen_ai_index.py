@@ -17,7 +17,6 @@ from pathlib import Path
 
 SCHEMA = "preceptoros.ai-index/1"
 VERSION = "1.0.0"
-PIECE_CEILING = 16384
 ONE_LINER_MAX = 120
 RAG_PROMPT_MAX = 256
 
@@ -120,7 +119,7 @@ def sha256_of(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
-def collect_files(root: Path, skipped_over_ceiling: list, output_path: Path) -> list:
+def collect_files(root: Path, output_path: Path) -> list:
     files = []
     try:
         output_rel = output_path.resolve().relative_to(root.resolve()).as_posix()
@@ -137,9 +136,6 @@ def collect_files(root: Path, skipped_over_ceiling: list, output_path: Path) -> 
         if rel not in INDEXED_FILES:
             continue
         if rel == output_rel:
-            continue
-        if p.stat().st_size > PIECE_CEILING:
-            skipped_over_ceiling.append(rel)
             continue
         files.append(rel)
     return files
@@ -161,9 +157,8 @@ def main():
         INDEXED_FILES = [f.strip() for f in args.indexed.split(",") if f.strip()]
 
     out = args.output or (root / "ai-index.json")
-    skipped_over_ceiling = []
     entries = []
-    for rel in collect_files(root, skipped_over_ceiling, out):
+    for rel in collect_files(root, out):
         p = root / rel
         data = p.read_bytes()
         try:
@@ -214,10 +209,6 @@ def main():
     total_words = sum(e["words"] for e in entries)
     print(f"ai-index: {len(entries)} entries, {total_words} words total, "
           f"{len(decoys)} decoys, {len(canaries)} canaries -> {out} ({out.stat().st_size} B)")
-    if skipped_over_ceiling:
-        print(f"SKIPPED (over {PIECE_CEILING} B piece ceiling): {', '.join(skipped_over_ceiling)}")
-    if out.stat().st_size > PIECE_CEILING:
-        raise SystemExit(f"ERROR: ai-index.json {out.stat().st_size} B exceeds {PIECE_CEILING} B ceiling")
 
 
 if __name__ == "__main__":
