@@ -188,12 +188,21 @@ class TestVerifyAiIndex(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("duplicate entry", r.stdout)
 
-    def test_over_ceiling_index_is_red(self):
+    def test_large_malformed_index_is_red_for_invalid_json(self):
         big = self.root / "big-index.json"
         big.write_text("x" * 20000)
         r = run_verify(self.root, big)
         self.assertNotEqual(r.returncode, 0)
-        self.assertIn("exceeds", r.stdout)
+        self.assertIn("does not parse", r.stdout)
+
+    def test_large_valid_indexed_source_is_live(self):
+        big = self.root / "big.md"
+        big.write_text("source " * 3000, encoding="utf-8")
+        d = make_index(self.root, [entry_for(self.root, "big.md")])
+        p = self.write_index(d)
+        r = run_verify(self.root, p)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("LIVE", r.stdout)
 
     def test_depth_out_of_range_is_red(self):
         e = entry_for(self.root, "README.md")
