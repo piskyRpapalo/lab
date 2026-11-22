@@ -103,3 +103,65 @@ The first G1 run is pure Python/unit-only on invented hashes; no model,
 GPU, CLI session, training, SSH or hardware effects are required.
 TRAIN-02 retains priority. A scientific cohort needs a separately signed
 preregistration before its first model token.
+
+
+## G2: paired case-cluster resampling, descriptive only (2026-11-22)
+
+This is an additional **pure method** in the existing
+\`meta_harness/competing_risk_lens.py\`, not an agent, an experiment runner,
+a judge, or a new security framework. Reuses G0 Aalen-Johansen CIF and the
+G1 static A/B/C comparison contract.
+
+**Problem:** the same case is observed in arms A/B/C and may be repeated.
+Resampling 3 arms and repeated runs as independent records breaks the
+pairing and understates or misstates uncertainty. G2 therefore resamples
+**the whole case**: all arms and all repeated trajectories remain together.
+The resampling seed, number of draws and grouping rules are explicit.
+
+**Required input:** one declared stratum; unique lowercase 64-character
+case digests; identical repeat sets per case; each repeat has A+B+C;
+all horizons 5 or 12 and identical throughout; terminal labels from the
+closed vocabulary. Early censoring is rejected because the small input
+schema does not record its cause. Invalid or unpaired records fail before
+resampling. Source SHA, model/protocol, physical witness and consent are
+*not authenticated by this lens*. For a real comparison, all G1 pins and
+the independent witness remain separately mandatory.
+
+G2 computes the **observed descriptive CIF difference** of one
+preregistered cause and selected arm contrast, and returns the 2.5% and
+97.5% **quantiles of the resampling distribution** (linear interpolation
+between ordered fractions, exactly reproducible from the declared seed).
+Those quantiles are **NOT validated confidence interval endpoints**:
+there is no coverage calibration, robust Lin-Wei variance estimate, power
+analysis, independent GOLD, or host effect. The module preserves
+\`NO_DATA(no_preregistered_calibration_or_independent_gold)\`.
+
+Illustrative cohort: four invented case clusters with two repeated
+trajectories per A/B/C. A and B are identical within every case, so
+paired B−A difference and both resampled quantiles must be zero. C
+differs on two of the four cases; point C−A difference = −1/2. These
+numbers are SYNTHETIC mechanism checks, not empirical study results.
+
+**Instrument negative control:** an in-memory mutation intentionally
+reassigned only the treatment arm to a different case during the
+resampling. The paired-A/B regression test detected the sabotage:
+RED ×2 (failure with nonzero quantile). Normal exact branch source:
+46/46 PASS ×2 under Beelink SentinelX technical identity, offline
+stdlib Python; GPU=0, model_calls=0, no TRAIN-02 changes.
+
+**Primary literature / avoid novelty claims:**
+- Cameron and Miller, *A Practitioner's Guide to Cluster-Robust
+  Inference* (2015): resample entire clusters, not individual
+  observations. https://escholarship.org/uc/item/1jq5d0pq
+- *Competing risks analysis of correlated failure time data*
+  (2007): methods for correlated observations and cumulative incidence;
+  this G2 code is **not** a reproduction of its full estimator.
+  https://pubmed.ncbi.nlm.nih.gov/17680835/
+- BMJ, *Bias by censoring for competing events in survival analysis*
+  (2022): 1-KM versus Aalen-Johansen distinction.
+  https://www.bmj.com/content/378/bmj-2022-071349.long
+
+**Boundary:** never publish G2 resampling percentiles as inferential 95%
+confidence intervals without prespecification, sufficient independent
+case clusters, simulation-based coverage checks and review by a
+statistician. Later protocol changes require a new frozen cohort.

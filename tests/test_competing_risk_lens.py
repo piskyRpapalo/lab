@@ -251,5 +251,137 @@ class StudyThreeArmPreflightTest(unittest.TestCase):
         self.assertNotIn("PRIVATE_TEST_PROMPT", str(result))
 
 
+def paired_case_clusters():
+    """Four synthetic independent case fixtures, each with two paired repeats."""
+    rows = []
+    for index in range(1, 5):
+        for repeat in (0, 1):
+            for arm in ("A", "B", "C"):
+                failure = index <= 2 and arm in ("A", "B")
+                rows.append({
+                    "case_ref": format(index, "064x"),
+                    "repeat": repeat, "arm": arm, "stratum": "hybrid",
+                    "turn": 2 if failure else 5,
+                    "state": "COMPROMISED" if failure else "CENSORED",
+                    "horizon": 5,
+                })
+    return rows
+
+
+class PairedClusterSpreadTest(unittest.TestCase):
+    """These tests describe resampling mechanics, NOT CI coverage."""
+
+    def _score(self, rows=None, **overrides):
+        from meta_harness.competing_risk_lens import paired_cluster_spread
+        config = dict(
+            target="COMPROMISED", reference_arm="A",
+            treatment_arm="C", seed=42, draws=48,
+        )
+        config.update(overrides)
+        return paired_cluster_spread(
+            paired_case_clusters() if rows is None else rows, **config
+        )
+
+    def test_paired_cif_difference_is_exact(self):
+        result = self._score()
+        self.assertEqual(result["point_difference"], Fraction(-1, 2))
+        self.assertEqual(result["case_clusters"], 4)
+        self.assertEqual(result["repeats_per_case"], 2)
+        self.assertEqual(result["sampled_unit"],
+                         "entire_case_A_B_C_with_repeats")
+
+    def test_unchanged_A_B_pairs_have_zero_spread(self):
+        result = self._score(treatment_arm="B")
+        self.assertEqual(result["point_difference"], 0)
+        self.assertEqual(result["resampling_p025"], 0)
+        self.assertEqual(result["resampling_p975"], 0)
+
+    def test_resamples_are_order_invariant(self):
+        rows = paired_case_clusters()
+        self.assertEqual(self._score(rows), self._score(list(reversed(rows))))
+
+    def test_seed_is_reproducible(self):
+        self.assertEqual(self._score(), self._score())
+
+    def test_not_a_confidence_interval_or_attested_effect(self):
+        result = self._score()
+        self.assertEqual(result["state"], "DESCRIPTIVE_ONLY")
+        self.assertEqual(result["authority"], "none")
+        self.assertEqual(result["evidence"], "CALLER_SUPPLIED_NOT_ATTESTED")
+        self.assertTrue(result["coverage"].startswith("NO_DATA("))
+
+    def test_positive_nonzero_variability_is_bounded(self):
+        result = self._score()
+        self.assertTrue(Fraction(-1) <= result["resampling_p025"] <= 0)
+        self.assertTrue(Fraction(-1) <= result["resampling_p975"] <= 0)
+        self.assertLessEqual(result["resampling_p025"],
+                             result["resampling_p975"])
+
+    def test_reject_mixed_strata(self):
+        rows = paired_case_clusters()
+        rows[0]["stratum"] = "benign"
+        with self.assertRaisesRegex(ValueError, "mixed_stratum_or_horizon"):
+            self._score(rows)
+
+    def test_reject_incomplete_arm(self):
+        rows = paired_case_clusters()
+        rows.pop(3)
+        with self.assertRaisesRegex(ValueError, "incomplete_three_arm_case"):
+            self._score(rows)
+
+    def test_reject_unequal_repeat_sets(self):
+        rows = [row for row in paired_case_clusters()
+                if not (row["case_ref"] == format(1, "064x")
+                        and row["repeat"] == 1)]
+        with self.assertRaisesRegex(ValueError, "unequal_repeat_sets"):
+            self._score(rows)
+
+    def test_reject_duplicate_case_repeat_arm(self):
+        rows = paired_case_clusters()
+        rows.append(dict(rows[0]))
+        with self.assertRaisesRegex(ValueError, "duplicate_case_repeat_arm"):
+            self._score(rows)
+
+    def test_reject_two_case_clusters_for_spread(self):
+        rows = [row for row in paired_case_clusters()
+                if row["case_ref"] in
+                (format(1, "064x"), format(2, "064x"))]
+        with self.assertRaisesRegex(ValueError, "insufficient_case_clusters"):
+            self._score(rows)
+
+    def test_reject_early_censor_with_no_reason_field(self):
+        rows = paired_case_clusters()
+        row = next(row for row in rows if row["state"] == "CENSORED")
+        row["turn"] = 3
+        with self.assertRaisesRegex(ValueError,
+                                    "early_censor_reason_not_represented"):
+            self._score(rows)
+
+    def test_reject_observation_beyond_horizon(self):
+        rows = paired_case_clusters()
+        rows[0]["turn"] = 13
+        with self.assertRaisesRegex(ValueError, "invalid_row_value"):
+            self._score(rows)
+
+    def test_reject_boolean_and_excessive_draw_budget(self):
+        for value in (True, 1, 513):
+            with self.subTest(draws=value):
+                with self.assertRaisesRegex(ValueError,
+                                            "invalid_resampling_budget"):
+                    self._score(draws=value)
+
+    def test_reject_unbound_target_and_identical_arms(self):
+        with self.assertRaisesRegex(ValueError, "invalid_contrast"):
+            self._score(target="GOOD")
+        with self.assertRaisesRegex(ValueError, "invalid_contrast"):
+            self._score(treatment_arm="A")
+
+    def test_reject_untrusted_extra_field_without_echo(self):
+        rows = paired_case_clusters()
+        rows[0]["secret"] = "DO_NOT_INCLUDE"
+        with self.assertRaisesRegex(ValueError, "invalid_row_shape"):
+            self._score(rows)
+
+
 if __name__ == "__main__":
     unittest.main()
