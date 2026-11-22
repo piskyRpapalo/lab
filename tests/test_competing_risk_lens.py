@@ -477,6 +477,20 @@ class G3DeclaredLinkTest(unittest.TestCase):
         self.assertEqual(self._link(design=design)["cause"],
                          "declared_design_invalid")
 
+    def test_unhashable_terminal_keys_fail_closed(self):
+        for key, invalid in (
+            ("case_ref", {"not": "a digest"}),
+            ("repeat", []),
+            ("arm", []),
+        ):
+            with self.subTest(key=key):
+                terminal = paired_case_clusters()
+                terminal[0][key] = invalid
+                r = self._link(terminal=terminal)
+                self.assertEqual(r["state"], "EVAL_INVALID")
+                self.assertEqual(r["cause"], "terminal_key_not_hashable")
+                self.assertFalse(r["study_ready"])
+
     def test_malicious_free_text_field_denied_without_echo(self):
         terminal = paired_case_clusters()
         terminal[0]["prompt"] = "DO_NOT_ECHO_SYNTHETIC_CANARY"
