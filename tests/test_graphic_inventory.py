@@ -57,8 +57,9 @@ class TestGraphicInventory(unittest.TestCase):
     def test_unknown_ref_fails(self):
         self.assertNotEqual(self.check(self.text.replace(self.sha, 'f' * 40)).returncode, 0)
 
-    def test_piece_ceiling_is_utf8_bytes(self):
-        self.assertNotEqual(self.check(self.text + 'é' * 8192).returncode, 0)
+    def test_large_utf8_inventory_does_not_fail_on_retired_source_ceiling(self):
+        result = self.check(self.text + 'é' * 8192)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_visual_class_cannot_claim_logic_role(self):
         self.assertNotEqual(self.check(self.text.replace('| R | V |', '| R | L |')).returncode, 0)
