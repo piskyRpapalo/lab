@@ -75,14 +75,14 @@ class LlmsTreeBudgetTests(unittest.TestCase):
         return subprocess.run(
             [sys.executable, str(ROOT / "bin" / "verify_llms_tree.py"),
              "--root", str(root)], capture_output=True, text=True)
-    def test_rejects_file_over_piece_ceiling(self):
+    def test_large_indexed_file_allowed_without_declared_depth_budget(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
             (root / "llms.txt").write_text("INDEX: big.md#L1.\n", encoding="utf-8")
             (root / "big.md").write_text("x" * 16385, encoding="utf-8")
             result = self.verify(root)
-            self.assertNotEqual(result.returncode, 0)
-            self.assertIn("over piece ceiling: big.md 16385 B > 16384 B", result.stdout)
+            self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+            self.assertIn("INDEX total 16385 B", result.stdout)
     def test_rejects_index_over_depth_budget(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
