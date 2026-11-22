@@ -39,8 +39,15 @@ class NorteRecordTests(unittest.TestCase):
         first = serialize(record)
         second = serialize(copy.deepcopy(record))
         self.assertEqual(first, second)
-        self.assertLess(len(first), 16_384)
+        self.assertGreater(len(first), 0)
         self.assertEqual(json.loads(first)["summary"]["result"]["state"], "NO_DATA")
+
+    def test_large_record_not_rejected_for_retired_source_piece_ceiling(self):
+        record = sample()
+        record["summary"]["result"] = measured("evidence " * 3000)
+        data = serialize(record)
+        self.assertGreater(len(data), 16384)
+        self.assertEqual(json.loads(data)["summary"]["result"]["state"], "MEASURED")
 
     def test_round_and_bubble_frame_both_refuse_1kib(self):
         record = sample()

@@ -14,7 +14,6 @@ HEX256 = re.compile(r"[0-9a-f]{64}\Z")
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 ENVELOPE_KEYS = {"schema", "record", "provenance"}
 PROVENANCE_KEYS = {"web_commit", "record_sha256", "frame_sha256"}
-MAX_INTAKE_BYTES = 16_384
 
 
 def _error(where, why):
@@ -49,8 +48,6 @@ def validate_intake(envelope, canonical_devices=()):
         _error("intake.provenance.record_sha256", "does not match canonical record bytes")
     if provenance["frame_sha256"] != expected_frame:
         _error("intake.provenance.frame_sha256", "does not match canonical Bubble bytes")
-    if len(canonical_bytes(envelope)) >= MAX_INTAKE_BYTES:
-        _error("intake", "reaches the 16 KiB envelope ceiling")
     return envelope
 
 

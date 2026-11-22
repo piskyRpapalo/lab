@@ -44,6 +44,14 @@ class NorteIntakeTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(validate_intake(envelope), envelope)
 
+    def test_large_offline_record_is_not_rejected_by_retired_16k_ceiling(self):
+        record = record_fixture()
+        record["summary"]["result"] = measured("evidence " * 3000)
+        envelope = prepare_intake(record, "d" * 40)
+        data = serialize_intake(envelope)
+        self.assertGreater(len(data), 16384)
+        self.assertEqual(validate_intake(envelope), envelope)
+
     def test_record_hash_detects_mutation(self):
         envelope = prepare_intake(record_fixture(), "a" * 40)
         envelope["record"]["summary"]["seed"]["value"] = "mutated"

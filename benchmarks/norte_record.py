@@ -10,7 +10,6 @@ import re
 SCHEMA = "preceptoros.norte-record/1"
 BUBBLE = "preceptoros.bubble/1"
 FRAME_LIMIT = 1024
-RECORD_LIMIT = 16_384
 DOCTRINE_SEALS = {"LIVE", "STALE", "STATIC", "SIMULATED", "NO_DATA", "ERROR"}
 MEASURED_KEYS = {"state", "value", "source", "observed_at"}
 NO_DATA_KEYS = {"state", "cause", "source", "attempted_at"}
@@ -147,8 +146,6 @@ def validate(record, canonical_devices=()):
     device = values["device"]
     if device is not None and (not isinstance(device, str) or device not in set(canonical_devices)):
         _fail("summary.device", "pseudonym is absent from the measured fleet census")
-    if len(canonical_bytes(record)) >= RECORD_LIMIT:
-        _fail("record", "reaches the 16 KiB artifact ceiling")
     return record
 
 
