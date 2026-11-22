@@ -42,3 +42,22 @@ Measurements remain dated and scoped; they were not rerun for this snapshot. Sou
 - Older `tg32` values remain reported; date, machine, command and repetitions are `NO_DATA` because the session log is absent. See [`tg32`](benchmarks/tg32/README.md).
 
 Current temperature, energy, sustained-load behavior, general model quality and live browser performance: `NO_DATA`; these sources do not measure them. Benchmark index: [`benchmarks/README.md`](benchmarks/README.md).
+
+
+## Evidence pulse · GitHub readback 2026-11-22 UTC (not a new benchmark)
+
+**Scope:** documentation-only audit by Codex GPT-6 Web through GitHub connector; source is the public `main` readback and linked cards/PRs, **not** a fresh test run, model invocation, physical measurement or deployment. This pulse does not supersede the dated 2026-11-11 snapshot above.
+
+| Research line | Source-backed state on this readback | Limit / missing witness |
+|---|---|---|
+| 2D context alignment | [2026-11-20 card](benchmarks/context-fusion-20261120/README.md): **64/64** aligned vs **19/64** unaligned; poisoned anchors refused **64/64**. Synthetic evidence slots, not tokens. | `NO_DATA(cross_model_real_KV_alignment_or_attested_grants)`; controlled geometry, not LoRA/real host proof. |
+| Hexelion host-policy planner | [2026-11-20 card](benchmarks/hexelion-v1-host-policy-20261120/README.md): **17/24 exact**, **21/24 valid JSON**, seven permitted targets omitted, synthetic grants. | RED effectiveness; `NO_DATA(actual_signed_multi_host_MCP_dispatch_in_this_holdout)`. |
+| Multi-turn and longer-horizon statistics | Existing `meta_harness/multi_turn_first_failure.py` and `long_horizon_gate.py` are **pure evaluators** with explicitly untrusted/synthetic supplied events. | Presence of source code does **not** imply a running judge, real attack, authenticated witness or a sound recording. |
+| New security-study G0/G1 lens | [LAB PR #244](https://github.com/piskyRpapalo/lab/pull/244) remains **DRAFT / OPEN**, separate from this branch. External receipt describes synthetic 11/11 ×2 with CI success at its own head. | `NO_DATA(confirmatory_GOLD_or_owner_authorized_host_effect)`; do not duplicate or edit that PR's files. |
+| Remote Inkling/LFM3 | [LAB PR #243](https://github.com/piskyRpapalo/lab/pull/243) is reflected in main merge `5fc67df6a999aab776874095ab3063083e40eaf1`. | Benchmark conditions remain the card's own; no new measurement in this pulse. |
+| TRAIN-02 Qwen job | The active scientific commission is outside this doc-only branch; evidence must be read from the current private Mesa and OWNER's job-specific physical receipt. | `NO_DATA(authenticated_remote_training_output_not_independently_observed_by_this_readback)`. A staged script or SHA check does not prove GPU training, EDGE delivery, quality acceptance or model promotion. |
+| Sovereign S1 revocation | [p0x PR #139](https://github.com/piskyRpapalo/p0x/pull/139) is merged; the private S1 change is not duplicated here. | `NO_DATA(116B_to_S1_to_MCP_independent_effect_witness)`. Synthetic revocation tests do not authorize tools. |
+
+**Strict separation:** SOURCE FILE / DRAFT PR / MERGED MAIN / DEPLOYED SERVICE / PHYSICAL E2E are different states. No model weights, CLI, OWNER grant, S1 authorization, app installation, external data or agent execution has been altered. The 24-case planner holdout is already exposed and must not silently become training GOLD. The new security study must freeze gold/witness independently before any confirmatory trial.
+
+**Verification performed here:** current GitHub `main` HEAD readback and linked source files; **`NO_DATA(two_local_test_runs_not_executed_read_write_only)`**. The exact-head CI of this documentation PR, if any, is a separate future gate; do not describe it as already green.
