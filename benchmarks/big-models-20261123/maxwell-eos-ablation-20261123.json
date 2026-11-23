@@ -1,7 +1,7 @@
 {
   "schema": "hexelion.train03.maxwell-eos-ablation/1",
-  "captured_utc": "2026-11-23T08:37:33Z",
-  "status": "PHYSICAL_RUNNING_SHARDS_7_OF_35",
+  "captured_utc": "2026-11-23T08:40:28Z",
+  "status": "PASS_DEV_COMPLETE",
   "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
   "evidence": {
     "source": "Mesa #51 Codex TRAIN-03 physical study, owner-local EOS ablation",
@@ -11,7 +11,15 @@
     "prior_baseline_full_exact": 0,
     "prior_baseline_full_strict_json": 0,
     "prior_baseline_prefix_exact_diagnostic": 8,
-    "prior_baseline_warning": "8/12 prefix-only exact is NOT valid JSON/full output; baseline uses six cases x2, different backend from Ollama cohort"
+    "prior_baseline_warning": "8/12 prefix-only exact is NOT valid JSON/full output; baseline uses six cases x2, different backend from Ollama cohort",
+    "selected_baseline_four_cases": {
+      "n": 4,
+      "valid_complete_json": 0,
+      "fully_exact": 0,
+      "median_seconds": 80.268,
+      "generated_tokens": 585,
+      "sha256": "e077068c1ed60d78b5378e36dcff447773cad15331fd9d22c1b399ec935e3550"
+    }
   },
   "intervention": {
     "model": "Maxwell V1 Flash BF16",
@@ -47,16 +55,36 @@
     "ollama_models_zero_preflight": true,
     "first_attempt": "FAIL_PRE_GPU_RUNNER_INDENTATION_ERROR_08:35:58Z; preserved, no sample",
     "retry_unit": "hexelion-train03-maxwell-eos-r2-20261123.service",
-    "retry_observed": "ActiveState=active; MainPID=310203; 7/35 shards as of 08:37:33 UTC"
+    "retry_observed": "Inactive/dead; Result=success; ExecMainStatus=0; 4/4 samples at 08:40 UTC"
   },
   "results": {
-    "valid_complete_json": null,
-    "fully_exact": null,
+    "valid_complete_json": 4,
+    "fully_exact": 2,
     "prefix_exact_diagnostic": null,
-    "completed_samples": 0,
-    "final_unit_result": null,
-    "gpu_unloaded": null,
-    "note": "NO_DATA(physical_run_not_complete_as_of_capture); do not represent STARTED as PASS"
+    "completed_samples": 4,
+    "case_breakdown": [
+      {
+        "case": "math_arith",
+        "json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "case": "revocation",
+        "json": 2,
+        "exact": 2,
+        "n": 2
+      }
+    ],
+    "median_seconds": 16.2655,
+    "generated_tokens": 94,
+    "receipt_sha256": "c5a6209e72e935f23befed13ea968536785fe17be73a31316879e815223e895a",
+    "final_unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "gpu_unloaded": true,
+    "gpu_baseline_bytes": 612917248,
+    "ollama_residents": 0,
+    "cinek_queue": 0,
+    "note": "NO_DATA(independent_blind_GOLD); pilot has 4 exposed DEV turns and same-case historical baseline; 2/4 exact is not 4/4 quality"
   },
   "next_models": [
     {
@@ -85,5 +113,14 @@
       "next": "Retain as existing shared-cohort baseline, no duplicate run without purpose"
     }
   ],
-  "invariant": "One owner/GPU job at a time; S1/host grants separate from model text; Acho visual/voice/JSON parity requires real witness; no automatic promotion."
+  "invariant": "One owner/GPU job at a time; S1/host grants separate from model text; Acho visual/voice/JSON parity requires real witness; no automatic promotion.",
+  "full_followup": {
+    "status": "RUNNING_PHYSICAL",
+    "unit": "hexelion-train03-maxwell-eos-full-20261123.service",
+    "planned_samples": 12,
+    "original_six_cases_repeated_twice": true,
+    "runner_sha256": "fa2c0f382205f0809a5a445d8274958ff9b12ecb88883475b02c4de5c1036f26",
+    "baseline_sha256": "e077068c1ed60d78b5378e36dcff447773cad15331fd9d22c1b399ec935e3550",
+    "note": "NO_DATA(full_run_result_and_postflight_until_complete)"
+  }
 }
