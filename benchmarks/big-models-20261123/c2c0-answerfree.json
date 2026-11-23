@@ -1,0 +1,70 @@
+{
+  "schema": "hexelion.train03.c2c0-answerfree-ablation/1",
+  "source": "physical owner-scoped ONEXSTATION two-pass receiving model DEV",
+  "source_summary_sha256": "3516d29174c63ee1407f4d2d7f79eb4048db720610b276ef99dbcc2281b9210a",
+  "private_full_sha256": "ebb6ef50a5786656d1d9aceeb852451a207f60395a044d26efc34ed61d51f3f4",
+  "runner_sha256": "ffef2989706966372b99a5877fbf27de07f65f704b3f07a69acb6572f9f9b21b",
+  "source_prior_summary_sha256": "0dce26007d00f0caddbbeac2730062384c2ef296afa55bbf65bd559e8b06a4ce",
+  "source_model_ref": "qwen3-coder:30b",
+  "source_model_digest": "06c1097efce0431c2045fe7b2e5108366e43bee1b4603a7aded8f21689e90bca",
+  "receiver_model_ref": "gpt-oss:120b",
+  "receiver_digest": "714d86958b6e870a9320e78126ac1ce3477727a1cd9bf7194b8ace0d84c62fd8",
+  "case_count": 6,
+  "repetitions": 2,
+  "samples_completed": 36,
+  "run_state": "PASS_DEV_COMPLETE",
+  "gold": false,
+  "comparison_scope": "three receiver arms same six cases same seed profile randomized rotated arm order, but longer prompts and mutable runtime cache can still confound latency",
+  "arms": [
+    {
+      "name": "baseline",
+      "n": 12,
+      "exact": 9,
+      "strict_json": 9,
+      "median_wall_s": 11.372
+    },
+    {
+      "name": "verified_metadata_answer_free",
+      "n": 12,
+      "exact": 6,
+      "strict_json": 8,
+      "median_wall_s": 14.199
+    },
+    {
+      "name": "forged_metadata_answer_free",
+      "n": 12,
+      "exact": 6,
+      "strict_json": 8,
+      "median_wall_s": 13.499
+    }
+  ],
+  "frame": {
+    "includes_answer": false,
+    "includes_tasks": false,
+    "includes_state": false,
+    "includes_cause": false,
+    "contains_prior_response_sha256": true,
+    "contains_prior_exposed_DEV_witness": true,
+    "requires_host_permission_at_use": true
+  },
+  "evidence_boundary": {
+    "actual_kv_tensors_transferred": 0,
+    "actual_fuser_inference": 0,
+    "actual_tools_executed": 0,
+    "model_training_steps": 0,
+    "model_head_rotations": 0,
+    "app_deployments": 0,
+    "host_grants_from_model": 0
+  },
+  "unload": "PASS_UNLOADED_DMEM0",
+  "gpu_vram_returned_to_baseline_bytes": 612917248,
+  "limits": [
+    "NO_DATA(blind_external_gold)",
+    "NO_DATA(real_C2C1_KV_reuse)",
+    "NO_DATA(C2C2_fuser_neural)",
+    "NO_DATA(physical_S1_tool_effect)",
+    "NO_DATA(preregistered_statistical_significance)",
+    "NO_DATA(input_token_equivalence_across_arms)"
+  ],
+  "interpretation": "No measured exact-score improvement from answer-free provenance metadata; verified and forged frames are both 6/12 vs baseline 9/12. First exposed DEV 5/6 included the sender's answer; it cannot establish general semantic or KV benefit."
+}
