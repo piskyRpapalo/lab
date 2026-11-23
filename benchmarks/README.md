@@ -6,6 +6,8 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 
 Broadcast receipts now lead all 34 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
+- [Big Models · Hexelion TRAIN-03 physical DEV screening · 2026-11-23](big-models-20261123/README.md): ONEX 6×2 and 9×2 cohorts, Maxwell strict-output failure, 14 hard DEV cases ×2 underway; Acho, C2C, CALM, SIM/DREAM, LoRA and heterogeneous-fleet gates remain explicitly typed and unpromoted.
+
 - [Context fusion · calibrated synthetic evidence windows · 2026-11-20](context-fusion-20261120/README.md): 64 constructed cases; source-bound 2D alignment 64/64 vs raw 19/64; malformed anchors and unauthorized sources refused. Evidence slots are not model token windows; real KV/cache transfer is NO_DATA.
 
 - [Hexelion v1 · 24-case independent synthetic host-policy holdout · 2026-11-20](hexelion-v1-host-policy-20261120/README.md): 17/24 exact, 21/24 valid schema, 7 omitted authorized operations; no out-of-policy selections among parseable outputs. Real grants and tool dispatch remain NO_DATA.
