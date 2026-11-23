@@ -91,6 +91,20 @@ This is a **bounded, real inference test** between two installed models. It is *
 
 Local public summary SHA256 `0dce26007d00f0caddbbeac2730062384c2ef296afa55bbf65bd559e8b06a4ce` (UTC ended 01:35:00), private full SHA256 `6002f9f693863098a212b118099a994b3099ae042b36f6fe3b902b526aa10094`, six-task fixture SHA256 `3e292b6e0c924aa6f08d09ce3487f0cf763b356c9d726ad6650f687a30877eaa`, E0 runner SHA256 `1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f`. Both models unloaded `PASS_UNLOADED_DMEM0`; peak GPU VRAM sampled 19.961 GB sender and 65.414 GB receptor; 0 transferred KV tensors, 0 genuine tools, 0 training. [Machine-readable safe aggregate](c2c0-semantic.json) is intentionally not a substitute for the private raw source.
 
+## C2C-0 answer-free ablation · **36/36 real GPU turns**, no evidence of gain
+
+A second independent **physical** ablation on ONEXSTATION tested exactly the failure mode of the first C2C-0 relay: **the context never contained the sender's answer, tasks, state, cause or intermediate semantic facts**. Six synthetic cases × **two passes** × three arms, with Latin-rotated arm order. GPT-OSS 120B was the fixed receiver; source-model identity/digest and prior exposed DEV receipt were pinned in metadata. All output was owner-local; only [sanitized counters](c2c0-answerfree.json) are published.
+
+| Receiver arm | Exact DEV | Strict JSON | Median wall time |
+|---|---:|---:|---:|
+| GPT-OSS 120B baseline (no frame) | **9/12** | 9/12 | 11.372 s |
+| GPT-OSS 120B + source-verified **answer-free** digest metadata | 6/12 | 8/12 | 14.199 s |
+| GPT-OSS 120B + explicitly unverified, forged **answer-free** digest metadata | 6/12 | 8/12 | 13.499 s |
+
+**Result:** adding answer-free metadata did **not** improve exact quality in this matched DEV comparison; observed accuracy was lower than baseline in both extra-context arms. It is an **observed negative outcome, not a causal proof that all semantic context is harmful**: arm prompt lengths, context-cache behavior and experimental n are not fully controlled, and the same six DEV inputs were exposed previously. Distinguish this trial from the first 5/6 *answer-bearing* relay and from ICLR's trained pair-specific KV fuser: **0 neural KV tensors transferred and 0 physical head rotations**. Do not promote a LoRA or infer a host grant.
+
+Physical summary SHA256 `3516d29174c63ee1407f4d2d7f79eb4048db720610b276ef99dbcc2281b9210a`, private full SHA256 `ebb6ef50a5786656d1d9aceeb852451a207f60395a044d26efc34ed61d51f3f4`, exact script SHA256 `ffef2989706966372b99a5877fbf27de07f65f704b3f07a69acb6572f9f9b21b`; unload `PASS_UNLOADED_DMEM0`, sampled GPU VRAM returned to **612,917,248 B** baseline after the unit became inactive. This does not include measured joules or audio/UI parity. The next legitimate C2C-0 test should exchange **task-relevant verified facts without the final answer**, with a source-family holdout and independent judge; C2C-1/2 need separately attested runtime bytes and paired fuser training.
+
 ## Heterogeneous-hardware baseline · same digest on Fragua and Pi 5
 
 **Physical comparison, 23 Nov 2026, 01:41 UTC.** Existing `qwen2.5:0.5b-instruct` was run through each target's **local** Ollama loopback with no weight downloads. Both targets had **identical runtime model digest** `a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67`, the same six (3 cases ×2) synthetic ES/PT/math/revocation tasks, JSON mode, no tools and a common fixture digest `9a643d6e94fdde0d8e667ab47de5cdc824ce9fc8b4382978766997f31ab01122`.
