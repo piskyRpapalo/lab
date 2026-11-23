@@ -1,6 +1,6 @@
 {
   "schema": "hexelion.train03.maxwell-eos-ablation/1",
-  "captured_utc": "2026-11-23T08:49:01Z",
+  "captured_utc": "2026-11-23T08:50:52Z",
   "status": "PASS_DEV_COMPLETE",
   "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
   "evidence": {
@@ -94,8 +94,8 @@
     },
     {
       "model": "Nemotron 3 Super 120B Q4_K_S",
-      "status": "RUNNING_FIRST_TOKEN_PHYSICAL_AS_OF_08:49:01Z",
-      "next": "Await owner-unit result and GPU unload; no score until witnessed"
+      "status": "PASS_FIRST_TOKEN_DEV; 8 tokens; math NOT exact; unload PASS",
+      "next": "Same-cohort assessment under new explicit S1/Acho contracts"
     },
     {
       "model": "Nemotron 3.5 Lightning 30B Q4_0",
@@ -104,8 +104,8 @@
     },
     {
       "model": "Qwen3.8 Flash Next IQ3_XXS",
-      "status": "NO_DATA(unsupported_ollama_tensor_importer)",
-      "next": "Alternative pinned backend compatibility; do not score zero"
+      "status": "PHYSICAL_VULKAN_FIRST_TOKEN_TEST_RUNNING; former Ollama import FAIL unchanged",
+      "next": "Read exact owner backend result and unload; do not infer quality from loader"
     },
     {
       "model": "Qwen3.8 27B Q4XL",
@@ -187,7 +187,7 @@
     "qualification": "One synthetic math probe only; not comparable to six-case/14-case score; no GOLD or training"
   },
   "nemotron_super": {
-    "state": "RUNNING_FIRST_TOKEN_PHYSICAL",
+    "state": "PASS_FIRST_TOKEN_DEV",
     "started_utc": "2026-11-23T08:49:01Z",
     "unit": "hexelion-train03-nemotron-super-firsttoken-20261123.service",
     "runner_sha256": "14ba935d7a8f09418943a4dc64fe07190e165ea4f920f9f975f8c1cb8cb1dea3",
@@ -196,6 +196,29 @@
     "n_predict": 8,
     "first_token": null,
     "unload": null,
-    "note": "NO_DATA(run_pending; not first token PASS)"
+    "note": "NO_DATA(independent_GOLD_and_common_cohort); first token is a runtime result, not model quality",
+    "tokens_predicted": 8,
+    "elapsed_s": 25.11,
+    "vram_after_load_bytes": 79254175744,
+    "arithmetic_exact": false,
+    "gpu_unloaded": true,
+    "final_vram_bytes": 612917248,
+    "unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "finished_utc": "2026-11-23T08:49:27Z",
+    "receipt_sha256": "7ddde6e636658bdc3c0e3a4a8a06f3907096bbab8c1bc8d300f767679e668f39"
+  },
+  "qwen38_flash": {
+    "state": "RUNNING_FIRST_TOKEN_PHYSICAL",
+    "unit": "hexelion-train03-qwen38-flash-firsttoken-20261123.service",
+    "runner_sha256": "eade7994cecb0fae8d5541aa229cb267ed0798f54c5f9a5d041318d854b05e41",
+    "backend": "same pinned Vulkan AMD llama.cpp used for Nemotron",
+    "weights_shards_bytes": [
+      47039860096,
+      28800138432
+    ],
+    "text_only_mmproj_unused": true,
+    "first_token": null,
+    "unload": null,
+    "note": "NO_DATA(runtime_result_pending_as_of_08:50:52Z); old Ollama importer tensor overflow does not prove model incapacity"
   }
 }
