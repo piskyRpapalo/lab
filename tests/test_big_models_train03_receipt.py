@@ -57,6 +57,31 @@ class BigModelsTrain03ReceiptTests(unittest.TestCase):
         self.assertEqual(hard["samples_planned"], hard["cases"] * hard["repetitions"] * hard["models_planned"])
         self.assertFalse(hard["has_gold"])
 
+    def test_hard_round_complete_is_not_promotion(self):
+        hard = self.report["measurement_sources"]["hard_dev_round2"]
+        self.assertEqual(hard["state"], "PASS_DEV_COMPLETE")
+        self.assertEqual(hard["samples_completed"], 112)
+        self.assertEqual(hard["samples_completed"], hard["samples_planned"])
+        self.assertEqual(hard["sha256"],
+                         "a63c19170917c1b68a8eb650bebd03d572023defa07d25adfaf92ea67fb9313b")
+        self.assertFalse(hard["has_gold"])
+        self.assertEqual(len(self.report["hard_dev_results"]), 4)
+
+    def test_all_hard_case_counts_and_strict_scores(self):
+        for row in self.report["hard_dev_results"]:
+            self.assertEqual(row["samples"], 28)
+            self.assertEqual(len(row["case_results"]), 14)
+            self.assertEqual(sum(v["n"] for v in row["case_results"].values()), 28)
+            self.assertEqual(sum(v["strict_json"] for v in row["case_results"].values()), row["strict_json"])
+            self.assertEqual(sum(v["exact"] for v in row["case_results"].values()), row["exact"])
+            self.assertLessEqual(row["exact"], row["strict_json"])
+            self.assertEqual(row["unload"], "PASS_UNLOADED_DMEM0")
+        totals = {row["model"]:row["exact"] for row in self.report["hard_dev_results"]}
+        self.assertEqual(totals, {"gpt-oss:120b":11,
+                                  "qwen3-coder-next:latest":8,
+                                  "qwen3-coder:30b":16,
+                                  "qwen38-27b-q4xl:latest":16})
+
     def test_no_raw_or_personal_source_data(self):
         forbidden = ("raw_prompt", "raw_response", "completion_text", "ssh_key",
                      "private_address", "user_email", "password", "access_token",
