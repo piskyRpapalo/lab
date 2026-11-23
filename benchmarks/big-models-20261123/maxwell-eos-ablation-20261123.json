@@ -1,6 +1,6 @@
 {
   "schema": "hexelion.train03.maxwell-eos-ablation/1",
-  "captured_utc": "2026-11-23T08:50:52Z",
+  "captured_utc": "2026-11-23T08:58:00Z",
   "status": "PASS_DEV_COMPLETE",
   "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
   "evidence": {
@@ -104,8 +104,8 @@
     },
     {
       "model": "Qwen3.8 Flash Next IQ3_XXS",
-      "status": "PHYSICAL_VULKAN_FIRST_TOKEN_TEST_RUNNING; former Ollama import FAIL unchanged",
-      "next": "Read exact owner backend result and unload; do not infer quality from loader"
+      "status": "FAIL_RUNTIME_MEMORY_LIMIT during Vulkan shard load; NO_DATA(first_token), not quality zero",
+      "next": "Preflight cgroup memory/image page cache vs 30 GiB Linux RAM; no retry with unchanged limits"
     },
     {
       "model": "Qwen3.8 27B Q4XL",
@@ -208,17 +208,53 @@
     "receipt_sha256": "7ddde6e636658bdc3c0e3a4a8a06f3907096bbab8c1bc8d300f767679e668f39"
   },
   "qwen38_flash": {
-    "state": "RUNNING_FIRST_TOKEN_PHYSICAL",
-    "unit": "hexelion-train03-qwen38-flash-firsttoken-20261123.service",
-    "runner_sha256": "eade7994cecb0fae8d5541aa229cb267ed0798f54c5f9a5d041318d854b05e41",
-    "backend": "same pinned Vulkan AMD llama.cpp used for Nemotron",
-    "weights_shards_bytes": [
-      47039860096,
-      28800138432
-    ],
-    "text_only_mmproj_unused": true,
+    "state": "FAIL_RUNTIME_MEMORY_LIMIT",
+    "first_attempt": "FAIL_PRELOAD_WRONG_MODEL_PATH; no GPU load; corrected in retry",
+    "second_attempt": "GPU SHARD_LOAD then cgroup kernel OOM-KILL",
+    "diagnostic_scope": "Owner journal 08:52:21 UTC vs systemctl eventual garbage-collected unit readback",
+    "unit": "hexelion-train03-qwen38-flash-firsttoken-r2-20261123.service",
+    "runner_sha256": "13582cb82dd84e45ded3ec3e0ffeff14da1889473949520c12bc454795513f3f",
+    "backend": "Vulkan llama-server on owner loopback",
+    "peak_cgroup_ram_gib": 17.5,
+    "peak_cgroup_swap_gib": 2.9,
+    "observed_gpu_vram_loaded_bytes": 47369375744,
     "first_token": null,
-    "unload": null,
-    "note": "NO_DATA(runtime_result_pending_as_of_08:50:52Z); old Ollama importer tensor overflow does not prove model incapacity"
+    "unload": true,
+    "final_vram_bytes": 612917248,
+    "receipt_note": "NO_DATA(first_token); CGroup OOM killed loader before generation; no model-quality score",
+    "correction": "Do not use garbage-collected systemctl Result=success as proof of execution success; owner journal recorded Failed with result oom-kill."
+  },
+  "fleet_inventory": {
+    "captured_utc": "2026-11-23T08:57:39Z",
+    "scope": "read-only SSH; local loopback Ollama /api/tags and /api/ps",
+    "hosts": [
+      {
+        "name": "Fragua",
+        "ollama": "0.24.0",
+        "qwen25_05b_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+        "qwen25_15b_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "resident": 0
+      },
+      {
+        "name": "Pi5",
+        "ollama": "0.40.13",
+        "qwen25_05b_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+        "resident": 0
+      },
+      {
+        "name": "Jetson",
+        "ollama": "0.33.2",
+        "qwen25_05b_digest": "dc5ca91b1d02cdff896b442b433b964ee643692c0360f20ca6e3013256da89f8",
+        "qwen25_15b_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "resident": 0
+      },
+      {
+        "name": "Onex",
+        "ollama": "0.40.3",
+        "qwen25_05b_digest": null,
+        "resident": 0
+      }
+    ],
+    "interpretation": "Fragua and Pi5 identical Qwen2.5-0.5B digest but different Ollama versions; Jetson label same but digest differs; no inference of same exact checkpoint. Qwen2.5 1.5B digest matches Fragua/Jetson. Onex endpoint lacks Qwen2.5 small tag."
   }
 }
