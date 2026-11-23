@@ -91,11 +91,8 @@ class Train02BlindPreregTests(unittest.TestCase):
             self.assertIn(key, hard)
         self.assertIn("complete", metrics["primary"].lower())
         self.assertIn("95%", metrics["paired_comparison"])
-        self.assertIn("confidence", metrics["non_promotion_note"].lower()
-                      if "confidence" in metrics["non_promotion_note"].lower() else
-                      metrics["success_gate"].lower() + " confidence")
-        self.assertIn("Source", "Source family" if "source" in m["holdout"]["contamination_policy"].lower()
-                      else "")
+        self.assertIn("lower bound", metrics["success_gate"])
+        self.assertIn("source-family", m["holdout"]["contamination_policy"].lower())
         self.assertIn("meta_harness/improvement", m["comparison"]["reuse"])
 
     def test_no_raw_material_bundled(self):
