@@ -1,0 +1,311 @@
+{
+  "actual_kv_transfers": 0,
+  "actual_tools": 0,
+  "calm_changes": 0,
+  "cause_contract": "FREE_FORM_SNAKE_CASE_NOT_CLOSED_LABEL_SET; exact_cause_MISMATCH_NOT_GLOBAL_REASONING_SCORE",
+  "dream_promotions": 0,
+  "dual_ollama_reconciliation_sha256": "15255edc5c670c232d132b29f1ef034d03beb678979b1613a475031615d42609",
+  "gold": false,
+  "models": {
+    "gpt-oss:120b": {
+      "all_non_cause": 5,
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "calm_public_native_edge": {
+          "all_non_cause": 2,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "all_non_cause": 1,
+          "cache": 1,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 1,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "all_non_cause": 2,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "hetero_pi120b_budget": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "sleep_sim_unwitnessed_live": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        }
+      },
+      "cause_snake_case_format": 14,
+      "field_exact": {
+        "cache": 11,
+        "cause": 0,
+        "head": 14,
+        "state": 5,
+        "tasks": 14
+      },
+      "full_exact": 0,
+      "median_s": 7.603,
+      "n": 14,
+      "peak_vram_bytes": 65395523584,
+      "strict_json": 14,
+      "unload": "PASS_UNLOADED_DMEM0"
+    },
+    "qwen3-coder:30b": {
+      "all_non_cause": 4,
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "calm_public_native_edge": {
+          "all_non_cause": 2,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "all_non_cause": 2,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "hetero_pi120b_budget": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "sleep_sim_unwitnessed_live": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        }
+      },
+      "cause_snake_case_format": 14,
+      "field_exact": {
+        "cache": 10,
+        "cause": 0,
+        "head": 10,
+        "state": 8,
+        "tasks": 14
+      },
+      "full_exact": 0,
+      "median_s": 0.762,
+      "n": 14,
+      "peak_vram_bytes": 19960557568,
+      "strict_json": 14,
+      "unload": "PASS_UNLOADED_DMEM0"
+    },
+    "qwen38-27b-q4xl:latest": {
+      "all_non_cause": 0,
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "calm_public_native_edge": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "hetero_pi120b_budget": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 2,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "all_non_cause": 0,
+          "cache": 2,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 2,
+          "strict_json": 2,
+          "tasks": 2
+        },
+        "sleep_sim_unwitnessed_live": {
+          "all_non_cause": 0,
+          "cache": 0,
+          "cause": 0,
+          "exact": 0,
+          "head": 0,
+          "n": 2,
+          "state": 0,
+          "strict_json": 2,
+          "tasks": 2
+        }
+      },
+      "cause_snake_case_format": 14,
+      "field_exact": {
+        "cache": 8,
+        "cause": 0,
+        "head": 6,
+        "state": 4,
+        "tasks": 14
+      },
+      "full_exact": 0,
+      "median_s": 5.258,
+      "n": 14,
+      "peak_vram_bytes": 18123431936,
+      "strict_json": 14,
+      "unload": "PASS_UNLOADED_DMEM0"
+    }
+  },
+  "origin": "REAL_ONEX_OWNER_GPU_SYNTHETIC_DEV",
+  "original_invalid_harness_receipt_sha256": "82ec29ec3e4dc09d5b645fe23cb657952aa310310c60114f571d55151f6ae947",
+  "physical_receipt_sha256": "eaf59e5d9fc2e78df206f907cc8a42e9559a817899a9c02266da5f31c67a4cf0",
+  "real_lora_rotations": 0,
+  "repetitions": 2,
+  "run_ended_utc": "2026-11-23T01:58:04Z",
+  "run_started_utc": "2026-11-23T01:54:24Z",
+  "schema": "hexelion.train03.brain-contracts-field-audit/1",
+  "source_case_count": 7,
+  "source_schema": "hexelion.train03.brain-contracts-dev/1",
+  "train_steps": 0,
+  "v2_script_sha256": "4566f2ae9e04cc3135275c716a476507cca6b21639313e0a363ffb6b761414a0"
+}
