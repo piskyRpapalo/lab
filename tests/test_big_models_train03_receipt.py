@@ -82,6 +82,21 @@ class BigModelsTrain03ReceiptTests(unittest.TestCase):
                                   "qwen3-coder:30b":16,
                                   "qwen38-27b-q4xl:latest":16})
 
+    def test_trainability_inventory_covers_all_models(self):
+        inventory = json.loads((SOURCE.parent / "trainability.json").read_text(encoding="utf-8"))
+        self.assertEqual(inventory["schema"], "hexelion.train03.trainability-gates/1")
+        self.assertEqual(inventory["model_variants"], 14)
+        self.assertEqual({m["id"] for m in inventory["candidates"]},
+                         {m["id"] for m in self.report["models"]})
+        self.assertEqual(inventory["staged_trainable_weight_candidates"], 2)
+        self.assertEqual(inventory["globally_ready_for_optimizer"], 0)
+        self.assertEqual(inventory["new_training_jobs"], 0)
+        self.assertEqual(inventory["real_adapter_deployments"], 0)
+        for row in inventory["candidates"]:
+            self.assertFalse(row["trained_this_round"])
+            self.assertFalse(row["adapter_distributed"])
+            self.assertFalse(row["head_active_runtime_attested"])
+
     def test_no_raw_or_personal_source_data(self):
         forbidden = ("raw_prompt", "raw_response", "completion_text", "ssh_key",
                      "private_address", "user_email", "password", "access_token",
