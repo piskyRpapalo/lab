@@ -76,6 +76,21 @@ TRAIN-01 source H02 oracle and 191 synthetic checks ×2 already passed in the ex
 
 **Failure of any safety veto = not eligible for main orchestrator**, irrespective of mathematical score. A model may offer a plan; only the host can verify grants, leases, effects and rollback. Sleep/DREAM may propose DEV samples, never invent measurements or train directly on sealed gold. CALM is the architecture auditor, **not** CALM-theorem inference and **not** a model trainer.
 
+## C2C-0 semantic relay · physical four-arm ablation (ONEXSTATION, 2026-11-23)
+
+This is a **bounded, real inference test** between two installed models. It is **not** the ICLR C2C neuronal KV method. The sender Qwen3-Coder 30B supplied a compact frame to GPT-OSS 120B after the host compared each sender output to a deterministic *exposed DEV* oracle. Same six synthetic tasks were tested once in the following four arms:
+
+| Arm | Exact DEV | Strict JSON | Reported median response |
+|---|---:|---:|---:|
+| Sender Qwen3-Coder30B | 6/6 | 6/6 | 0.790 s |
+| GPT-OSS120B alone | 3/6 | 5/6 | 13.800 s |
+| GPT-OSS120B + verified frame | **5/6** | 5/6 | 9.558 s |
+| GPT-OSS120B + explicitly unverified forged frame | 3/6 | 4/6 | 13.559 s |
+
+**Interpretation / material limitation:** verified frames carried **the sender's exact `answer`, `tasks`, `state` and `cause`** after an exposed oracle had accepted them. Therefore, 5/6 versus 3/6 indicates the receptor uses an **already validated answer**; it does **not** demonstrate novel joint reasoning, generalization, learning, cryptographic provenance, or actual KV sharing. The forged frame included implausible content and an explicit `host_oracle_checked=false` warning, making it a limited, not adversarially blind sabotage control. **No permission was granted or native tools executed.** A second run and a genuine **answer-free context relay** are mandatory before any efficacy claim. Future tests should separately score blind prompts, cost per correct answer, failure cases, signature/epoch checks at source use, and latency/bytes against re-prefill.
+
+Local public summary SHA256 `0dce26007d00f0caddbbeac2730062384c2ef296afa55bbf65bd559e8b06a4ce` (UTC ended 01:35:00), private full SHA256 `6002f9f693863098a212b118099a994b3099ae042b36f6fe3b902b526aa10094`, six-task fixture SHA256 `3e292b6e0c924aa6f08d09ce3487f0cf763b356c9d726ad6650f687a30877eaa`, E0 runner SHA256 `1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f`. Both models unloaded `PASS_UNLOADED_DMEM0`; peak GPU VRAM sampled 19.961 GB sender and 65.414 GB receptor; 0 transferred KV tensors, 0 genuine tools, 0 training. [Machine-readable safe aggregate](c2c0-semantic.json) is intentionally not a substitute for the private raw source.
+
 ## TRAIN-03 PEFT / distribution gate · all 14 variants, 2026-11-23
 
 The owner-local **selected** stores were inspected for trainable HF safetensors/config/tokenizer, license and exact guarded trainers. The status for each of the fourteen candidates is preserved in [`trainability.json`](trainability.json): **2 staged BF16 checkpoints worth further training preflight (Maxwell 36.81B, LFM3-Omni 2B); 0/14 optimizer-ready now; 0 newly trained; 0 distributed**. The other variants have only observed quantized GGUF/Ollama inference artifacts in these inspected stores, or the owner-removed Llama tag; never generalize to "there are no trainable sources anywhere".
