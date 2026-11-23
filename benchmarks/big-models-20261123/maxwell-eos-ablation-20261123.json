@@ -1,6 +1,6 @@
 {
   "schema": "hexelion.train03.maxwell-eos-ablation/1",
-  "captured_utc": "2026-11-23T08:40:28Z",
+  "captured_utc": "2026-11-23T08:49:01Z",
   "status": "PASS_DEV_COMPLETE",
   "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
   "evidence": {
@@ -94,13 +94,13 @@
     },
     {
       "model": "Nemotron 3 Super 120B Q4_K_S",
-      "status": "STAGED_VERIFIED_NO_FIRST_TOKEN",
-      "next": "Pinned Vulkan/llama runtime first token, then common cohort"
+      "status": "RUNNING_FIRST_TOKEN_PHYSICAL_AS_OF_08:49:01Z",
+      "next": "Await owner-unit result and GPU unload; no score until witnessed"
     },
     {
       "model": "Nemotron 3.5 Lightning 30B Q4_0",
-      "status": "STAGED_VERIFIED_NO_FIRST_TOKEN",
-      "next": "Runtime/first token then common cohort"
+      "status": "PASS_FIRST_TOKEN_DEV; 8 predicted tokens; arithmetic NOT exact; unload PASS",
+      "next": "Controlled same-cohort DEV before any model ranking"
     },
     {
       "model": "Qwen3.8 Flash Next IQ3_XXS",
@@ -115,12 +115,87 @@
   ],
   "invariant": "One owner/GPU job at a time; S1/host grants separate from model text; Acho visual/voice/JSON parity requires real witness; no automatic promotion.",
   "full_followup": {
-    "status": "RUNNING_PHYSICAL",
+    "status": "PASS_DEV_COMPLETE",
     "unit": "hexelion-train03-maxwell-eos-full-20261123.service",
     "planned_samples": 12,
     "original_six_cases_repeated_twice": true,
     "runner_sha256": "fa2c0f382205f0809a5a445d8274958ff9b12ecb88883475b02c4de5c1036f26",
     "baseline_sha256": "e077068c1ed60d78b5378e36dcff447773cad15331fd9d22c1b399ec935e3550",
-    "note": "NO_DATA(full_run_result_and_postflight_until_complete)"
+    "note": "NO_DATA(independent_blind_GOLD); 8/12 complete exact is DEV-only, not proof of architecture authorization or superior reasoning",
+    "completed_samples": 12,
+    "valid_complete_json": 12,
+    "fully_exact": 8,
+    "median_completed_answer_s": 17.9255,
+    "max_completed_answer_s": 57.3,
+    "all_generated_tokens": 488,
+    "whole_job_elapsed_s": 374.03,
+    "receipt_sha256": "fae4414572c3cd603a08d4879a336b63b3abd63d402a912cadbe01298ba1591a",
+    "final_stage_sha256": "a47a79f68b6bfdaff95c267005048bd9375d75e68dcb2290b058ed115626c73f",
+    "unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "gpu_unloaded": true,
+    "gpu_baseline_bytes": 612917248,
+    "by_case": [
+      {
+        "id": "allowed_tools",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "math_arith",
+        "strict_json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "id": "math_crt",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "missing_source_es",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "missing_source_pt",
+        "strict_json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "id": "revocation",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      }
+    ]
+  },
+  "nemotron_lightning": {
+    "state": "PASS_FIRST_TOKEN_DEV",
+    "backend": "existing pinned llama-server Vulkan AMD",
+    "model": "Nemotron 3.5 Lightning 30B A3B Q4_0",
+    "tokens_predicted": 8,
+    "elapsed_s": 6.65,
+    "vram_after_load_bytes": 19018776576,
+    "arithmetic_exact": false,
+    "unloaded": true,
+    "vram_postflight_bytes": 612917248,
+    "finished_utc": "2026-11-23T08:47:51Z",
+    "qualification": "One synthetic math probe only; not comparable to six-case/14-case score; no GOLD or training"
+  },
+  "nemotron_super": {
+    "state": "RUNNING_FIRST_TOKEN_PHYSICAL",
+    "started_utc": "2026-11-23T08:49:01Z",
+    "unit": "hexelion-train03-nemotron-super-firsttoken-20261123.service",
+    "runner_sha256": "14ba935d7a8f09418943a4dc64fe07190e165ea4f920f9f975f8c1cb8cb1dea3",
+    "expected_shards": 2,
+    "total_staged_weight_bytes": 78040156800,
+    "n_predict": 8,
+    "first_token": null,
+    "unload": null,
+    "note": "NO_DATA(run_pending; not first token PASS)"
   }
 }
