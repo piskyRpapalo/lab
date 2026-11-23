@@ -1,0 +1,260 @@
+{
+  "schema": "hexelion.train03.maxwell-eos-ablation/1",
+  "captured_utc": "2026-11-23T08:58:00Z",
+  "status": "PASS_DEV_COMPLETE",
+  "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
+  "evidence": {
+    "source": "Mesa #51 Codex TRAIN-03 physical study, owner-local EOS ablation",
+    "mesa_claim": "https://github.com/piskyRpapalo/preceptoros-private-mesa/issues/51#issuecomment-7094390074",
+    "source_readme": "benchmarks/big-models-20261123/README.md",
+    "prior_baseline_samples": 12,
+    "prior_baseline_full_exact": 0,
+    "prior_baseline_full_strict_json": 0,
+    "prior_baseline_prefix_exact_diagnostic": 8,
+    "prior_baseline_warning": "8/12 prefix-only exact is NOT valid JSON/full output; baseline uses six cases x2, different backend from Ollama cohort",
+    "selected_baseline_four_cases": {
+      "n": 4,
+      "valid_complete_json": 0,
+      "fully_exact": 0,
+      "median_seconds": 80.268,
+      "generated_tokens": 585,
+      "sha256": "e077068c1ed60d78b5378e36dcff447773cad15331fd9d22c1b399ec935e3550"
+    }
+  },
+  "intervention": {
+    "model": "Maxwell V1 Flash BF16",
+    "checkpoint": "35/35 BF16 shards previously SHA-verified; no new download",
+    "intent": "Test whether the model-specific EOS token fixes over-generation; not an improvement claim",
+    "previous_eos_generation_config": [
+      2,
+      200001
+    ],
+    "previous_runner": "stream_bench_cached_6x2.py",
+    "previous_explicit_eos_argument": false,
+    "new_explicit_eos_argument": [
+      2,
+      200001
+    ],
+    "runner_sha256": "950a6b3cf318b2a3c225bf8f3703ff48bfbe6f5f84fe4c244ae5a295dea7836f",
+    "original_fixture_kept": true,
+    "case_ids": [
+      "math_arith",
+      "revocation"
+    ],
+    "repeats": 2,
+    "planned_samples": 4,
+    "decoding": "do_sample=False,max_new_tokens=160,use_cache=True,max_time=80s; keep original prompt, scoring and other generation arguments",
+    "numeric_limits": {
+      "gpu_vram_abort_bytes": 85000000000,
+      "systemd_memory_max_bytes": 14680064000,
+      "systemd_swap_max_bytes": 3145728000,
+      "runtime_max_seconds": 720
+    },
+    "exclusive_gpu_lock": true,
+    "cinek_queue_zero_preflight": true,
+    "ollama_models_zero_preflight": true,
+    "first_attempt": "FAIL_PRE_GPU_RUNNER_INDENTATION_ERROR_08:35:58Z; preserved, no sample",
+    "retry_unit": "hexelion-train03-maxwell-eos-r2-20261123.service",
+    "retry_observed": "Inactive/dead; Result=success; ExecMainStatus=0; 4/4 samples at 08:40 UTC"
+  },
+  "results": {
+    "valid_complete_json": 4,
+    "fully_exact": 2,
+    "prefix_exact_diagnostic": null,
+    "completed_samples": 4,
+    "case_breakdown": [
+      {
+        "case": "math_arith",
+        "json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "case": "revocation",
+        "json": 2,
+        "exact": 2,
+        "n": 2
+      }
+    ],
+    "median_seconds": 16.2655,
+    "generated_tokens": 94,
+    "receipt_sha256": "c5a6209e72e935f23befed13ea968536785fe17be73a31316879e815223e895a",
+    "final_unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "gpu_unloaded": true,
+    "gpu_baseline_bytes": 612917248,
+    "ollama_residents": 0,
+    "cinek_queue": 0,
+    "note": "NO_DATA(independent_blind_GOLD); pilot has 4 exposed DEV turns and same-case historical baseline; 2/4 exact is not 4/4 quality"
+  },
+  "next_models": [
+    {
+      "model": "Mistral Medium 3.5 128B Q4XL",
+      "status": "MEASURED_12_OF_18_ON_DIFFERENT_COHORT",
+      "next": "Same-condition DEV benchmark after GPU release"
+    },
+    {
+      "model": "Nemotron 3 Super 120B Q4_K_S",
+      "status": "PASS_FIRST_TOKEN_DEV; 8 tokens; math NOT exact; unload PASS",
+      "next": "Same-cohort assessment under new explicit S1/Acho contracts"
+    },
+    {
+      "model": "Nemotron 3.5 Lightning 30B Q4_0",
+      "status": "PASS_FIRST_TOKEN_DEV; 8 predicted tokens; arithmetic NOT exact; unload PASS",
+      "next": "Controlled same-cohort DEV before any model ranking"
+    },
+    {
+      "model": "Qwen3.8 Flash Next IQ3_XXS",
+      "status": "FAIL_RUNTIME_MEMORY_LIMIT during Vulkan shard load; NO_DATA(first_token), not quality zero",
+      "next": "Preflight cgroup memory/image page cache vs 30 GiB Linux RAM; no retry with unchanged limits"
+    },
+    {
+      "model": "Qwen3.8 27B Q4XL",
+      "status": "MEASURED_16_OF_28_COMMON_HARD_DEV",
+      "next": "Retain as existing shared-cohort baseline, no duplicate run without purpose"
+    }
+  ],
+  "invariant": "One owner/GPU job at a time; S1/host grants separate from model text; Acho visual/voice/JSON parity requires real witness; no automatic promotion.",
+  "full_followup": {
+    "status": "PASS_DEV_COMPLETE",
+    "unit": "hexelion-train03-maxwell-eos-full-20261123.service",
+    "planned_samples": 12,
+    "original_six_cases_repeated_twice": true,
+    "runner_sha256": "fa2c0f382205f0809a5a445d8274958ff9b12ecb88883475b02c4de5c1036f26",
+    "baseline_sha256": "e077068c1ed60d78b5378e36dcff447773cad15331fd9d22c1b399ec935e3550",
+    "note": "NO_DATA(independent_blind_GOLD); 8/12 complete exact is DEV-only, not proof of architecture authorization or superior reasoning",
+    "completed_samples": 12,
+    "valid_complete_json": 12,
+    "fully_exact": 8,
+    "median_completed_answer_s": 17.9255,
+    "max_completed_answer_s": 57.3,
+    "all_generated_tokens": 488,
+    "whole_job_elapsed_s": 374.03,
+    "receipt_sha256": "fae4414572c3cd603a08d4879a336b63b3abd63d402a912cadbe01298ba1591a",
+    "final_stage_sha256": "a47a79f68b6bfdaff95c267005048bd9375d75e68dcb2290b058ed115626c73f",
+    "unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "gpu_unloaded": true,
+    "gpu_baseline_bytes": 612917248,
+    "by_case": [
+      {
+        "id": "allowed_tools",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "math_arith",
+        "strict_json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "id": "math_crt",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "missing_source_es",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      },
+      {
+        "id": "missing_source_pt",
+        "strict_json": 2,
+        "exact": 0,
+        "n": 2
+      },
+      {
+        "id": "revocation",
+        "strict_json": 2,
+        "exact": 2,
+        "n": 2
+      }
+    ]
+  },
+  "nemotron_lightning": {
+    "state": "PASS_FIRST_TOKEN_DEV",
+    "backend": "existing pinned llama-server Vulkan AMD",
+    "model": "Nemotron 3.5 Lightning 30B A3B Q4_0",
+    "tokens_predicted": 8,
+    "elapsed_s": 6.65,
+    "vram_after_load_bytes": 19018776576,
+    "arithmetic_exact": false,
+    "unloaded": true,
+    "vram_postflight_bytes": 612917248,
+    "finished_utc": "2026-11-23T08:47:51Z",
+    "qualification": "One synthetic math probe only; not comparable to six-case/14-case score; no GOLD or training"
+  },
+  "nemotron_super": {
+    "state": "PASS_FIRST_TOKEN_DEV",
+    "started_utc": "2026-11-23T08:49:01Z",
+    "unit": "hexelion-train03-nemotron-super-firsttoken-20261123.service",
+    "runner_sha256": "14ba935d7a8f09418943a4dc64fe07190e165ea4f920f9f975f8c1cb8cb1dea3",
+    "expected_shards": 2,
+    "total_staged_weight_bytes": 78040156800,
+    "n_predict": 8,
+    "first_token": null,
+    "unload": null,
+    "note": "NO_DATA(independent_GOLD_and_common_cohort); first token is a runtime result, not model quality",
+    "tokens_predicted": 8,
+    "elapsed_s": 25.11,
+    "vram_after_load_bytes": 79254175744,
+    "arithmetic_exact": false,
+    "gpu_unloaded": true,
+    "final_vram_bytes": 612917248,
+    "unit_result": "inactive/dead Result=success ExecMainStatus=0",
+    "finished_utc": "2026-11-23T08:49:27Z",
+    "receipt_sha256": "7ddde6e636658bdc3c0e3a4a8a06f3907096bbab8c1bc8d300f767679e668f39"
+  },
+  "qwen38_flash": {
+    "state": "FAIL_RUNTIME_MEMORY_LIMIT",
+    "first_attempt": "FAIL_PRELOAD_WRONG_MODEL_PATH; no GPU load; corrected in retry",
+    "second_attempt": "GPU SHARD_LOAD then cgroup kernel OOM-KILL",
+    "diagnostic_scope": "Owner journal 08:52:21 UTC vs systemctl eventual garbage-collected unit readback",
+    "unit": "hexelion-train03-qwen38-flash-firsttoken-r2-20261123.service",
+    "runner_sha256": "13582cb82dd84e45ded3ec3e0ffeff14da1889473949520c12bc454795513f3f",
+    "backend": "Vulkan llama-server on owner loopback",
+    "peak_cgroup_ram_gib": 17.5,
+    "peak_cgroup_swap_gib": 2.9,
+    "observed_gpu_vram_loaded_bytes": 47369375744,
+    "first_token": null,
+    "unload": true,
+    "final_vram_bytes": 612917248,
+    "receipt_note": "NO_DATA(first_token); CGroup OOM killed loader before generation; no model-quality score",
+    "correction": "Do not use garbage-collected systemctl Result=success as proof of execution success; owner journal recorded Failed with result oom-kill."
+  },
+  "fleet_inventory": {
+    "captured_utc": "2026-11-23T08:57:39Z",
+    "scope": "read-only SSH; local loopback Ollama /api/tags and /api/ps",
+    "hosts": [
+      {
+        "name": "Fragua",
+        "ollama": "0.24.0",
+        "qwen25_05b_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+        "qwen25_15b_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "resident": 0
+      },
+      {
+        "name": "Pi5",
+        "ollama": "0.40.13",
+        "qwen25_05b_digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+        "resident": 0
+      },
+      {
+        "name": "Jetson",
+        "ollama": "0.33.2",
+        "qwen25_05b_digest": "dc5ca91b1d02cdff896b442b433b964ee643692c0360f20ca6e3013256da89f8",
+        "qwen25_15b_digest": "65ec06548149b04c096a120e4a6da9d4017ea809c91734ea5631e89f96ddc57b",
+        "resident": 0
+      },
+      {
+        "name": "Onex",
+        "ollama": "0.40.3",
+        "qwen25_05b_digest": null,
+        "resident": 0
+      }
+    ],
+    "interpretation": "Fragua and Pi5 identical Qwen2.5-0.5B digest but different Ollama versions; Jetson label same but digest differs; no inference of same exact checkpoint. Qwen2.5 1.5B digest matches Fragua/Jetson. Onex endpoint lacks Qwen2.5 small tag."
+  }
+}
