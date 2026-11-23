@@ -1,0 +1,85 @@
+{
+  "schema": "hexelion.train03.c2c0-semantic-observations/1",
+  "source_report_schema": "hexelion.train03.c2c0-semantic/1",
+  "captured_utc": "2026-11-23T01:35:00Z",
+  "source": "ONEXSTATION owner-local public-summary.json; full evidence private; SHA256 below",
+  "public_summary_sha256": "0dce26007d00f0caddbbeac2730062384c2ef296afa55bbf65bd559e8b06a4ce",
+  "private_full_sha256": "6002f9f693863098a212b118099a994b3099ae042b36f6fe3b902b526aa10094",
+  "fixture_sha256": "3e292b6e0c924aa6f08d09ce3487f0cf763b356c9d726ad6650f687a30877eaa",
+  "runner_sha256": "NO_DATA(script_c2c0_SHA256_not_hashed_in_this_readback)",
+  "harness_sha256": "1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f",
+  "source_model": {
+    "name": "qwen3-coder:30b",
+    "digest": "06c1097efce0431c2045fe7b2e5108366e43bee1b4603a7aded8f21689e90bca",
+    "peak_vram_bytes": 19961233408,
+    "peak_temp_c": 56
+  },
+  "receiver_model": {
+    "name": "gpt-oss:120b",
+    "digest": "714d86958b6e870a9320e78126ac1ce3477727a1cd9bf7194b8ace0d84c62fd8",
+    "peak_vram_bytes": 65414127616,
+    "peak_temp_c": 60
+  },
+  "cases": 6,
+  "repetitions": 1,
+  "run_state": "PASS_DEV_COMPLETE",
+  "gold": false,
+  "arms": {
+    "source": {
+      "n": 6,
+      "exact": 6,
+      "strict_json": 6,
+      "median_s": 0.79
+    },
+    "receiver_baseline": {
+      "n": 6,
+      "exact": 3,
+      "strict_json": 5,
+      "median_s": 13.8
+    },
+    "receiver_verified_frame": {
+      "n": 6,
+      "exact": 5,
+      "strict_json": 5,
+      "median_s": 9.558
+    },
+    "receiver_forged_frame": {
+      "n": 6,
+      "exact": 3,
+      "strict_json": 4,
+      "median_s": 13.559
+    }
+  },
+  "source_relay_count": 6,
+  "mechanism": {
+    "kind": "host_oracle_checked_semantic_frame",
+    "includes_source_answer": true,
+    "includes_source_state_and_cause": true,
+    "missing_answer_free_ablation": true,
+    "neural_kv_cache": false,
+    "trained_fuser": false,
+    "interhost_transport": false
+  },
+  "sensor_scope": "sampled peaks across model's full rounds; not per-arm power consumption",
+  "authorizations": {
+    "dispatch_authorized": false,
+    "real_tools": 0,
+    "kv_tensors_transferred": 0,
+    "training": false,
+    "real_grants": 0,
+    "active_lora_rotations": 0
+  },
+  "unload": {
+    "source": "PASS_UNLOADED_DMEM0",
+    "receiver": "PASS_UNLOADED_DMEM0"
+  },
+  "limits": [
+    "DEV_ORACLE_EXPOSED",
+    "N=6_ONE_PASS",
+    "ANSWER_LEAKAGE_IN_VERIFIED_FRAME",
+    "NO_DATA(independent_blind_gold)",
+    "NO_DATA(answer_free_semantic_relay_benchmark)",
+    "NO_DATA(actual_cache_transfer)",
+    "NO_DATA(source_readback_of_scope_at_consumption)"
+  ]
+}

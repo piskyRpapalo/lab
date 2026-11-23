@@ -1,0 +1,630 @@
+{
+  "schema": "hexelion.train03.big-models-observations/1",
+  "captured_utc": "2026-11-23T01:25:18Z",
+  "machine": "ONEXSTATION · AMD Radeon 8060S · 96 GiB UMA configured, ~30 GiB OS RAM",
+  "scope": "ONEX physical inference; synthetic DEV; scores from different case cohorts are not comparable GOLD",
+  "measurement_sources": {
+    "six_case_pilot": {
+      "samples_per_model": 12,
+      "cases": 6,
+      "repetitions": 2,
+      "sha256": "b6d5ee23a126ce46af2fe91a8e542ed4cb1fe935272c68093c15090bb96b1c17",
+      "fixture_sha256": "0094a9b72db89ef84f20f0f252ba5e0f46396022e1276cdd3fbfe4a007dcad1b",
+      "harness_sha256": "1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f"
+    },
+    "mistral_nine_case": {
+      "samples": 18,
+      "cases": 9,
+      "repetitions": 2,
+      "sha256": "6f7c16a8e4a3acc6f62fa9fe841286282984e46bb9869a12a8b6bd55b17b6690",
+      "fixture_sha256": "6379e0e15f769b826e47b96d27c5020a1b60ec12fbed959f63c082c6d1c5f2db"
+    },
+    "lfm3_nine_case": {
+      "samples": 18,
+      "cases": 9,
+      "repetitions": 2,
+      "sha256": "82a02813fb8fe1e00aa7b322fc8f590aaddb2281600927a5027757ded2b0df7b"
+    },
+    "sensenova_runtime_failure": {
+      "samples": 0,
+      "sha256": "aff6ef4471c75e3bca2f88c810467defa2d73feb3530d91efaf2c34f82c1261d"
+    },
+    "maxwell_cached_six": {
+      "samples": 12,
+      "cases": 6,
+      "repetitions": 2,
+      "sha256": "36d75dc4a276dceb8dc373dd114e1df03dd31a29a7bd6ca88f15f13e02d3f021"
+    },
+    "hard_dev_round2": {
+      "cases": 14,
+      "repetitions": 2,
+      "models_planned": 4,
+      "samples_planned": 112,
+      "source_sha256": "c5cd51d95a89a7219ecd99043de1a14b5534c2bb8aaae370898bf0e8c5ae361e",
+      "cases_sha256": "31b6f48357e4794d7df5f7567a7ebbf061d72b11779e867b64b94d16664f4f25",
+      "state": "PASS_DEV_COMPLETE",
+      "has_gold": false,
+      "sha256": "a63c19170917c1b68a8eb650bebd03d572023defa07d25adfaf92ea67fb9313b",
+      "started_utc": "2026-11-23T01:15:12Z",
+      "ended_utc": "2026-11-23T01:24:32Z",
+      "samples_completed": 112
+    }
+  },
+  "models": [
+    {
+      "id": "gpt-oss:120b",
+      "cohort": "six_case_pilot",
+      "state": "MEASURED_DEV",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 12,
+      "median_s": 8.335,
+      "peak_vram_bytes": 65393680384,
+      "quant": "MXFP4",
+      "digest": "714d86958b6e870a9320e78126ac1ce3477727a1cd9bf7194b8ace0d84c62fd8"
+    },
+    {
+      "id": "qwen3-coder-next:latest",
+      "cohort": "six_case_pilot",
+      "state": "MEASURED_DEV",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 8,
+      "median_s": 1.026,
+      "peak_vram_bytes": 52850458624,
+      "quant": "Q4_K_M",
+      "digest": "ca06e9e4087c714d44355bf954099187890e63084b4a632b8e9956c4b9492074"
+    },
+    {
+      "id": "qwen3-coder:30b",
+      "cohort": "six_case_pilot",
+      "state": "MEASURED_DEV",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 8,
+      "median_s": 0.643,
+      "peak_vram_bytes": 19958013952,
+      "quant": "Q4_K_M",
+      "digest": "06c1097efce0431c2045fe7b2e5108366e43bee1b4603a7aded8f21689e90bca"
+    },
+    {
+      "id": "qwen38-27b-q4xl:latest",
+      "cohort": "six_case_pilot",
+      "state": "MEASURED_DEV",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 8,
+      "median_s": 4.114,
+      "peak_vram_bytes": 18529103872,
+      "quant": "Q4_K_M",
+      "digest": "0f2b78363d6a29911cd7e5bce9cac2bb880429e8b137ccda290180f5a2d9eff5"
+    },
+    {
+      "id": "deepseek-coder:33b",
+      "cohort": "six_case_pilot",
+      "state": "MEASURED_DEV",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 6,
+      "median_s": 4.143,
+      "peak_vram_bytes": 20868653056,
+      "quant": "NO_DATA(quant_revision_not_pinned_in_source)",
+      "digest": "acec7c0b0fd9ad4c9e82620b32dcb794120d40623ab53d5e1453a948d7d204d8"
+    },
+    {
+      "id": "llama3.3:70b",
+      "cohort": "six_case_pilot",
+      "state": "HISTORICAL_REMOVED_TAG",
+      "samples": 12,
+      "strict_json": 12,
+      "exact": 4,
+      "median_s": 5.604,
+      "peak_vram_bytes": 44513615872,
+      "quant": "Q4",
+      "digest": "a6eb4748fd2990ad2952b2335a95a7f952d1a06119a0aa6a2df6cd052a93a3fa"
+    },
+    {
+      "id": "mistral-medium35-128b-q4xl",
+      "cohort": "mistral_nine_case",
+      "state": "MEASURED_DEV",
+      "samples": 18,
+      "strict_json": 18,
+      "exact": 12,
+      "median_s": 10.135,
+      "peak_vram_bytes": 77517811712,
+      "quant": "Q4_K_XL",
+      "digest": "8e540a1dc7981ce5a6225371cf6425b75bc5b448cdade998c6f2333325337ee5"
+    },
+    {
+      "id": "lfm3-omni-2b-bf16",
+      "cohort": "lfm3_nine_case",
+      "state": "MEASURED_DEV",
+      "samples": 18,
+      "strict_json": 18,
+      "exact": 6,
+      "median_s": null,
+      "peak_vram_bytes": 5465440256,
+      "quant": "BF16",
+      "digest": "NO_DATA(complete_weight_manifest_not_in_final_json)"
+    },
+    {
+      "id": "maxwell-v1-flash-bf16",
+      "cohort": "maxwell_cached_six",
+      "state": "MEASURED_DEV_STRICT_FAIL",
+      "samples": 12,
+      "strict_json": 0,
+      "exact": 0,
+      "prefix_schema_diagnostic": 12,
+      "prefix_exact_diagnostic": 8,
+      "median_s": null,
+      "run_elapsed_s": 1042.83,
+      "peak_vram_bytes": 78149677056,
+      "quant": "BF16",
+      "digest": "NO_DATA(complete_weight_manifest_digest_not_in_summary)"
+    },
+    {
+      "id": "sensenova-loop-9b-f16",
+      "cohort": "sensenova_runtime_failure",
+      "state": "NO_DATA(runtime_incompatible_unknown_model_architecture)",
+      "samples": 0,
+      "strict_json": null,
+      "exact": null,
+      "median_s": null,
+      "peak_vram_bytes": null,
+      "quant": "BF16",
+      "digest": "bdbce1f8fefa23888a3afda3455904b0a0b3f193df14f77244d28ac9dfb7af42"
+    },
+    {
+      "id": "nemotron3-super-120b-q4ks",
+      "cohort": null,
+      "state": "STAGED_PASS_NO_INFERENCE",
+      "samples": 0,
+      "strict_json": null,
+      "exact": null,
+      "median_s": null,
+      "peak_vram_bytes": null,
+      "quant": "Q4_K_S",
+      "digest": "NO_DATA(runtime_model_digest_not_installed)",
+      "weight_bytes": 78040156800,
+      "source_revision": "3aa25691977903b99c15280b71b0fe4860f05bfa"
+    },
+    {
+      "id": "nemotron-3.5-lightning-30b-a3b-q4_0",
+      "cohort": null,
+      "state": "STAGED_PASS_NO_INFERENCE",
+      "samples": 0,
+      "strict_json": null,
+      "exact": null,
+      "median_s": null,
+      "peak_vram_bytes": null,
+      "quant": "Q4_0",
+      "digest": "cf548e9348b829334e8fc8512224a284e1df2b1e6e7203f20ee9826800ab5525",
+      "weight_bytes": 19063900128
+    },
+    {
+      "id": "qwen3.8-flash-next-iq3-xxs",
+      "cohort": null,
+      "state": "NO_DATA(runtime_importer_unsupported_tensor)",
+      "samples": 0,
+      "strict_json": null,
+      "exact": null,
+      "median_s": null,
+      "peak_vram_bytes": null,
+      "quant": "IQ3_XXS",
+      "digest": "NO_DATA(ollama_import_failed)"
+    },
+    {
+      "id": "kimi-linear-48b-a3b",
+      "cohort": null,
+      "state": "HISTORICAL_THROUGHPUT_ONLY",
+      "samples": 0,
+      "strict_json": null,
+      "exact": null,
+      "median_s": null,
+      "peak_vram_bytes": null,
+      "quant": "Q4_K_M",
+      "digest": "6566e16282eeaed8d65ff9ab923d2bb7c931dcc5f251cd9478e3e65e976c30bf"
+    }
+  ],
+  "reliability": {
+    "source": "physical owner-loopback; model replies synthetic and untrusted",
+    "real_tool_calls": 0,
+    "gold": false,
+    "blind_holdout": false,
+    "new_training_runs": 0,
+    "model_promotions": 0,
+    "real_cross_model_KV_transfers": 0,
+    "verified_cross_device_routed_turns": 0,
+    "verified_voice_parity": 0
+  },
+  "hard_dev_results": [
+    {
+      "model": "gpt-oss:120b",
+      "samples": 28,
+      "strict_json": 16,
+      "exact": 11,
+      "median_s": 13.22,
+      "peak_vram_bytes": 65432305664,
+      "peak_temperature_c": 60,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 1,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 1,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 1,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen3-coder-next:latest",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 8,
+      "median_s": 1.048,
+      "peak_vram_bytes": 52858884096,
+      "peak_temperature_c": 68,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen3-coder:30b",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 16,
+      "median_s": 0.656,
+      "peak_vram_bytes": 19974631424,
+      "peak_temperature_c": 64,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen38-27b-q4xl:latest",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 16,
+      "median_s": 3.455,
+      "peak_vram_bytes": 18534940672,
+      "peak_temperature_c": 69,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        }
+      }
+    }
+  ]
+}
