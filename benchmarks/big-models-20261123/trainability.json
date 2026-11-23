@@ -1,0 +1,191 @@
+{
+  "schema": "hexelion.train03.trainability-gates/1",
+  "captured_utc": "2026-11-23T01:33:00Z",
+  "scope": "ONEX selected model roots only, LAB contracts, source manifests; absence in these roots is not a claim of universal absence",
+  "model_variants": 14,
+  "staged_trainable_weight_candidates": 2,
+  "globally_ready_for_optimizer": 0,
+  "new_training_jobs": 0,
+  "real_adapter_deployments": 0,
+  "training_authority": "HOST_S1_ONLY; NO_MODEL_SELF_GRANT",
+  "sourceRefs": [
+    "https://github.com/piskyRpapalo/lab/blob/main/reports/train01-train02-training-readiness-20261123.md",
+    "https://github.com/piskyRpapalo/preceptoros-private-mesa/issues/51#issuecomment-7069629730",
+    "https://github.com/piskyRpapalo/preceptoros-private-mesa/issues/51#issuecomment-7089177396"
+  ],
+  "existing_train02_canaries": {
+    "trained_physical": 2,
+    "blind_gold_pass": 0,
+    "target_device_e2e_pass": 0,
+    "promoted": 0,
+    "reasons": [
+      "SmolLM2-135M LoRA-r8 trained 2 steps, unproven gold/edge",
+      "Qwen2.5-0.5B LoRA-r8 trained 2 steps, exposed DEV failure including false LIVE"
+    ]
+  },
+  "non_negotiable_gates": [
+    "exact official checkpoint weights+tokenizer/config/targets sha256",
+    "license review for training and redistribution",
+    "bounded owner systemd cgroup with tool/GPU exclusion and thermal stop",
+    "pre-registered D0 deterministic, D1 base, D2 adapter quality on disjoint blind holdout",
+    "source family gap / ES-PT / Acho / revocation / head identity, no false LIVE",
+    "rollback for exact base+adapter+head and hardware target readback twice",
+    "no training on exposed TRAIN-03 DEV 112 samples or contaminated old 24 holdout"
+  ],
+  "candidates": [
+    {
+      "id": "gpt-oss:120b",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "qwen3-coder-next:latest",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "qwen3-coder:30b",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "qwen38-27b-q4xl:latest",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "deepseek-coder:33b",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "llama3.3:70b",
+      "source_state": "HISTORICAL_REMOVED_TAG",
+      "training_input_state": "HISTORICAL_MODEL_REMOVED_OWNER",
+      "training_block": "OWNER_REMOVED_TAG_AND_NO_PINNED_TRAINING_SOURCE",
+      "license_status": "NO_DATA(original_license_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "do not redownload or retrain without a new explicit scope"
+    },
+    {
+      "id": "mistral-medium35-128b-q4xl",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "lfm3-omni-2b-bf16",
+      "source_state": "MEASURED_DEV",
+      "training_input_state": "BF16_SAFETENSORS_PINNED",
+      "training_block": "LICENSE_LFM1_0_AND_MULTIMODAL_LORA_TARGETS_UNQUALIFIED",
+      "license_status": "lfm1.0",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "check upstream license and exact target modules; use Forja V3 with new exact owner fence and gold"
+    },
+    {
+      "id": "maxwell-v1-flash-bf16",
+      "source_state": "MEASURED_DEV_STRICT_FAIL",
+      "training_input_state": "BF16_SAFETENSORS_PINNED",
+      "training_block": "PEFT_GPU_MEMORY_AND_BACKWARD_UNQUALIFIED",
+      "license_status": "apache-2.0",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "probe tiny no-effect FWD/backward memory under owner OS fence; external gold before optimizer"
+    },
+    {
+      "id": "sensenova-loop-9b-f16",
+      "source_state": "NO_DATA(runtime_incompatible_unknown_model_architecture)",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "nemotron3-super-120b-q4ks",
+      "source_state": "STAGED_PASS_NO_INFERENCE",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "nemotron-3.5-lightning-30b-a3b-q4_0",
+      "source_state": "STAGED_PASS_NO_INFERENCE",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "qwen3.8-flash-next-iq3-xxs",
+      "source_state": "NO_DATA(runtime_importer_unsupported_tensor)",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    },
+    {
+      "id": "kimi-linear-48b-a3b",
+      "source_state": "HISTORICAL_THROUGHPUT_ONLY",
+      "training_input_state": "INFERENCE_ONLY_GGUF_OBSERVED",
+      "training_block": "NO_DATA(trainable_original_weights_and_targets_not_verified_in_inspected_store)",
+      "license_status": "NO_DATA(train_redistribution_license_per_exact_revision_not_audited)",
+      "trained_this_round": false,
+      "adapter_distributed": false,
+      "head_active_runtime_attested": false,
+      "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
+    }
+  ]
+}
