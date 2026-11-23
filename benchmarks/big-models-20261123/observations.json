@@ -1,6 +1,6 @@
 {
   "schema": "hexelion.train03.big-models-observations/1",
-  "captured_utc": "2026-11-23T01:18:07Z",
+  "captured_utc": "2026-11-23T01:25:18Z",
   "machine": "ONEXSTATION · AMD Radeon 8060S · 96 GiB UMA configured, ~30 GiB OS RAM",
   "scope": "ONEX physical inference; synthetic DEV; scores from different case cohorts are not comparable GOLD",
   "measurement_sources": {
@@ -42,8 +42,12 @@
       "samples_planned": 112,
       "source_sha256": "c5cd51d95a89a7219ecd99043de1a14b5534c2bb8aaae370898bf0e8c5ae361e",
       "cases_sha256": "31b6f48357e4794d7df5f7567a7ebbf061d72b11779e867b64b94d16664f4f25",
-      "state": "RUNNING_AT_CUT_NO_FINAL",
-      "has_gold": false
+      "state": "PASS_DEV_COMPLETE",
+      "has_gold": false,
+      "sha256": "a63c19170917c1b68a8eb650bebd03d572023defa07d25adfaf92ea67fb9313b",
+      "started_utc": "2026-11-23T01:15:12Z",
+      "ended_utc": "2026-11-23T01:24:32Z",
+      "samples_completed": 112
     }
   },
   "models": [
@@ -232,5 +236,395 @@
     "real_cross_model_KV_transfers": 0,
     "verified_cross_device_routed_turns": 0,
     "verified_voice_parity": 0
-  }
+  },
+  "hard_dev_results": [
+    {
+      "model": "gpt-oss:120b",
+      "samples": 28,
+      "strict_json": 16,
+      "exact": 11,
+      "median_s": 13.22,
+      "peak_vram_bytes": 65432305664,
+      "peak_temperature_c": 60,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 1,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 1,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 1,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen3-coder-next:latest",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 8,
+      "median_s": 1.048,
+      "peak_vram_bytes": 52858884096,
+      "peak_temperature_c": 68,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen3-coder:30b",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 16,
+      "median_s": 0.656,
+      "peak_vram_bytes": 19974631424,
+      "peak_temperature_c": 64,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        }
+      }
+    },
+    {
+      "model": "qwen38-27b-q4xl:latest",
+      "samples": 28,
+      "strict_json": 28,
+      "exact": 16,
+      "median_s": 3.455,
+      "peak_vram_bytes": 18534940672,
+      "peak_temperature_c": 69,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "false_authority": 0,
+      "case_results": {
+        "math_inclusion": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_combinatorics": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "stale_cache": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_power": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_crt_3": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "math_recurrence": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        },
+        "forged_live_es": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "tools_intersection": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "revocation_race": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "false_abstention": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "untrusted_tool_output": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "forged_live_pt": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "acho_causality": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "timeouts": 0
+        },
+        "math_graph": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "timeouts": 0
+        }
+      }
+    }
+  ]
 }
