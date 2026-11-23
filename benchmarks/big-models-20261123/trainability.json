@@ -114,12 +114,14 @@
       "id": "lfm3-omni-2b-bf16",
       "source_state": "MEASURED_DEV",
       "training_input_state": "BF16_SAFETENSORS_PINNED",
-      "training_block": "LICENSE_LFM1_0_AND_MULTIMODAL_LORA_TARGETS_UNQUALIFIED",
-      "license_status": "lfm1.0",
+      "training_block": "NO_DATA(custom_multimodal_PEFT_targets_backward_runtime_and_independent_gold_unverified)",
+      "license_status": "LFM Open License v1.0; derivative works and redistribution subject to licence/notice retention; commercial use conditional below USD 10M annual-revenue threshold; individual/entity applicability NO_DATA",
       "trained_this_round": false,
       "adapter_distributed": false,
       "head_active_runtime_attested": false,
-      "next_gate": "check upstream license and exact target modules; use Forja V3 with new exact owner fence and gold"
+      "next_gate": "check exact text-backbone LoRA module targets and ROCm gradient compatibility; honor license terms and NOTICE prior to distribution; compare base vs adapter on independent ES/PT/Acho holdout",
+      "license_sha256": "4d28ca14dedc0b3d0fcc2b3339f0e79931faa33874f3d24f522183a8fc70068c",
+      "license_checked_from": "ONEX_STAGED_OWNER_LOCAL_LICENSE_10574_BYTES"
     },
     {
       "id": "maxwell-v1-flash-bf16",
@@ -130,7 +132,9 @@
       "trained_this_round": false,
       "adapter_distributed": false,
       "head_active_runtime_attested": false,
-      "next_gate": "probe tiny no-effect FWD/backward memory under owner OS fence; external gold before optimizer"
+      "next_gate": "read-only operator/targets identification and bounded memory allocation preflight; 73.62 GB frozen BF16 weights do not establish backward fit or optimizer budget",
+      "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "license_checked_from": "ONEX_STAGED_OWNER_LOCAL_LICENSE_11357_BYTES"
     },
     {
       "id": "sensenova-loop-9b-f16",
@@ -187,5 +191,7 @@
       "head_active_runtime_attested": false,
       "next_gate": "locate full-precision exact checkpoint, tokenizer/targets, license, RAM/ROCm backward and per-family gold before an optimizer step"
     }
-  ]
+  ],
+  "license_readback_utc": "2026-11-23T01:42:00Z",
+  "license_scope": "Per-file local pinned LICENSE readback only, not a legal finding about owner eligibility or redistribution clearance"
 }

@@ -1,0 +1,108 @@
+{
+  "schema": "hexelion.train03.fleet-comparative/1",
+  "scope": "SYNTHETIC_DEV_OWNER_LOOPBACK_PHYSICAL",
+  "cut_utc": "2026-11-23T01:41:59Z",
+  "fixture_sha256": "9a643d6e94fdde0d8e667ab47de5cdc824ce9fc8b4382978766997f31ab01122",
+  "model": {
+    "name": "qwen2.5:0.5b-instruct",
+    "digest": "a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67",
+    "quantization": "NO_DATA(exact_quantization_not_parsed_from_modelfile)"
+  },
+  "cases": [
+    "math_spanish",
+    "sensor_missing_pt",
+    "revocation_es"
+  ],
+  "repetitions": 2,
+  "hosts": [
+    {
+      "label": "fragua",
+      "arch": "aarch64",
+      "runtime_version": "0.24.0",
+      "observed_start_utc": "2026-11-23T01:41:35Z",
+      "observed_end_utc": "2026-11-23T01:41:59Z",
+      "state": "DEV_COMPLETE",
+      "samples": 6,
+      "strict_json": 6,
+      "exact": 4,
+      "median_wall_s": 3.139,
+      "thermal_start_c": 42.538,
+      "thermal_peak_sampled_c": 52.692,
+      "unload": "PASS_NO_RESIDENT_MODELS",
+      "public_summary_sha256": "40dd1f8aa4f4df39de844867f6eb982f9f526b71a0b630c77ae3d2a5c7a363f6",
+      "case_metrics": {
+        "math_spanish": {
+          "n": 2,
+          "exact": 0,
+          "strict_json": 2
+        },
+        "sensor_missing_pt": {
+          "n": 2,
+          "exact": 2,
+          "strict_json": 2
+        },
+        "revocation_es": {
+          "n": 2,
+          "exact": 2,
+          "strict_json": 2
+        }
+      }
+    },
+    {
+      "label": "vigia",
+      "arch": "aarch64",
+      "runtime_version": "0.40.13",
+      "observed_start_utc": "2026-11-23T01:41:34Z",
+      "observed_end_utc": "2026-11-23T01:41:45Z",
+      "state": "DEV_COMPLETE",
+      "samples": 6,
+      "strict_json": 6,
+      "exact": 0,
+      "median_wall_s": 1.292,
+      "thermal_start_c": 47.4,
+      "thermal_peak_sampled_c": 57.3,
+      "unload": "PASS_NO_RESIDENT_MODELS",
+      "public_summary_sha256": "f6e6dbdd216579a9e460a5a9a674eef946b12fd9d22e105b18cf4f72cd9e5142",
+      "case_metrics": {
+        "math_spanish": {
+          "n": 2,
+          "exact": 0,
+          "strict_json": 2
+        },
+        "sensor_missing_pt": {
+          "n": 2,
+          "exact": 0,
+          "strict_json": 2
+        },
+        "revocation_es": {
+          "n": 2,
+          "exact": 0,
+          "strict_json": 2
+        }
+      }
+    }
+  ],
+  "effects": {
+    "real_tools": 0,
+    "training": false,
+    "kv_transfers": 0,
+    "real_host_dispatches": 0,
+    "dist_adapters_deployed": 0
+  },
+  "controls": {
+    "same_model_digest": true,
+    "same_synthetic_fixture": true,
+    "same_decode_intent": true,
+    "same_runtime_version": false,
+    "device_independent_inference": true,
+    "native_orchestrated_routing": false,
+    "blind_gold": false
+  },
+  "conclusions": [
+    "PHYSICAL_TWO_ARM_HOSTS_PASS_LOAD_AND_JSON",
+    "NO_CAUSAL_HARDWARE_RANKING_RUNTIME_VERSION_CONFOUNDED",
+    "NO_DATA(native_Hexelion_S1_task_routing_E2E)",
+    "NO_DATA(hardware_matched_runtime_software)"
+  ],
+  "privacy": "Raw stimulus/replies and full physical evidence held owner-local on each target; GitHub stores aggregate counts and hashes only"
+}
