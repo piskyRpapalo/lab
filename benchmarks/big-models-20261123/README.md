@@ -91,6 +91,19 @@ This is a **bounded, real inference test** between two installed models. It is *
 
 Local public summary SHA256 `0dce26007d00f0caddbbeac2730062384c2ef296afa55bbf65bd559e8b06a4ce` (UTC ended 01:35:00), private full SHA256 `6002f9f693863098a212b118099a994b3099ae042b36f6fe3b902b526aa10094`, six-task fixture SHA256 `3e292b6e0c924aa6f08d09ce3487f0cf763b356c9d726ad6650f687a30877eaa`, E0 runner SHA256 `1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f`. Both models unloaded `PASS_UNLOADED_DMEM0`; peak GPU VRAM sampled 19.961 GB sender and 65.414 GB receptor; 0 transferred KV tensors, 0 genuine tools, 0 training. [Machine-readable safe aggregate](c2c0-semantic.json) is intentionally not a substitute for the private raw source.
 
+## Heterogeneous-hardware baseline · same digest on Fragua and Pi 5
+
+**Physical comparison, 23 Nov 2026, 01:41 UTC.** Existing `qwen2.5:0.5b-instruct` was run through each target's **local** Ollama loopback with no weight downloads. Both targets had **identical runtime model digest** `a8b0c51577010a279d933d14c2a8ab4b268079d44c5c8830c0a93900f1827c67`, the same six (3 cases ×2) synthetic ES/PT/math/revocation tasks, JSON mode, no tools and a common fixture digest `9a643d6e94fdde0d8e667ab47de5cdc824ce9fc8b4382978766997f31ab01122`.
+
+| Target | Ollama | Exact DEV | Strict JSON | Median wall time | Observed peak temperature |
+|---|---:|---:|---:|---:|---:|
+| Fragua RK3588 ARM64 | 0.24.0 | **4/6** | 6/6 | 3.139 s | 52.692 °C |
+| Raspberry Pi 5 ARM64 | 0.40.13 | **0/6** | 6/6 | 1.292 s | 57.300 °C |
+
+On Fragua, both Portuguese missing-witness and Spanish revoked-scope examples were correct twice; arithmetic failed twice. Pi returned valid JSON for all six but none exactly matched the DEV state/cause/answer triple. **Do not call the Pi 'less intelligent because of hardware': software engines differ, temperature sampling is sparse, prefill/cold-start can affect wall time, and this is a 3-case DEV fixture—not matched-runtime blind GOLD.** In particular, p50 wall time does not establish tokens/s or energy efficiency.
+
+Both owners confirmed **unload to no resident Ollama models**. The full per-case inputs and responses remain locally private; public receipt SHA256 is `40dd1f8aa4f4df39de844867f6eb982f9f526b71a0b630c77ae3d2a5c7a363f6` (Fragua) and `f6e6dbdd216579a9e460a5a9a674eef946b12fd9d22e105b18cf4f72cd9e5142` (Pi5). [Sanitized comparable readback](fleet-heterogeneous.json). **This proves model inference on two different owners, not that Hexelion's S1 selected and routed a single task E2E.** No LoRA rotated or was distributed. Next matched-runtime test must pin engine+template+context, repeat more independently adjudicated source families and inspect calibration/false abstention.
+
 ## TRAIN-03 PEFT / distribution gate · all 14 variants, 2026-11-23
 
 The owner-local **selected** stores were inspected for trainable HF safetensors/config/tokenizer, license and exact guarded trainers. The status for each of the fourteen candidates is preserved in [`trainability.json`](trainability.json): **2 staged BF16 checkpoints worth further training preflight (Maxwell 36.81B, LFM3-Omni 2B); 0/14 optimizer-ready now; 0 newly trained; 0 distributed**. The other variants have only observed quantized GGUF/Ollama inference artifacts in these inspected stores, or the owner-removed Llama tag; never generalize to "there are no trainable sources anywhere".
