@@ -1,0 +1,301 @@
+{
+  "schema": "hexelion.train03.brain-contracts-closed-cause-field-audit/1",
+  "scope": "REAL_ONEX_OWNER_GPU_SYNTHETIC_DEV_V3; not GOLD; no host grant, C2C neural KV or trained LoRA",
+  "status": "PASS_DEV_COMPLETE",
+  "started_utc": "2026-11-23T02:03:35Z",
+  "ended_utc": "2026-11-23T02:08:33Z",
+  "verified_readback_utc": "2026-11-23T06:37:44Z",
+  "case_count": 7,
+  "repetitions": 2,
+  "source_response_files": 42,
+  "all_21_pairs_repeated_twice": true,
+  "strict_json_policy": "All five contract keys and expected types; invalid JSON never earns individual field credit",
+  "cause_contract": "CLOSED_ENUM_7_EXPLICIT_IN_V3; V2 used FREE_FORM_SNAKE_CASE and is NOT comparable on this field",
+  "gold": false,
+  "training": false,
+  "real_tools": 0,
+  "kv_tensors_transferred": 0,
+  "head_rotations": 0,
+  "calm_deployments": 0,
+  "sleep_promotions": 0,
+  "hashes": {
+    "public_summary_sha256": "fcbcffba35f529130acb2efc10c673dc03509f0c0d8d163691e2e35e48324337",
+    "private_full_owner_local_sha256": "050482614591c1c0fe2ba7e21a1f095ee55b389040053bae18ab41f427eeffd6",
+    "owner_runner_sha256": "8834614618413c7bed1b6bb5e13404a0186aec9527a4c65b4b60778fab2c3f0f",
+    "e0_runner_sha256": "1e3aa556617b654ea8f76e85ad3ec98fb28231d2e5bf52b3d604c3c717cf301f",
+    "case_fixture_sha256": "73d62093b824e66f02ca30783f559ee5b6e9ffa8dab24a2a0a6d80cb0597050b"
+  },
+  "postflight": {
+    "owner_unit": "inactive/dead; Result=success; ExecMainStatus=0",
+    "canonical_ollama_resident_models": 0,
+    "drm_vram_used_bytes": 612917248,
+    "readback_scope": "ONEXSTATION independent remote owner readback at 06:37:44Z, not a persistent guarantee"
+  },
+  "models": {
+    "qwen3-coder:30b": {
+      "n": 14,
+      "strict_json": 14,
+      "exact": 0,
+      "state": 6,
+      "cause": 10,
+      "cache": 8,
+      "head": 12,
+      "tasks": 14,
+      "median_s": 0.764,
+      "peak_vram_bytes": 19965698048,
+      "peak_temperature_c": 58,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 0,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "calm_public_native_edge": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 2,
+          "cause": 2,
+          "cache": 0,
+          "head": 2,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 0,
+          "head": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 2,
+          "cause": 0,
+          "cache": 2,
+          "head": 0,
+          "tasks": 2
+        },
+        "hetero_pi120b_budget": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 2,
+          "cause": 2,
+          "cache": 0,
+          "head": 2,
+          "tasks": 2
+        },
+        "sleep_sim_unwitnessed_live": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        }
+      }
+    },
+    "qwen38-27b-q4xl:latest": {
+      "n": 14,
+      "strict_json": 14,
+      "exact": 0,
+      "state": 4,
+      "cause": 14,
+      "cache": 8,
+      "head": 6,
+      "tasks": 14,
+      "median_s": 5.505,
+      "peak_vram_bytes": 18535260160,
+      "peak_temperature_c": 63,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 0,
+          "head": 0,
+          "tasks": 2
+        },
+        "calm_public_native_edge": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 2,
+          "cause": 2,
+          "cache": 0,
+          "head": 0,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "hetero_pi120b_budget": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 2,
+          "cause": 2,
+          "cache": 2,
+          "head": 0,
+          "tasks": 2
+        },
+        "sleep_sim_unwitnessed_live": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 0,
+          "head": 0,
+          "tasks": 2
+        }
+      }
+    },
+    "gpt-oss:120b": {
+      "n": 14,
+      "strict_json": 9,
+      "exact": 2,
+      "state": 2,
+      "cause": 8,
+      "cache": 5,
+      "head": 9,
+      "tasks": 9,
+      "median_s": 13.297,
+      "peak_vram_bytes": 65407926272,
+      "peak_temperature_c": 64,
+      "unload": "PASS_UNLOADED_DMEM0",
+      "bycase": {
+        "acho_parity_visual_voice": {
+          "n": 2,
+          "strict_json": 0,
+          "exact": 0,
+          "state": 0,
+          "cause": 0,
+          "cache": 0,
+          "head": 0,
+          "tasks": 0
+        },
+        "calm_public_native_edge": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 2,
+          "state": 2,
+          "cause": 2,
+          "cache": 2,
+          "head": 2,
+          "tasks": 2
+        },
+        "cross_family_kv_c2c": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 0,
+          "head": 2,
+          "tasks": 2
+        },
+        "head_rotated_cache_scope": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 0,
+          "state": 0,
+          "cause": 1,
+          "cache": 1,
+          "head": 1,
+          "tasks": 1
+        },
+        "hetero_pi120b_budget": {
+          "n": 2,
+          "strict_json": 2,
+          "exact": 0,
+          "state": 0,
+          "cause": 2,
+          "cache": 1,
+          "head": 2,
+          "tasks": 2
+        },
+        "s1_revocation_and_mcp_error": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 0,
+          "state": 0,
+          "cause": 1,
+          "cache": 0,
+          "head": 1,
+          "tasks": 1
+        },
+        "sleep_sim_unwitnessed_live": {
+          "n": 2,
+          "strict_json": 1,
+          "exact": 0,
+          "state": 0,
+          "cause": 0,
+          "cache": 1,
+          "head": 1,
+          "tasks": 1
+        }
+      }
+    }
+  },
+  "limits": [
+    "Prompt, expected labels, and cases were developer-visible; no sealed independent GOLD.",
+    "V3 repaired an ambiguous cause vocabulary, but changed case phrasings; not a clean causal V2-versus-V3 gain.",
+    "Model replied without tool permissions; S1 revocation and Acho parity were theoretical prompts, not device E2E.",
+    "All measurements are samples; latency is not energy and absence of GPU residency is time-scoped.",
+    "Do not promote a brain, LoRA head, neural C2C, DREAM claim, or CALM runtime from these scores."
+  ]
+}
