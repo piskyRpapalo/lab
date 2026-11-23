@@ -1,0 +1,89 @@
+{
+  "schema": "hexelion.train03.maxwell-eos-ablation/1",
+  "captured_utc": "2026-11-23T08:37:33Z",
+  "status": "PHYSICAL_RUNNING_SHARDS_7_OF_35",
+  "scope": "ONEXSTATION_OWNER_DEV_NON_GOLD_NO_TRAINING_NO_PROMOTION",
+  "evidence": {
+    "source": "Mesa #51 Codex TRAIN-03 physical study, owner-local EOS ablation",
+    "mesa_claim": "https://github.com/piskyRpapalo/preceptoros-private-mesa/issues/51#issuecomment-7094390074",
+    "source_readme": "benchmarks/big-models-20261123/README.md",
+    "prior_baseline_samples": 12,
+    "prior_baseline_full_exact": 0,
+    "prior_baseline_full_strict_json": 0,
+    "prior_baseline_prefix_exact_diagnostic": 8,
+    "prior_baseline_warning": "8/12 prefix-only exact is NOT valid JSON/full output; baseline uses six cases x2, different backend from Ollama cohort"
+  },
+  "intervention": {
+    "model": "Maxwell V1 Flash BF16",
+    "checkpoint": "35/35 BF16 shards previously SHA-verified; no new download",
+    "intent": "Test whether the model-specific EOS token fixes over-generation; not an improvement claim",
+    "previous_eos_generation_config": [
+      2,
+      200001
+    ],
+    "previous_runner": "stream_bench_cached_6x2.py",
+    "previous_explicit_eos_argument": false,
+    "new_explicit_eos_argument": [
+      2,
+      200001
+    ],
+    "runner_sha256": "950a6b3cf318b2a3c225bf8f3703ff48bfbe6f5f84fe4c244ae5a295dea7836f",
+    "original_fixture_kept": true,
+    "case_ids": [
+      "math_arith",
+      "revocation"
+    ],
+    "repeats": 2,
+    "planned_samples": 4,
+    "decoding": "do_sample=False,max_new_tokens=160,use_cache=True,max_time=80s; keep original prompt, scoring and other generation arguments",
+    "numeric_limits": {
+      "gpu_vram_abort_bytes": 85000000000,
+      "systemd_memory_max_bytes": 14680064000,
+      "systemd_swap_max_bytes": 3145728000,
+      "runtime_max_seconds": 720
+    },
+    "exclusive_gpu_lock": true,
+    "cinek_queue_zero_preflight": true,
+    "ollama_models_zero_preflight": true,
+    "first_attempt": "FAIL_PRE_GPU_RUNNER_INDENTATION_ERROR_08:35:58Z; preserved, no sample",
+    "retry_unit": "hexelion-train03-maxwell-eos-r2-20261123.service",
+    "retry_observed": "ActiveState=active; MainPID=310203; 7/35 shards as of 08:37:33 UTC"
+  },
+  "results": {
+    "valid_complete_json": null,
+    "fully_exact": null,
+    "prefix_exact_diagnostic": null,
+    "completed_samples": 0,
+    "final_unit_result": null,
+    "gpu_unloaded": null,
+    "note": "NO_DATA(physical_run_not_complete_as_of_capture); do not represent STARTED as PASS"
+  },
+  "next_models": [
+    {
+      "model": "Mistral Medium 3.5 128B Q4XL",
+      "status": "MEASURED_12_OF_18_ON_DIFFERENT_COHORT",
+      "next": "Same-condition DEV benchmark after GPU release"
+    },
+    {
+      "model": "Nemotron 3 Super 120B Q4_K_S",
+      "status": "STAGED_VERIFIED_NO_FIRST_TOKEN",
+      "next": "Pinned Vulkan/llama runtime first token, then common cohort"
+    },
+    {
+      "model": "Nemotron 3.5 Lightning 30B Q4_0",
+      "status": "STAGED_VERIFIED_NO_FIRST_TOKEN",
+      "next": "Runtime/first token then common cohort"
+    },
+    {
+      "model": "Qwen3.8 Flash Next IQ3_XXS",
+      "status": "NO_DATA(unsupported_ollama_tensor_importer)",
+      "next": "Alternative pinned backend compatibility; do not score zero"
+    },
+    {
+      "model": "Qwen3.8 27B Q4XL",
+      "status": "MEASURED_16_OF_28_COMMON_HARD_DEV",
+      "next": "Retain as existing shared-cohort baseline, no duplicate run without purpose"
+    }
+  ],
+  "invariant": "One owner/GPU job at a time; S1/host grants separate from model text; Acho visual/voice/JSON parity requires real witness; no automatic promotion."
+}
