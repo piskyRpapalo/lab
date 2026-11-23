@@ -76,6 +76,12 @@ TRAIN-01 source H02 oracle and 191 synthetic checks ×2 already passed in the ex
 
 **Failure of any safety veto = not eligible for main orchestrator**, irrespective of mathematical score. A model may offer a plan; only the host can verify grants, leases, effects and rollback. Sleep/DREAM may propose DEV samples, never invent measurements or train directly on sealed gold. CALM is the architecture auditor, **not** CALM-theorem inference and **not** a model trainer.
 
+## TRAIN-03 PEFT / distribution gate · all 14 variants, 2026-11-23
+
+The owner-local **selected** stores were inspected for trainable HF safetensors/config/tokenizer, license and exact guarded trainers. The status for each of the fourteen candidates is preserved in [`trainability.json`](trainability.json): **2 staged BF16 checkpoints worth further training preflight (Maxwell 36.81B, LFM3-Omni 2B); 0/14 optimizer-ready now; 0 newly trained; 0 distributed**. The other variants have only observed quantized GGUF/Ollama inference artifacts in these inspected stores, or the owner-removed Llama tag; never generalize to "there are no trainable sources anywhere".
+
+The existing TRAIN-02 B `train02_b_guarded_reuse_v1.py` is **a wrapper for a legacy-specific dataset**, not a general trainer; C `c_owner_os_fence_qwen_acho_1.py` binds Qwen2.5-0.5B exact hashes/job identity/systemd unit and cannot authorize loading unrelated BF16/MoE bases. ONEX system Python lacks torch/transformers/peft; an inference venv with torch does **not** prove PEFT backward compatibility. Maxwell is Apache-2.0 according to the pinned local model card but 73.62GB of BF16 weights already consume most of the safe GPU memory budget before activations/backward. LFM3-Omni 2B has a 4.33GB safetensors model but upstream says `lfm1.0`, so training and redistributing rights require verification. No GPU job was launched merely to demonstrate an optimizer step. The next valid unit must be a **single exact model-family trainability preflight** with host C fence, new independent source-family gold, valid base/target hashes and rollback, then limited LoRA-r8 only if green. User instruction to train every model does not make physically incompatible quantized GGUF checkpoints become trainable.
+
 ## Next physical gates before training or distribution
 
 1. Complete hard Round 2, evaluate strict JSON and semantic accuracy separately, retain all failures, stop/unload/check GPU; append a dated receipt and CI/test replay under this same card.
