@@ -8,6 +8,12 @@ Broadcast receipts now lead all 34 top-level benchmark cards; unsupported fields
 
 - [Big Models · Hexelion TRAIN-03 physical DEV screening · updated 2026-11-24](big-models-20261123/README.md): 112/112 hard DEV samples; V3 42 responses/37 strict JSON; Maxwell EOS 12/12 strict and 8/12 exact DEV; TRAIN-02 blind comparison preregistered, not run. October Colibrí study recovered as a separate historical runtime/8 GB/rotating-LoRA research track with no measured Colibrí samples. Acho, C2C, CALM, SIM/DREAM and heterogeneous-fleet gates remain unpromoted.
 
+Related existing research (cross-references, not additional top-level measured cards):
+
+- [LFM3 / Inkling 2 Mini · 2026-11-21](../odd/tasks/bench-lfm3-inkling-20261121.md): LFM3 1.7B Q4_K_M CPU decode 12.451633 and 51.747535 tok/s on distinct hosts; Inkling 2 Mini IQ4_NL CPU prefill 61.923764, decode 12.455315 tok/s. Preserve separate hardware, quantization and cohort; independent quality and GPU qualification remain NO_DATA.
+- [Evidence pulse · 2026-11-22](../reports/evidence-pulse-20261122.md): source-linked historical audit, synthetic security and context studies, not a fresh run. Keep synthetic contract passes separate from physical model scores and host-effect evidence.
+- [TRAIN-01 / TRAIN-02 readiness](../reports/train01-train02-training-readiness-20261123.md) and [TRAIN-03 preflight](../reports/train03-large-model-preflight-20261123.md): existing scientific sources, no duplicate runner. Use the current BIG MODELS card for later results.
+
 - [Context fusion · calibrated synthetic evidence windows · 2026-11-20](context-fusion-20261120/README.md): 64 constructed cases; source-bound 2D alignment 64/64 vs raw 19/64; malformed anchors and unauthorized sources refused. Evidence slots are not model token windows; real KV/cache transfer is NO_DATA.
 
 - [Hexelion v1 · 24-case independent synthetic host-policy holdout · 2026-11-20](hexelion-v1-host-policy-20261120/README.md): 17/24 exact, 21/24 valid schema, 7 omitted authorized operations; no out-of-policy selections among parseable outputs. Real grants and tool dispatch remain NO_DATA.
