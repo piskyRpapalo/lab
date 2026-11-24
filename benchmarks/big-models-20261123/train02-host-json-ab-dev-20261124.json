@@ -1,0 +1,103 @@
+{
+  "caveats": [
+    "NO_DATA(external_blind_gold)",
+    "NO_DATA(holdout_contamination_audit)",
+    "NO_DATA(edge_e2e_audio)",
+    "No evidence that grammar improves *semantic* correctness without matching control"
+  ],
+  "control": {
+    "base": {
+      "exact": 0,
+      "false_live_strict_only": 0,
+      "median_s": 0.4757,
+      "n": 10,
+      "strict": 4
+    },
+    "four_step": {
+      "exact": 0,
+      "false_live_strict_only": 0,
+      "median_s": 0.67565,
+      "n": 10,
+      "strict": 4
+    },
+    "two_step": {
+      "exact": 0,
+      "false_live_strict_only": 0,
+      "median_s": 0.66915,
+      "n": 10,
+      "strict": 4
+    }
+  },
+  "control_sha256": "0803a94cb9bd3f303b0aa6f50183e6251943c59647cb4b627f85e21b94d4fd00",
+  "cut_utc": "2026-11-24T12:53:44Z",
+  "elapsed_s": 15.204,
+  "experiment": {
+    "base": {
+      "cause_correct": 2,
+      "exact": 0,
+      "false_live": 0,
+      "load_s": 1.3128,
+      "median_s": 0.28956,
+      "n": 10,
+      "status_correct": 0,
+      "strict": 10,
+      "unload_gpu_used_bytes": 947703808
+    },
+    "four_step": {
+      "cause_correct": 2,
+      "exact": 0,
+      "false_live": 0,
+      "load_s": 0.5312,
+      "median_s": 0.41432,
+      "n": 10,
+      "status_correct": 0,
+      "strict": 10,
+      "unload_gpu_used_bytes": 951357440
+    },
+    "two_step": {
+      "cause_correct": 2,
+      "exact": 0,
+      "false_live": 0,
+      "load_s": 0.5245,
+      "median_s": 0.30433,
+      "n": 10,
+      "status_correct": 0,
+      "strict": 10,
+      "unload_gpu_used_bytes": 951357440
+    }
+  },
+  "format_control": "previous exact prompt / unstructured generation, projected 5 evidence cases",
+  "format_experiment": "HOST finite-choice exact UTF-8 JSON via Transformers prefix_allowed_tokens_fn; 15 allowed choices (3 statuses including LIVE × 5 causes); answer empty for evidence-only cases, arithmetic excluded; HOST grammar DOES NOT provide correct status/cause",
+  "gpu_peak": {
+    "gpu_temp_c": 53,
+    "gpu_vram_bytes": 3224670208
+  },
+  "host": "ONEX_LOCAL_ROCM",
+  "n_cases": 5,
+  "n_generations": 30,
+  "n_per_arm": 10,
+  "negative_controls": [
+    "LIVE was an allowed model choice, counted if selected",
+    "no answer key used by grammar"
+  ],
+  "post_gpu_baseline_required": true,
+  "private_raw_sha256": "3fdb7354b09ed8a70beb0c6159cbcb68f0961e1fd4f2171e84b41202fb3c0802",
+  "promotion_authorized": false,
+  "repetitions": 2,
+  "schema": "hexelion.train02.format-trie-ab-aggregate/1",
+  "scope": "PHYSICAL_DIAGNOSTIC_NOT_GOLD",
+  "tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+  "v2_source_sha256": "080871792a7b7e89367ad9e2841db5010d7fb0253a0f92048fc277734a082f50",
+  "weights": {
+    "base": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+    "four_step": "0dc129aaa8ba5f0e4f766c6d94eea58cc9c4291bcd8f8c56e84528f08e892b71",
+    "two_step": "5afa1f7eb55b858ac21e345cc0957862350ddf258fc074845299c16639b83afa"
+  },
+  "publication_scope": "AGGREGATE_ONLY_OWNER_PRIVATE_RAW_NOT_INCLUDED",
+  "source_reference": "https://github.com/piskyRpapalo/lab/pull/267",
+  "author": "Codex GPT-6",
+  "experiment_note": "HOST finite-choice grammar is not a live app service and does not witness S1 or grant authority.",
+  "host_module_proposal": "meta_harness/host_model_status_review.py is an offline, non-authoritative reviewer for selected model fields; destination APP integration remains NO_DATA",
+  "first_published_in": "LAB HITL PR (new)",
+  "signed_gold": "NO_DATA(independent_custodian_and_holdout)"
+}
