@@ -6,7 +6,7 @@ Broadcast receipt: `figure=<value and unit or NO_DATA (cause)> | model=<public l
 
 Broadcast receipts now lead all 34 top-level benchmark cards; unsupported fields retain `NO_DATA` with a cause.
 
-- [Big Models · Hexelion TRAIN-03 physical DEV screening · 2026-11-23](big-models-20261123/README.md): ONEX 6×2 and 9×2 cohorts, Maxwell strict-output failure, 14 hard DEV cases ×2 underway; Acho, C2C, CALM, SIM/DREAM, LoRA and heterogeneous-fleet gates remain explicitly typed and unpromoted.
+- [Big Models · Hexelion TRAIN-03 physical DEV screening · updated 2026-11-24](big-models-20261123/README.md): 112/112 hard DEV samples; V3 42 responses/37 strict JSON; Maxwell EOS 12/12 strict and 8/12 exact DEV; TRAIN-02 blind comparison preregistered, not run. October Colibrí study recovered as a separate historical runtime/8 GB/rotating-LoRA research track with no measured Colibrí samples. Acho, C2C, CALM, SIM/DREAM and heterogeneous-fleet gates remain unpromoted.
 
 - [Context fusion · calibrated synthetic evidence windows · 2026-11-20](context-fusion-20261120/README.md): 64 constructed cases; source-bound 2D alignment 64/64 vs raw 19/64; malformed anchors and unauthorized sources refused. Evidence slots are not model token windows; real KV/cache transfer is NO_DATA.
 
