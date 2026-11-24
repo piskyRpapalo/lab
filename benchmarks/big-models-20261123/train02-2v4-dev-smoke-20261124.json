@@ -1,0 +1,93 @@
+{
+  "artifact_pin": {
+    "aggregated_owner_receipt_sha256": "7e637d2328491912c85d53683706153c65df975aa3a89b28d80650f6afacc014",
+    "base_sha256": "fdf756fa7fcbe7404d5c60e26bff1a0c8b8aa1f72ced49e7dd0210fe288fb7fe",
+    "base_tokenizer_sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539",
+    "chat_template_sha256": "cd8e9439f0570856fd70470bf8889ebd8b5d1107207f67a5efb46e342330527f",
+    "four_step_merged_sha256": "0dc129aaa8ba5f0e4f766c6d94eea58cc9c4291bcd8f8c56e84528f08e892b71",
+    "negative_v1_receipt_sha256": "9db459060923eb4d337a52f26475ccda979cfc62911e0c8e5c68d7ab6d2ef1b0",
+    "private_responses_sha256": "0803a94cb9bd3f303b0aa6f50183e6251943c59647cb4b627f85e21b94d4fd00",
+    "script_v2_sha256": "080871792a7b7e89367ad9e2841db5010d7fb0253a0f92048fc277734a082f50",
+    "two_step_merged_sha256": "5afa1f7eb55b858ac21e345cc0957862350ddf258fc074845299c16639b83afa"
+  },
+  "captured_utc": "2026-11-24T12:09:40Z",
+  "cases": {
+    "case_root_sha256": "52045bb9ed5b4e89591902a7bb834b657c7b52fb56f85190c8744550b8a2f39c",
+    "es": 3,
+    "format": "exact JSON object with string status/cause/answer",
+    "generations": 36,
+    "independent_holdout": false,
+    "model_arms": 3,
+    "pt": 3,
+    "repetitions": 2,
+    "unique": 6
+  },
+  "gates": {
+    "edge": "NO_DATA(edge_inference_and_audio_x2_missing)",
+    "gold": "NO_DATA(independent_48_case_holdout_and_custodian_seal_missing)",
+    "promotion": "HOLD_NOT_AUTHORIZED",
+    "source_exclusion": "NO_DATA(source_family_near_duplicate_audit_missing)"
+  },
+  "interpretation": {
+    "notes": "No gain measured: all three variants scored 0/12 complete exactness; 6/12 strict JSON each. Cases are exposed synthetic diagnostics, not statistically adequate for promotion. New four-step run changed both number of steps and sample schedule.",
+    "quality_gain_demonstrated": false,
+    "unpromoted": true
+  },
+  "metrics": {
+    "base": {
+      "all_fields_exact": 0,
+      "false_grant": 0,
+      "false_live": 0,
+      "load_s": 1.2997,
+      "max_s": 0.9495,
+      "n": 12,
+      "p50_s": 0.4757,
+      "post_arm_gpu_bytes": 943316992,
+      "strict_json": 6
+    },
+    "four_step": {
+      "all_fields_exact": 0,
+      "false_grant": 0,
+      "false_live": 0,
+      "load_s": 0.5299,
+      "max_s": 0.8019,
+      "n": 12,
+      "p50_s": 0.5855,
+      "post_arm_gpu_bytes": 946962432,
+      "strict_json": 6
+    },
+    "two_step": {
+      "all_fields_exact": 0,
+      "false_grant": 0,
+      "false_live": 0,
+      "load_s": 0.5881,
+      "max_s": 0.7989,
+      "n": 12,
+      "p50_s": 0.5731,
+      "post_arm_gpu_bytes": 946962432,
+      "strict_json": 6
+    }
+  },
+  "negative": "First version failed immediately after first arm on in-process VRAM-unload check; no aggregate accepted. V2 explicitly freed last GPU tensors, preserved V1 and negative receipt, then completed.",
+  "observed_host_class": "ONEX ROCm AMD Radeon 8060S",
+  "privacy": "Public aggregate only. Raw prompts/outputs and owner-specific source paths remain private on ONEX. No external model call, actual MCP effect, or S1 authority.",
+  "resource_witness": {
+    "max_gpu_temp_c": 53,
+    "peak_gpu_used_bytes": 3220275200,
+    "peak_process_rss_kib": 3983104,
+    "post_process_gpu_busy_percent": 0,
+    "post_process_gpu_temp_c": 36,
+    "post_process_gpu_used_bytes": 612917248,
+    "systemd_cpu_s": 30.474,
+    "systemd_memory_peak": "3G",
+    "systemd_wall_s": 31.587,
+    "wall_s": 26.376
+  },
+  "schema": "hexelion.train02.paired-synthetic-dev-readback/1",
+  "source_commit_policy": "LAB #262 preregistered blind D0/D1/D2; this is a separate NON-BLIND smoke test, not execution of its GOLD protocol",
+  "source_references": [
+    "https://github.com/piskyRpapalo/lab/pull/262",
+    "https://github.com/piskyRpapalo/preceptoros-private-mesa/issues/51#issuecomment-7131016188"
+  ],
+  "status": "PASS_PHYSICAL_INFERENCE_DEV_ONLY_NOT_GOLD"
+}
