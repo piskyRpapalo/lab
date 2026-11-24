@@ -1,0 +1,113 @@
+{
+  "schema": "hexelion.train03.colibri-recovery/1",
+  "date": "2026-11-24",
+  "status": "HISTORICAL_DESIGN_RECOVERED_NOT_BENCHMARKED",
+  "scope": "Sanitized research metadata only; the private adaptation and original materials are not published.",
+  "source_record": [
+    {
+      "date": "2026-10-07",
+      "kind": "historical_design",
+      "source": "October design study, Colibri section",
+      "claims": [
+        "C engine, no dependencies and Apache-2.0 reported; license/revision not independently pinned",
+        "Dense portion in RAM, requested experts read from disk; Vulkan and multiple streams reported",
+        "Dense Qwen3.8-27B support declared, not evidence of expert streaming",
+        "8 GB Android and lightweight LoRA on demand are hypotheses"
+      ]
+    },
+    {
+      "date": "2026-10-13",
+      "kind": "historical_claim_and_erratum",
+      "sha256": "dd3ed9ec818912cfa33be6ef7a30298a37298341b092f943219788c4c7333970",
+      "claims": [
+        "Colibri 2.0.0 / Vulkan / Qwen3.8-27B described as real",
+        "Same record flags ambiguity between independent C engine and llama.cpp/Vulkan",
+        "Per-model tokens/s and 8 GB adapter experiment missing"
+      ]
+    },
+    {
+      "date": "2026-10-21",
+      "kind": "historical_negative_inventory",
+      "sha256": [
+        "e48a838c81b978d349613e67796c2b4f8b806a0cf2ff89a7d500b46544eb255e",
+        "b4c412211a9aac9c01e99396e52a5dc098487639be5aba7d8150ce1e0a84dfd8"
+      ],
+      "claims": [
+        "No independent Colibri C implementation located in checked repositories or bounded rack inventory",
+        "Not a proof of global nonexistence"
+      ]
+    }
+  ],
+  "gates": {
+    "engine": "NO_DATA(independent_engine_revision_binary_and_license_not_verified)",
+    "throughput": "NO_DATA(colibri_tokens_per_second_not_measured)",
+    "disk_streaming": "NO_DATA(expert_io_and_residency_not_measured)",
+    "eight_gb": "NO_DATA(target_8GB_memory_budget_and_runtime_not_measured)",
+    "lora": "NO_DATA(colibri_adapter_switch_and_active_head_not_measured)",
+    "gold": "NO_DATA(independent_blind_gold)",
+    "promotion": "NOT_PROMOTED"
+  },
+  "physical_samples_colibri": 0,
+  "comparison": {
+    "historical_context": [
+      "../throughput-vulkan-20260907/README.md",
+      "../station-96-first-pass-20261029/README.md"
+    ],
+    "current_context": [
+      "observations.json",
+      "maxwell-eos-ablation-20261123.json",
+      "fleet-heterogeneous.json",
+      "train02-2v4-blind-prereg-20261123.json"
+    ],
+    "not_attribution": "Existing Vulkan/Ollama/llama.cpp and ROCm receipts retain original engine identity; not Colibri measurements.",
+    "mechanisms": [
+      "MoE expert paging is not LoRA adapter switching",
+      "Dense model support does not validate MoE paging",
+      "Cold/warm page-cache state must be reported; mmap alone does not prove expert paging"
+    ]
+  },
+  "proposed_protocol": {
+    "state": "PROPOSAL_NOT_EXECUTED",
+    "phases": [
+      {
+        "id": "C0",
+        "action": "Locate exact upstream source, revision, license, executable digest and runtime capabilities; inspect existing private adaptation without publishing it.",
+        "pass": "Verified engine identity or NO_DATA with cause."
+      },
+      {
+        "id": "C1",
+        "action": "On a rack host, pair same checkpoint digest, quantization, tokenizer, template, seed, context, max tokens, and fixture. Compare existing pinned runtime and Colibri only if compatible. Record cold and warm separately, two repetitions each; no global cache drops.",
+        "pass": "Same-cohort complete outputs, recorded prefill/decode tok/s, TTFT, p95 only with adequate n, RSS/PSS, VRAM, page faults/read bytes, temperature, elapsed time and unload; report unavailable counters explicitly."
+      },
+      {
+        "id": "C2",
+        "action": "With existing compatible base and trained adapters, compare base-only and explicit A/B/A switching; reuse head eligibility and read-only runtime witness where supported; invalidate KV on head/epoch mismatch, test stale/revoked and wrong digest.",
+        "pass": "Actual active-head digest and switch latency, memory/IO, full exactness, rollback, zero false grants and zero stale-head reuse."
+      },
+      {
+        "id": "C3",
+        "action": "Only after safe host result, preflight exact 8 GB-class target available memory, app footprint, cgroup limits, context/KV and thermal headroom; start with a small compatible model, not 27B by assumption.",
+        "pass": "Two physical target runs with complete outputs and zero OOM or disruption; budget includes runtime, KV and OS reserve."
+      }
+    ],
+    "reuse": [
+      "meta_harness/resource_admission.py",
+      "meta_harness/head_eligibility.py",
+      "meta_harness/lora_runtime_probe.py",
+      "meta_harness/improvement.py",
+      "TRAIN-01 H02 oracle",
+      "TRAIN-02 existing B/C fence"
+    ],
+    "stop": [
+      "engine or checkpoint mismatch",
+      "owner GPU/host lease conflict",
+      "CineK queue conflict",
+      "memory or thermal fence",
+      "unexpected tool request/effect",
+      "unload or rollback failure"
+    ],
+    "no_new_service": true,
+    "no_new_training": true,
+    "no_promotion": true
+  }
+}
