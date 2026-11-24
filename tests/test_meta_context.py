@@ -121,6 +121,38 @@ class ContextTests(unittest.TestCase):
         with self.assertRaisesRegex(ContextError, 'quote_not_relevant'):
             reader.quote(snap, '{}', now=STAMP)
 
+    def test_context_transition_read_budget_without_hidden_retries(self):
+        # A fresh trust boundary costs one source read, not an implicit retry loop.
+        reader, rows, _, calls = fixture()
+        snap = reader.read(QUERY, STAMP)
+        self.assertEqual(calls, [QUERY])
+        self.assertTrue(reader.validate(snap, QUERY, STAMP))
+        self.assertEqual(calls, [QUERY] * 2)
+        self.assertEqual(reader.quote(snap, 'synthetic result', now=STAMP)['text'], TEXT)
+        self.assertEqual(calls, [QUERY] * 3)
+
+        # A true source discrepancy must STOP after one recheck, not retry away.
+        rows[0]['texto'] = 'Changed public source data.'
+        rows[0]['sha256'] = digest_text(rows[0]['texto'])
+        with self.assertRaisesRegex(ContextError, 'context_hash_changed'):
+            reader.validate(snap, QUERY, STAMP)
+        self.assertEqual(calls, [QUERY] * 4)
+
+    def test_time_extraction_noise_does_not_grant_live_or_extra_reads(self):
+        unknown_time = dict(SOURCE, updated_at='NO_DATA')
+        documents, _, _, document_calls = fixture(sources=[unknown_time])
+        result = documents.read(QUERY, STAMP).record()
+        self.assertEqual(result['state'], 'MEASURED')
+        self.assertEqual(result['freshness'], 'snapshot_only')
+        self.assertEqual(result['source_time_cause'], 'source_time_unknown')
+        self.assertEqual(document_calls, [QUERY])
+
+        observations, _, _, observation_calls = fixture(
+            kind='observation', sources=[unknown_time])
+        with self.assertRaisesRegex(ContextError, 'source_time_unknown'):
+            observations.read(QUERY, STAMP)
+        self.assertEqual(observation_calls, [QUERY])
+
     def test_private_exception_never_becomes_public_cause(self):
         reader, _, _, _ = fixture()
         def fail(query):
