@@ -4,8 +4,8 @@ successfully downloaded text file (SHA: 2c30009910d1731d0ba51c27f956f4d91c779b15
 
 This is the single canonical instruction set for agents working in the lab. Tool-specific files point here and do not create parallel policy.
 
-- The agent proposes and measures; a human signs PR by PR. Never sign, merge, choose the Mesa's seal letter, push to `main`, or push to Jetson.
-- Start branches from current `origin/main`. Publish reviewable work as a draft PR titled `HITL` (historical alias `REQUIERE_FIRMA`), unless the owning mission requires a narrower convention; the Sovereign decides on exact-head integration.
+- Preceptors may propose, measure, build, commit, push claimed branches and open PRs. An authorized lane may **execute** a merge or deployment under a verified Sovereign exact-head decision or an effective scoped delegation; execution never creates a signature. Respect protected branches, grants, privacy and the existing host transport; Jetson is not universally banned, but a real technical denial remains a stop. No invented seals.
+- Start branches from current `origin/main`. Publish reviewable `HITL` PRs (historical alias `REQUIERE_FIRMA`), using draft status when useful. Before integration verify an exact-head decision or a bounded delegation actually supported by that destination, the CI result and the receipt. The Sovereign owns authorization; the scoped executor may be a preceptor.
 - This repository is the measured record. Each number carries source, machine, date, harness/command, and scope. Vendor figures are labeled as declared, never as local measurements. `NO_DATA` always has its cause; do not invent or silently omit fields.
 - Do not commit raw prompts, raw answers, credentials, private identifiers, or personal data. Receipts and artifacts may contain counts and paths, never private values.
 - Preserve human review and zero telemetry. Do not send model inputs, outputs, or node state to an external service as part of a benchmark.
