@@ -97,11 +97,19 @@ def normalize(engine, response, *, model, pinned_digest, before_digest, after_di
 
 def reader_fields(record):
     """Semantic input for H's existing Acho emitter, not a parallel frame protocol."""
-    state = record.get("state") if type(record) is dict else None
+    record = record if type(record) is dict else {}
+    state = record.get("state")
     if state not in ("SIMULATED", "REPORTED"):
-        return {"seal": "NO_DATA", "r": "Local inference evidence is unavailable.",
+        cause = record.get("cause")
+        if type(cause) is not str or not re.fullmatch(r"[a-z_]{1,64}", cause):
+            cause = "inference_evidence_unavailable"
+        return {"state": "NO_DATA", "cause": cause, "seal": "NO_DATA",
+                "r": "Local inference evidence unavailable: " + cause.replace("_", " ") + ".",
                 "sound": "NO_DATA", "soundCause": "sound_not_measured"}
-    return {"seal": "SIMULATED" if state == "SIMULATED" else "NO_DATA",
+    return {"state": state, "cause": "independent_witness_not_checked",
+            "source": record.get("source"), "observed_at": record.get("observed_at"),
+            "evidence_ref": record.get("evidence_ref"),
+            "seal": "SIMULATED" if state == "SIMULATED" else "NO_DATA",
             "r": ("Synthetic inference fixture; no physical model ran." if state == "SIMULATED"
                   else "Local inference counters reported; independent witness not checked."),
             "sound": "NO_DATA", "soundCause": "sound_not_measured"}
