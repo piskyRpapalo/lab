@@ -78,6 +78,10 @@ class LocalInferenceEvidenceTests(unittest.TestCase):
     def test_reader_unknown(self):
         self.assertEqual(reader_fields(self.run_case("other"))["seal"], "NO_DATA")
         self.assertEqual(reader_fields(None)["seal"], "NO_DATA")
+        self.assertEqual(reader_fields(self.run_case("other"))["cause"], "engine_unsupported")
+        projected = reader_fields(self.run_case(origin="observed"))
+        self.assertEqual(projected["evidence_ref"], REF)
+        self.assertEqual(projected["source"], "ollama")
 
 
 if __name__ == "__main__":
